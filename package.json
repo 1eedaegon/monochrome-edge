@@ -1,6 +1,6 @@
 {
   "name": "@monochrome-edge/ui",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A modern, minimalist UI with Warm and Cold themes",
   "type": "module",
   "main": "dist/index.js",
