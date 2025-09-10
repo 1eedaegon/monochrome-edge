@@ -4,6 +4,9 @@
  * Both themes are loaded - use data-theme-variant="warm" or "cold" to switch
  */
 
+/* Base Reset and Theme Application */
+@import url("./base/reset.css");
+
 /* Base Tokens - Both themes loaded with different selectors */
 @import url("./tokens/warm-theme.css");
 @import url("./tokens/cold-theme.css");

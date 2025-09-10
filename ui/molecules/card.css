@@ -55,6 +55,8 @@
 /* Card Body */
 .card-body {
   padding: 1.25rem;
+  background-color: var(--theme-surface);
+  color: var(--theme-text-primary);
 }
 
 .card-body-compact {

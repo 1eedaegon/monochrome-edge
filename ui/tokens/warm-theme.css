@@ -20,44 +20,44 @@
     --border-radius: 8px;
     --transition-speed: 0.2s ease-in-out;
 
-    /* === Warm Color Scale (Wine to Olive) === */
-    --warm-100: #f5f2ec; /* Very light warm */
-    --warm-200: #e8dfd3; /* Light beige */
-    --warm-300: #d4c4b0; /* Warm sand */
-    --warm-400: #b8a590; /* Warm taupe */
-    --warm-500: #9c8770; /* Mid brown-olive */
-    --warm-600: #7b6650; /* Dark olive brown */
-    --warm-700: #5a4535; /* Deep brown */
-    --warm-800: #4a2f20; /* Dark wine brown */
-    --warm-900: #3d1a10; /* Deep wine */
+    /* === Warm gray Color Scale === */
+    --warm-100: #f8f7f6;
+    --warm-200: #edebe9;
+    --warm-300: #dcd9d6;
+    --warm-400: #b8b4b0;
+    --warm-500: #94908c;
+    --warm-600: #706c68;
+    --warm-700: #4c4844;
+    --warm-800: #302d2a;
+    --warm-900: #1c1a18;
 
     /* Accent colors */
-    --color-wine: #3d0604;
-    --color-olive: #9ca77e;
+    --color-wine: #4a3636;
+    --color-olive: #7a7d6e;
 
-    /* === Light Mode (Warm Monochrome) === */
-    --theme-bg: #fffdfb; /* Warm white - more visible */
-    --theme-text-primary: #2c1810; /* Warm brown black */
-    --theme-text-secondary: #7d6e68; /* Warm gray */
-    --theme-accent: #9c7c6c; /* Warm brown accent */
+    /* === Light Mode === */
+    --theme-bg: #f7f6f5;
+    --theme-text-primary: #2c2926;
+    --theme-text-secondary: #6b6966;
+    --theme-accent: #8a8784;
     --theme-accent-contrast: #ffffff;
-    --theme-secondary: #b8a590; /* Light warm brown */
+    --theme-secondary: #a8a5a2;
     --theme-secondary-contrast: #ffffff;
-    --theme-border: #e7e5e4; /* Warm gray border */
-    --theme-surface: #faf8f6;
-    --theme-highlight: #8b2c34; /* Deep wine red */
+    --theme-border: #e5e3e1;
+    --theme-surface: #ffffff;
+    --theme-highlight: #7a6a6a;
 }
 
 [data-theme-variant="warm"][data-theme="dark"] {
-    /* === Dark Mode (Warm Monochrome) === */
-    --theme-bg: #1c1b1a; /* Warm dark gray */
-    --theme-text-primary: rgba(255, 255, 255, 0.95);
-    --theme-text-secondary: #b8b2ae;
-    --theme-accent: #a8a29e; /* Lighter warm gray accent */
-    --theme-accent-contrast: #1c1b1a;
-    --theme-secondary: #78716c; /* Medium warm gray */
-    --theme-secondary-contrast: #ffffff;
-    --theme-border: #3a3836;
-    --theme-surface: #262524;
-    --theme-highlight: #dc2626; /* Bright red */
+    /* === Dark Mode === */
+    --theme-bg: #1b1a19;
+    --theme-text-primary: rgba(255, 255, 255, 0.92);
+    --theme-text-secondary: #a8a5a2;
+    --theme-accent: #4a4846;
+    --theme-accent-contrast: rgba(255, 255, 255, 0.92);
+    --theme-secondary: #5c5956;
+    --theme-secondary-contrast: rgba(255, 255, 255, 0.92);
+    --theme-border: #323130;
+    --theme-surface: #232221;
+    --theme-highlight: #6b6866;
 }
