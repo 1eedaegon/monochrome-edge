@@ -53,10 +53,13 @@
             .ui-layout {
                 display: flex;
                 min-height: 100vh;
+                overflow-x: hidden;
             }
 
             .ds-sidebar {
                 width: 260px;
+                min-width: 260px;
+                flex-shrink: 0;
                 background-color: var(--theme-surface);
                 border-right: 1px solid var(--theme-border);
                 position: sticky;
@@ -177,6 +180,25 @@
                 padding: 2rem;
                 max-width: 1200px;
                 margin: 0 auto;
+                width: 100%;
+                min-width: 0;
+                overflow-x: auto;
+            }
+            
+            /* Prevent code blocks from causing overflow */
+            pre {
+                overflow-x: auto;
+                max-width: 100%;
+            }
+            
+            code {
+                word-break: break-word;
+            }
+            
+            .component-preview,
+            .component-code {
+                overflow-x: auto;
+                max-width: 100%;
             }
 
             .ds-header {
@@ -382,7 +404,7 @@
             </div>
             <div>
                 <div class="ds-title" style="font-size: 1.125rem; margin-bottom: 0;">Monochrome Edge</div>
-                <div class="ds-subtitle" style="font-size: 0.75rem;">v1.0</div>
+                <div class="ds-subtitle" style="font-size: 0.75rem; text-align: right;">v<!-- VERSION -->0.1.1<!-- /VERSION --></div>
             </div>
         </div>
 
@@ -391,7 +413,7 @@
             <aside class="ds-sidebar">
                 <div class="ds-header">
                     <h1 class="ds-title">Monochrome Edge</h1>
-                    <p class="ds-subtitle">v1.0</p>
+                    <p class="ds-subtitle" style="text-align: right; margin-top: 0.5rem;">v<!-- VERSION -->0.1.1<!-- /VERSION --></p>
                 </div>
 
                 <div class="ds-controls">
@@ -462,6 +484,9 @@
                     </a>
                     <a class="nav-item" data-section="integration">
                         <span class="nav-item-label">Integration</span>
+                    </a>
+                    <a class="nav-item" data-section="changelog">
+                        <span class="nav-item-label">Changelog</span>
                     </a>
                 </nav>
             </aside>
@@ -948,7 +973,7 @@ $('#email-input').after('&lt;span class="helper-text"&gt;We\'ll never share your
 
                     <div class="component-showcase">
                         <div class="component-header">
-                            <h3 class="component-title">Dropdown Menu</h3>
+                            <h3 class="component-title">Select Menu</h3>
                             <div class="component-toggle">
                                 <button
                                     class="toggle-btn active"
@@ -966,39 +991,55 @@ $('#email-input').after('&lt;span class="helper-text"&gt;We\'ll never share your
                         </div>
                         <div class="component-content" id="dropdown-menu">
                             <div class="component-preview">
-                                <div class="demo-form">
+                                <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
                                     <div class="form-group">
-                                        <label class="label">Select Option</label>
-                                        <div class="dropdown">
-                                            <button class="dropdown-button" onclick="toggleDropdown(this)">
-                                                <span>Choose an option</span>
-                                                <span class="dropdown-arrow">▼</span>
-                                            </button>
-                                            <div class="dropdown-panel">
-                                                <div class="dropdown-option">Option 1</div>
-                                                <div class="dropdown-option is-selected">Option 2</div>
-                                                <div class="dropdown-option">Option 3</div>
-                                                <div class="dropdown-option">Option 4</div>
-                                                <div class="dropdown-option">Option 5</div>
-                                            </div>
-                                        </div>
+                                        <label class="label">Basic Select</label>
+                                        <select class="select">
+                                            <option value="">Choose an option</option>
+                                            <option value="1">Option 1</option>
+                                            <option value="2" selected>Option 2</option>
+                                            <option value="3">Option 3</option>
+                                            <option value="4">Option 4</option>
+                                            <option value="5">Option 5</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="label">Disabled Select</label>
+                                        <select class="select" disabled>
+                                            <option>Disabled</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label class="label">Multiple Select</label>
+                                        <select class="select" multiple size="4">
+                                            <option value="1">Option 1</option>
+                                            <option value="2">Option 2</option>
+                                            <option value="3">Option 3</option>
+                                            <option value="4">Option 4</option>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
                             <div class="component-code">
                                 <div style="padding: 2rem;">
                                     <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">HTML/CSS</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>&lt;div class="dropdown"&gt;
-    &lt;button class="dropdown-button" onclick="toggleDropdown(this)"&gt;
-        &lt;span&gt;Select Option&lt;/span&gt;
-        &lt;span class="dropdown-arrow"&gt;▼&lt;/span&gt;
-    &lt;/button&gt;
-    &lt;div class="dropdown-panel"&gt;
-        &lt;div class="dropdown-option"&gt;Option 1&lt;/div&gt;
-        &lt;div class="dropdown-option is-selected"&gt;Option 2&lt;/div&gt;
-        &lt;div class="dropdown-option"&gt;Option 3&lt;/div&gt;
-    &lt;/div&gt;
-&lt;/div&gt;</code></pre>
+                                    <pre style="margin-bottom: 2rem;"><code>&lt;!-- Basic Select --&gt;
+&lt;select class="select"&gt;
+    &lt;option value=""&gt;Choose an option&lt;/option&gt;
+    &lt;option value="1"&gt;Option 1&lt;/option&gt;
+    &lt;option value="2" selected&gt;Option 2&lt;/option&gt;
+    &lt;option value="3"&gt;Option 3&lt;/option&gt;
+&lt;/select&gt;
+
+&lt;!-- Multiple Select --&gt;
+&lt;select class="select" multiple size="4"&gt;
+    &lt;option value="1"&gt;Option 1&lt;/option&gt;
+    &lt;option value="2"&gt;Option 2&lt;/option&gt;
+    &lt;option value="3"&gt;Option 3&lt;/option&gt;
+    &lt;option value="4"&gt;Option 4&lt;/option&gt;
+&lt;/select&gt;</code></pre>
 
                                     <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">React</h4>
                                     <pre style="margin-bottom: 2rem;"><code>import { Dropdown } from '@monochrome-edge/ui/react';
@@ -3236,7 +3277,7 @@ document.querySelectorAll('.nav-item').forEach(item => {
 
                     <div class="component-showcase">
                         <div class="component-header">
-                            <h3 class="component-title">Dropdown Component</h3>
+                            <h3 class="component-title">Select Component</h3>
                             <div class="component-toggle">
                                 <button
                                     class="toggle-btn active"
@@ -3276,52 +3317,47 @@ document.querySelectorAll('.nav-item').forEach(item => {
                                 data-framework="react"
                             >
                                 <pre><code class="language-jsx">import React, { useState } from 'react';
-import { Dropdown, DropdownItem } from '@monochrome-edge';
+import { Select } from '@monochrome-edge';
 
-function DropdownExample() {
-  const [selectedValue, setSelectedValue] = useState('option1');
-  const [isOpen, setIsOpen] = useState(false);
-
-  const options = [
-    { value: 'option1', label: 'Option 1' },
-    { value: 'option2', label: 'Option 2' },
-    { value: 'option3', label: 'Option 3' },
-  ];
+function SelectExample() {
+  const [selectedValue, setSelectedValue] = useState('option2');
+  const [multiValue, setMultiValue] = useState(['option1', 'option3']);
 
   return (
     &lt;div&gt;
-      {/* Simple Dropdown */}
-      &lt;Dropdown
-        value={selectedValue}
-        onChange={setSelectedValue}
-        options={options}
-        placeholder="Select an option"
-      /&gt;
-
-      {/* Custom Dropdown with Actions */}
-      &lt;div className="dropdown"&gt;
-        &lt;button 
-          className="dropdown-button"
-          onClick={() => setIsOpen(!isOpen)}
+      {/* Basic Select */}
+      &lt;div className="form-group"&gt;
+        &lt;label className="label"&gt;Basic Select&lt;/label&gt;
+        &lt;select 
+          className="select"
+          value={selectedValue}
+          onChange={(e) => setSelectedValue(e.target.value)}
         &gt;
-          &lt;span&gt;Actions&lt;/span&gt;
-          &lt;span className="dropdown-arrow"&gt;▼&lt;/span&gt;
-        &lt;/button&gt;
-        
-        {isOpen && (
-          &lt;div className="dropdown-panel is-open"&gt;
-            &lt;DropdownItem onClick={() => console.log('Edit')}&gt;
-              Edit
-            &lt;/DropdownItem&gt;
-            &lt;DropdownItem onClick={() => console.log('Duplicate')}&gt;
-              Duplicate
-            &lt;/DropdownItem&gt;
-            &lt;div className="dropdown-divider"&gt;&lt;/div&gt;
-            &lt;DropdownItem onClick={() => console.log('Delete')} danger&gt;
-              Delete
-            &lt;/DropdownItem&gt;
-          &lt;/div&gt;
-        )}
+          &lt;option value=""&gt;Choose an option&lt;/option&gt;
+          &lt;option value="option1"&gt;Option 1&lt;/option&gt;
+          &lt;option value="option2"&gt;Option 2&lt;/option&gt;
+          &lt;option value="option3"&gt;Option 3&lt;/option&gt;
+        &lt;/select&gt;
+      &lt;/div&gt;
+
+      {/* Multiple Select */}
+      &lt;div className="form-group"&gt;
+        &lt;label className="label"&gt;Multiple Select&lt;/label&gt;
+        &lt;select 
+          className="select"
+          multiple
+          size={4}
+          value={multiValue}
+          onChange={(e) => {
+            const selected = Array.from(e.target.selectedOptions, option => option.value);
+            setMultiValue(selected);
+          }}
+        &gt;
+          &lt;option value="option1"&gt;Option 1&lt;/option&gt;
+          &lt;option value="option2"&gt;Option 2&lt;/option&gt;
+          &lt;option value="option3"&gt;Option 3&lt;/option&gt;
+          &lt;option value="option4"&gt;Option 4&lt;/option&gt;
+        &lt;/select&gt;
       &lt;/div&gt;
     &lt;/div&gt;
   );
@@ -3330,56 +3366,35 @@ function DropdownExample() {
                             <div class="component-code" data-framework="vue">
                                 <pre><code class="language-vue">&lt;template&gt;
   &lt;div&gt;
-    &lt;!-- Simple Dropdown --&gt;
-    &lt;mono-dropdown
-      v-model="selectedValue"
-      :options="options"
-      placeholder="Select an option"
-    /&gt;
+    &lt;!-- Basic Select --&gt;
+    &lt;div class="form-group"&gt;
+      &lt;label class="label"&gt;Basic Select&lt;/label&gt;
+      &lt;select class="select" v-model="selectedValue"&gt;
+        &lt;option value=""&gt;Choose an option&lt;/option&gt;
+        &lt;option value="option1"&gt;Option 1&lt;/option&gt;
+        &lt;option value="option2"&gt;Option 2&lt;/option&gt;
+        &lt;option value="option3"&gt;Option 3&lt;/option&gt;
+      &lt;/select&gt;
+    &lt;/div&gt;
 
-    &lt;!-- Custom Dropdown with Actions --&gt;
-    &lt;div class="dropdown" :class="{ 'is-open': isOpen }"&gt;
-      &lt;button 
-        class="dropdown-button"
-        @click="isOpen = !isOpen"
-      &gt;
-        &lt;span&gt;Actions&lt;/span&gt;
-        &lt;span class="dropdown-arrow"&gt;▼&lt;/span&gt;
-      &lt;/button&gt;
-      
-      &lt;div class="dropdown-panel" :class="{ 'is-open': isOpen }"&gt;
-        &lt;div class="dropdown-option" @click="handleAction('edit')"&gt;
-          Edit
-        &lt;/div&gt;
-        &lt;div class="dropdown-option" @click="handleAction('duplicate')"&gt;
-          Duplicate
-        &lt;/div&gt;
-        &lt;div class="dropdown-divider"&gt;&lt;/div&gt;
-        &lt;div class="dropdown-option text-danger" @click="handleAction('delete')"&gt;
-          Delete
-        &lt;/div&gt;
-      &lt;/div&gt;
+    &lt;!-- Multiple Select --&gt;
+    &lt;div class="form-group"&gt;
+      &lt;label class="label"&gt;Multiple Select&lt;/label&gt;
+      &lt;select class="select" v-model="multiValue" multiple size="4"&gt;
+        &lt;option value="option1"&gt;Option 1&lt;/option&gt;
+        &lt;option value="option2"&gt;Option 2&lt;/option&gt;
+        &lt;option value="option3"&gt;Option 3&lt;/option&gt;
+        &lt;option value="option4"&gt;Option 4&lt;/option&gt;
+      &lt;/select&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/template&gt;
 
 &lt;script setup&gt;
 import { ref } from 'vue';
-import { MonoDropdown } from '@monochrome-edge/vue';
 
-const selectedValue = ref('option1');
-const isOpen = ref(false);
-
-const options = [
-  { value: 'option1', label: 'Option 1' },
-  { value: 'option2', label: 'Option 2' },
-  { value: 'option3', label: 'Option 3' },
-];
-
-const handleAction = (action) => {
-  console.log('Action:', action);
-  isOpen.value = false;
-};
+const selectedValue = ref('option2');
+const multiValue = ref(['option1', 'option3']);
 &lt;/script&gt;</code></pre>
                             </div>
                             <div
@@ -3530,31 +3545,26 @@ $('#action-dropdown').on('click', '.dropdown-option', function() {
                                 class="component-code"
                                 data-framework="webcomponents"
                             >
-                                <pre><code class="language-html">&lt;!-- Simple Dropdown --&gt;
-&lt;div class="dropdown" id="simple-dropdown"&gt;
-  &lt;button class="dropdown-button"&gt;
-    &lt;span&gt;Select Option&lt;/span&gt;
-    &lt;span class="dropdown-arrow"&gt;▼&lt;/span&gt;
-  &lt;/button&gt;
-  &lt;div class="dropdown-panel"&gt;
-    &lt;div class="dropdown-option" data-value="option1"&gt;Option 1&lt;/div&gt;
-    &lt;div class="dropdown-option" data-value="option2"&gt;Option 2&lt;/div&gt;
-    &lt;div class="dropdown-option" data-value="option3"&gt;Option 3&lt;/div&gt;
-  &lt;/div&gt;
+                                <pre><code class="language-html">&lt;!-- Basic Select --&gt;
+&lt;div class="form-group"&gt;
+  &lt;label class="label"&gt;Basic Select&lt;/label&gt;
+  &lt;select class="select" id="basic-select"&gt;
+    &lt;option value=""&gt;Choose an option&lt;/option&gt;
+    &lt;option value="option1"&gt;Option 1&lt;/option&gt;
+    &lt;option value="option2" selected&gt;Option 2&lt;/option&gt;
+    &lt;option value="option3"&gt;Option 3&lt;/option&gt;
+  &lt;/select&gt;
 &lt;/div&gt;
 
-&lt;!-- Action Dropdown --&gt;
-&lt;div class="dropdown" id="action-dropdown"&gt;
-  &lt;button class="dropdown-button"&gt;
-    &lt;span&gt;Actions&lt;/span&gt;
-    &lt;span class="dropdown-arrow"&gt;▼&lt;/span&gt;
-  &lt;/button&gt;
-  &lt;div class="dropdown-panel"&gt;
-    &lt;div class="dropdown-option" data-action="edit"&gt;Edit&lt;/div&gt;
-    &lt;div class="dropdown-option" data-action="duplicate"&gt;Duplicate&lt;/div&gt;
-    &lt;div class="dropdown-divider"&gt;&lt;/div&gt;
-    &lt;div class="dropdown-option text-danger" data-action="delete"&gt;Delete&lt;/div&gt;
-  &lt;/div&gt;
+&lt;!-- Multiple Select --&gt;
+&lt;div class="form-group"&gt;
+  &lt;label class="label"&gt;Multiple Select&lt;/label&gt;
+  &lt;select class="select" id="multi-select" multiple size="4"&gt;
+    &lt;option value="option1"&gt;Option 1&lt;/option&gt;
+    &lt;option value="option2"&gt;Option 2&lt;/option&gt;
+    &lt;option value="option3"&gt;Option 3&lt;/option&gt;
+    &lt;option value="option4"&gt;Option 4&lt;/option&gt;
+  &lt;/select&gt;
 &lt;/div&gt;
 
 &lt;script&gt;
@@ -3973,6 +3983,134 @@ export function initializeCustomLibrary() {
 }</code></pre>
                             </div>
                         </div>
+                    </div>
+                </section>
+
+                <!-- Changelog Section -->
+                <section class="ds-section" id="changelog">
+                    <h2 class="ds-section-title">Changelog</h2>
+                    <p class="ds-section-description">
+                        Track all notable changes to Monochrome Edge UI Components.
+                    </p>
+                    
+                    <style>
+                        .changelog-entry {
+                            background-color: var(--theme-surface);
+                            border: 1px solid var(--theme-border);
+                            border-radius: var(--border-radius);
+                            margin-bottom: 1.5rem;
+                            overflow: hidden;
+                        }
+                        
+                        .changelog-version {
+                            padding: 1rem 1.5rem;
+                            margin: 0;
+                            background-color: var(--theme-bg);
+                            border-bottom: 1px solid var(--theme-border);
+                            font-size: 1.125rem;
+                            font-weight: 600;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                        }
+                        
+                        .changelog-date {
+                            font-size: 0.875rem;
+                            font-weight: 400;
+                            color: var(--theme-text-secondary);
+                        }
+                        
+                        .changelog-content {
+                            padding: 1.5rem;
+                        }
+                        
+                        .changelog-category {
+                            margin-bottom: 1.5rem;
+                        }
+                        
+                        .changelog-category:last-child {
+                            margin-bottom: 0;
+                        }
+                        
+                        .changelog-category-title {
+                            font-size: 0.875rem;
+                            font-weight: 600;
+                            text-transform: uppercase;
+                            letter-spacing: 0.05em;
+                            color: var(--theme-text-secondary);
+                            margin-bottom: 0.75rem;
+                        }
+                        
+                        .changelog-list {
+                            list-style: none;
+                            padding: 0;
+                            margin: 0;
+                        }
+                        
+                        .changelog-list li {
+                            padding: 0.5rem 0;
+                            border-bottom: 1px solid var(--theme-border);
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                        }
+                        
+                        .changelog-list li:last-child {
+                            border-bottom: none;
+                        }
+                        
+                        .changelog-commit {
+                            flex: 1;
+                            color: var(--theme-text-primary);
+                        }
+                        
+                        .changelog-hash {
+                            font-family: monospace;
+                            font-size: 0.75rem;
+                            color: var(--theme-text-secondary);
+                            text-decoration: none;
+                            padding: 0.125rem 0.375rem;
+                            background-color: var(--theme-bg);
+                            border-radius: 3px;
+                            transition: all var(--transition-speed);
+                        }
+                        
+                        .changelog-hash:hover {
+                            color: var(--theme-accent);
+                            background-color: var(--theme-surface);
+                        }
+                    </style>
+                    
+                    <div class="changelog-container">
+                        <!-- CHANGELOG_START -->
+<div class="changelog-entry" data-version="0.1.1">
+    <h3 class="changelog-version">v0.1.1 <span class="changelog-date">2025-09-10</span></h3>
+    <div class="changelog-content">
+        <div class="changelog-category">
+            <h4 class="changelog-category-title">Features</h4>
+            <ul class="changelog-list">
+                <li>
+                    <span class="changelog-commit">feat: add responsive ui</span>
+                    <a href="#" class="changelog-hash" title="57545d0f63cce4e5d4a2d4ca4a7537b651dae15c">57545d0</a>
+                </li>
+            </ul>
+        </div>
+        <div class="changelog-category">
+            <h4 class="changelog-category-title">Bug Fixes</h4>
+            <ul class="changelog-list">
+                <li>
+                    <span class="changelog-commit">fix: update demo</span>
+                    <a href="#" class="changelog-hash" title="51de34a7bd5cf6fe4550c9d83085a3aa7ff5d122">51de34a</a>
+                </li>
+                <li>
+                    <span class="changelog-commit">fix: update color smoothly</span>
+                    <a href="#" class="changelog-hash" title="11c4d750882ade26e8e2e1d6ce03a7157bd69055">11c4d75</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+                    <!-- CHANGELOG_END -->
                     </div>
                 </section>
             </main>
