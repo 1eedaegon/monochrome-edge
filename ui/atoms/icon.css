@@ -1,0 +1,103 @@
+/*
+ * Icon Component
+ * Icon sizing and styling utilities
+ */
+
+.icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: currentColor;
+  stroke: currentColor;
+  transition: all var(--transition-speed);
+}
+
+.icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Icon Sizes */
+.icon-xs {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.icon-sm {
+  width: 1rem;
+  height: 1rem;
+}
+
+.icon-md {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.icon-lg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.icon-xl {
+  width: 2rem;
+  height: 2rem;
+}
+
+/* Icon Colors */
+.icon-primary {
+  color: var(--theme-text-primary);
+}
+
+.icon-secondary {
+  color: var(--theme-text-secondary);
+}
+
+.icon-accent {
+  color: var(--theme-accent);
+}
+
+.icon-success {
+  color: var(--color-success);
+}
+
+.icon-warning {
+  color: var(--color-warning);
+}
+
+.icon-error {
+  color: var(--color-error);
+}
+
+.icon-info {
+  color: var(--color-info);
+}
+
+/* Icon Button */
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: all var(--transition-speed);
+}
+
+.icon-button:hover {
+  background-color: rgba(0, 0, 0, var(--alpha-hover));
+}
+
+.icon-button:active {
+  background-color: rgba(0, 0, 0, var(--alpha-active));
+}
+
+.icon-button:disabled {
+  opacity: var(--alpha-disabled);
+  cursor: not-allowed;
+}

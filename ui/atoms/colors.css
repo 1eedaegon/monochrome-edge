@@ -1,0 +1,84 @@
+/*
+ * Color System
+ * Extended color palette with semantic colors
+ */
+
+:root {
+  /* Pantone Base Colors */
+  --color-moonless-night: #1a1a1a;
+  --color-basalt: #8C9092;
+  --color-blond-wood: #D3C8AB;
+  --color-oat-milk: #F5E6D3;
+  --color-silver: #C0C0C0;
+  
+  /* Secondary Colors */
+  --color-wine: #3d0604;
+  --color-olive: #9ca77e;
+  
+  /* Semantic Colors */
+  --color-success: #7B9F60;  /* Olive green */
+  --color-warning: #D4A574;  /* Warm amber */
+  --color-error: #8B3A3A;    /* Wine red */
+  --color-info: #6B7280;     /* Cool gray */
+  
+  /* Alpha Values */
+  --alpha-hover: 0.05;
+  --alpha-active: 0.1;
+  --alpha-disabled: 0.5;
+  --alpha-overlay: 0.8;
+}
+
+/* Background utilities */
+.bg-primary {
+  background-color: var(--theme-bg);
+}
+
+.bg-surface {
+  background-color: var(--theme-surface);
+}
+
+.bg-accent {
+  background-color: var(--theme-accent);
+}
+
+.bg-highlight {
+  background-color: var(--theme-highlight);
+}
+
+.bg-success {
+  background-color: var(--color-success);
+}
+
+.bg-warning {
+  background-color: var(--color-warning);
+}
+
+.bg-error {
+  background-color: var(--color-error);
+}
+
+.bg-info {
+  background-color: var(--color-info);
+}
+
+/* Border utilities */
+.border-default {
+  border: 1px solid var(--theme-border);
+}
+
+.border-accent {
+  border: 1px solid var(--theme-accent);
+}
+
+.border-highlight {
+  border: 1px solid var(--theme-highlight);
+}
+
+/* Overlay utilities */
+.overlay-dark {
+  background-color: rgba(0, 0, 0, var(--alpha-overlay));
+}
+
+.overlay-light {
+  background-color: rgba(255, 255, 255, var(--alpha-overlay));
+}
