@@ -75,6 +75,8 @@
             .ds-header {
                 padding: 1.5rem;
                 border-bottom: 1px solid var(--theme-border);
+                background-color: var(--theme-surface);
+                color: var(--theme-text-primary);
             }
 
             .ds-title {
@@ -94,6 +96,7 @@
                 gap: 1rem;
                 padding: 1rem 1.5rem;
                 border-bottom: 1px solid var(--theme-border);
+                background-color: var(--theme-surface);
             }
 
             .ds-nav {
@@ -115,12 +118,12 @@
             }
 
             .ds-nav-item:hover {
-                background-color: rgba(0, 0, 0, 0.02);
-                border-left-color: var(--theme-border);
+                background-color: var(--theme-border);
+                border-left-color: var(--theme-accent);
             }
 
             .ds-nav-item.active {
-                background-color: var(--theme-surface);
+                background-color: var(--theme-border);
                 color: var(--theme-highlight);
                 border-left-color: var(--theme-highlight);
                 font-weight: 500;
@@ -214,12 +217,15 @@
                 justify-content: center;
                 flex-wrap: wrap;
                 gap: 1rem;
+                background-color: var(--theme-surface);
+                color: var(--theme-text-primary);
             }
 
             .component-code {
                 display: none;
-                max-height: 400px;
-                overflow: auto;
+                max-height: 600px;
+                overflow-y: auto;
+                padding: 0;
             }
 
             .component-code pre {
@@ -230,14 +236,6 @@
 
             .component-code pre code {
                 color: #f8f8f2 !important;
-            }
-
-            .component-code.active {
-                display: block;
-            }
-
-            .component-preview.hidden {
-                display: none;
             }
 
             .color-grid {
@@ -616,11 +614,47 @@
                                 <button class="btn btn-danger">Danger</button>
                             </div>
                             <div class="component-code">
-                                <pre><code class="language-html">&lt;button class="btn btn-primary"&gt;Primary&lt;/button&gt;
-&lt;button class="btn btn-secondary"&gt;Secondary&lt;/button&gt;
-&lt;button class="btn btn-ghost"&gt;Ghost&lt;/button&gt;
-&lt;button class="btn btn-outline"&gt;Outline&lt;/button&gt;
-&lt;button class="btn btn-danger"&gt;Danger&lt;/button&gt;</code></pre>
+                                <div style="padding: 2rem;">
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">HTML/CSS</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>&lt;button class="btn btn-primary"&gt;Primary&lt;/button&gt;
+&lt;button class="btn btn-secondary"&gt;Secondary&lt;/button&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">React</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>import { Button } from '@monochrome-edge/ui/react';
+
+&lt;Button variant="primary"&gt;Primary&lt;/Button&gt;
+&lt;Button variant="secondary"&gt;Secondary&lt;/Button&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vue.js</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>&lt;template&gt;
+  &lt;Button variant="primary"&gt;Primary&lt;/Button&gt;
+  &lt;Button variant="secondary"&gt;Secondary&lt;/Button&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { Button } from '@monochrome-edge/ui/vue';
+&lt;/script&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Web Components</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>&lt;mono-button variant="primary"&gt;Primary&lt;/mono-button&gt;
+&lt;mono-button variant="secondary"&gt;Secondary&lt;/mono-button&gt;
+
+&lt;script type="module"&gt;
+  import '@monochrome-edge/ui/wc';
+&lt;/script&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">jQuery</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>$('&lt;button&gt;').addClass('btn btn-primary').text('Primary').appendTo('#app');
+$('&lt;button&gt;').addClass('btn btn-secondary').text('Secondary').appendTo('#app');</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vanilla JavaScript</h4>
+                                    <pre><code>import { createButton } from '@monochrome-edge/ui';
+
+const btn1 = createButton('Primary', { variant: 'primary' });
+const btn2 = createButton('Secondary', { variant: 'secondary' });
+document.body.appendChild(btn1);
+document.body.appendChild(btn2);</code></pre>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -654,9 +688,26 @@
                                 </button>
                             </div>
                             <div class="component-code">
-                                <pre><code class="language-html">&lt;button class="btn btn-primary btn-small"&gt;Small&lt;/button&gt;
+                                <div style="padding: 2rem;">
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">HTML/CSS</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>&lt;button class="btn btn-primary btn-small"&gt;Small&lt;/button&gt;
 &lt;button class="btn btn-primary"&gt;Default&lt;/button&gt;
 &lt;button class="btn btn-primary btn-large"&gt;Large&lt;/button&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">React</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>&lt;Button size="small"&gt;Small&lt;/Button&gt;
+&lt;Button&gt;Default&lt;/Button&gt;
+&lt;Button size="large"&gt;Large&lt;/Button&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vue.js</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>&lt;Button :size="'small'"&gt;Small&lt;/Button&gt;
+&lt;Button&gt;Default&lt;/Button&gt;
+&lt;Button :size="'large'"&gt;Large&lt;/Button&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">jQuery</h4>
+                                    <pre><code>$('.btn').addClass('btn-small');
+$('.btn').addClass('btn-large');</code></pre>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -732,11 +783,37 @@
                                 </div>
                             </div>
                             <div class="component-code">
-                                <pre><code class="language-html">&lt;div class="form-group"&gt;
+                                <div style="padding: 2rem;">
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">HTML/CSS</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>&lt;div class="form-group"&gt;
     &lt;label class="label"&gt;Email Address&lt;/label&gt;
     &lt;input type="email" class="input" placeholder="you@example.com"&gt;
     &lt;span class="helper-text"&gt;We'll never share your email.&lt;/span&gt;
 &lt;/div&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">React</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>import { Input } from '@monochrome-edge/ui/react';
+
+&lt;Input 
+    label="Email Address"
+    type="email"
+    placeholder="you@example.com"
+    helperText="We'll never share your email."
+/&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vue.js</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>&lt;Input 
+    label="Email Address"
+    type="email"
+    placeholder="you@example.com"
+    helper-text="We'll never share your email."
+/&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">jQuery</h4>
+                                    <pre><code>$('#email-input').wrap('&lt;div class="form-group"&gt;&lt;/div&gt;');
+$('#email-input').before('&lt;label class="label"&gt;Email Address&lt;/label&gt;');
+$('#email-input').after('&lt;span class="helper-text"&gt;We\'ll never share your email.&lt;/span&gt;');</code></pre>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -807,7 +884,9 @@
                                 </div>
                             </div>
                             <div class="component-code">
-                                <pre><code class="language-html">&lt;div class="card"&gt;
+                                <div style="padding: 2rem;">
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">HTML/CSS</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>&lt;div class="card"&gt;
     &lt;div class="card-header"&gt;
         &lt;h4 class="card-header-title"&gt;Card Title&lt;/h4&gt;
     &lt;/div&gt;
@@ -815,6 +894,25 @@
         &lt;p&gt;Card content&lt;/p&gt;
     &lt;/div&gt;
 &lt;/div&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">React</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>import { Card } from '@monochrome-edge/ui/react';
+
+&lt;Card title="Card Title"&gt;
+    &lt;p&gt;Card content&lt;/p&gt;
+&lt;/Card&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vue.js</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>&lt;Card title="Card Title"&gt;
+    &lt;p&gt;Card content&lt;/p&gt;
+&lt;/Card&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vanilla JavaScript</h4>
+                                    <pre><code>import { createCard } from '@monochrome-edge/ui';
+
+const card = createCard('Card Title', 'Card content');
+document.body.appendChild(card);</code></pre>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -877,10 +975,43 @@
                                 </div>
                             </div>
                             <div class="component-code">
-                                <pre><code class="language-html">&lt;a class="nav-item is-active"&gt;
-    &lt;span class="nav-item-label"&gt;Projects&lt;/span&gt;
-    &lt;span class="nav-item-badge"&gt;3&lt;/span&gt;
-&lt;/a&gt;</code></pre>
+                                <div style="padding: 2rem;">
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">HTML/CSS</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>&lt;nav class="nav"&gt;
+    &lt;a class="nav-item"&gt;
+        &lt;span class="nav-item-label"&gt;Dashboard&lt;/span&gt;
+    &lt;/a&gt;
+    &lt;a class="nav-item is-active"&gt;
+        &lt;span class="nav-item-label"&gt;Projects&lt;/span&gt;
+        &lt;span class="nav-item-badge"&gt;3&lt;/span&gt;
+    &lt;/a&gt;
+    &lt;a class="nav-item"&gt;
+        &lt;span class="nav-item-label"&gt;Settings&lt;/span&gt;
+    &lt;/a&gt;
+&lt;/nav&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">React</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>import { Nav, NavItem } from '@monochrome-edge/ui/react';
+
+&lt;Nav&gt;
+    &lt;NavItem label="Dashboard" /&gt;
+    &lt;NavItem label="Projects" active badge={3} /&gt;
+    &lt;NavItem label="Settings" /&gt;
+&lt;/Nav&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vue.js</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>&lt;Nav&gt;
+    &lt;NavItem label="Dashboard" /&gt;
+    &lt;NavItem label="Projects" :active="true" :badge="3" /&gt;
+    &lt;NavItem label="Settings" /&gt;
+&lt;/Nav&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">jQuery</h4>
+                                    <pre><code>$('.nav-item').on('click', function() {
+    $('.nav-item').removeClass('is-active');
+    $(this).addClass('is-active');
+});</code></pre>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -921,22 +1052,64 @@
                                 </button>
                             </div>
                             <div class="component-code">
-                                <pre><code class="language-html">&lt;div class="modal"&gt;
-    &lt;div class="modal-backdrop"&gt;&lt;/div&gt;
+                                <div style="padding: 2rem;">
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">HTML/CSS</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>&lt;div class="modal is-open"&gt;
+    &lt;div class="modal-backdrop" onclick="closeModal()"&gt;&lt;/div&gt;
     &lt;div class="modal-content"&gt;
         &lt;div class="modal-header"&gt;
             &lt;h3 class="modal-title"&gt;Modal Title&lt;/h3&gt;
-            &lt;button class="modal-close"&gt;×&lt;/button&gt;
+            &lt;button class="modal-close" onclick="closeModal()"&gt;×&lt;/button&gt;
         &lt;/div&gt;
         &lt;div class="modal-body"&gt;
-            Modal content goes here
+            &lt;p&gt;Modal content goes here&lt;/p&gt;
         &lt;/div&gt;
         &lt;div class="modal-footer"&gt;
-            &lt;button class="btn btn-ghost"&gt;Cancel&lt;/button&gt;
+            &lt;button class="btn btn-ghost" onclick="closeModal()"&gt;Cancel&lt;/button&gt;
             &lt;button class="btn btn-primary"&gt;Confirm&lt;/button&gt;
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/div&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">React</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>import { Modal } from '@monochrome-edge/ui/react';
+
+&lt;Modal 
+    isOpen={isOpen}
+    onClose={() => setIsOpen(false)}
+    title="Modal Title"
+&gt;
+    &lt;p&gt;Modal content goes here&lt;/p&gt;
+    &lt;Modal.Footer&gt;
+        &lt;Button variant="ghost" onClick={() => setIsOpen(false)}&gt;Cancel&lt;/Button&gt;
+        &lt;Button variant="primary"&gt;Confirm&lt;/Button&gt;
+    &lt;/Modal.Footer&gt;
+&lt;/Modal&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vue.js</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>&lt;Modal 
+    :is-open="isOpen"
+    @close="isOpen = false"
+    title="Modal Title"
+&gt;
+    &lt;p&gt;Modal content goes here&lt;/p&gt;
+    &lt;template #footer&gt;
+        &lt;Button variant="ghost" @click="isOpen = false"&gt;Cancel&lt;/Button&gt;
+        &lt;Button variant="primary"&gt;Confirm&lt;/Button&gt;
+    &lt;/template&gt;
+&lt;/Modal&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">jQuery</h4>
+                                    <pre><code>// Open modal
+$('#openModal').on('click', function() {
+    $('#myModal').addClass('is-open');
+});
+
+// Close modal
+$('.modal-backdrop, .modal-close').on('click', function() {
+    $('.modal').removeClass('is-open');
+});</code></pre>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -970,7 +1143,7 @@
                         <div class="component-content" id="data-table">
                             <div
                                 class="component-preview"
-                                style="width: 100%; padding: 0"
+                                style="width: 100%; padding: 2rem"
                             >
                                 <div class="data-table-container">
                                     <table class="data-table">
@@ -1022,20 +1195,109 @@
                                 </div>
                             </div>
                             <div class="component-code">
-                                <pre><code class="language-html">&lt;table class="data-table"&gt;
-    &lt;thead&gt;
+                                <div style="padding: 2rem;">
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">HTML/CSS</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>&lt;div class="table-container"&gt;
+    &lt;table class="data-table"&gt;
+        &lt;thead&gt;
+            &lt;tr&gt;
+                &lt;th&gt;Name&lt;/th&gt;
+                &lt;th&gt;Status&lt;/th&gt;
+                &lt;th&gt;Role&lt;/th&gt;
+                &lt;th&gt;Actions&lt;/th&gt;
+            &lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+            &lt;tr&gt;
+                &lt;td&gt;John Doe&lt;/td&gt;
+                &lt;td&gt;&lt;span class="badge badge-success"&gt;Active&lt;/span&gt;&lt;/td&gt;
+                &lt;td&gt;Admin&lt;/td&gt;
+                &lt;td&gt;&lt;button class="btn btn-ghost btn-small"&gt;Edit&lt;/button&gt;&lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+&lt;/div&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">React</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>import { Table, Badge, Button } from '@monochrome-edge/ui/react';
+
+const data = [
+    { name: 'John Doe', status: 'active', role: 'Admin' },
+    { name: 'Jane Smith', status: 'pending', role: 'User' }
+];
+
+&lt;Table&gt;
+    &lt;Table.Header&gt;
+        &lt;Table.Row&gt;
+            &lt;Table.HeaderCell&gt;Name&lt;/Table.HeaderCell&gt;
+            &lt;Table.HeaderCell&gt;Status&lt;/Table.HeaderCell&gt;
+            &lt;Table.HeaderCell&gt;Role&lt;/Table.HeaderCell&gt;
+            &lt;Table.HeaderCell&gt;Actions&lt;/Table.HeaderCell&gt;
+        &lt;/Table.Row&gt;
+    &lt;/Table.Header&gt;
+    &lt;Table.Body&gt;
+        {data.map((user) => (
+            &lt;Table.Row key={user.name}&gt;
+                &lt;Table.Cell&gt;{user.name}&lt;/Table.Cell&gt;
+                &lt;Table.Cell&gt;
+                    &lt;Badge variant={user.status === 'active' ? 'success' : 'warning'}&gt;
+                        {user.status}
+                    &lt;/Badge&gt;
+                &lt;/Table.Cell&gt;
+                &lt;Table.Cell&gt;{user.role}&lt;/Table.Cell&gt;
+                &lt;Table.Cell&gt;
+                    &lt;Button variant="ghost" size="small"&gt;Edit&lt;/Button&gt;
+                &lt;/Table.Cell&gt;
+            &lt;/Table.Row&gt;
+        ))}
+    &lt;/Table.Body&gt;
+&lt;/Table&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vue.js</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>&lt;Table&gt;
+    &lt;TableHeader&gt;
+        &lt;TableRow&gt;
+            &lt;TableHeaderCell&gt;Name&lt;/TableHeaderCell&gt;
+            &lt;TableHeaderCell&gt;Status&lt;/TableHeaderCell&gt;
+            &lt;TableHeaderCell&gt;Role&lt;/TableHeaderCell&gt;
+            &lt;TableHeaderCell&gt;Actions&lt;/TableHeaderCell&gt;
+        &lt;/TableRow&gt;
+    &lt;/TableHeader&gt;
+    &lt;TableBody&gt;
+        &lt;TableRow v-for="user in users" :key="user.name"&gt;
+            &lt;TableCell&gt;{{ user.name }}&lt;/TableCell&gt;
+            &lt;TableCell&gt;
+                &lt;Badge :variant="user.status === 'active' ? 'success' : 'warning'"&gt;
+                    {{ user.status }}
+                &lt;/Badge&gt;
+            &lt;/TableCell&gt;
+            &lt;TableCell&gt;{{ user.role }}&lt;/TableCell&gt;
+            &lt;TableCell&gt;
+                &lt;Button variant="ghost" size="small"&gt;Edit&lt;/Button&gt;
+            &lt;/TableCell&gt;
+        &lt;/TableRow&gt;
+    &lt;/TableBody&gt;
+&lt;/Table&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">jQuery</h4>
+                                    <pre><code>// Add row dynamically
+$('#addRow').on('click', function() {
+    const newRow = `
         &lt;tr&gt;
-            &lt;th&gt;Name&lt;/th&gt;
-            &lt;th&gt;Status&lt;/th&gt;
+            &lt;td&gt;New User&lt;/td&gt;
+            &lt;td&gt;&lt;span class="badge badge-pending"&gt;Pending&lt;/span&gt;&lt;/td&gt;
+            &lt;td&gt;User&lt;/td&gt;
+            &lt;td&gt;&lt;button class="btn btn-ghost btn-small"&gt;Edit&lt;/button&gt;&lt;/td&gt;
         &lt;/tr&gt;
-    &lt;/thead&gt;
-    &lt;tbody&gt;
-        &lt;tr&gt;
-            &lt;td&gt;John Doe&lt;/td&gt;
-            &lt;td&gt;&lt;span class="badge badge-success"&gt;Active&lt;/span&gt;&lt;/td&gt;
-        &lt;/tr&gt;
-    &lt;/tbody&gt;
-&lt;/table&gt;</code></pre>
+    `;
+    $('.data-table tbody').append(newRow);
+});
+
+// Sort table
+$('th').on('click', function() {
+    // Sorting logic here
+});</code></pre>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1125,17 +1387,90 @@
                                 </div>
                             </div>
                             <div class="component-code">
-                                <pre><code class="language-html">&lt;div class="warm-layout"&gt;
-    &lt;aside class="warm-sidebar"&gt;
-        &lt;!-- Sidebar content --&gt;
+                                <div style="padding: 2rem;">
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">HTML/CSS</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>&lt;div class="layout-container"&gt;
+    &lt;aside class="layout-sidebar"&gt;
+        &lt;nav class="sidebar-nav"&gt;
+            &lt;a class="nav-item is-active"&gt;Dashboard&lt;/a&gt;
+            &lt;a class="nav-item"&gt;Content&lt;/a&gt;
+            &lt;a class="nav-item"&gt;Media&lt;/a&gt;
+            &lt;a class="nav-item"&gt;Settings&lt;/a&gt;
+        &lt;/nav&gt;
     &lt;/aside&gt;
-    &lt;header class="warm-header"&gt;
-        &lt;!-- Header content --&gt;
-    &lt;/header&gt;
-    &lt;main class="warm-main"&gt;
-        &lt;!-- Main content --&gt;
-    &lt;/main&gt;
+    &lt;div class="layout-main"&gt;
+        &lt;header class="layout-header"&gt;
+            &lt;h1&gt;Page Title&lt;/h1&gt;
+            &lt;div class="header-actions"&gt;
+                &lt;button class="btn btn-primary"&gt;New Post&lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/header&gt;
+        &lt;main class="layout-content"&gt;
+            &lt;!-- Your content here --&gt;
+        &lt;/main&gt;
+    &lt;/div&gt;
 &lt;/div&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">React</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>import { Layout } from '@monochrome-edge/ui/react';
+
+&lt;Layout&gt;
+    &lt;Layout.Sidebar&gt;
+        &lt;Nav&gt;
+            &lt;NavItem active&gt;Dashboard&lt;/NavItem&gt;
+            &lt;NavItem&gt;Content&lt;/NavItem&gt;
+            &lt;NavItem&gt;Media&lt;/NavItem&gt;
+            &lt;NavItem&gt;Settings&lt;/NavItem&gt;
+        &lt;/Nav&gt;
+    &lt;/Layout.Sidebar&gt;
+    &lt;Layout.Main&gt;
+        &lt;Layout.Header&gt;
+            &lt;h1&gt;Page Title&lt;/h1&gt;
+            &lt;Button variant="primary"&gt;New Post&lt;/Button&gt;
+        &lt;/Layout.Header&gt;
+        &lt;Layout.Content&gt;
+            {children}
+        &lt;/Layout.Content&gt;
+    &lt;/Layout.Main&gt;
+&lt;/Layout&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vue.js</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>&lt;Layout&gt;
+    &lt;LayoutSidebar&gt;
+        &lt;Nav&gt;
+            &lt;NavItem :active="true"&gt;Dashboard&lt;/NavItem&gt;
+            &lt;NavItem&gt;Content&lt;/NavItem&gt;
+            &lt;NavItem&gt;Media&lt;/NavItem&gt;
+            &lt;NavItem&gt;Settings&lt;/NavItem&gt;
+        &lt;/Nav&gt;
+    &lt;/LayoutSidebar&gt;
+    &lt;LayoutMain&gt;
+        &lt;LayoutHeader&gt;
+            &lt;h1&gt;Page Title&lt;/h1&gt;
+            &lt;Button variant="primary"&gt;New Post&lt;/Button&gt;
+        &lt;/LayoutHeader&gt;
+        &lt;LayoutContent&gt;
+            &lt;slot /&gt;
+        &lt;/LayoutContent&gt;
+    &lt;/LayoutMain&gt;
+&lt;/Layout&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">jQuery</h4>
+                                    <pre><code>// Toggle sidebar
+$('#sidebarToggle').on('click', function() {
+    $('.layout-sidebar').toggleClass('collapsed');
+    $('.layout-main').toggleClass('expanded');
+});
+
+// Handle responsive layout
+$(window).on('resize', function() {
+    if ($(window).width() < 768) {
+        $('.layout-sidebar').addClass('mobile');
+    } else {
+        $('.layout-sidebar').removeClass('mobile');
+    }
+});</code></pre>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2006,77 +2341,64 @@ export function initializeCustomLibrary() {
                 });
 
                 // Component toggle (Preview/Code and Framework toggles)
-                $(".toggle-btn").on("click", function () {
-                    const target = $(this).data("target");
-                    const text = $(this).text();
+                $(document).on("click", ".toggle-btn", function () {
+                    const $this = $(this);
+                    const target = $this.data("target");
+                    const text = $this.text().trim();
 
-                    // Check if this is a framework toggle (in Examples or Integration section)
-                    const isFrameworkToggle = [
-                        "React",
-                        "Vue",
-                        "Vanilla JS",
-                        "jQuery",
-                        "Web Components",
-                        "Custom",
-                    ].includes(text);
+                    // Don't do anything if already active
+                    if ($this.hasClass("active") && (text === "Preview" || text === "Code")) {
+                        return;
+                    }
 
-                    if (isFrameworkToggle) {
-                        // Framework toggle logic
+                    // Update button states
+                    $this.siblings().removeClass("active");
+                    $this.addClass("active");
+
+                    const $content = $(`#${target}`);
+                    const $preview = $content.find(".component-preview");
+                    const $code = $content.find(".component-code");
+
+                    // Handle Preview/Code toggle
+                    if (text === "Preview") {
+                        // Show preview, hide code
+                        $preview.css("display", "flex");
+                        $code.css("display", "none");
+                    } else if (text === "Code") {
+                        // Hide preview, show code
+                        $preview.css("display", "none");
+                        $code.css("display", "block");
+                        
+                        // Re-highlight code when showing
+                        setTimeout(() => {
+                            $code.find("pre code").each(function() {
+                                if (!$(this).hasClass("language-html")) {
+                                    Prism.highlightElement(this);
+                                }
+                            });
+                        }, 10);
+                    } else {
+                        // Handle framework-specific toggles in Examples section
                         const frameworkMap = {
-                            React: "react",
-                            Vue: "vue",
+                            "React": "react",
+                            "Vue": "vue",
                             "Vanilla JS": "vanilla",
-                            jQuery: "jquery",
+                            "jQuery": "jquery",
                             "Web Components": "webcomponents",
-                            Custom: "custom",
+                            "Custom": "custom"
                         };
 
                         const framework = frameworkMap[text];
-
-                        // Update button states
-                        $(this).siblings().removeClass("active");
-                        $(this).addClass("active");
-
-                        // Hide all framework code blocks and show selected one
-                        const content = $(`#${target}`);
-                        content.find(".component-code").removeClass("active");
-                        content
-                            .find(
-                                `.component-code[data-framework="${framework}"]`,
-                            )
-                            .addClass("active");
-
-                        // Re-highlight code when showing
-                        const activeCode = content.find(
-                            `.component-code[data-framework="${framework}"]`,
-                        )[0];
-                        if (activeCode) {
-                            Prism.highlightAllUnder(activeCode);
-                        }
-                    } else {
-                        // Original Preview/Code toggle logic
-                        const isCode = text === "Code";
-
-                        // Update button states
-                        $(this).siblings().removeClass("active");
-                        $(this).addClass("active");
-
-                        // Toggle content
-                        const content = $(`#${target}`);
-                        if (isCode) {
-                            content
-                                .find(".component-preview")
-                                .addClass("hidden");
-                            content.find(".component-code").addClass("active");
-                            // Re-highlight code when showing
-                            Prism.highlightAllUnder(content[0]);
-                        } else {
-                            content
-                                .find(".component-preview")
-                                .removeClass("hidden");
-                            content
-                                .find(".component-code")
-                                .removeClass("active");
+                        if (framework) {
+                            // This is a framework toggle in Examples section
+                            $content.find(".component-code").hide().removeClass("active");
+                            $content.find(`.component-code[data-framework="${framework}"]`).show().addClass("active");
+                            
+                            // Re-highlight code
+                            const $activeCode = $content.find(`.component-code[data-framework="${framework}"]`);
+                            if ($activeCode.length) {
+                                Prism.highlightAllUnder($activeCode[0]);
+                            }
                         }
                     }
                 });
@@ -2093,33 +2415,41 @@ export function initializeCustomLibrary() {
 
                     if (currentTheme === "warm") {
                         colorDisplay.html(`
-                            <div class="color-swatch" style="background-color: #3D1A10;">
-                                <span class="color-name" style="color: white">Wine 900</span>
-                                <span class="color-value" style="color: white">#3D1A10</span>
+                            <div class="color-swatch" style="background-color: #1c1a18;">
+                                <span class="color-name" style="color: white">Warm Gray 900</span>
+                                <span class="color-value" style="color: white">#1c1a18</span>
                             </div>
-                            <div class="color-swatch" style="background-color: #5A4535;">
-                                <span class="color-name" style="color: white">Brown 700</span>
-                                <span class="color-value" style="color: white">#5A4535</span>
+                            <div class="color-swatch" style="background-color: #302d2a;">
+                                <span class="color-name" style="color: white">Warm Gray 800</span>
+                                <span class="color-value" style="color: white">#302d2a</span>
                             </div>
-                            <div class="color-swatch" style="background-color: #9C8770;">
-                                <span class="color-name" style="color: white">Olive 500</span>
-                                <span class="color-value" style="color: white">#9C8770</span>
+                            <div class="color-swatch" style="background-color: #4c4844;">
+                                <span class="color-name" style="color: white">Warm Gray 700</span>
+                                <span class="color-value" style="color: white">#4c4844</span>
                             </div>
-                            <div class="color-swatch" style="background-color: #D4C4B0;">
-                                <span class="color-name">Sand 300</span>
-                                <span class="color-value">#D4C4B0</span>
+                            <div class="color-swatch" style="background-color: #706c68;">
+                                <span class="color-name" style="color: white">Warm Gray 600</span>
+                                <span class="color-value" style="color: white">#706c68</span>
                             </div>
-                            <div class="color-swatch" style="background-color: #F5F2EC;">
-                                <span class="color-name">Cream 100</span>
-                                <span class="color-value">#F5F2EC</span>
+                            <div class="color-swatch" style="background-color: #94908c;">
+                                <span class="color-name" style="color: white">Warm Gray 500</span>
+                                <span class="color-value" style="color: white">#94908c</span>
                             </div>
-                            <div class="color-swatch" style="background-color: #3d0604;">
-                                <span class="color-name" style="color: white">Deep Wine</span>
-                                <span class="color-value" style="color: white">#3d0604</span>
+                            <div class="color-swatch" style="background-color: #b8b4b0;">
+                                <span class="color-name">Warm Gray 400</span>
+                                <span class="color-value">#b8b4b0</span>
                             </div>
-                            <div class="color-swatch" style="background-color: #9ca77e;">
-                                <span class="color-name">Pure Olive</span>
-                                <span class="color-value">#9ca77e</span>
+                            <div class="color-swatch" style="background-color: #dcd9d6;">
+                                <span class="color-name">Warm Gray 300</span>
+                                <span class="color-value">#dcd9d6</span>
+                            </div>
+                            <div class="color-swatch" style="background-color: #edebe9;">
+                                <span class="color-name">Warm Gray 200</span>
+                                <span class="color-value">#edebe9</span>
+                            </div>
+                            <div class="color-swatch" style="background-color: #f8f7f6;">
+                                <span class="color-name">Warm Gray 100</span>
+                                <span class="color-value">#f8f7f6</span>
                             </div>
                         `);
                     } else {
@@ -2128,21 +2458,37 @@ export function initializeCustomLibrary() {
                                 <span class="color-name" style="color: white">Cool Gray 900</span>
                                 <span class="color-value" style="color: white">#111827</span>
                             </div>
+                            <div class="color-swatch" style="background-color: #1f2937;">
+                                <span class="color-name" style="color: white">Cool Gray 800</span>
+                                <span class="color-value" style="color: white">#1f2937</span>
+                            </div>
                             <div class="color-swatch" style="background-color: #374151;">
                                 <span class="color-name" style="color: white">Cool Gray 700</span>
                                 <span class="color-value" style="color: white">#374151</span>
                             </div>
-                            <div class="color-swatch" style="background-color: #6B7280;">
+                            <div class="color-swatch" style="background-color: #4b5563;">
+                                <span class="color-name" style="color: white">Cool Gray 600</span>
+                                <span class="color-value" style="color: white">#4b5563</span>
+                            </div>
+                            <div class="color-swatch" style="background-color: #6b7280;">
                                 <span class="color-name" style="color: white">Cool Gray 500</span>
-                                <span class="color-value" style="color: white">#6B7280</span>
+                                <span class="color-value" style="color: white">#6b7280</span>
                             </div>
-                            <div class="color-swatch" style="background-color: #D1D5DB;">
+                            <div class="color-swatch" style="background-color: #9ca3af;">
+                                <span class="color-name">Cool Gray 400</span>
+                                <span class="color-value">#9ca3af</span>
+                            </div>
+                            <div class="color-swatch" style="background-color: #d1d5db;">
                                 <span class="color-name">Cool Gray 300</span>
-                                <span class="color-value">#D1D5DB</span>
+                                <span class="color-value">#d1d5db</span>
                             </div>
-                            <div class="color-swatch" style="background-color: #F7F8F9;">
+                            <div class="color-swatch" style="background-color: #e5e7eb;">
+                                <span class="color-name">Cool Gray 200</span>
+                                <span class="color-value">#e5e7eb</span>
+                            </div>
+                            <div class="color-swatch" style="background-color: #f7f8f9;">
                                 <span class="color-name">Cool Gray 100</span>
-                                <span class="color-value">#F7F8F9</span>
+                                <span class="color-value">#f7f8f9</span>
                             </div>
                         `);
                     }
