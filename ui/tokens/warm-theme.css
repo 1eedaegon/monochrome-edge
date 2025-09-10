@@ -4,7 +4,8 @@
  * Perfect for: Blog publishing, content creation, documentation
  */
 
-:root {
+/* Warm theme variables - Applied when [data-theme-variant="warm"] */
+[data-theme-variant="warm"] {
     /* === Generic Tokens (Unchanged) === */
     --font-family-sans:
         "Pretendard", "Noto Sans KR", -apple-system, BlinkMacSystemFont,
@@ -35,19 +36,19 @@
     --color-olive: #9ca77e;
 
     /* === Light Mode (Warm Monochrome) === */
-    --theme-bg: #fafaf9; /* Slightly warm gray */
-    --theme-text-primary: #1a1918; /* Warm black */
-    --theme-text-secondary: #6b6966; /* Warm gray */
-    --theme-accent: #8b8680; /* Warm gray accent */
+    --theme-bg: #fffdfb; /* Warm white - more visible */
+    --theme-text-primary: #2c1810; /* Warm brown black */
+    --theme-text-secondary: #7d6e68; /* Warm gray */
+    --theme-accent: #9c7c6c; /* Warm brown accent */
     --theme-accent-contrast: #ffffff;
-    --theme-secondary: #a8a29e; /* Light warm gray */
+    --theme-secondary: #b8a590; /* Light warm brown */
     --theme-secondary-contrast: #ffffff;
     --theme-border: #e7e5e4; /* Warm gray border */
-    --theme-surface: #ffffff;
-    --theme-highlight: #722f37; /* Deep wine red */
+    --theme-surface: #faf8f6;
+    --theme-highlight: #8b2c34; /* Deep wine red */
 }
 
-[data-theme="dark"] {
+[data-theme-variant="warm"][data-theme="dark"] {
     /* === Dark Mode (Warm Monochrome) === */
     --theme-bg: #1c1b1a; /* Warm dark gray */
     --theme-text-primary: rgba(255, 255, 255, 0.95);
