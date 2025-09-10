@@ -1,9 +1,10 @@
 /*
  * Monochrome Edge UI Components
  * Main CSS File - Imports all components and utilities
+ * Both themes are loaded - use data-theme-variant="warm" or "cold" to switch
  */
 
-/* Base Tokens */
+/* Base Tokens - Both themes loaded with different selectors */
 @import url("./tokens/warm-theme.css");
 @import url("./tokens/cold-theme.css");
 

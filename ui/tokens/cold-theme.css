@@ -4,7 +4,8 @@
  * Perfect for: API businesses, dashboards, analytics platforms
  */
 
-:root {
+/* Cold theme variables - Applied when [data-theme-variant="cold"] */
+[data-theme-variant="cold"] {
     /* === Generic Tokens (Unchanged) === */
     --font-family-sans:
         "Pretendard", "Noto Sans KR", -apple-system, BlinkMacSystemFont,
@@ -31,7 +32,7 @@
     --cool-900: #111827;
 
     /* === Light Mode (Cool Monochrome) === */
-    --theme-bg: #fafbfc; /* Cool gray */
+    --theme-bg: #f8fafc; /* Cool white */
     --theme-text-primary: #18181b; /* Cool black */
     --theme-text-secondary: #71717a; /* Cool gray */
     --theme-accent: #6b7280; /* Cool gray accent */
@@ -43,7 +44,7 @@
     --theme-highlight: #1e3a8a; /* Deep navy blue */
 }
 
-[data-theme="dark"] {
+[data-theme-variant="cold"][data-theme="dark"] {
     /* === Dark Mode (Cool Monochrome) === */
     --theme-bg: #18181b; /* Cool dark gray */
     --theme-text-primary: rgba(255, 255, 255, 0.95);
