@@ -33,7 +33,7 @@ const server = http.createServer(
   (req: http.IncomingMessage, res: http.ServerResponse): void => {
     // Default to index.html for root path
     // Remove query parameters from URL
-    const urlPath = req.url?.split('?')[0] || "";
+    const urlPath = req.url?.split("?")[0] || "";
     let filePath: string = urlPath === "/" ? "/index.html" : urlPath;
 
     // Construct full file path
@@ -72,10 +72,10 @@ server.listen(PORT, (): void => {
   console.log(`
 ╔════════════════════════════════════════════╗
 ║                                            ║
-║   Monochrome Edge UI Components Server          ║
+║   Monochrome Edge UI Components Server     ║
 ║                                            ║
 ║   Server running at:                       ║
-║   http://localhost:${PORT}                     ║
+║   http://localhost:${PORT}                 ║
 ║                                            ║
 ║   Press Ctrl+C to stop                     ║
 ║                                            ║
