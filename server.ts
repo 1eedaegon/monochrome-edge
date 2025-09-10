@@ -3,10 +3,15 @@ import * as fs from "node:fs";
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 
+/*
+ * Demo Server
+ * It is a simple HTTP server that serves static files from `ui/docs/index.html`
+ * 데모니까 Pure html/css/typescript
+ */
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const PORT: number = parseInt(process.env.PORT || "3000", 10);
+const PORT = parseInt(process.env.PORT || "3000", 10);
 
 interface MimeTypes {
   [key: string]: string;
