@@ -48,7 +48,10 @@
     "minify:css": "mkdir -p dist && postcss ui/monochrome-edge.css -o dist/monochrome.min.css && postcss ui/tokens/warm-theme.css -o dist/warm-theme.min.css && postcss ui/tokens/cold-theme.css -o dist/cold-theme.min.css",
     "copy:ui": "cp -r ui dist/",
     "prepublishOnly": "npm run build",
-    "test": "echo \"No tests configured yet\""
+    "test": "echo \"No tests configured yet\"",
+    "version:update": "node scripts/update-version.js",
+    "changelog": "node scripts/generate-changelog.js",
+    "version": "npm run version:update && npm run changelog && git add index.html CHANGELOG.md"
   },
   "keywords": [
     "ui",
