@@ -1,0 +1,37 @@
+/* A generic button component that uses theme variables */
+.btn {
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-body);
+  font-weight: 600;
+  padding: 10px 16px;
+  border-radius: var(--border-radius);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background-color var(--transition-speed), color var(--transition-speed), border-color var(--transition-speed), transform var(--transition-speed);
+  text-decoration: none;
+  display: inline-block;
+  line-height: 1.5;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+/* Primary button variant */
+.btn-primary {
+  background-color: var(--theme-accent);
+  color: var(--theme-accent-contrast);
+  border-color: var(--theme-accent);
+}
+
+.btn-primary:hover {
+  /* A universal hover effect: subtly darken the button */
+  background-color: color-mix(in srgb, var(--theme-accent) 92%, #000000 8%);
+  border-color: color-mix(in srgb, var(--theme-accent) 92%, #000000 8%);
+}
+
+.btn-primary:focus-visible {
+  /* Use the highlight color for a focus ring, as per user request for "thin lines" */
+  outline: 2px solid var(--theme-highlight);
+  outline-offset: 2px;
+}

@@ -1,0 +1,76 @@
+/* Styles for a custom dropdown menu component */
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+    width: 250px;
+    font-family: var(--font-family-sans);
+}
+
+.dropdown-button {
+    width: 100%;
+    background-color: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    border-radius: var(--border-radius);
+    padding: 10px 12px;
+    font-size: 15px;
+    color: var(--theme-text-primary);
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+    box-sizing: border-box;
+}
+
+.dropdown-button:focus {
+    outline: none;
+    border-color: var(--theme-highlight);
+    box-shadow: 0 0 0 2px color-mix(in srgb, var(--theme-highlight) 20%, transparent);
+}
+
+.dropdown-button .dropdown-arrow {
+    font-size: 10px;
+    transition: transform var(--transition-speed);
+}
+
+.dropdown.is-open .dropdown-arrow {
+    transform: rotate(180deg);
+}
+
+.dropdown-panel {
+    display: none; /* Hidden by default, toggled by jQuery */
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    background-color: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    border-radius: var(--border-radius);
+    z-index: 10;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.dropdown-panel.is-open {
+    display: block;
+}
+
+.dropdown-option {
+    padding: 10px 12px;
+    font-size: 15px;
+    color: var(--theme-text-primary);
+    cursor: pointer;
+    transition: background-color var(--transition-speed);
+}
+
+.dropdown-option:hover {
+    background-color: color-mix(in srgb, var(--theme-surface) 95%, var(--theme-text-secondary) 5%);
+}
+
+.dropdown-option.is-selected {
+    font-weight: 600;
+    background-color: color-mix(in srgb, var(--theme-accent) 20%, transparent);
+}
