@@ -45,7 +45,7 @@
     "clean": "rm -rf dist",
     "build:css": "npm run minify:css",
     "build:js": "rollup -c",
-    "minify:css": "mkdir -p dist && postcss ui/monochrome.css -o dist/monochrome.min.css && postcss ui/tokens/warm-theme.css -o dist/warm-theme.min.css && postcss ui/tokens/cold-theme.css -o dist/cold-theme.min.css",
+    "minify:css": "mkdir -p dist && postcss ui/monochrome-edge.css -o dist/monochrome.min.css && postcss ui/tokens/warm-theme.css -o dist/warm-theme.min.css && postcss ui/tokens/cold-theme.css -o dist/cold-theme.min.css",
     "copy:ui": "cp -r ui dist/",
     "prepublishOnly": "npm run build",
     "test": "echo \"No tests configured yet\""
