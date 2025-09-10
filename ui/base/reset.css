@@ -1,0 +1,115 @@
+/*
+ * Base Reset and Theme Application
+ * Global styles that apply theme to body and html
+ */
+
+/* Apply theme to root elements */
+html {
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  background-color: var(--theme-bg);
+  color: var(--theme-text-primary);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-body);
+  line-height: 1.6;
+  transition: background-color var(--transition-speed), color var(--transition-speed);
+}
+
+/* Ensure all text elements inherit theme colors */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--theme-text-primary);
+  margin-top: 0;
+}
+
+p {
+  color: var(--theme-text-primary);
+}
+
+a {
+  color: var(--theme-accent);
+  text-decoration: none;
+  transition: color var(--transition-speed);
+}
+
+a:hover {
+  color: var(--theme-highlight);
+}
+
+/* Reset box-sizing */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Apply theme colors to common elements */
+input, textarea, select {
+  background-color: var(--theme-surface);
+  color: var(--theme-text-primary);
+  border-color: var(--theme-border);
+}
+
+/* Main content areas should use theme background */
+main, article, section {
+  background-color: var(--theme-bg);
+  color: var(--theme-text-primary);
+}
+
+/* Form elements */
+fieldset {
+  border-color: var(--theme-border);
+}
+
+legend {
+  color: var(--theme-text-primary);
+}
+
+/* Table elements */
+table {
+  background-color: var(--theme-surface);
+  color: var(--theme-text-primary);
+}
+
+th {
+  background-color: var(--theme-bg);
+  color: var(--theme-text-primary);
+  border-color: var(--theme-border);
+}
+
+td {
+  border-color: var(--theme-border);
+}
+
+/* Code blocks */
+pre, code {
+  background-color: var(--theme-surface);
+  color: var(--theme-text-primary);
+  border-color: var(--theme-border);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--theme-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--theme-border);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--theme-text-secondary);
+}

@@ -113,6 +113,8 @@
   flex: 1;
   padding: 1.5rem;
   overflow-y: auto;
+  background-color: var(--theme-surface);
+  color: var(--theme-text-primary);
 }
 
 .modal-body::-webkit-scrollbar {
@@ -182,6 +184,8 @@
   flex: 1;
   padding: 1.5rem;
   overflow-y: auto;
+  background-color: var(--theme-surface);
+  color: var(--theme-text-primary);
 }
 
 .drawer-footer {
