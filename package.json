@@ -1,0 +1,105 @@
+{
+  "name": "@monochrome-edge/ui",
+  "version": "1.0.0",
+  "description": "A modern, minimalist UI with Warm and Cold themes",
+  "type": "module",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "style": "dist/monochrome.min.css",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "ui"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts",
+      "style": "./dist/monochrome.min.css"
+    },
+    "./react": {
+      "import": "./dist/react.esm.js",
+      "require": "./dist/react.js",
+      "types": "./dist/react.d.ts"
+    },
+    "./vue": {
+      "import": "./dist/vue.esm.js",
+      "require": "./dist/vue.js",
+      "types": "./dist/vue.d.ts"
+    },
+    "./jquery": {
+      "import": "./dist/jquery.esm.js",
+      "require": "./dist/jquery.js",
+      "types": "./dist/jquery.d.ts"
+    },
+    "./css": "./dist/monochrome.min.css",
+    "./warm": "./dist/warm-theme.min.css",
+    "./cold": "./dist/cold-theme.min.css"
+  },
+  "scripts": {
+    "start": "node --experimental-transform-types server.ts",
+    "dev": "node --watch --experimental-transform-types server.ts",
+    "demo": "node --experimental-transform-types server.ts",
+    "build": "npm run clean && npm run build:css && npm run build:js && npm run copy:ui",
+    "clean": "rm -rf dist",
+    "build:css": "npm run minify:css",
+    "build:js": "rollup -c",
+    "minify:css": "mkdir -p dist && postcss ui/monochrome.css -o dist/monochrome.min.css && postcss ui/tokens/warm-theme.css -o dist/warm-theme.min.css && postcss ui/tokens/cold-theme.css -o dist/cold-theme.min.css",
+    "copy:ui": "cp -r ui dist/",
+    "prepublishOnly": "npm run build",
+    "test": "echo \"No tests configured yet\""
+  },
+  "keywords": [
+    "ui",
+    "css",
+    "monochrome-edge",
+    "warm",
+    "cold",
+    "cms",
+    "saas"
+  ],
+  "author": "1eedaegon",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/1eedaegon/monochrome-edge.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "react-dom": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    },
+    "jquery": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.6",
+    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-typescript": "^12.1.4",
+    "@types/jquery": "^3.5.33",
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "cssnano": "^7.1.1",
+    "postcss": "^8.5.6",
+    "postcss-cli": "^11.0.1",
+    "rollup": "^4.9.0",
+    "rollup-plugin-copy": "^3.5.0",
+    "rollup-plugin-postcss": "^4.0.2",
+    "@rollup/plugin-terser": "^0.4.4",
+    "tslib": "^2.8.1",
+    "typescript": "^5.9.2"
+  }
+}
