@@ -63,6 +63,113 @@
                 top: 0;
                 height: 100vh;
                 overflow-y: auto;
+                transition: transform 0.3s ease;
+            }
+
+            /* Mobile styles */
+            .mobile-header {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 60px;
+                background-color: var(--theme-surface);
+                border-bottom: 1px solid var(--theme-border);
+                padding: 0 1rem;
+                align-items: center;
+                justify-content: space-between;
+                z-index: 1000;
+            }
+
+            .hamburger {
+                display: none;
+                width: 24px;
+                height: 24px;
+                cursor: pointer;
+                flex-direction: column;
+                justify-content: center;
+                gap: 3px;
+                padding: 0;
+            }
+
+            .hamburger span {
+                display: block;
+                width: 18px;
+                height: 2px;
+                background-color: var(--theme-text-primary);
+                transition: all 0.3s ease;
+                transform-origin: center;
+            }
+
+            .hamburger.is-active span:nth-child(1) {
+                transform: rotate(45deg) translate(4px, 4px);
+            }
+
+            .hamburger.is-active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .hamburger.is-active span:nth-child(3) {
+                transform: rotate(-45deg) translate(5px, -5px);
+            }
+
+            .sidebar-overlay {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 998;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+
+            .sidebar-overlay.is-visible {
+                display: block;
+                opacity: 1;
+            }
+
+            @media (max-width: 768px) {
+                .mobile-header {
+                    display: flex;
+                }
+
+                .hamburger {
+                    display: flex;
+                }
+
+                .ui-layout {
+                    padding-top: 60px;
+                }
+
+                .ds-sidebar {
+                    position: fixed;
+                    left: 0;
+                    top: 60px;
+                    bottom: 0;
+                    transform: translateX(-100%);
+                    z-index: 999;
+                }
+
+                .ds-sidebar.is-open {
+                    transform: translateX(0);
+                }
+
+                .ds-main {
+                    margin-left: 0;
+                    padding: 1rem;
+                }
+
+                .demo-grid {
+                    grid-template-columns: 1fr;
+                }
+
+                .component-toggle {
+                    flex-wrap: wrap;
+                }
             }
 
             .ds-main {
@@ -81,7 +188,7 @@
 
             .ds-title {
                 font-size: 1.5rem;
-                font-weight: 700;
+                font-weight: var(--font-weight-h1);
                 color: var(--theme-text-primary);
                 margin-bottom: 0.5rem;
             }
@@ -100,34 +207,14 @@
             }
 
             .ds-nav {
-                padding: 1rem 0;
+                padding: 1rem 1.5rem;
+            }
+            
+            .ds-nav .nav-item {
+                margin-left: 0;
+                margin-right: 0;
             }
 
-            .ds-nav-item {
-                display: block;
-                padding: 0.625rem 1.5rem;
-                margin: 0.125rem 0.5rem;
-                font-size: 0.875rem;
-                color: var(--theme-text-primary);
-                text-decoration: none;
-                transition: all var(--transition-speed);
-                cursor: pointer;
-                border-left: 3px solid transparent;
-                border-radius: 2px;
-                position: relative;
-            }
-
-            .ds-nav-item:hover {
-                background-color: var(--theme-border);
-                border-left-color: var(--theme-accent);
-            }
-
-            .ds-nav-item.active {
-                background-color: var(--theme-border);
-                color: var(--theme-highlight);
-                border-left-color: var(--theme-highlight);
-                font-weight: 500;
-            }
 
             .ds-section {
                 margin-bottom: 3rem;
@@ -140,13 +227,13 @@
 
             .ds-section-title {
                 font-size: 1.875rem;
-                font-weight: 700;
+                font-weight: var(--font-weight-h1);
                 margin-bottom: 1rem;
                 color: var(--theme-text-primary);
             }
 
             .ds-section-description {
-                font-size: 1rem;
+                font-size: var(--font-size-body);
                 color: var(--theme-text-secondary);
                 margin-bottom: 2rem;
                 line-height: 1.6;
@@ -172,8 +259,8 @@
             }
 
             .component-title {
-                font-size: 1rem;
-                font-weight: 600;
+                font-size: var(--font-size-body);
+                font-weight: var(--font-weight-h1);
                 color: var(--theme-text-primary);
                 white-space: nowrap;
             }
@@ -187,7 +274,7 @@
 
             .toggle-btn {
                 padding: 0.375rem 0.75rem;
-                font-size: 0.75rem;
+                font-size: var(--font-size-caption);
                 font-weight: 500;
                 background-color: transparent;
                 border: none;
@@ -230,12 +317,13 @@
 
             .component-code pre {
                 margin: 0;
-                font-size: 0.875rem;
-                background-color: #1a1a1a !important;
+                font-size: var(--font-size-caption);
+                background-color: var(--theme-bg) !important;
+                filter: brightness(0.85);
             }
 
             .component-code pre code {
-                color: #f8f8f2 !important;
+                color: var(--theme-text-primary) !important;
             }
 
             .color-grid {
@@ -254,17 +342,17 @@
                 justify-content: flex-end;
                 position: relative;
                 overflow: hidden;
-                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                box-shadow: 0 2px 4px var(--theme-border);
             }
 
             .color-name {
-                font-size: 0.75rem;
-                font-weight: 600;
+                font-size: var(--font-size-caption);
+                font-weight: var(--font-weight-h1);
                 margin-bottom: 0.25rem;
             }
 
             .color-value {
-                font-size: 0.75rem;
+                font-size: var(--font-size-caption);
                 font-family: var(--font-family-mono);
                 opacity: 0.9;
             }
@@ -285,6 +373,19 @@
         </style>
     </head>
     <body>
+        <!-- Mobile Header -->
+        <div class="mobile-header">
+            <div class="hamburger" onclick="toggleSidebar()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div>
+                <div class="ds-title" style="font-size: 1.125rem; margin-bottom: 0;">Monochrome Edge</div>
+                <div class="ds-subtitle" style="font-size: 0.75rem;">v1.0</div>
+            </div>
+        </div>
+
         <div class="ui-layout">
             <!-- Sidebar -->
             <aside class="ds-sidebar">
@@ -323,26 +424,45 @@
                 </div>
 
                 <nav class="ds-nav">
-                    <a class="ds-nav-item active" data-section="overview"
-                        >Overview</a
-                    >
-                    <a class="ds-nav-item" data-section="colors">Colors</a>
-                    <a class="ds-nav-item" data-section="typography"
-                        >Typography</a
-                    >
-                    <a class="ds-nav-item" data-section="buttons">Buttons</a>
-                    <a class="ds-nav-item" data-section="forms">Forms</a>
-                    <a class="ds-nav-item" data-section="cards">Cards</a>
-                    <a class="ds-nav-item" data-section="navigation"
-                        >Navigation</a
-                    >
-                    <a class="ds-nav-item" data-section="modals">Modals</a>
-                    <a class="ds-nav-item" data-section="tables">Tables</a>
-                    <a class="ds-nav-item" data-section="layouts">Layouts</a>
-                    <a class="ds-nav-item" data-section="examples">Examples</a>
-                    <a class="ds-nav-item" data-section="integration"
-                        >Integration</a
-                    >
+                    <a class="nav-item is-active" data-section="overview">
+                        <span class="nav-item-label">Overview</span>
+                    </a>
+                    <a class="nav-item" data-section="colors">
+                        <span class="nav-item-label">Colors</span>
+                    </a>
+                    <a class="nav-item" data-section="typography">
+                        <span class="nav-item-label">Typography</span>
+                    </a>
+                    <a class="nav-item" data-section="buttons">
+                        <span class="nav-item-label">Buttons</span>
+                    </a>
+                    <a class="nav-item" data-section="forms">
+                        <span class="nav-item-label">Forms</span>
+                    </a>
+                    <a class="nav-item" data-section="dropdowns">
+                        <span class="nav-item-label">Dropdowns</span>
+                    </a>
+                    <a class="nav-item" data-section="cards">
+                        <span class="nav-item-label">Cards</span>
+                    </a>
+                    <a class="nav-item" data-section="navigation">
+                        <span class="nav-item-label">Navigation</span>
+                    </a>
+                    <a class="nav-item" data-section="modals">
+                        <span class="nav-item-label">Modals</span>
+                    </a>
+                    <a class="nav-item" data-section="tables">
+                        <span class="nav-item-label">Tables</span>
+                    </a>
+                    <a class="nav-item" data-section="layouts">
+                        <span class="nav-item-label">Layouts</span>
+                    </a>
+                    <a class="nav-item" data-section="examples">
+                        <span class="nav-item-label">Examples</span>
+                    </a>
+                    <a class="nav-item" data-section="integration">
+                        <span class="nav-item-label">Integration</span>
+                    </a>
                 </nav>
             </aside>
 
@@ -819,6 +939,105 @@ $('#email-input').after('&lt;span class="helper-text"&gt;We\'ll never share your
                     </div>
                 </section>
 
+                <!-- Dropdown Section -->
+                <section class="ds-section" id="dropdowns">
+                    <h2 class="ds-section-title">Dropdowns</h2>
+                    <p class="ds-section-description">
+                        Flexible dropdown menus and select components with theme support.
+                    </p>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Dropdown Menu</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="dropdown-menu"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="dropdown-menu"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="dropdown-menu">
+                            <div class="component-preview">
+                                <div class="demo-form">
+                                    <div class="form-group">
+                                        <label class="label">Select Option</label>
+                                        <div class="dropdown">
+                                            <button class="dropdown-button" onclick="toggleDropdown(this)">
+                                                <span>Choose an option</span>
+                                                <span class="dropdown-arrow">▼</span>
+                                            </button>
+                                            <div class="dropdown-panel">
+                                                <div class="dropdown-option">Option 1</div>
+                                                <div class="dropdown-option is-selected">Option 2</div>
+                                                <div class="dropdown-option">Option 3</div>
+                                                <div class="dropdown-option">Option 4</div>
+                                                <div class="dropdown-option">Option 5</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <div style="padding: 2rem;">
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">HTML/CSS</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>&lt;div class="dropdown"&gt;
+    &lt;button class="dropdown-button" onclick="toggleDropdown(this)"&gt;
+        &lt;span&gt;Select Option&lt;/span&gt;
+        &lt;span class="dropdown-arrow"&gt;▼&lt;/span&gt;
+    &lt;/button&gt;
+    &lt;div class="dropdown-panel"&gt;
+        &lt;div class="dropdown-option"&gt;Option 1&lt;/div&gt;
+        &lt;div class="dropdown-option is-selected"&gt;Option 2&lt;/div&gt;
+        &lt;div class="dropdown-option"&gt;Option 3&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">React</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>import { Dropdown } from '@monochrome-edge/ui/react';
+
+&lt;Dropdown 
+    options={['Option 1', 'Option 2', 'Option 3']}
+    value={selected}
+    onChange={(value) => setSelected(value)}
+    placeholder="Select Option"
+/&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vue.js</h4>
+                                    <pre style="margin-bottom: 2rem;"><code>&lt;Dropdown 
+    :options="['Option 1', 'Option 2', 'Option 3']"
+    v-model="selected"
+    placeholder="Select Option"
+/&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">jQuery</h4>
+                                    <pre><code>function toggleDropdown(button) {
+    const dropdown = $(button).parent('.dropdown');
+    dropdown.toggleClass('is-open');
+    dropdown.find('.dropdown-panel').toggleClass('is-open');
+}
+
+$('.dropdown-option').on('click', function() {
+    const text = $(this).text();
+    $(this).closest('.dropdown').find('.dropdown-button span:first').text(text);
+    $(this).siblings().removeClass('is-selected');
+    $(this).addClass('is-selected');
+    $(this).closest('.dropdown').removeClass('is-open');
+    $(this).closest('.dropdown-panel').removeClass('is-open');
+});</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 <!-- Cards Section -->
                 <section class="ds-section" id="cards">
                     <h2 class="ds-section-title">Cards</h2>
@@ -886,13 +1105,21 @@ $('#email-input').after('&lt;span class="helper-text"&gt;We\'ll never share your
                             <div class="component-code">
                                 <div style="padding: 2rem;">
                                     <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">HTML/CSS</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>&lt;div class="card"&gt;
+                                    <pre style="margin-bottom: 2rem;"><code>&lt;!-- Basic Card --&gt;
+&lt;div class="card"&gt;
     &lt;div class="card-header"&gt;
         &lt;h4 class="card-header-title"&gt;Card Title&lt;/h4&gt;
     &lt;/div&gt;
     &lt;div class="card-body"&gt;
         &lt;p&gt;Card content&lt;/p&gt;
     &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Stat Card --&gt;
+&lt;div class="stat-card"&gt;
+    &lt;div class="stat-card-label"&gt;Total Revenue&lt;/div&gt;
+    &lt;div class="stat-card-value"&gt;$45,231&lt;/div&gt;
+    &lt;div class="stat-card-change stat-card-change-positive"&gt;+12.5%&lt;/div&gt;
 &lt;/div&gt;</code></pre>
 
                                     <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">React</h4>
@@ -956,18 +1183,18 @@ document.body.appendChild(card);</code></pre>
                                         padding: 0.5rem;
                                     "
                                 >
-                                    <a class="nav-item">
+                                    <a class="nav-item demo-nav-item">
                                         <span class="nav-item-label"
                                             >Dashboard</span
                                         >
                                     </a>
-                                    <a class="nav-item is-active">
+                                    <a class="nav-item is-active demo-nav-item">
                                         <span class="nav-item-label"
                                             >Projects</span
                                         >
                                         <span class="nav-item-badge">3</span>
                                     </a>
-                                    <a class="nav-item">
+                                    <a class="nav-item demo-nav-item">
                                         <span class="nav-item-label"
                                             >Settings</span
                                         >
@@ -1314,7 +1541,7 @@ $('th').on('click', function() {
                     <div class="component-showcase">
                         <div class="component-header">
                             <h3 class="component-title">
-                                Warm Layout Structure
+                                Layout Structure
                             </h3>
                             <div class="component-toggle">
                                 <button
@@ -1332,57 +1559,31 @@ $('th').on('click', function() {
                             </div>
                         </div>
                         <div class="component-content" id="cms-layout">
-                            <div
-                                class="component-preview"
-                                style="height: 300px; align-items: flex-start"
-                            >
-                                <div
-                                    style="
-                                        width: 100%;
-                                        height: 100%;
-                                        border: 2px dashed var(--theme-border);
-                                        border-radius: var(--border-radius);
-                                        display: grid;
-                                        grid-template-areas: &quot;sidebar header&quot; &quot;sidebar main&quot;;
-                                        grid-template-columns: 80px 1fr;
-                                        grid-template-rows: 50px 1fr;
-                                    "
-                                >
-                                    <div
-                                        style="
-                                            grid-area: sidebar;
-                                            background: var(--theme-accent);
-                                            opacity: 0.2;
-                                            display: flex;
-                                            align-items: center;
-                                            justify-content: center;
-                                        "
-                                    >
-                                        Sidebar
+                            <div class="component-preview">
+                                <div class="demo-grid" style="width: 100%; gap: 2rem;">
+                                    <!-- Desktop Layout -->
+                                    <div style="flex: 1;">
+                                        <h4 style="margin-bottom: 1rem; color: var(--theme-text-secondary); font-size: 0.875rem;">Desktop Layout</h4>
+                                        <div style="width: 100%; height: 250px; border: 1px solid var(--theme-border); border-radius: var(--border-radius); display: grid; grid-template-areas: 'sidebar header' 'sidebar main'; grid-template-columns: 200px 1fr; grid-template-rows: 60px 1fr; overflow: hidden;">
+                                            <div style="grid-area: sidebar; background: var(--theme-surface); border-right: 1px solid var(--theme-border); padding: 1rem; font-size: 0.75rem; color: var(--theme-text-secondary);">Sidebar</div>
+                                            <div style="grid-area: header; background: var(--theme-surface); border-bottom: 1px solid var(--theme-border); padding: 1rem; font-size: 0.75rem; color: var(--theme-text-secondary);">Header</div>
+                                            <div style="grid-area: main; background: var(--theme-bg); padding: 1rem; font-size: 0.875rem; color: var(--theme-text-primary);">Main Content</div>
+                                        </div>
                                     </div>
-                                    <div
-                                        style="
-                                            grid-area: header;
-                                            background: var(--theme-surface);
-                                            border-bottom: 1px solid
-                                                var(--theme-border);
-                                            display: flex;
-                                            align-items: center;
-                                            justify-content: center;
-                                        "
-                                    >
-                                        Header
-                                    </div>
-                                    <div
-                                        style="
-                                            grid-area: main;
-                                            padding: 1rem;
-                                            display: flex;
-                                            align-items: center;
-                                            justify-content: center;
-                                        "
-                                    >
-                                        Main Content
+                                    <!-- Mobile Layout -->
+                                    <div style="width: 150px;">
+                                        <h4 style="margin-bottom: 1rem; color: var(--theme-text-secondary); font-size: 0.875rem;">Mobile Layout</h4>
+                                        <div style="width: 150px; height: 250px; border: 1px solid var(--theme-border); border-radius: var(--border-radius); display: flex; flex-direction: column; overflow: hidden;">
+                                            <div style="height: 40px; background: var(--theme-surface); border-bottom: 1px solid var(--theme-border); display: flex; align-items: center; padding: 0 0.5rem; gap: 0.5rem;">
+                                                <div style="display: flex; flex-direction: column; gap: 2px;">
+                                                    <span style="width: 12px; height: 1.5px; background: var(--theme-text-primary);"></span>
+                                                    <span style="width: 12px; height: 1.5px; background: var(--theme-text-primary);"></span>
+                                                    <span style="width: 12px; height: 1.5px; background: var(--theme-text-primary);"></span>
+                                                </div>
+                                                <div style="font-size: 0.625rem; color: var(--theme-text-primary);">Menu</div>
+                                            </div>
+                                            <div style="flex: 1; background: var(--theme-bg); padding: 1rem; font-size: 0.75rem; color: var(--theme-text-primary);">Content</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1891,6 +2092,1537 @@ $('#email').on('blur', function() {
                             </div>
                         </div>
                     </div>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Card Component</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="card-examples"
+                                >
+                                    React
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="card-examples"
+                                >
+                                    Vue
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="card-examples"
+                                >
+                                    Vanilla JS
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="card-examples"
+                                >
+                                    jQuery
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="card-examples"
+                                >
+                                    Web Components
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="card-examples">
+                            <div
+                                class="component-code active"
+                                data-framework="react"
+                            >
+                                <pre><code class="language-jsx">import React from 'react';
+import { Card, CardHeader, CardBody, StatCard } from '@monochrome-edge';
+
+function DashboardCards() {
+  return (
+    &lt;div className="grid grid-cols-3 gap-4"&gt;
+      {/* Basic Card */}
+      &lt;Card&gt;
+        &lt;CardHeader&gt;
+          &lt;h3&gt;Basic Card&lt;/h3&gt;
+        &lt;/CardHeader&gt;
+        &lt;CardBody&gt;
+          &lt;p&gt;This is a basic card with header and body.&lt;/p&gt;
+        &lt;/CardBody&gt;
+      &lt;/Card&gt;
+
+      {/* Stat Card */}
+      &lt;StatCard
+        title="Total Revenue"
+        value="$12,426"
+        change="+12.5%"
+        trend="up"
+        period="from last month"
+      /&gt;
+
+      {/* Custom Styled Card */}
+      &lt;Card className="border-highlight"&gt;
+        &lt;CardBody&gt;
+          &lt;div className="flex items-center justify-between"&gt;
+            &lt;span className="text-secondary"&gt;Active Users&lt;/span&gt;
+            &lt;span className="text-2xl font-bold"&gt;1,234&lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/CardBody&gt;
+      &lt;/Card&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+                            </div>
+                            <div class="component-code" data-framework="vue">
+                                <pre><code class="language-vue">&lt;template&gt;
+  &lt;div class="grid grid-cols-3 gap-4"&gt;
+    &lt;!-- Basic Card --&gt;
+    &lt;mono-card&gt;
+      &lt;template #header&gt;
+        &lt;h3&gt;Basic Card&lt;/h3&gt;
+      &lt;/template&gt;
+      &lt;p&gt;This is a basic card with header and body.&lt;/p&gt;
+    &lt;/mono-card&gt;
+
+    &lt;!-- Stat Card --&gt;
+    &lt;stat-card
+      title="Total Revenue"
+      value="$12,426"
+      change="+12.5%"
+      trend="up"
+      period="from last month"
+    /&gt;
+
+    &lt;!-- Custom Styled Card --&gt;
+    &lt;mono-card class="border-highlight"&gt;
+      &lt;div class="flex items-center justify-between"&gt;
+        &lt;span class="text-secondary"&gt;Active Users&lt;/span&gt;
+        &lt;span class="text-2xl font-bold"&gt;1,234&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/mono-card&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { MonoCard, StatCard } from '@monochrome-edge/vue';
+&lt;/script&gt;</code></pre>
+                            </div>
+                            <div
+                                class="component-code"
+                                data-framework="vanilla"
+                            >
+                                <pre><code class="language-javascript">import { MonochromeComponents } from '@monochrome-edge/vanilla';
+
+// Create basic card
+const basicCard = MonochromeComponents.card({
+  title: 'Basic Card',
+  content: 'This is a basic card with header and body.'
+});
+
+// Create stat card
+const statCard = MonochromeComponents.statCard({
+  title: 'Total Revenue',
+  value: '$12,426',
+  change: '+12.5%',
+  trend: 'up',
+  period: 'from last month'
+});
+
+// Create custom card
+const customCard = document.createElement('div');
+customCard.className = 'card border-highlight';
+customCard.innerHTML = `
+  &lt;div class="card-body"&gt;
+    &lt;div class="flex items-center justify-between"&gt;
+      &lt;span class="text-secondary"&gt;Active Users&lt;/span&gt;
+      &lt;span class="text-2xl font-bold"&gt;1,234&lt;/span&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+`;
+
+// Append to container
+const container = document.getElementById('card-container');
+container.appendChild(basicCard);
+container.appendChild(statCard);
+container.appendChild(customCard);</code></pre>
+                            </div>
+                            <div class="component-code" data-framework="jquery">
+                                <pre><code class="language-javascript">// Create cards with jQuery
+const cards = [
+  {
+    type: 'basic',
+    title: 'Basic Card',
+    content: 'This is a basic card with header and body.'
+  },
+  {
+    type: 'stat',
+    title: 'Total Revenue',
+    value: '$12,426',
+    change: '+12.5%',
+    trend: 'up'
+  }
+];
+
+// Initialize cards
+cards.forEach(card => {
+  if (card.type === 'basic') {
+    const $card = $('&lt;div class="card"&gt;&lt;/div&gt;');
+    $card.append(`
+      &lt;div class="card-header"&gt;${card.title}&lt;/div&gt;
+      &lt;div class="card-body"&gt;${card.content}&lt;/div&gt;
+    `);
+    $('#card-container').append($card);
+  } else if (card.type === 'stat') {
+    const $statCard = $('&lt;div class="stat-card"&gt;&lt;/div&gt;');
+    $statCard.html(`
+      &lt;h4 class="stat-title"&gt;${card.title}&lt;/h4&gt;
+      &lt;div class="stat-value"&gt;${card.value}&lt;/div&gt;
+      &lt;div class="stat-change ${card.trend}"&gt;${card.change}&lt;/div&gt;
+    `);
+    $('#card-container').append($statCard);
+  }
+});</code></pre>
+                            </div>
+                            <div
+                                class="component-code"
+                                data-framework="webcomponents"
+                            >
+                                <pre><code class="language-html">&lt;!-- Basic Card --&gt;
+&lt;div class="card"&gt;
+  &lt;div class="card-header"&gt;
+    &lt;h3&gt;Basic Card&lt;/h3&gt;
+  &lt;/div&gt;
+  &lt;div class="card-body"&gt;
+    &lt;p&gt;This is a basic card with header and body.&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Stat Card --&gt;
+&lt;div class="stat-card"&gt;
+  &lt;h4 class="stat-title"&gt;Total Revenue&lt;/h4&gt;
+  &lt;div class="stat-value"&gt;$12,426&lt;/div&gt;
+  &lt;div class="stat-change positive"&gt;
+    &lt;span class="arrow"&gt;↑&lt;/span&gt; +12.5%
+    &lt;span class="period"&gt;from last month&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Custom Card with Web Components --&gt;
+&lt;monochrome-card title="Active Users"&gt;
+  &lt;div class="flex items-center justify-between"&gt;
+    &lt;span class="text-secondary"&gt;Current&lt;/span&gt;
+    &lt;span class="text-2xl font-bold"&gt;1,234&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/monochrome-card&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Modal Component</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="modal-examples"
+                                >
+                                    React
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="modal-examples"
+                                >
+                                    Vue
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="modal-examples"
+                                >
+                                    Vanilla JS
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="modal-examples"
+                                >
+                                    jQuery
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="modal-examples"
+                                >
+                                    Web Components
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="modal-examples">
+                            <div
+                                class="component-code active"
+                                data-framework="react"
+                            >
+                                <pre><code class="language-jsx">import React, { useState } from 'react';
+import { Modal, Button } from '@monochrome-edge';
+
+function ModalExample() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+
+  return (
+    &lt;&gt;
+      &lt;Button onClick={() => setIsOpen(true)}&gt;
+        Open Modal
+      &lt;/Button&gt;
+
+      &lt;Modal
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        title="Sample Modal"
+        size="medium"
+      &gt;
+        &lt;p&gt;This is a modal dialog with custom content.&lt;/p&gt;
+        &lt;div className="modal-footer"&gt;
+          &lt;Button variant="ghost" onClick={() => setIsOpen(false)}&gt;
+            Cancel
+          &lt;/Button&gt;
+          &lt;Button variant="primary" onClick={() => setIsOpen(false)}&gt;
+            Confirm
+          &lt;/Button&gt;
+        &lt;/div&gt;
+      &lt;/Modal&gt;
+
+      {/* Confirmation Modal */}
+      &lt;Modal
+        isOpen={confirmOpen}
+        onClose={() => setConfirmOpen(false)}
+        title="Confirm Action"
+        size="small"
+      &gt;
+        &lt;p&gt;Are you sure you want to proceed?&lt;/p&gt;
+        &lt;div className="modal-footer"&gt;
+          &lt;Button variant="ghost" onClick={() => setConfirmOpen(false)}&gt;
+            No
+          &lt;/Button&gt;
+          &lt;Button variant="danger" onClick={() => setConfirmOpen(false)}&gt;
+            Yes, Delete
+          &lt;/Button&gt;
+        &lt;/div&gt;
+      &lt;/Modal&gt;
+    &lt;/&gt;
+  );
+}</code></pre>
+                            </div>
+                            <div class="component-code" data-framework="vue">
+                                <pre><code class="language-vue">&lt;template&gt;
+  &lt;div&gt;
+    &lt;monochrome-button @click="isOpen = true"&gt;
+      Open Modal
+    &lt;/monochrome-button&gt;
+
+    &lt;mono-modal
+      :is-open="isOpen"
+      @close="isOpen = false"
+      title="Sample Modal"
+      size="medium"
+    &gt;
+      &lt;p&gt;This is a modal dialog with custom content.&lt;/p&gt;
+      &lt;template #footer&gt;
+        &lt;monochrome-button variant="ghost" @click="isOpen = false"&gt;
+          Cancel
+        &lt;/monochrome-button&gt;
+        &lt;monochrome-button variant="primary" @click="isOpen = false"&gt;
+          Confirm
+        &lt;/monochrome-button&gt;
+      &lt;/template&gt;
+    &lt;/mono-modal&gt;
+
+    &lt;!-- Confirmation Modal --&gt;
+    &lt;mono-modal
+      :is-open="confirmOpen"
+      @close="confirmOpen = false"
+      title="Confirm Action"
+      size="small"
+    &gt;
+      &lt;p&gt;Are you sure you want to proceed?&lt;/p&gt;
+      &lt;template #footer&gt;
+        &lt;monochrome-button variant="ghost" @click="confirmOpen = false"&gt;
+          No
+        &lt;/monochrome-button&gt;
+        &lt;monochrome-button variant="danger" @click="confirmOpen = false"&gt;
+          Yes, Delete
+        &lt;/monochrome-button&gt;
+      &lt;/template&gt;
+    &lt;/mono-modal&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { ref } from 'vue';
+import { MonoModal, MonochromeButton } from '@monochrome-edge/vue';
+
+const isOpen = ref(false);
+const confirmOpen = ref(false);
+&lt;/script&gt;</code></pre>
+                            </div>
+                            <div
+                                class="component-code"
+                                data-framework="vanilla"
+                            >
+                                <pre><code class="language-javascript">import { MonochromeComponents } from '@monochrome-edge/vanilla';
+
+// Create modal instance
+const modal = MonochromeComponents.modal({
+  title: 'Sample Modal',
+  content: 'This is a modal dialog with custom content.',
+  size: 'medium',
+  buttons: [
+    {
+      text: 'Cancel',
+      variant: 'ghost',
+      onClick: () => modal.close()
+    },
+    {
+      text: 'Confirm',
+      variant: 'primary',
+      onClick: () => {
+        console.log('Confirmed!');
+        modal.close();
+      }
+    }
+  ]
+});
+
+// Create trigger button
+const openButton = MonochromeComponents.button('Open Modal', {
+  onClick: () => modal.open()
+});
+
+// Confirmation modal helper
+function confirmAction(message, onConfirm) {
+  const confirmModal = MonochromeComponents.modal({
+    title: 'Confirm Action',
+    content: message,
+    size: 'small',
+    buttons: [
+      {
+        text: 'No',
+        variant: 'ghost',
+        onClick: () => confirmModal.close()
+      },
+      {
+        text: 'Yes, Delete',
+        variant: 'danger',
+        onClick: () => {
+          onConfirm();
+          confirmModal.close();
+        }
+      }
+    ]
+  });
+  confirmModal.open();
+}
+
+document.body.appendChild(openButton);</code></pre>
+                            </div>
+                            <div class="component-code" data-framework="jquery">
+                                <pre><code class="language-javascript">// Initialize modal
+$('#modal-trigger').on('click', function() {
+  $.monochromeModal({
+    title: 'Sample Modal',
+    content: 'This is a modal dialog with custom content.',
+    size: 'medium',
+    buttons: [
+      {
+        text: 'Cancel',
+        class: 'btn btn-ghost',
+        click: function(modal) {
+          modal.close();
+        }
+      },
+      {
+        text: 'Confirm',
+        class: 'btn btn-primary',
+        click: function(modal) {
+          console.log('Confirmed!');
+          modal.close();
+        }
+      }
+    ]
+  });
+});
+
+// Confirmation modal helper
+$.confirm = function(options) {
+  return $.monochromeModal({
+    title: options.title || 'Confirm Action',
+    content: options.message,
+    size: 'small',
+    buttons: [
+      {
+        text: 'No',
+        class: 'btn btn-ghost',
+        click: function(modal) {
+          if (options.onCancel) options.onCancel();
+          modal.close();
+        }
+      },
+      {
+        text: options.confirmText || 'Yes',
+        class: 'btn btn-danger',
+        click: function(modal) {
+          if (options.onConfirm) options.onConfirm();
+          modal.close();
+        }
+      }
+    ]
+  });
+};
+
+// Usage
+$('#delete-btn').on('click', function() {
+  $.confirm({
+    message: 'Are you sure you want to delete this item?',
+    confirmText: 'Yes, Delete',
+    onConfirm: function() {
+      console.log('Item deleted');
+    }
+  });
+});</code></pre>
+                            </div>
+                            <div
+                                class="component-code"
+                                data-framework="webcomponents"
+                            >
+                                <pre><code class="language-html">&lt;!-- Modal HTML Structure --&gt;
+&lt;button id="modal-trigger" class="btn btn-primary"&gt;
+  Open Modal
+&lt;/button&gt;
+
+&lt;div class="modal" id="sample-modal"&gt;
+  &lt;div class="modal-backdrop"&gt;&lt;/div&gt;
+  &lt;div class="modal-content"&gt;
+    &lt;div class="modal-header"&gt;
+      &lt;h3 class="modal-title"&gt;Sample Modal&lt;/h3&gt;
+      &lt;button class="modal-close"&gt;×&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class="modal-body"&gt;
+      &lt;p&gt;This is a modal dialog with custom content.&lt;/p&gt;
+    &lt;/div&gt;
+    &lt;div class="modal-footer"&gt;
+      &lt;button class="btn btn-ghost"&gt;Cancel&lt;/button&gt;
+      &lt;button class="btn btn-primary"&gt;Confirm&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+// Modal controller
+class ModalController {
+  constructor(modalId) {
+    this.modal = document.getElementById(modalId);
+    this.backdrop = this.modal.querySelector('.modal-backdrop');
+    this.closeBtn = this.modal.querySelector('.modal-close');
+    this.cancelBtn = this.modal.querySelector('.btn-ghost');
+    
+    this.bindEvents();
+  }
+  
+  bindEvents() {
+    this.backdrop.addEventListener('click', () => this.close());
+    this.closeBtn.addEventListener('click', () => this.close());
+    this.cancelBtn.addEventListener('click', () => this.close());
+  }
+  
+  open() {
+    this.modal.classList.add('is-open');
+  }
+  
+  close() {
+    this.modal.classList.remove('is-open');
+  }
+}
+
+// Initialize
+const modal = new ModalController('sample-modal');
+document.getElementById('modal-trigger')
+  .addEventListener('click', () => modal.open());
+&lt;/script&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Table Component</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="table-examples"
+                                >
+                                    React
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="table-examples"
+                                >
+                                    Vue
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="table-examples"
+                                >
+                                    Vanilla JS
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="table-examples"
+                                >
+                                    jQuery
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="table-examples"
+                                >
+                                    Web Components
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="table-examples">
+                            <div
+                                class="component-code active"
+                                data-framework="react"
+                            >
+                                <pre><code class="language-jsx">import React, { useState } from 'react';
+import { Table, TableHeader, TableBody, TableRow, TableCell } from '@monochrome-edge';
+
+function DataTable() {
+  const [data] = useState([
+    { id: 1, name: 'John Doe', email: 'john@example.com', status: 'active' },
+    { id: 2, name: 'Jane Smith', email: 'jane@example.com', status: 'inactive' },
+    { id: 3, name: 'Bob Johnson', email: 'bob@example.com', status: 'active' },
+  ]);
+
+  return (
+    &lt;Table&gt;
+      &lt;TableHeader&gt;
+        &lt;TableRow&gt;
+          &lt;TableCell header&gt;Name&lt;/TableCell&gt;
+          &lt;TableCell header&gt;Email&lt;/TableCell&gt;
+          &lt;TableCell header&gt;Status&lt;/TableCell&gt;
+          &lt;TableCell header&gt;Actions&lt;/TableCell&gt;
+        &lt;/TableRow&gt;
+      &lt;/TableHeader&gt;
+      &lt;TableBody&gt;
+        {data.map(row => (
+          &lt;TableRow key={row.id}&gt;
+            &lt;TableCell&gt;{row.name}&lt;/TableCell&gt;
+            &lt;TableCell&gt;{row.email}&lt;/TableCell&gt;
+            &lt;TableCell&gt;
+              &lt;span className={`badge badge-${row.status}`}&gt;
+                {row.status}
+              &lt;/span&gt;
+            &lt;/TableCell&gt;
+            &lt;TableCell&gt;
+              &lt;button className="btn btn-sm btn-ghost"&gt;Edit&lt;/button&gt;
+              &lt;button className="btn btn-sm btn-danger"&gt;Delete&lt;/button&gt;
+            &lt;/TableCell&gt;
+          &lt;/TableRow&gt;
+        ))}
+      &lt;/TableBody&gt;
+    &lt;/Table&gt;
+  );
+}</code></pre>
+                            </div>
+                            <div class="component-code" data-framework="vue">
+                                <pre><code class="language-vue">&lt;template&gt;
+  &lt;mono-table&gt;
+    &lt;mono-table-header&gt;
+      &lt;mono-table-row&gt;
+        &lt;mono-table-cell header&gt;Name&lt;/mono-table-cell&gt;
+        &lt;mono-table-cell header&gt;Email&lt;/mono-table-cell&gt;
+        &lt;mono-table-cell header&gt;Status&lt;/mono-table-cell&gt;
+        &lt;mono-table-cell header&gt;Actions&lt;/mono-table-cell&gt;
+      &lt;/mono-table-row&gt;
+    &lt;/mono-table-header&gt;
+    &lt;mono-table-body&gt;
+      &lt;mono-table-row v-for="row in data" :key="row.id"&gt;
+        &lt;mono-table-cell&gt;{{ row.name }}&lt;/mono-table-cell&gt;
+        &lt;mono-table-cell&gt;{{ row.email }}&lt;/mono-table-cell&gt;
+        &lt;mono-table-cell&gt;
+          &lt;span :class="`badge badge-${row.status}`"&gt;
+            {{ row.status }}
+          &lt;/span&gt;
+        &lt;/mono-table-cell&gt;
+        &lt;mono-table-cell&gt;
+          &lt;button class="btn btn-sm btn-ghost" @click="editRow(row)"&gt;
+            Edit
+          &lt;/button&gt;
+          &lt;button class="btn btn-sm btn-danger" @click="deleteRow(row)"&gt;
+            Delete
+          &lt;/button&gt;
+        &lt;/mono-table-cell&gt;
+      &lt;/mono-table-row&gt;
+    &lt;/mono-table-body&gt;
+  &lt;/mono-table&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { ref } from 'vue';
+
+const data = ref([
+  { id: 1, name: 'John Doe', email: 'john@example.com', status: 'active' },
+  { id: 2, name: 'Jane Smith', email: 'jane@example.com', status: 'inactive' },
+  { id: 3, name: 'Bob Johnson', email: 'bob@example.com', status: 'active' },
+]);
+
+const editRow = (row) => console.log('Edit:', row);
+const deleteRow = (row) => console.log('Delete:', row);
+&lt;/script&gt;</code></pre>
+                            </div>
+                            <div
+                                class="component-code"
+                                data-framework="vanilla"
+                            >
+                                <pre><code class="language-javascript">import { MonochromeComponents } from '@monochrome-edge/vanilla';
+
+const data = [
+  { id: 1, name: 'John Doe', email: 'john@example.com', status: 'active' },
+  { id: 2, name: 'Jane Smith', email: 'jane@example.com', status: 'inactive' },
+  { id: 3, name: 'Bob Johnson', email: 'bob@example.com', status: 'active' },
+];
+
+// Create table
+const table = MonochromeComponents.table({
+  columns: [
+    { key: 'name', label: 'Name' },
+    { key: 'email', label: 'Email' },
+    { 
+      key: 'status', 
+      label: 'Status',
+      render: (value) => {
+        const badge = document.createElement('span');
+        badge.className = `badge badge-${value}`;
+        badge.textContent = value;
+        return badge;
+      }
+    },
+    {
+      key: 'actions',
+      label: 'Actions',
+      render: (_, row) => {
+        const container = document.createElement('div');
+        
+        const editBtn = document.createElement('button');
+        editBtn.className = 'btn btn-sm btn-ghost';
+        editBtn.textContent = 'Edit';
+        editBtn.onclick = () => console.log('Edit:', row);
+        
+        const deleteBtn = document.createElement('button');
+        deleteBtn.className = 'btn btn-sm btn-danger';
+        deleteBtn.textContent = 'Delete';
+        deleteBtn.onclick = () => console.log('Delete:', row);
+        
+        container.appendChild(editBtn);
+        container.appendChild(deleteBtn);
+        return container;
+      }
+    }
+  ],
+  data: data,
+  sortable: true,
+  filterable: true
+});
+
+document.getElementById('table-container').appendChild(table);</code></pre>
+                            </div>
+                            <div class="component-code" data-framework="jquery">
+                                <pre><code class="language-javascript">// Initialize data table with jQuery
+const data = [
+  { id: 1, name: 'John Doe', email: 'john@example.com', status: 'active' },
+  { id: 2, name: 'Jane Smith', email: 'jane@example.com', status: 'inactive' },
+  { id: 3, name: 'Bob Johnson', email: 'bob@example.com', status: 'active' },
+];
+
+// Create table HTML
+const tableHtml = `
+  &lt;table class="table" id="data-table"&gt;
+    &lt;thead&gt;
+      &lt;tr&gt;
+        &lt;th&gt;Name&lt;/th&gt;
+        &lt;th&gt;Email&lt;/th&gt;
+        &lt;th&gt;Status&lt;/th&gt;
+        &lt;th&gt;Actions&lt;/th&gt;
+      &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;&lt;/tbody&gt;
+  &lt;/table&gt;
+`;
+
+$('#table-container').html(tableHtml);
+
+// Populate table
+data.forEach(row => {
+  const $row = $('&lt;tr&gt;&lt;/tr&gt;');
+  $row.append(`&lt;td&gt;${row.name}&lt;/td&gt;`);
+  $row.append(`&lt;td&gt;${row.email}&lt;/td&gt;`);
+  $row.append(`&lt;td&gt;&lt;span class="badge badge-${row.status}"&gt;${row.status}&lt;/span&gt;&lt;/td&gt;`);
+  $row.append(`
+    &lt;td&gt;
+      &lt;button class="btn btn-sm btn-ghost edit-btn" data-id="${row.id}"&gt;Edit&lt;/button&gt;
+      &lt;button class="btn btn-sm btn-danger delete-btn" data-id="${row.id}"&gt;Delete&lt;/button&gt;
+    &lt;/td&gt;
+  `);
+  $('#data-table tbody').append($row);
+});
+
+// Event handlers
+$(document).on('click', '.edit-btn', function() {
+  const id = $(this).data('id');
+  console.log('Edit row:', id);
+});
+
+$(document).on('click', '.delete-btn', function() {
+  const id = $(this).data('id');
+  if (confirm('Delete this row?')) {
+    $(this).closest('tr').fadeOut(() => {
+      $(this).remove();
+    });
+  }
+});</code></pre>
+                            </div>
+                            <div
+                                class="component-code"
+                                data-framework="webcomponents"
+                            >
+                                <pre><code class="language-html">&lt;table class="table"&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Name&lt;/th&gt;
+      &lt;th&gt;Email&lt;/th&gt;
+      &lt;th&gt;Status&lt;/th&gt;
+      &lt;th&gt;Actions&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody id="table-body"&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;script&gt;
+// Data
+const data = [
+  { id: 1, name: 'John Doe', email: 'john@example.com', status: 'active' },
+  { id: 2, name: 'Jane Smith', email: 'jane@example.com', status: 'inactive' },
+  { id: 3, name: 'Bob Johnson', email: 'bob@example.com', status: 'active' },
+];
+
+// Render table rows
+const tbody = document.getElementById('table-body');
+
+data.forEach(row => {
+  const tr = document.createElement('tr');
+  
+  // Name cell
+  const nameCell = document.createElement('td');
+  nameCell.textContent = row.name;
+  tr.appendChild(nameCell);
+  
+  // Email cell
+  const emailCell = document.createElement('td');
+  emailCell.textContent = row.email;
+  tr.appendChild(emailCell);
+  
+  // Status cell
+  const statusCell = document.createElement('td');
+  const badge = document.createElement('span');
+  badge.className = `badge badge-${row.status}`;
+  badge.textContent = row.status;
+  statusCell.appendChild(badge);
+  tr.appendChild(statusCell);
+  
+  // Actions cell
+  const actionsCell = document.createElement('td');
+  
+  const editBtn = document.createElement('button');
+  editBtn.className = 'btn btn-sm btn-ghost';
+  editBtn.textContent = 'Edit';
+  editBtn.onclick = () => console.log('Edit:', row);
+  
+  const deleteBtn = document.createElement('button');
+  deleteBtn.className = 'btn btn-sm btn-danger';
+  deleteBtn.textContent = 'Delete';
+  deleteBtn.onclick = () => {
+    if (confirm('Delete this row?')) {
+      tr.remove();
+    }
+  };
+  
+  actionsCell.appendChild(editBtn);
+  actionsCell.appendChild(deleteBtn);
+  tr.appendChild(actionsCell);
+  
+  tbody.appendChild(tr);
+});
+&lt;/script&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Navigation Component</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="nav-examples"
+                                >
+                                    React
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="nav-examples"
+                                >
+                                    Vue
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="nav-examples"
+                                >
+                                    Vanilla JS
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="nav-examples"
+                                >
+                                    jQuery
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="nav-examples"
+                                >
+                                    Web Components
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="nav-examples">
+                            <div
+                                class="component-code active"
+                                data-framework="react"
+                            >
+                                <pre><code class="language-jsx">import React, { useState } from 'react';
+import { Nav, NavItem, NavGroup } from '@monochrome-edge';
+
+function Navigation() {
+  const [activeItem, setActiveItem] = useState('dashboard');
+
+  const navItems = [
+    { id: 'dashboard', label: 'Dashboard', icon: '📊' },
+    { id: 'users', label: 'Users', icon: '👥' },
+    { id: 'settings', label: 'Settings', icon: '⚙️' },
+  ];
+
+  return (
+    &lt;Nav&gt;
+      &lt;NavGroup title="Main"&gt;
+        {navItems.map(item => (
+          &lt;NavItem
+            key={item.id}
+            active={activeItem === item.id}
+            onClick={() => setActiveItem(item.id)}
+          &gt;
+            &lt;span className="nav-item-icon"&gt;{item.icon}&lt;/span&gt;
+            &lt;span className="nav-item-label"&gt;{item.label}&lt;/span&gt;
+          &lt;/NavItem&gt;
+        ))}
+      &lt;/NavGroup&gt;
+      
+      &lt;NavGroup title="Account"&gt;
+        &lt;NavItem&gt;
+          &lt;span className="nav-item-label"&gt;Profile&lt;/span&gt;
+        &lt;/NavItem&gt;
+        &lt;NavItem&gt;
+          &lt;span className="nav-item-label"&gt;Logout&lt;/span&gt;
+        &lt;/NavItem&gt;
+      &lt;/NavGroup&gt;
+    &lt;/Nav&gt;
+  );
+}</code></pre>
+                            </div>
+                            <div class="component-code" data-framework="vue">
+                                <pre><code class="language-vue">&lt;template&gt;
+  &lt;nav-component&gt;
+    &lt;nav-group title="Main"&gt;
+      &lt;nav-item
+        v-for="item in navItems"
+        :key="item.id"
+        :class="{ 'is-active': activeItem === item.id }"
+        @click="activeItem = item.id"
+      &gt;
+        &lt;span class="nav-item-icon"&gt;{{ item.icon }}&lt;/span&gt;
+        &lt;span class="nav-item-label"&gt;{{ item.label }}&lt;/span&gt;
+      &lt;/nav-item&gt;
+    &lt;/nav-group&gt;
+    
+    &lt;nav-group title="Account"&gt;
+      &lt;nav-item&gt;
+        &lt;span class="nav-item-label"&gt;Profile&lt;/span&gt;
+      &lt;/nav-item&gt;
+      &lt;nav-item&gt;
+        &lt;span class="nav-item-label"&gt;Logout&lt;/span&gt;
+      &lt;/nav-item&gt;
+    &lt;/nav-group&gt;
+  &lt;/nav-component&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { ref } from 'vue';
+import { NavComponent, NavGroup, NavItem } from '@monochrome-edge/vue';
+
+const activeItem = ref('dashboard');
+const navItems = [
+  { id: 'dashboard', label: 'Dashboard', icon: '📊' },
+  { id: 'users', label: 'Users', icon: '👥' },
+  { id: 'settings', label: 'Settings', icon: '⚙️' },
+];
+&lt;/script&gt;</code></pre>
+                            </div>
+                            <div
+                                class="component-code"
+                                data-framework="vanilla"
+                            >
+                                <pre><code class="language-javascript">import { MonochromeComponents } from '@monochrome-edge/vanilla';
+
+// Create navigation
+const nav = MonochromeComponents.navigation({
+  groups: [
+    {
+      title: 'Main',
+      items: [
+        { id: 'dashboard', label: 'Dashboard', icon: '📊', active: true },
+        { id: 'users', label: 'Users', icon: '👥' },
+        { id: 'settings', label: 'Settings', icon: '⚙️' },
+      ]
+    },
+    {
+      title: 'Account',
+      items: [
+        { id: 'profile', label: 'Profile' },
+        { id: 'logout', label: 'Logout' },
+      ]
+    }
+  ],
+  onItemClick: (item) => {
+    console.log('Navigating to:', item.id);
+    
+    // Update active state
+    nav.querySelectorAll('.nav-item').forEach(el => {
+      el.classList.remove('is-active');
+    });
+    event.target.closest('.nav-item').classList.add('is-active');
+  }
+});
+
+document.getElementById('sidebar').appendChild(nav);</code></pre>
+                            </div>
+                            <div class="component-code" data-framework="jquery">
+                                <pre><code class="language-javascript">// Build navigation with jQuery
+const navData = {
+  groups: [
+    {
+      title: 'Main',
+      items: [
+        { id: 'dashboard', label: 'Dashboard', icon: '📊' },
+        { id: 'users', label: 'Users', icon: '👥' },
+        { id: 'settings', label: 'Settings', icon: '⚙️' },
+      ]
+    },
+    {
+      title: 'Account',
+      items: [
+        { id: 'profile', label: 'Profile' },
+        { id: 'logout', label: 'Logout' },
+      ]
+    }
+  ]
+};
+
+// Create navigation HTML
+const $nav = $('&lt;nav class="nav"&gt;&lt;/nav&gt;');
+
+navData.groups.forEach(group => {
+  const $group = $('&lt;div class="nav-group"&gt;&lt;/div&gt;');
+  $group.append(`&lt;div class="nav-group-title"&gt;${group.title}&lt;/div&gt;`);
+  
+  const $items = $('&lt;div class="nav-group-items"&gt;&lt;/div&gt;');
+  
+  group.items.forEach(item => {
+    const $item = $(`
+      &lt;a href="#" class="nav-item" data-id="${item.id}"&gt;
+        ${item.icon ? `&lt;span class="nav-item-icon"&gt;${item.icon}&lt;/span&gt;` : ''}
+        &lt;span class="nav-item-label"&gt;${item.label}&lt;/span&gt;
+      &lt;/a&gt;
+    `);
+    $items.append($item);
+  });
+  
+  $group.append($items);
+  $nav.append($group);
+});
+
+$('#sidebar').append($nav);
+
+// Handle navigation clicks
+$('.nav-item').on('click', function(e) {
+  e.preventDefault();
+  $('.nav-item').removeClass('is-active');
+  $(this).addClass('is-active');
+  console.log('Navigating to:', $(this).data('id'));
+});</code></pre>
+                            </div>
+                            <div
+                                class="component-code"
+                                data-framework="webcomponents"
+                            >
+                                <pre><code class="language-html">&lt;nav class="nav"&gt;
+  &lt;div class="nav-group"&gt;
+    &lt;div class="nav-group-title"&gt;Main&lt;/div&gt;
+    &lt;div class="nav-group-items"&gt;
+      &lt;a href="#" class="nav-item is-active" data-section="dashboard"&gt;
+        &lt;span class="nav-item-icon"&gt;📊&lt;/span&gt;
+        &lt;span class="nav-item-label"&gt;Dashboard&lt;/span&gt;
+      &lt;/a&gt;
+      &lt;a href="#" class="nav-item" data-section="users"&gt;
+        &lt;span class="nav-item-icon"&gt;👥&lt;/span&gt;
+        &lt;span class="nav-item-label"&gt;Users&lt;/span&gt;
+      &lt;/a&gt;
+      &lt;a href="#" class="nav-item" data-section="settings"&gt;
+        &lt;span class="nav-item-icon"&gt;⚙️&lt;/span&gt;
+        &lt;span class="nav-item-label"&gt;Settings&lt;/span&gt;
+      &lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+  
+  &lt;div class="nav-divider"&gt;&lt;/div&gt;
+  
+  &lt;div class="nav-group"&gt;
+    &lt;div class="nav-group-title"&gt;Account&lt;/div&gt;
+    &lt;div class="nav-group-items"&gt;
+      &lt;a href="#" class="nav-item" data-section="profile"&gt;
+        &lt;span class="nav-item-label"&gt;Profile&lt;/span&gt;
+      &lt;/a&gt;
+      &lt;a href="#" class="nav-item" data-section="logout"&gt;
+        &lt;span class="nav-item-label"&gt;Logout&lt;/span&gt;
+      &lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/nav&gt;
+
+&lt;script&gt;
+// Handle navigation
+document.querySelectorAll('.nav-item').forEach(item => {
+  item.addEventListener('click', function(e) {
+    e.preventDefault();
+    
+    // Update active state
+    document.querySelectorAll('.nav-item').forEach(el => {
+      el.classList.remove('is-active');
+    });
+    this.classList.add('is-active');
+    
+    // Navigate to section
+    const section = this.dataset.section;
+    console.log('Navigating to:', section);
+  });
+});
+&lt;/script&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Dropdown Component</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="dropdown-examples"
+                                >
+                                    React
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="dropdown-examples"
+                                >
+                                    Vue
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="dropdown-examples"
+                                >
+                                    Vanilla JS
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="dropdown-examples"
+                                >
+                                    jQuery
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="dropdown-examples"
+                                >
+                                    Web Components
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="dropdown-examples">
+                            <div
+                                class="component-code active"
+                                data-framework="react"
+                            >
+                                <pre><code class="language-jsx">import React, { useState } from 'react';
+import { Dropdown, DropdownItem } from '@monochrome-edge';
+
+function DropdownExample() {
+  const [selectedValue, setSelectedValue] = useState('option1');
+  const [isOpen, setIsOpen] = useState(false);
+
+  const options = [
+    { value: 'option1', label: 'Option 1' },
+    { value: 'option2', label: 'Option 2' },
+    { value: 'option3', label: 'Option 3' },
+  ];
+
+  return (
+    &lt;div&gt;
+      {/* Simple Dropdown */}
+      &lt;Dropdown
+        value={selectedValue}
+        onChange={setSelectedValue}
+        options={options}
+        placeholder="Select an option"
+      /&gt;
+
+      {/* Custom Dropdown with Actions */}
+      &lt;div className="dropdown"&gt;
+        &lt;button 
+          className="dropdown-button"
+          onClick={() => setIsOpen(!isOpen)}
+        &gt;
+          &lt;span&gt;Actions&lt;/span&gt;
+          &lt;span className="dropdown-arrow"&gt;▼&lt;/span&gt;
+        &lt;/button&gt;
+        
+        {isOpen && (
+          &lt;div className="dropdown-panel is-open"&gt;
+            &lt;DropdownItem onClick={() => console.log('Edit')}&gt;
+              Edit
+            &lt;/DropdownItem&gt;
+            &lt;DropdownItem onClick={() => console.log('Duplicate')}&gt;
+              Duplicate
+            &lt;/DropdownItem&gt;
+            &lt;div className="dropdown-divider"&gt;&lt;/div&gt;
+            &lt;DropdownItem onClick={() => console.log('Delete')} danger&gt;
+              Delete
+            &lt;/DropdownItem&gt;
+          &lt;/div&gt;
+        )}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+                            </div>
+                            <div class="component-code" data-framework="vue">
+                                <pre><code class="language-vue">&lt;template&gt;
+  &lt;div&gt;
+    &lt;!-- Simple Dropdown --&gt;
+    &lt;mono-dropdown
+      v-model="selectedValue"
+      :options="options"
+      placeholder="Select an option"
+    /&gt;
+
+    &lt;!-- Custom Dropdown with Actions --&gt;
+    &lt;div class="dropdown" :class="{ 'is-open': isOpen }"&gt;
+      &lt;button 
+        class="dropdown-button"
+        @click="isOpen = !isOpen"
+      &gt;
+        &lt;span&gt;Actions&lt;/span&gt;
+        &lt;span class="dropdown-arrow"&gt;▼&lt;/span&gt;
+      &lt;/button&gt;
+      
+      &lt;div class="dropdown-panel" :class="{ 'is-open': isOpen }"&gt;
+        &lt;div class="dropdown-option" @click="handleAction('edit')"&gt;
+          Edit
+        &lt;/div&gt;
+        &lt;div class="dropdown-option" @click="handleAction('duplicate')"&gt;
+          Duplicate
+        &lt;/div&gt;
+        &lt;div class="dropdown-divider"&gt;&lt;/div&gt;
+        &lt;div class="dropdown-option text-danger" @click="handleAction('delete')"&gt;
+          Delete
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { ref } from 'vue';
+import { MonoDropdown } from '@monochrome-edge/vue';
+
+const selectedValue = ref('option1');
+const isOpen = ref(false);
+
+const options = [
+  { value: 'option1', label: 'Option 1' },
+  { value: 'option2', label: 'Option 2' },
+  { value: 'option3', label: 'Option 3' },
+];
+
+const handleAction = (action) => {
+  console.log('Action:', action);
+  isOpen.value = false;
+};
+&lt;/script&gt;</code></pre>
+                            </div>
+                            <div
+                                class="component-code"
+                                data-framework="vanilla"
+                            >
+                                <pre><code class="language-javascript">import { MonochromeComponents } from '@monochrome-edge/vanilla';
+
+// Create simple dropdown
+const dropdown = MonochromeComponents.dropdown({
+  options: [
+    { value: 'option1', label: 'Option 1' },
+    { value: 'option2', label: 'Option 2' },
+    { value: 'option3', label: 'Option 3' },
+  ],
+  placeholder: 'Select an option',
+  onChange: (value) => {
+    console.log('Selected:', value);
+  }
+});
+
+// Create action dropdown
+const actionDropdown = MonochromeComponents.dropdown({
+  label: 'Actions',
+  type: 'menu',
+  items: [
+    {
+      label: 'Edit',
+      onClick: () => console.log('Edit')
+    },
+    {
+      label: 'Duplicate',
+      onClick: () => console.log('Duplicate')
+    },
+    { type: 'divider' },
+    {
+      label: 'Delete',
+      danger: true,
+      onClick: () => console.log('Delete')
+    }
+  ]
+});
+
+// Custom dropdown implementation
+class CustomDropdown {
+  constructor(element) {
+    this.element = element;
+    this.button = element.querySelector('.dropdown-button');
+    this.panel = element.querySelector('.dropdown-panel');
+    this.isOpen = false;
+    
+    this.bindEvents();
+  }
+  
+  bindEvents() {
+    this.button.addEventListener('click', () => this.toggle());
+    
+    document.addEventListener('click', (e) => {
+      if (!this.element.contains(e.target)) {
+        this.close();
+      }
+    });
+  }
+  
+  toggle() {
+    this.isOpen = !this.isOpen;
+    this.element.classList.toggle('is-open', this.isOpen);
+    this.panel.classList.toggle('is-open', this.isOpen);
+  }
+  
+  close() {
+    this.isOpen = false;
+    this.element.classList.remove('is-open');
+    this.panel.classList.remove('is-open');
+  }
+}
+
+// Initialize
+document.getElementById('dropdown-container').appendChild(dropdown);
+document.getElementById('dropdown-container').appendChild(actionDropdown);</code></pre>
+                            </div>
+                            <div class="component-code" data-framework="jquery">
+                                <pre><code class="language-javascript">// jQuery dropdown plugin
+$.fn.monochromeDropdown = function(options) {
+  const settings = $.extend({
+    placeholder: 'Select...',
+    onChange: function() {}
+  }, options);
+  
+  return this.each(function() {
+    const $dropdown = $(this);
+    const $button = $dropdown.find('.dropdown-button');
+    const $panel = $dropdown.find('.dropdown-panel');
+    
+    // Toggle dropdown
+    $button.on('click', function(e) {
+      e.stopPropagation();
+      $dropdown.toggleClass('is-open');
+      $panel.toggleClass('is-open');
+    });
+    
+    // Select option
+    $panel.find('.dropdown-option').on('click', function() {
+      const value = $(this).data('value');
+      const text = $(this).text();
+      
+      $button.find('span:first').text(text);
+      $panel.find('.dropdown-option').removeClass('is-selected');
+      $(this).addClass('is-selected');
+      
+      $dropdown.removeClass('is-open');
+      $panel.removeClass('is-open');
+      
+      settings.onChange(value);
+    });
+  });
+};
+
+// Initialize dropdowns
+$('.dropdown').monochromeDropdown({
+  onChange: function(value) {
+    console.log('Selected:', value);
+  }
+});
+
+// Action dropdown
+$('#action-dropdown').on('click', '.dropdown-option', function() {
+  const action = $(this).data('action');
+  
+  switch(action) {
+    case 'edit':
+      console.log('Edit action');
+      break;
+    case 'duplicate':
+      console.log('Duplicate action');
+      break;
+    case 'delete':
+      if (confirm('Are you sure?')) {
+        console.log('Delete action');
+      }
+      break;
+  }
+  
+  $('#action-dropdown').removeClass('is-open');
+});</code></pre>
+                            </div>
+                            <div
+                                class="component-code"
+                                data-framework="webcomponents"
+                            >
+                                <pre><code class="language-html">&lt;!-- Simple Dropdown --&gt;
+&lt;div class="dropdown" id="simple-dropdown"&gt;
+  &lt;button class="dropdown-button"&gt;
+    &lt;span&gt;Select Option&lt;/span&gt;
+    &lt;span class="dropdown-arrow"&gt;▼&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;div class="dropdown-panel"&gt;
+    &lt;div class="dropdown-option" data-value="option1"&gt;Option 1&lt;/div&gt;
+    &lt;div class="dropdown-option" data-value="option2"&gt;Option 2&lt;/div&gt;
+    &lt;div class="dropdown-option" data-value="option3"&gt;Option 3&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Action Dropdown --&gt;
+&lt;div class="dropdown" id="action-dropdown"&gt;
+  &lt;button class="dropdown-button"&gt;
+    &lt;span&gt;Actions&lt;/span&gt;
+    &lt;span class="dropdown-arrow"&gt;▼&lt;/span&gt;
+  &lt;/button&gt;
+  &lt;div class="dropdown-panel"&gt;
+    &lt;div class="dropdown-option" data-action="edit"&gt;Edit&lt;/div&gt;
+    &lt;div class="dropdown-option" data-action="duplicate"&gt;Duplicate&lt;/div&gt;
+    &lt;div class="dropdown-divider"&gt;&lt;/div&gt;
+    &lt;div class="dropdown-option text-danger" data-action="delete"&gt;Delete&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+// Dropdown controller
+class DropdownController {
+  constructor(element) {
+    this.element = element;
+    this.button = element.querySelector('.dropdown-button');
+    this.panel = element.querySelector('.dropdown-panel');
+    this.options = element.querySelectorAll('.dropdown-option');
+    
+    this.init();
+  }
+  
+  init() {
+    // Toggle dropdown
+    this.button.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.toggle();
+    });
+    
+    // Handle option clicks
+    this.options.forEach(option => {
+      option.addEventListener('click', (e) => {
+        this.handleSelect(e.target);
+      });
+    });
+    
+    // Close on outside click
+    document.addEventListener('click', () => {
+      this.close();
+    });
+  }
+  
+  toggle() {
+    this.element.classList.toggle('is-open');
+    this.panel.classList.toggle('is-open');
+  }
+  
+  close() {
+    this.element.classList.remove('is-open');
+    this.panel.classList.remove('is-open');
+  }
+  
+  handleSelect(option) {
+    const value = option.dataset.value || option.dataset.action;
+    
+    if (option.dataset.value) {
+      // Update button text for select dropdown
+      this.button.querySelector('span:first-child').textContent = option.textContent;
+      
+      // Update selected state
+      this.options.forEach(opt => opt.classList.remove('is-selected'));
+      option.classList.add('is-selected');
+    }
+    
+    console.log('Selected:', value);
+    this.close();
+  }
+}
+
+// Initialize dropdowns
+new DropdownController(document.getElementById('simple-dropdown'));
+new DropdownController(document.getElementById('action-dropdown'));
+&lt;/script&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
                 </section>
 
                 <!-- Integration Section -->
@@ -1912,12 +3644,7 @@ $('#email').on('blur', function() {
                             >
                                 <h4>Option 1: Yarn Package (Recommended)</h4>
                                 <pre
-                                    style="
-                                        background: var(--theme-surface);
-                                        padding: 1rem;
-                                        border-radius: var(--border-radius);
-                                        margin: 1rem 0;
-                                    "
+                                    style="background: var(--theme-surface); padding: 1rem; border-radius: var(--border-radius); margin: 1rem 0;"
                                 ><code class="language-bash"># Install the core UI Components (includes React/TSX support)
 yarn add @monochrome
 
@@ -1929,12 +3656,7 @@ yarn add @monochrome-edge/wc        # For Web Components</code></pre>
 
                                 <h4>Option 2: CDN</h4>
                                 <pre
-                                    style="
-                                        background: var(--theme-surface);
-                                        padding: 1rem;
-                                        border-radius: var(--border-radius);
-                                        margin: 1rem 0;
-                                    "
+                                    style="background: var(--theme-surface); padding: 1rem; border-radius: var(--border-radius); margin: 1rem 0;"
                                 ><code class="language-html">&lt;!-- CSS --&gt;
 &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/dist/monochrome-edge.css"&gt;
 &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/dist/tokens/cold-theme.css"&gt;
@@ -1944,12 +3666,7 @@ yarn add @monochrome-edge/wc        # For Web Components</code></pre>
 
                                 <h4>Option 3: Local Development</h4>
                                 <pre
-                                    style="
-                                        background: var(--theme-surface);
-                                        padding: 1rem;
-                                        border-radius: var(--border-radius);
-                                        margin: 1rem 0;
-                                    "
+                                    style="background: var(--theme-surface); padding: 1rem; border-radius: var(--border-radius); margin: 1rem 0;"
                                 ><code class="language-bash"># Clone the repository
 git clone https://github.com/your-org/monochrome-edge.git
 
@@ -2147,12 +3864,7 @@ export { CustomButton, styles };</code></pre>
                             >
                                 <h4>Step 1: Set up your project structure</h4>
                                 <pre
-                                    style="
-                                        background: var(--theme-surface);
-                                        padding: 1rem;
-                                        border-radius: var(--border-radius);
-                                        margin: 1rem 0;
-                                    "
+                                    style="background: var(--theme-surface); padding: 1rem; border-radius: var(--border-radius); margin: 1rem 0;"
                                 ><code class="language-bash">my-custom-library/
 ├── src/
 │   ├── components/
@@ -2169,12 +3881,7 @@ export { CustomButton, styles };</code></pre>
                                     Step 2: Install Monochrome as a dependency
                                 </h4>
                                 <pre
-                                    style="
-                                        background: var(--theme-surface);
-                                        padding: 1rem;
-                                        border-radius: var(--border-radius);
-                                        margin: 1rem 0;
-                                    "
+                                    style="background: var(--theme-surface); padding: 1rem; border-radius: var(--border-radius); margin: 1rem 0;"
                                 ><code class="language-json">{
   "name": "my-custom-library",
   "dependencies": {
@@ -2187,12 +3894,7 @@ export { CustomButton, styles };</code></pre>
 
                                 <h4>Step 3: Extend Monochrome components</h4>
                                 <pre
-                                    style="
-                                        background: var(--theme-surface);
-                                        padding: 1rem;
-                                        border-radius: var(--border-radius);
-                                        margin: 1rem 0;
-                                    "
+                                    style="background: var(--theme-surface); padding: 1rem; border-radius: var(--border-radius); margin: 1rem 0;"
                                 ><code class="language-typescript">// src/components/Button.ts
 import '@monochrome-edge/dist/monochrome-edge.css';
 
@@ -2223,12 +3925,7 @@ export class EnhancedButton {
                                     tokens
                                 </h4>
                                 <pre
-                                    style="
-                                        background: var(--theme-surface);
-                                        padding: 1rem;
-                                        border-radius: var(--border-radius);
-                                        margin: 1rem 0;
-                                    "
+                                    style="background: var(--theme-surface); padding: 1rem; border-radius: var(--border-radius); margin: 1rem 0;"
                                 ><code class="language-css">/* src/styles/overrides.css */
 @import '@monochrome-edge/dist/monochrome-edge.css';
 
@@ -2248,17 +3945,12 @@ export class EnhancedButton {
   border: 2px solid var(--theme-highlight);
   border-radius: calc(var(--border-radius) * 2);
   padding: 1.5rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px var(--theme-border);
 }</code></pre>
 
                                 <h4>Step 5: Export your library</h4>
                                 <pre
-                                    style="
-                                        background: var(--theme-surface);
-                                        padding: 1rem;
-                                        border-radius: var(--border-radius);
-                                        margin: 1rem 0;
-                                    "
+                                    style="background: var(--theme-surface); padding: 1rem; border-radius: var(--border-radius); margin: 1rem 0;"
                                 ><code class="language-typescript">// src/index.ts
 export { EnhancedButton } from './components/Button';
 export { CustomCard } from './components/Card';
@@ -2326,18 +4018,39 @@ export function initializeCustomLibrary() {
                     $("html").attr("data-theme", mode);
                 });
 
-                // Navigation
-                $(".ds-nav-item").on("click", function (e) {
+                // Navigation - only for sidebar nav items
+                $(".ds-nav .nav-item").on("click", function (e) {
                     e.preventDefault();
                     const section = $(this).data("section");
 
                     // Update active nav
-                    $(".ds-nav-item").removeClass("active");
-                    $(this).addClass("active");
+                    $(".ds-nav .nav-item").removeClass("is-active");
+                    $(this).addClass("is-active");
 
                     // Show section
                     $(".ds-section").removeClass("active");
                     $(`#${section}`).addClass("active");
+
+                    // Close mobile sidebar after selection
+                    if ($(window).width() <= 768) {
+                        $('.ds-sidebar').removeClass('is-open');
+                        $('.hamburger').removeClass('is-active');
+                        $('.sidebar-overlay').removeClass('is-visible');
+                        setTimeout(() => {
+                            $('.sidebar-overlay').remove();
+                        }, 300);
+                    }
+                });
+
+                // Demo navigation items - just toggle active state
+                $(document).on("click", ".demo-nav-item", function (e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    // Only toggle active state within the same container
+                    const $container = $(this).parent();
+                    $container.find(".nav-item").removeClass("is-active");
+                    $(this).addClass("is-active");
                 });
 
                 // Component toggle (Preview/Code and Framework toggles)
@@ -2508,6 +4221,60 @@ export function initializeCustomLibrary() {
             function hideModal() {
                 $("#sampleModal").removeClass("is-open");
             }
+
+            // Sidebar toggle for mobile
+            function toggleSidebar() {
+                $('.ds-sidebar').toggleClass('is-open');
+                $('.hamburger').toggleClass('is-active');
+                
+                // Add overlay when sidebar is open
+                if ($('.ds-sidebar').hasClass('is-open')) {
+                    if (!$('.sidebar-overlay').length) {
+                        $('body').append('<div class="sidebar-overlay"></div>');
+                    }
+                    $('.sidebar-overlay').addClass('is-visible');
+                } else {
+                    $('.sidebar-overlay').removeClass('is-visible');
+                    setTimeout(() => {
+                        $('.sidebar-overlay').remove();
+                    }, 300);
+                }
+            }
+
+            // Close sidebar when clicking overlay
+            $(document).on('click', '.sidebar-overlay', function() {
+                $('.ds-sidebar').removeClass('is-open');
+                $('.hamburger').removeClass('is-active');
+                $(this).removeClass('is-visible');
+                setTimeout(() => {
+                    $(this).remove();
+                }, 300);
+            });
+
+            // Dropdown functions
+            function toggleDropdown(button) {
+                const dropdown = $(button).parent('.dropdown');
+                dropdown.toggleClass('is-open');
+                dropdown.find('.dropdown-panel').toggleClass('is-open');
+            }
+
+            // Initialize dropdown clicks
+            $(document).on('click', '.dropdown-option', function() {
+                const text = $(this).text();
+                $(this).closest('.dropdown').find('.dropdown-button span:first').text(text);
+                $(this).siblings().removeClass('is-selected');
+                $(this).addClass('is-selected');
+                $(this).closest('.dropdown').removeClass('is-open');
+                $(this).closest('.dropdown-panel').removeClass('is-open');
+            });
+
+            // Close dropdown when clicking outside
+            $(document).on('click', function(event) {
+                if (!$(event.target).closest('.dropdown').length) {
+                    $('.dropdown').removeClass('is-open');
+                    $('.dropdown-panel').removeClass('is-open');
+                }
+            });
         </script>
     </body>
 </html>
