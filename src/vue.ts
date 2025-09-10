@@ -243,6 +243,338 @@ export const Layout = defineComponent({
   }
 });
 
+// Table Components
+export const Table = defineComponent({
+  name: 'MonoTable',
+  setup(_, { slots }) {
+    return () => h('table', { class: 'table' }, slots.default?.());
+  }
+});
+
+export const TableHeader = defineComponent({
+  name: 'MonoTableHeader',
+  setup(_, { slots }) {
+    return () => h('thead', {}, slots.default?.());
+  }
+});
+
+export const TableBody = defineComponent({
+  name: 'MonoTableBody',
+  setup(_, { slots }) {
+    return () => h('tbody', {}, slots.default?.());
+  }
+});
+
+export const TableRow = defineComponent({
+  name: 'MonoTableRow',
+  props: {
+    onClick: {
+      type: Function as PropType<() => void>
+    }
+  },
+  setup(props, { slots }) {
+    return () => h('tr', { onClick: props.onClick }, slots.default?.());
+  }
+});
+
+export const TableCell = defineComponent({
+  name: 'MonoTableCell',
+  props: {
+    header: {
+      type: Boolean,
+      default: false
+    }
+  },
+  setup(props, { slots }) {
+    const tag = props.header ? 'th' : 'td';
+    return () => h(tag, {}, slots.default?.());
+  }
+});
+
+// Navigation Components
+export const Nav = defineComponent({
+  name: 'MonoNav',
+  setup(_, { slots }) {
+    return () => h('nav', { class: 'nav' }, slots.default?.());
+  }
+});
+
+export const NavGroup = defineComponent({
+  name: 'MonoNavGroup',
+  props: {
+    title: {
+      type: String
+    }
+  },
+  setup(props, { slots }) {
+    return () =>
+      h('div', { class: 'nav-group' }, [
+        props.title && h('div', { class: 'nav-group-title' }, props.title),
+        h('div', { class: 'nav-group-items' }, slots.default?.())
+      ]);
+  }
+});
+
+export const NavItem = defineComponent({
+  name: 'MonoNavItem',
+  props: {
+    active: {
+      type: Boolean,
+      default: false
+    },
+    href: {
+      type: String,
+      default: '#'
+    },
+    onClick: {
+      type: Function as PropType<() => void>
+    }
+  },
+  setup(props, { slots }) {
+    const handleClick = (e: MouseEvent) => {
+      e.preventDefault();
+      props.onClick?.();
+    };
+
+    return () =>
+      h(
+        'a',
+        {
+          href: props.href,
+          class: `nav-item ${props.active ? 'is-active' : ''}`,
+          onClick: handleClick
+        },
+        slots.default?.()
+      );
+  }
+});
+
+// Select Component
+export const Select = defineComponent({
+  name: 'MonoSelect',
+  props: {
+    modelValue: {
+      type: [String, Number, Array] as PropType<string | number | string[] | number[]>
+    },
+    label: {
+      type: String
+    },
+    error: {
+      type: String
+    },
+    multiple: {
+      type: Boolean,
+      default: false
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    }
+  },
+  emits: ['update:modelValue'],
+  setup(props, { emit, slots }) {
+    const handleChange = (e: Event) => {
+      const target = e.target as HTMLSelectElement;
+      if (props.multiple) {
+        const values = Array.from(target.selectedOptions).map(option => option.value);
+        emit('update:modelValue', values);
+      } else {
+        emit('update:modelValue', target.value);
+      }
+    };
+
+    return () =>
+      h('div', { class: 'form-group' }, [
+        props.label && h('label', { class: 'label' }, props.label),
+        h(
+          'select',
+          {
+            class: `select ${props.error ? 'select-error' : ''}`,
+            value: props.modelValue,
+            multiple: props.multiple,
+            disabled: props.disabled,
+            onChange: handleChange
+          },
+          slots.default?.()
+        ),
+        props.error && h('span', { class: 'error-message' }, props.error)
+      ]);
+  }
+});
+
+// Badge Component
+export const Badge = defineComponent({
+  name: 'MonoBadge',
+  props: {
+    variant: {
+      type: String as PropType<'default' | 'primary' | 'success' | 'warning' | 'danger'>,
+      default: 'default'
+    }
+  },
+  setup(props, { slots }) {
+    return () =>
+      h('span', { class: `badge badge-${props.variant}` }, slots.default?.());
+  }
+});
+
+// Textarea Component
+export const Textarea = defineComponent({
+  name: 'MonoTextarea',
+  props: {
+    modelValue: {
+      type: String,
+      default: ''
+    },
+    label: {
+      type: String
+    },
+    error: {
+      type: String
+    },
+    placeholder: {
+      type: String
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    rows: {
+      type: Number,
+      default: 3
+    }
+  },
+  emits: ['update:modelValue'],
+  setup(props, { emit }) {
+    const handleInput = (e: Event) => {
+      const target = e.target as HTMLTextAreaElement;
+      emit('update:modelValue', target.value);
+    };
+
+    return () =>
+      h('div', { class: 'form-group' }, [
+        props.label && h('label', { class: 'label' }, props.label),
+        h('textarea', {
+          class: `textarea ${props.error ? 'textarea-error' : ''}`,
+          value: props.modelValue,
+          placeholder: props.placeholder,
+          disabled: props.disabled,
+          rows: props.rows,
+          onInput: handleInput
+        }),
+        props.error && h('span', { class: 'error-message' }, props.error)
+      ]);
+  }
+});
+
+// Checkbox Component
+export const Checkbox = defineComponent({
+  name: 'MonoCheckbox',
+  props: {
+    modelValue: {
+      type: Boolean,
+      default: false
+    },
+    label: {
+      type: String
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    }
+  },
+  emits: ['update:modelValue'],
+  setup(props, { emit }) {
+    const handleChange = (e: Event) => {
+      const target = e.target as HTMLInputElement;
+      emit('update:modelValue', target.checked);
+    };
+
+    return () =>
+      h('label', { class: 'checkbox' }, [
+        h('input', {
+          type: 'checkbox',
+          checked: props.modelValue,
+          disabled: props.disabled,
+          onChange: handleChange
+        }),
+        h('span', { class: 'checkbox-mark' }),
+        props.label && h('span', {}, props.label)
+      ]);
+  }
+});
+
+// Radio Component
+export const Radio = defineComponent({
+  name: 'MonoRadio',
+  props: {
+    modelValue: {
+      type: [String, Number]
+    },
+    value: {
+      type: [String, Number],
+      required: true
+    },
+    label: {
+      type: String
+    },
+    name: {
+      type: String
+    },
+    disabled: {
+      type: Boolean,
+      default: false
+    }
+  },
+  emits: ['update:modelValue'],
+  setup(props, { emit }) {
+    const handleChange = () => {
+      emit('update:modelValue', props.value);
+    };
+
+    return () =>
+      h('label', { class: 'radio' }, [
+        h('input', {
+          type: 'radio',
+          name: props.name,
+          checked: props.modelValue === props.value,
+          disabled: props.disabled,
+          onChange: handleChange
+        }),
+        h('span', { class: 'radio-mark' }),
+        props.label && h('span', {}, props.label)
+      ]);
+  }
+});
+
+// FormGroup Component
+export const FormGroup = defineComponent({
+  name: 'MonoFormGroup',
+  setup(_, { slots }) {
+    return () => h('div', { class: 'form-group' }, slots.default?.());
+  }
+});
+
+// Label Component
+export const Label = defineComponent({
+  name: 'MonoLabel',
+  props: {
+    for: {
+      type: String
+    },
+    required: {
+      type: Boolean,
+      default: false
+    }
+  },
+  setup(props, { slots }) {
+    return () =>
+      h('label', { class: 'label', for: props.for }, [
+        slots.default?.(),
+        props.required && h('span', { class: 'text-danger' }, '*')
+      ]);
+  }
+});
+
 export function useToast() {
   const show = (message: string, type: 'success' | 'error' | 'info' = 'info') => {
     const toast = document.createElement('div');
@@ -282,6 +614,21 @@ export default {
   Input,
   Modal,
   Layout,
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableCell,
+  Nav,
+  NavGroup,
+  NavItem,
+  Select,
+  Badge,
+  Textarea,
+  Checkbox,
+  Radio,
+  FormGroup,
+  Label,
   useTheme,
   useToast,
   ThemeManager
