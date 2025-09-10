@@ -25,8 +25,8 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          registry-url: 'https://registry.npmjs.org'
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
 
       - name: Install dependencies
         run: npm ci
@@ -37,17 +37,17 @@ jobs:
           # Get latest tag
           LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
           CURRENT_VERSION=${LATEST_TAG#v}
-          
+
           # Split version
           IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
-          
+
           # Analyze commits since last tag
           if [ "$LATEST_TAG" = "v0.0.0" ]; then
             COMMITS=$(git log --format=%s)
           else
             COMMITS=$(git log ${LATEST_TAG}..HEAD --format=%s)
           fi
-          
+
           # Determine version bump
           BUMP="patch"
           while IFS= read -r commit; do
@@ -60,7 +60,7 @@ jobs:
               fi
             fi
           done <<< "$COMMITS"
-          
+
           # Calculate new version
           case $BUMP in
             major)
@@ -73,63 +73,64 @@ jobs:
               NEW_VERSION="${MAJOR}.${MINOR}.$((PATCH + 1))"
               ;;
           esac
-          
+
           echo "Current version: $CURRENT_VERSION"
           echo "Bump type: $BUMP"
           echo "New version: $NEW_VERSION"
-          
-          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
-          echo "bump_type=$BUMP" >> $GITHUB_OUTPUT
+
+          echo "::set-output name=new_version::$NEW_VERSION"
+          echo "::set-output name=bump_type::$BUMP"
 
       - name: Generate changelog
         id: changelog
         run: |
           NEW_VERSION=${{ steps.version.outputs.new_version }}
           LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
-          
+
           echo "# Changelog for v${NEW_VERSION}" > CHANGELOG_TEMP.md
           echo "" >> CHANGELOG_TEMP.md
-          
+
           if [ -z "$LATEST_TAG" ]; then
             git log --format="- %s (%h)" >> CHANGELOG_TEMP.md
           else
             git log ${LATEST_TAG}..HEAD --format="- %s (%h)" >> CHANGELOG_TEMP.md
           fi
-          
+
           # Categorize changes
           echo "## Changes" > CHANGELOG.md
           echo "" >> CHANGELOG.md
-          
+
           if grep -q "^feat" CHANGELOG_TEMP.md; then
             echo "### ✨ Features" >> CHANGELOG.md
             grep "^- feat" CHANGELOG_TEMP.md | sed 's/^- feat:/- /' >> CHANGELOG.md
             echo "" >> CHANGELOG.md
           fi
-          
+
           if grep -q "^fix" CHANGELOG_TEMP.md; then
             echo "### 🐛 Bug Fixes" >> CHANGELOG.md
             grep "^- fix" CHANGELOG_TEMP.md | sed 's/^- fix:/- /' >> CHANGELOG.md
             echo "" >> CHANGELOG.md
           fi
-          
+
           if grep -q "^docs" CHANGELOG_TEMP.md; then
             echo "### 📚 Documentation" >> CHANGELOG.md
             grep "^- docs" CHANGELOG_TEMP.md | sed 's/^- docs:/- /' >> CHANGELOG.md
             echo "" >> CHANGELOG.md
           fi
-          
+
           if grep -q "^chore" CHANGELOG_TEMP.md; then
             echo "### 🔧 Chores" >> CHANGELOG.md
             grep "^- chore" CHANGELOG_TEMP.md | sed 's/^- chore:/- /' >> CHANGELOG.md
             echo "" >> CHANGELOG.md
           fi
-          
+
           # Set multiline output
           {
             echo 'changelog<<EOF'
             cat CHANGELOG.md
             echo 'EOF'
-          } >> $GITHUB_OUTPUT
+          }
+          echo "::set-output name=changelog::$(cat CHANGELOG.md)"
 
       - name: Update package.json version
         run: |
