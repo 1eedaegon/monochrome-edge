@@ -187,6 +187,211 @@ export function Modal({ isOpen, onClose, title, children, size = 'medium' }: Mod
   );
 }
 
+// Table Components
+export interface TableProps {
+  children: ReactNode;
+  className?: string;
+}
+
+export function Table({ children, className = '' }: TableProps) {
+  return (
+    <table className={`table ${className}`}>
+      {children}
+    </table>
+  );
+}
+
+export interface TableHeaderProps {
+  children: ReactNode;
+}
+
+export function TableHeader({ children }: TableHeaderProps) {
+  return <thead>{children}</thead>;
+}
+
+export function TableBody({ children }: TableHeaderProps) {
+  return <tbody>{children}</tbody>;
+}
+
+export interface TableRowProps {
+  children: ReactNode;
+  onClick?: () => void;
+}
+
+export function TableRow({ children, onClick }: TableRowProps) {
+  return <tr onClick={onClick}>{children}</tr>;
+}
+
+export interface TableCellProps {
+  children: ReactNode;
+  header?: boolean;
+  className?: string;
+}
+
+export function TableCell({ children, header = false, className = '' }: TableCellProps) {
+  const Tag = header ? 'th' : 'td';
+  return <Tag className={className}>{children}</Tag>;
+}
+
+// Navigation Components
+export interface NavProps {
+  children: ReactNode;
+  className?: string;
+}
+
+export function Nav({ children, className = '' }: NavProps) {
+  return (
+    <nav className={`nav ${className}`}>
+      {children}
+    </nav>
+  );
+}
+
+export interface NavGroupProps {
+  title?: string;
+  children: ReactNode;
+}
+
+export function NavGroup({ title, children }: NavGroupProps) {
+  return (
+    <div className="nav-group">
+      {title && <div className="nav-group-title">{title}</div>}
+      <div className="nav-group-items">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+export interface NavItemProps {
+  children: ReactNode;
+  active?: boolean;
+  onClick?: () => void;
+  href?: string;
+}
+
+export function NavItem({ children, active = false, onClick, href = '#' }: NavItemProps) {
+  return (
+    <a 
+      href={href}
+      className={`nav-item ${active ? 'is-active' : ''}`}
+      onClick={(e) => {
+        e.preventDefault();
+        onClick?.();
+      }}
+    >
+      {children}
+    </a>
+  );
+}
+
+// Select Component
+export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  label?: string;
+  error?: string;
+}
+
+export function Select({ label, error, className = '', children, ...props }: SelectProps) {
+  return (
+    <div className="form-group">
+      {label && <label className="label">{label}</label>}
+      <select className={`select ${error ? 'select-error' : ''} ${className}`} {...props}>
+        {children}
+      </select>
+      {error && <span className="error-message">{error}</span>}
+    </div>
+  );
+}
+
+// Badge Component
+export interface BadgeProps {
+  children: ReactNode;
+  variant?: 'default' | 'primary' | 'success' | 'warning' | 'danger';
+  className?: string;
+}
+
+export function Badge({ children, variant = 'default', className = '' }: BadgeProps) {
+  return (
+    <span className={`badge badge-${variant} ${className}`}>
+      {children}
+    </span>
+  );
+}
+
+// Textarea Component
+export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  label?: string;
+  error?: string;
+}
+
+export function Textarea({ label, error, className = '', ...props }: TextareaProps) {
+  return (
+    <div className="form-group">
+      {label && <label className="label">{label}</label>}
+      <textarea className={`textarea ${error ? 'textarea-error' : ''} ${className}`} {...props} />
+      {error && <span className="error-message">{error}</span>}
+    </div>
+  );
+}
+
+// Checkbox Component
+export interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
+}
+
+export function Checkbox({ label, className = '', ...props }: CheckboxProps) {
+  return (
+    <label className={`checkbox ${className}`}>
+      <input type="checkbox" {...props} />
+      <span className="checkbox-mark"></span>
+      {label && <span>{label}</span>}
+    </label>
+  );
+}
+
+// Radio Component
+export interface RadioProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
+}
+
+export function Radio({ label, className = '', ...props }: RadioProps) {
+  return (
+    <label className={`radio ${className}`}>
+      <input type="radio" {...props} />
+      <span className="radio-mark"></span>
+      {label && <span>{label}</span>}
+    </label>
+  );
+}
+
+// FormGroup Component
+export interface FormGroupProps {
+  children: ReactNode;
+  className?: string;
+}
+
+export function FormGroup({ children, className = '' }: FormGroupProps) {
+  return (
+    <div className={`form-group ${className}`}>
+      {children}
+    </div>
+  );
+}
+
+// Label Component
+export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
+  required?: boolean;
+}
+
+export function Label({ children, required = false, className = '', ...props }: LabelProps) {
+  return (
+    <label className={`label ${className}`} {...props}>
+      {children}
+      {required && <span className="text-danger">*</span>}
+    </label>
+  );
+}
+
 // Toast Hook
 export function useToast() {
   const show = (message: string, type: 'success' | 'error' | 'info' = 'info') => {
