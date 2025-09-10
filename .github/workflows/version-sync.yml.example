@@ -1,0 +1,47 @@
+name: Sync Version
+
+on:
+  push:
+    paths:
+      - 'package.json'
+    branches:
+      - main
+      - master
+
+jobs:
+  sync-version:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+    
+    - name: Update version in HTML
+      run: npm run version:update
+    
+    - name: Generate changelog
+      run: npm run changelog
+    
+    - name: Check for changes
+      id: changes
+      run: |
+        if [[ -n $(git status --porcelain) ]]; then
+          echo "has_changes=true" >> $GITHUB_OUTPUT
+        else
+          echo "has_changes=false" >> $GITHUB_OUTPUT
+        fi
+    
+    - name: Commit and push if changed
+      if: steps.changes.outputs.has_changes == 'true'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add index.html CHANGELOG.md
+        git commit -m "chore: sync version and update changelog [skip ci]"
+        git push
