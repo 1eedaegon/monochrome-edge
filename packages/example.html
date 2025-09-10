@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Monochrome Edge UI Components - NPM Package Example</title>
+
+        <!-- In production, you would import from @monochrome-edge/core/dist/monochrome-edge.css -->
+        <link rel="stylesheet" href="../ui/monochrome-edge.css" />
+
+        <style>
+            body {
+                font-family:
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+                padding: 2rem;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+
+            .section {
+                margin-bottom: 3rem;
+            }
+
+            .section h2 {
+                margin-bottom: 1.5rem;
+                color: var(--color-text-primary);
+            }
+
+            .demo-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .theme-switcher {
+                position: fixed;
+                top: 1rem;
+                right: 1rem;
+                z-index: 1000;
+                display: flex;
+                gap: 0.5rem;
+                padding: 0.5rem;
+                background: var(--color-background-elevated);
+                border-radius: 8px;
+                box-shadow: var(--shadow-lg);
+            }
+
+            .code-example {
+                background: var(--color-background-secondary);
+                padding: 1rem;
+                border-radius: 4px;
+                margin: 1rem 0;
+                overflow-x: auto;
+            }
+
+            .code-example code {
+                font-family: "SF Mono", Monaco, monospace;
+                font-size: 0.875rem;
+            }
+        </style>
+    </head>
+    <body class="warm light">
+        <!-- Theme Switcher -->
+        <div class="theme-switcher">
+            <button class="btn btn-ghost btn-small" id="theme-toggle">
+                Switch Theme
+            </button>
+            <button class="btn btn-ghost btn-small" id="mode-toggle">
+                Toggle Dark Mode
+            </button>
+        </div>
+
+        <h1>Monochrome Edge UI Components</h1>
+        <p class="text-secondary">
+            Production-ready NPM packages for React, Vue, Web Components, and
+            Vanilla JS
+        </p>
+
+        <!-- Installation Section -->
+        <div class="section">
+            <h2>📦 Installation</h2>
+
+            <div class="card">
+                <div class="card-body">
+                    <h3>Core Package</h3>
+                    <div class="code-example">
+                        <code>npm install @monochrome-edge/core</code>
+                    </div>
+
+                    <h3>React Package</h3>
+                    <div class="code-example">
+                        <code>npm install @monochrome-edge/react</code>
+                    </div>
+
+                    <h3>Vue Package</h3>
+                    <div class="code-example">
+                        <code>npm install @monochrome-edge/vue</code>
+                    </div>
+
+                    <h3>Web Components</h3>
+                    <div class="code-example">
+                        <code>npm install @monochrome-edge/web</code>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Usage Examples -->
+        <div class="section">
+            <h2>💻 Usage Examples</h2>
+
+            <div class="tabs">
+                <div class="tab-list">
+                    <button class="tab-item active" data-tab="vanilla">
+                        Vanilla JS
+                    </button>
+                    <button class="tab-item" data-tab="react">React</button>
+                    <button class="tab-item" data-tab="vue">Vue</button>
+                    <button class="tab-item" data-tab="web">
+                        Web Components
+                    </button>
+                </div>
+
+                <div class="tab-content">
+                    <!-- Vanilla JS Example -->
+                    <div class="tab-panel active" id="vanilla">
+                        <div class="code-example">
+                            <code>
+                                <pre>
+import { ThemeManager, Button, Toast } from '@monochrome-edge/core';
+
+// Initialize theme
+const theme = new ThemeManager({
+  defaultTheme: 'warm',
+  defaultMode: 'light'
+});
+
+// Create components
+const button = Button.create({
+  variant: 'primary',
+  text: 'Show Toast',
+  onClick: () => {
+    Toast.success('Hello from Monochrome!');
+  }
+});
+
+// Mount to DOM
+document.body.appendChild(button.getElement());</pre
+                                >
+                            </code>
+                        </div>
+                    </div>
+
+                    <!-- React Example -->
+                    <div class="tab-panel" id="react">
+                        <div class="code-example">
+                            <code>
+                                <pre>
+import { ThemeProvider, Button, useToast } from '@monochrome-edge/react';
+
+function App() {
+  const toast = useToast();
+
+  return (
+    &lt;ThemeProvider defaultTheme="warm"&gt;
+      &lt;Button
+        variant="primary"
+        onClick={() => toast.success('Hello from React!')}
+      &gt;
+        Show Toast
+      &lt;/Button&gt;
+    &lt;/ThemeProvider&gt;
+  );
+}</pre
+                                >
+                            </code>
+                        </div>
+                    </div>
+
+                    <!-- Vue Example -->
+                    <div class="tab-panel" id="vue">
+                        <div class="code-example">
+                            <code>
+                                <pre>
+&lt;template&gt;
+  &lt;MonochromeProvider :theme="warm"&gt;
+    &lt;MButton
+      variant="primary"
+      @click="showToast"
+    &gt;
+      Show Toast
+    &lt;/MButton&gt;
+  &lt;/MonochromeProvider&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { MButton, useToast } from '@monochrome-edge/vue';
+
+const toast = useToast();
+const showToast = () => toast.success('Hello from Vue!');
+&lt;/script&gt;</pre
+                                >
+                            </code>
+                        </div>
+                    </div>
+
+                    <!-- Web Components Example -->
+                    <div class="tab-panel" id="web">
+                        <div class="code-example">
+                            <code>
+                                <pre>
+&lt;!-- Import the web components --&gt;
+&lt;script type="module"&gt;
+  import '@monochrome-edge/web';
+&lt;/script&gt;
+
+&lt;!-- Use the components --&gt;
+&lt;monochrome-button
+  variant="primary"
+  onclick="showToast()"
+&gt;
+  Show Toast
+&lt;/monochrome-button&gt;
+
+&lt;script&gt;
+function showToast() {
+  document.dispatchEvent(
+    new CustomEvent('monochrome:toast', {
+      detail: { type: 'success', message: 'Hello!' }
+    })
+  );
+}
+&lt;/script&gt;</pre
+                                >
+                            </code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Live Demo -->
+        <div class="section">
+            <h2>🎨 Live Components Demo</h2>
+
+            <div class="demo-grid">
+                <!-- Buttons -->
+                <div class="card">
+                    <div class="card-header">Buttons</div>
+                    <div class="card-body">
+                        <div
+                            style="
+                                display: flex;
+                                flex-direction: column;
+                                gap: 0.5rem;
+                            "
+                        >
+                            <button class="btn btn-primary">Primary</button>
+                            <button class="btn btn-secondary">Secondary</button>
+                            <button class="btn btn-ghost">Ghost</button>
+                            <button class="btn btn-danger">Danger</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Inputs -->
+                <div class="card">
+                    <div class="card-header">Form Inputs</div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="label">Email</label>
+                            <input
+                                type="email"
+                                class="input"
+                                placeholder="user@example.com"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label class="label">Password</label>
+                            <input
+                                type="password"
+                                class="input"
+                                placeholder="••••••••"
+                            />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Toast Demo -->
+                <div class="card">
+                    <div class="card-header">Toast Notifications</div>
+                    <div class="card-body">
+                        <button
+                            class="btn btn-primary btn-full-width"
+                            onclick="showSuccessToast()"
+                        >
+                            Success Toast
+                        </button>
+                        <button
+                            class="btn btn-danger btn-full-width"
+                            onclick="showErrorToast()"
+                            style="margin-top: 0.5rem"
+                        >
+                            Error Toast
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Modal Demo -->
+                <div class="card">
+                    <div class="card-header">Modal Dialog</div>
+                    <div class="card-body">
+                        <button
+                            class="btn btn-primary btn-full-width"
+                            onclick="showModal()"
+                        >
+                            Open Modal
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Features -->
+        <div class="section">
+            <h2>✨ Key Features</h2>
+
+            <div class="demo-grid">
+                <div class="card">
+                    <div class="card-body">
+                        <h3>🎨 Dual Themes</h3>
+                        <p class="text-secondary">
+                            Warm and cold themes with light/dark modes
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h3>📦 Tree-Shakeable</h3>
+                        <p class="text-secondary">Import only what you need</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h3>🔒 TypeScript</h3>
+                        <p class="text-secondary">
+                            Full type safety and IntelliSense
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-body">
+                        <h3>♿ Accessible</h3>
+                        <p class="text-secondary">
+                            WCAG 2.1 compliant components
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="module">
+            // This would be: import { ThemeManager, Toast, Modal } from '@monochrome-edge/core';
+
+            // Theme switching
+            let currentTheme = "warm";
+            let currentMode = "light";
+
+            document
+                .getElementById("theme-toggle")
+                .addEventListener("click", () => {
+                    currentTheme = currentTheme === "warm" ? "cold" : "warm";
+                    document.body.className = `${currentTheme} ${currentMode}`;
+                });
+
+            document
+                .getElementById("mode-toggle")
+                .addEventListener("click", () => {
+                    currentMode = currentMode === "light" ? "dark" : "light";
+                    document.body.className = `${currentTheme} ${currentMode}`;
+                });
+
+            // Tab switching
+            document.querySelectorAll(".tab-item").forEach((tab) => {
+                tab.addEventListener("click", () => {
+                    const tabName = tab.dataset.tab;
+
+                    // Update active states
+                    document
+                        .querySelectorAll(".tab-item")
+                        .forEach((t) => t.classList.remove("active"));
+                    document
+                        .querySelectorAll(".tab-panel")
+                        .forEach((p) => p.classList.remove("active"));
+
+                    tab.classList.add("active");
+                    document.getElementById(tabName).classList.add("active");
+                });
+            });
+
+            // Toast functions (would use Toast from @monochrome-edge/core)
+            window.showSuccessToast = () => {
+                alert('Toast.success("Operation completed successfully!")');
+            };
+
+            window.showErrorToast = () => {
+                alert('Toast.error("Something went wrong!")');
+            };
+
+            // Modal function (would use Modal from @monochrome-edge/core)
+            window.showModal = () => {
+                alert(
+                    'Modal.create({ title: "Example Modal", content: "..." }).open()',
+                );
+            };
+        </script>
+    </body>
+</html>
