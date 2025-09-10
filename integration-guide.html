@@ -1,0 +1,1707 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Monochrome Edge - Integration Guide</title>
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            as="style"
+            crossorigin
+            href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+        />
+
+        <!-- Monochrome Edge UI Components -->
+        <link
+            id="theme-link"
+            rel="stylesheet"
+            href="ui/tokens/warm-theme.css"
+        />
+        <link rel="stylesheet" href="ui/monochrome-edge.css" />
+
+        <!-- Prism.js for code highlighting -->
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+            rel="stylesheet"
+        />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-typescript.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-jsx.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-tsx.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+
+        <style>
+            body {
+                font-family: var(--font-family-sans);
+                background-color: var(--theme-bg);
+                color: var(--theme-text-primary);
+                line-height: 1.6;
+                margin: 0;
+                padding: 0;
+            }
+
+            .guide-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 2rem;
+            }
+
+            .guide-header {
+                text-align: center;
+                padding: 3rem 0;
+                border-bottom: 1px solid var(--theme-border);
+                margin-bottom: 3rem;
+            }
+
+            .guide-title {
+                font-size: 3rem;
+                font-weight: 700;
+                margin-bottom: 1rem;
+                color: var(--theme-text-primary);
+            }
+
+            .guide-subtitle {
+                font-size: 1.25rem;
+                color: var(--theme-text-secondary);
+            }
+
+            .framework-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+                margin-bottom: 3rem;
+            }
+
+            .framework-card {
+                background-color: var(--theme-surface);
+                border: 1px solid var(--theme-border);
+                border-radius: var(--border-radius);
+                padding: 1.5rem;
+                box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
+                transition: all var(--transition-speed);
+                cursor: pointer;
+            }
+
+            .framework-card:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            }
+
+            .framework-icon {
+                width: 48px;
+                height: 48px;
+                margin-bottom: 1rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: var(--theme-bg);
+                border-radius: 8px;
+                font-size: 1.5rem;
+            }
+
+            .framework-name {
+                font-size: 1.25rem;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+                color: var(--theme-text-primary);
+            }
+
+            .framework-description {
+                font-size: 0.875rem;
+                color: var(--theme-text-secondary);
+                margin-bottom: 1rem;
+            }
+
+            .framework-link {
+                color: var(--theme-highlight);
+                text-decoration: none;
+                font-weight: 500;
+                font-size: 0.875rem;
+            }
+
+            .guide-section {
+                margin-bottom: 3rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+                font-weight: 700;
+                margin-bottom: 1rem;
+                color: var(--theme-text-primary);
+            }
+
+            .section-description {
+                font-size: 1rem;
+                color: var(--theme-text-secondary);
+                margin-bottom: 2rem;
+            }
+
+            .code-block {
+                background-color: var(--theme-surface);
+                border: 1px solid var(--theme-border);
+                border-radius: var(--border-radius);
+                overflow: hidden;
+                margin-bottom: 1.5rem;
+                box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
+            }
+
+            .code-header {
+                padding: 0.75rem 1rem;
+                background-color: var(--theme-bg);
+                border-bottom: 1px solid var(--theme-border);
+                font-size: 0.875rem;
+                font-weight: 500;
+                color: var(--theme-text-secondary);
+            }
+
+            .code-content {
+                padding: 0;
+            }
+
+            .code-content pre {
+                margin: 0;
+                padding: 1rem;
+            }
+
+            .code-content code {
+                font-size: 0.875rem;
+            }
+
+            .tabs {
+                display: flex;
+                gap: 1rem;
+                border-bottom: 1px solid var(--theme-border);
+                margin-bottom: 2rem;
+            }
+
+            .tab {
+                padding: 0.75rem 0;
+                font-size: 0.875rem;
+                font-weight: 500;
+                color: var(--theme-text-secondary);
+                border-bottom: 2px solid transparent;
+                cursor: pointer;
+                transition: all var(--transition-speed);
+            }
+
+            .tab:hover {
+                color: var(--theme-text-primary);
+            }
+
+            .tab.active {
+                color: var(--theme-text-primary);
+                border-bottom-color: var(--theme-highlight);
+            }
+
+            .tab-content {
+                display: none;
+            }
+
+            .tab-content.active {
+                display: block;
+            }
+
+            .feature-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
+                margin-bottom: 2rem;
+            }
+
+            .feature-item {
+                padding: 1rem;
+                background-color: var(--theme-surface);
+                border: 1px solid var(--theme-border);
+                border-radius: var(--border-radius);
+                box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.04);
+            }
+
+            .feature-title {
+                font-size: 1rem;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+                color: var(--theme-text-primary);
+            }
+
+            .feature-description {
+                font-size: 0.875rem;
+                color: var(--theme-text-secondary);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="guide-container">
+            <div class="guide-header">
+                <h1 class="guide-title">Monochrome Edge Integration Guide</h1>
+                <p class="guide-subtitle">
+                    Use Monochrome Edge with your favorite framework or create
+                    custom libraries
+                </p>
+            </div>
+
+            <!-- Framework Cards -->
+            <div class="framework-grid">
+                <div class="framework-card" onclick="showTab('react')">
+                    <div class="framework-icon">⚛️</div>
+                    <h3 class="framework-name">React</h3>
+                    <p class="framework-description">
+                        Components and hooks for React applications with
+                        TypeScript support
+                    </p>
+                    <a href="#react" class="framework-link"
+                        >View integration →</a
+                    >
+                </div>
+
+                <div class="framework-card" onclick="showTab('vue')">
+                    <div class="framework-icon">💚</div>
+                    <h3 class="framework-name">Vue.js</h3>
+                    <p class="framework-description">
+                        Composables and components for Vue 3 with TypeScript
+                    </p>
+                    <a href="#vue" class="framework-link">View integration →</a>
+                </div>
+
+                <div class="framework-card" onclick="showTab('webcomponents')">
+                    <div class="framework-icon">🌐</div>
+                    <h3 class="framework-name">Web Components</h3>
+                    <p class="framework-description">
+                        Native web components that work with any framework
+                    </p>
+                    <a href="#webcomponents" class="framework-link"
+                        >View integration →</a
+                    >
+                </div>
+
+                <div class="framework-card" onclick="showTab('vanilla')">
+                    <div class="framework-icon">📦</div>
+                    <h3 class="framework-name">Vanilla TypeScript</h3>
+                    <p class="framework-description">
+                        Pure TypeScript implementation without framework
+                        dependencies
+                    </p>
+                    <a href="#vanilla" class="framework-link"
+                        >View integration →</a
+                    >
+                </div>
+
+                <div class="framework-card" onclick="showTab('jquery')">
+                    <div class="framework-icon">💲</div>
+                    <h3 class="framework-name">jQuery</h3>
+                    <p class="framework-description">
+                        jQuery plugins with TypeScript definitions
+                    </p>
+                    <a href="#jquery" class="framework-link"
+                        >View integration →</a
+                    >
+                </div>
+
+                <div class="framework-card" onclick="showTab('custom')">
+                    <div class="framework-icon">🛠️</div>
+                    <h3 class="framework-name">Custom Library</h3>
+                    <p class="framework-description">
+                        Build your own component library with TypeScript
+                    </p>
+                    <a href="#custom" class="framework-link">View guide →</a>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="tabs">
+                <div class="tab active" onclick="showTab('react')">React</div>
+                <div class="tab" onclick="showTab('vue')">Vue.js</div>
+                <div class="tab" onclick="showTab('webcomponents')">
+                    Web Components
+                </div>
+                <div class="tab" onclick="showTab('vanilla')">Vanilla TS</div>
+                <div class="tab" onclick="showTab('jquery')">jQuery</div>
+                <div class="tab" onclick="showTab('custom')">
+                    Custom Library
+                </div>
+            </div>
+
+            <!-- React Tab -->
+            <div class="tab-content active" id="react-content">
+                <div class="guide-section">
+                    <h2 class="section-title">React Integration</h2>
+                    <p class="section-description">
+                        Build React components with TypeScript using Monochrome
+                        design tokens
+                    </p>
+
+                    <div class="code-block">
+                        <div class="code-header">Installation</div>
+                        <div class="code-content">
+                            <pre><code class="language-bash"># Install the React package
+npm install monochrome-edge/packages/react
+
+# Or link locally for development
+cd packages/react
+npm link
+cd ../..
+npm link @monochrome-edge/react</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">Using Components</div>
+                        <div class="code-content">
+                            <pre><code class="language-tsx">import React from 'react';
+import { Button, Card, CardHeader, CardBody, useTheme } from '@monochrome-edge/react';
+
+function App() {
+  const { theme, mode, toggleTheme, toggleMode } = useTheme();
+
+  return (
+    &lt;div&gt;
+      &lt;Card variant="bordered"&gt;
+        &lt;CardHeader&gt;
+          &lt;h2&gt;Welcome to Monochrome&lt;/h2&gt;
+        &lt;/CardHeader&gt;
+        &lt;CardBody&gt;
+          &lt;p&gt;Current theme: {theme} | Mode: {mode}&lt;/p&gt;
+          &lt;Button variant="primary" onClick={toggleTheme}&gt;
+            Switch Theme
+          &lt;/Button&gt;
+          &lt;Button variant="secondary" onClick={toggleMode}&gt;
+            Toggle {mode === 'light' ? 'Dark' : 'Light'} Mode
+          &lt;/Button&gt;
+        &lt;/CardBody&gt;
+      &lt;/Card&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">Form Component with Hooks</div>
+                        <div class="code-content">
+                            <pre><code class="language-tsx">import React, { useState, ChangeEvent, FormEvent } from 'react';
+
+interface FormData {
+  email: string;
+  password: string;
+  remember: boolean;
+}
+
+export const LoginForm: FC = () =&gt; {
+  const [formData, setFormData] = useState&lt;FormData&gt;({
+    email: '',
+    password: '',
+    remember: false
+  });
+
+  const handleChange = (e: ChangeEvent&lt;HTMLInputElement&gt;): void =&gt; {
+    const { name, value, type, checked } = e.target;
+    setFormData(prev =&gt; ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  const handleSubmit = (e: FormEvent&lt;HTMLFormElement&gt;): void =&gt; {
+    e.preventDefault();
+    console.log('Form submitted:', formData);
+  };
+
+  return (
+    &lt;form onSubmit={handleSubmit} className="form"&gt;
+      &lt;div className="form-group"&gt;
+        &lt;label htmlFor="email" className="label"&gt;Email&lt;/label&gt;
+        &lt;input
+          type="email"
+          id="email"
+          name="email"
+          className="input"
+          value={formData.email}
+          onChange={handleChange}
+          required
+        /&gt;
+      &lt;/div&gt;
+      &lt;div className="form-group"&gt;
+        &lt;label htmlFor="password" className="label"&gt;Password&lt;/label&gt;
+        &lt;input
+          type="password"
+          id="password"
+          name="password"
+          className="input"
+          value={formData.password}
+          onChange={handleChange}
+          required
+        /&gt;
+      &lt;/div&gt;
+      &lt;div className="form-group"&gt;
+        &lt;label className="checkbox"&gt;
+          &lt;input
+            type="checkbox"
+            name="remember"
+            checked={formData.remember}
+            onChange={handleChange}
+          /&gt;
+          &lt;span className="checkbox-mark"&gt;&lt;/span&gt;
+          Remember me
+        &lt;/label&gt;
+      &lt;/div&gt;
+      &lt;Button type="submit" variant="primary"&gt;
+        Sign In
+      &lt;/Button&gt;
+    &lt;/form&gt;
+  );
+};</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vue Tab -->
+            <div class="tab-content" id="vue-content">
+                <div class="guide-section">
+                    <h2 class="section-title">Vue.js Integration</h2>
+                    <p class="section-description">
+                        Create Vue 3 components with Composition API and
+                        TypeScript
+                    </p>
+
+                    <div class="code-block">
+                        <div class="code-header">Installation</div>
+                        <div class="code-content">
+                            <pre><code class="language-bash">npm install vue@next
+npm install --save-dev @vue/compiler-sfc typescript</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            Button Component (TypeScript)
+                        </div>
+                        <div class="code-content">
+                            <pre><code class="language-typescript">&lt;template&gt;
+  &lt;button
+    :class="buttonClasses"
+    :disabled="disabled || loading"
+    @click="handleClick"
+  &gt;
+    &lt;slot /&gt;
+  &lt;/button&gt;
+&lt;/template&gt;
+
+&lt;script setup lang="ts"&gt;
+import { computed, PropType } from 'vue';
+
+type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'outline' | 'danger';
+type ButtonSize = 'small' | 'medium' | 'large';
+
+const props = defineProps({
+  variant: {
+    type: String as PropType&lt;ButtonVariant&gt;,
+    default: 'primary'
+  },
+  size: {
+    type: String as PropType&lt;ButtonSize&gt;,
+    default: 'medium'
+  },
+  loading: {
+    type: Boolean,
+    default: false
+  },
+  disabled: {
+    type: Boolean,
+    default: false
+  }
+});
+
+const emit = defineEmits&lt;{
+  click: [event: MouseEvent]
+}&gt;();
+
+const buttonClasses = computed(() =&gt; {
+  const sizeClass = props.size === 'small' ? 'btn-small' :
+                    props.size === 'large' ? 'btn-large' : '';
+  return [
+    'btn',
+    `btn-${props.variant}`,
+    sizeClass,
+    { 'loading': props.loading }
+  ].filter(Boolean).join(' ');
+});
+
+const handleClick = (event: MouseEvent): void =&gt; {
+  if (!props.disabled && !props.loading) {
+    emit('click', event);
+  }
+};
+&lt;/script&gt;</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">Composable for Theme</div>
+                        <div class="code-content">
+                            <pre><code class="language-typescript">// useTheme.ts
+import { ref, Ref, watch } from 'vue';
+
+type Theme = 'warm' | 'cold';
+type Mode = 'light' | 'dark';
+
+interface ThemeConfig {
+  theme: Ref&lt;Theme&gt;;
+  mode: Ref&lt;Mode&gt;;
+  toggleTheme: () =&gt; void;
+  toggleMode: () =&gt; void;
+  setTheme: (theme: Theme) =&gt; void;
+  setMode: (mode: Mode) =&gt; void;
+}
+
+export function useTheme(): ThemeConfig {
+  const theme = ref&lt;Theme&gt;('warm');
+  const mode = ref&lt;Mode&gt;('light');
+
+  const applyTheme = (): void =&gt; {
+    const themeLink = document.getElementById('theme-link') as HTMLLinkElement;
+    if (themeLink) {
+      themeLink.href = `ui/tokens/${theme.value}-theme.css`;
+    }
+    document.documentElement.setAttribute('data-theme', mode.value);
+  };
+
+  watch([theme, mode], applyTheme, { immediate: true });
+
+  const toggleTheme = (): void =&gt; {
+    theme.value = theme.value === 'warm' ? 'cold' : 'warm';
+  };
+
+  const toggleMode = (): void =&gt; {
+    mode.value = mode.value === 'light' ? 'dark' : 'light';
+  };
+
+  const setTheme = (newTheme: Theme): void =&gt; {
+    theme.value = newTheme;
+  };
+
+  const setMode = (newMode: Mode): void =&gt; {
+    mode.value = newMode;
+  };
+
+  return {
+    theme,
+    mode,
+    toggleTheme,
+    toggleMode,
+    setTheme,
+    setMode
+  };
+}</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Web Components Tab -->
+            <div class="tab-content" id="webcomponents-content">
+                <div class="guide-section">
+                    <h2 class="section-title">Web Components</h2>
+                    <p class="section-description">
+                        Native web components with TypeScript that work in any
+                        framework
+                    </p>
+
+                    <div class="code-block">
+                        <div class="code-header">Custom Button Element</div>
+                        <div class="code-content">
+                            <pre><code class="language-typescript">// MonochromeButton.ts
+export class MonochromeButton extends HTMLElement {
+  private _variant: string = 'primary';
+  private _size: string = 'medium';
+  private _loading: boolean = false;
+
+  static get observedAttributes(): string[] {
+    return ['variant', 'size', 'loading', 'disabled'];
+  }
+
+  constructor() {
+    super();
+    this.attachShadow({ mode: 'open' });
+  }
+
+  connectedCallback(): void {
+    this.render();
+  }
+
+  attributeChangedCallback(name: string, oldValue: string | null, newValue: string | null): void {
+    if (oldValue !== newValue) {
+      switch (name) {
+        case 'variant':
+          this._variant = newValue || 'primary';
+          break;
+        case 'size':
+          this._size = newValue || 'medium';
+          break;
+        case 'loading':
+          this._loading = newValue === 'true';
+          break;
+      }
+      this.render();
+    }
+  }
+
+  private render(): void {
+    if (!this.shadowRoot) return;
+
+    const sizeClass = this._size === 'small' ? 'btn-small' :
+                      this._size === 'large' ? 'btn-large' : '';
+    const classes = `btn btn-${this._variant} ${sizeClass} ${this._loading ? 'loading' : ''}`.trim();
+
+    this.shadowRoot.innerHTML = `
+      &lt;link rel="stylesheet" href="/ui/monochrome-edge.css"&gt;
+      &lt;button class="${classes}" ${this.hasAttribute('disabled') ? 'disabled' : ''}&gt;
+        &lt;slot&gt;&lt;/slot&gt;
+      &lt;/button&gt;
+    `;
+  }
+
+  // Public methods
+  public setLoading(loading: boolean): void {
+    this._loading = loading;
+    this.setAttribute('loading', loading.toString());
+  }
+
+  public click(): void {
+    const button = this.shadowRoot?.querySelector('button');
+    button?.click();
+  }
+}
+
+// Register the custom element
+customElements.define('monochrome-button', MonochromeButton);
+
+// TypeScript declaration for JSX
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'monochrome-button': {
+        variant?: 'primary' | 'secondary' | 'ghost' | 'outline' | 'danger';
+        size?: 'small' | 'medium' | 'large';
+        loading?: boolean;
+        disabled?: boolean;
+      };
+    }
+  }
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">Usage in HTML</div>
+                        <div class="code-content">
+                            <pre><code class="language-html">&lt;!-- Import the component --&gt;
+&lt;script type="module" src="MonochromeButton.js"&gt;&lt;/script&gt;
+
+&lt;!-- Use the component --&gt;
+&lt;monochrome-button variant="primary" size="large"&gt;
+  Click Me
+&lt;/monochrome-button&gt;
+
+&lt;monochrome-button variant="secondary" loading="true"&gt;
+  Loading...
+&lt;/monochrome-button&gt;</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vanilla TypeScript Tab -->
+            <div class="tab-content" id="vanilla-content">
+                <div class="guide-section">
+                    <h2 class="section-title">Vanilla TypeScript</h2>
+                    <p class="section-description">
+                        Pure TypeScript implementation without framework
+                        dependencies
+                    </p>
+
+                    <div class="code-block">
+                        <div class="code-header">Component Factory</div>
+                        <div class="code-content">
+                            <pre><code class="language-typescript">// types.ts
+export interface ComponentOptions {
+  className?: string;
+  id?: string;
+  attributes?: Record&lt;string, string&gt;;
+}
+
+export interface ButtonOptions extends ComponentOptions {
+  variant?: 'primary' | 'secondary' | 'ghost' | 'outline' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  loading?: boolean;
+  disabled?: boolean;
+  onClick?: (event: MouseEvent) =&gt; void;
+}
+
+// components.ts
+export class MonochromeComponents {
+  static createElement&lt;K extends keyof HTMLElementTagNameMap&gt;(
+    tag: K,
+    options: ComponentOptions = {},
+    children?: (Node | string)[]
+  ): HTMLElementTagNameMap[K] {
+    const element = document.createElement(tag);
+
+    if (options.className) {
+      element.className = options.className;
+    }
+
+    if (options.id) {
+      element.id = options.id;
+    }
+
+    if (options.attributes) {
+      Object.entries(options.attributes).forEach(([key, value]) =&gt; {
+        element.setAttribute(key, value);
+      });
+    }
+
+    if (children) {
+      children.forEach(child =&gt; {
+        if (typeof child === 'string') {
+          element.appendChild(document.createTextNode(child));
+        } else {
+          element.appendChild(child);
+        }
+      });
+    }
+
+    return element;
+  }
+
+  static button(text: string, options: ButtonOptions = {}): HTMLButtonElement {
+    const {
+      variant = 'primary',
+      size = 'medium',
+      loading = false,
+      disabled = false,
+      onClick,
+      ...componentOptions
+    } = options;
+
+    const sizeClass = size === 'small' ? 'btn-small' :
+                      size === 'large' ? 'btn-large' : '';
+    const classes = [
+      'btn',
+      `btn-${variant}`,
+      sizeClass,
+      loading ? 'loading' : '',
+      componentOptions.className || ''
+    ].filter(Boolean).join(' ');
+
+    const button = this.createElement('button', {
+      ...componentOptions,
+      className: classes,
+      attributes: {
+        ...componentOptions.attributes,
+        ...(disabled ? { disabled: 'true' } : {})
+      }
+    }, [text]);
+
+    if (onClick) {
+      button.addEventListener('click', onClick);
+    }
+
+    return button;
+  }
+
+  static input(options: {
+    type?: string;
+    placeholder?: string;
+    value?: string;
+    onChange?: (value: string) =&gt; void;
+  } & ComponentOptions = {}): HTMLInputElement {
+    const {
+      type = 'text',
+      placeholder = '',
+      value = '',
+      onChange,
+      ...componentOptions
+    } = options;
+
+    const input = this.createElement('input', {
+      ...componentOptions,
+      className: `input ${componentOptions.className || ''}`.trim(),
+      attributes: {
+        ...componentOptions.attributes,
+        type,
+        placeholder,
+        value
+      }
+    });
+
+    if (onChange) {
+      input.addEventListener('input', (e) =&gt; {
+        onChange((e.target as HTMLInputElement).value);
+      });
+    }
+
+    return input;
+  }
+
+  static card(
+    content: (Node | string)[],
+    options: ComponentOptions = {}
+  ): HTMLDivElement {
+    return this.createElement('div', {
+      ...options,
+      className: `card ${options.className || ''}`.trim()
+    }, content);
+  }
+}
+
+// Usage example
+const button = MonochromeComponents.button('Submit', {
+  variant: 'primary',
+  size: 'large',
+  onClick: (e) =&gt; console.log('Clicked!', e)
+});
+
+document.body.appendChild(button);</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">Form Builder</div>
+                        <div class="code-content">
+                            <pre><code class="language-typescript">interface FormField {
+  name: string;
+  label: string;
+  type: 'text' | 'email' | 'password' | 'textarea' | 'select' | 'checkbox';
+  required?: boolean;
+  options?: { value: string; label: string }[];
+  validation?: (value: any) =&gt; string | null;
+}
+
+class FormBuilder {
+  private fields: FormField[] = [];
+  private values: Record&lt;string, any&gt; = {};
+  private errors: Record&lt;string, string&gt; = {};
+
+  addField(field: FormField): this {
+    this.fields.push(field);
+    this.values[field.name] = '';
+    return this;
+  }
+
+  setValue(name: string, value: any): void {
+    this.values[name] = value;
+    this.validateField(name);
+  }
+
+  private validateField(name: string): boolean {
+    const field = this.fields.find(f =&gt; f.name === name);
+    if (!field) return true;
+
+    if (field.required && !this.values[name]) {
+      this.errors[name] = `${field.label} is required`;
+      return false;
+    }
+
+    if (field.validation) {
+      const error = field.validation(this.values[name]);
+      if (error) {
+        this.errors[name] = error;
+        return false;
+      }
+    }
+
+    delete this.errors[name];
+    return true;
+  }
+
+  validate(): boolean {
+    let isValid = true;
+    this.fields.forEach(field =&gt; {
+      if (!this.validateField(field.name)) {
+        isValid = false;
+      }
+    });
+    return isValid;
+  }
+
+  render(container: HTMLElement): void {
+    const form = document.createElement('form');
+    form.className = 'form';
+
+    this.fields.forEach(field =&gt; {
+      const group = MonochromeComponents.createElement('div', {
+        className: 'form-group'
+      });
+
+      const label = MonochromeComponents.createElement('label', {
+        className: 'label',
+        attributes: { for: field.name }
+      }, [field.label]);
+
+      group.appendChild(label);
+
+      let input: HTMLElement;
+
+      switch (field.type) {
+        case 'textarea':
+          input = MonochromeComponents.createElement('textarea', {
+            className: 'textarea',
+            id: field.name,
+            attributes: { name: field.name }
+          });
+          break;
+        case 'select':
+          input = MonochromeComponents.createElement('select', {
+            className: 'select',
+            id: field.name,
+            attributes: { name: field.name }
+          });
+          field.options?.forEach(option =&gt; {
+            const optEl = MonochromeComponents.createElement('option', {
+              attributes: { value: option.value }
+            }, [option.label]);
+            input.appendChild(optEl);
+          });
+          break;
+        default:
+          input = MonochromeComponents.input({
+            type: field.type,
+            id: field.name,
+            onChange: (value) =&gt; this.setValue(field.name, value)
+          });
+      }
+
+      group.appendChild(input);
+
+      if (this.errors[field.name]) {
+        const error = MonochromeComponents.createElement('span', {
+          className: 'helper-text error'
+        }, [this.errors[field.name]]);
+        group.appendChild(error);
+      }
+
+      form.appendChild(group);
+    });
+
+    container.appendChild(form);
+  }
+}
+
+// Usage
+const formBuilder = new FormBuilder()
+  .addField({
+    name: 'email',
+    label: 'Email Address',
+    type: 'email',
+    required: true,
+    validation: (value) =&gt; {
+      if (!value.includes('@')) return 'Invalid email address';
+      return null;
+    }
+  })
+  .addField({
+    name: 'password',
+    label: 'Password',
+    type: 'password',
+    required: true,
+    validation: (value) =&gt; {
+      if (value.length &lt; 8) return 'Password must be at least 8 characters';
+      return null;
+    }
+  });
+
+formBuilder.render(document.getElementById('form-container')!);</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- jQuery Tab -->
+            <div class="tab-content" id="jquery-content">
+                <div class="guide-section">
+                    <h2 class="section-title">jQuery with TypeScript</h2>
+                    <p class="section-description">
+                        jQuery plugins with full TypeScript support
+                    </p>
+
+                    <div class="code-block">
+                        <div class="code-header">Type Definitions</div>
+                        <div class="code-content">
+                            <pre><code class="language-typescript">// monochrome-jquery.d.ts
+interface MonochromeOptions {
+  theme?: 'warm' | 'cold';
+  mode?: 'light' | 'dark';
+}
+
+interface MonochromeButtonOptions {
+  variant?: 'primary' | 'secondary' | 'ghost' | 'outline' | 'danger';
+  size?: 'small' | 'medium' | 'large';
+  loading?: boolean;
+}
+
+interface MonochromeModalOptions {
+  title?: string;
+  content?: string | JQuery;
+  size?: 'small' | 'medium' | 'large';
+  closeOnOverlay?: boolean;
+  onOpen?: () => void;
+  onClose?: () => void;
+}
+
+interface JQuery {
+  monochrome(options?: MonochromeOptions): JQuery;
+  monochromeButton(options?: MonochromeButtonOptions): JQuery;
+  monochromeModal(options?: MonochromeModalOptions): JQuery;
+  monochromeToast(message: string, type?: 'success' | 'error' | 'info'): JQuery;
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            jQuery Plugin Implementation
+                        </div>
+                        <div class="code-content">
+                            <pre><code class="language-typescript">// monochrome-jquery.ts
+/// &lt;reference types="jquery" /&gt;
+
+(function($: JQueryStatic) {
+  // Main plugin
+  $.fn.monochrome = function(this: JQuery, options: MonochromeOptions = {}) {
+    const settings = $.extend({
+      theme: 'warm',
+      mode: 'light'
+    }, options);
+
+    return this.each(function() {
+      const $element = $(this);
+
+      // Apply theme
+      $element.attr('data-theme', settings.mode);
+
+      // Load theme CSS
+      const themeLink = $('#theme-link');
+      if (themeLink.length) {
+        themeLink.attr('href', `ui/tokens/${settings.theme}-theme.css`);
+      }
+    });
+  };
+
+  // Button plugin
+  $.fn.monochromeButton = function(this: JQuery, options: MonochromeButtonOptions = {}) {
+    const settings = $.extend({
+      variant: 'primary',
+      size: 'medium',
+      loading: false
+    }, options);
+
+    return this.each(function() {
+      const $button = $(this);
+      const sizeClass = settings.size === 'small' ? 'btn-small' :
+                        settings.size === 'large' ? 'btn-large' : '';
+
+      $button
+        .addClass(`btn btn-${settings.variant} ${sizeClass}`)
+        .toggleClass('loading', settings.loading || false);
+
+      if (settings.loading) {
+        $button.prop('disabled', true);
+      }
+    });
+  };
+
+  // Modal plugin
+  $.fn.monochromeModal = function(this: JQuery, options: MonochromeModalOptions = {}) {
+    const settings = $.extend({
+      title: 'Modal Title',
+      content: 'Modal content',
+      size: 'medium',
+      closeOnOverlay: true,
+      onOpen: () =&gt; {},
+      onClose: () =&gt; {}
+    }, options);
+
+    return this.each(function() {
+      const $trigger = $(this);
+
+      $trigger.on('click', function(e: JQuery.ClickEvent) {
+        e.preventDefault();
+
+        const modalHtml = `
+          &lt;div class="modal"&gt;
+            &lt;div class="modal-backdrop"&gt;&lt;/div&gt;
+            &lt;div class="modal-content modal-${settings.size}"&gt;
+              &lt;div class="modal-header"&gt;
+                &lt;h3 class="modal-title"&gt;${settings.title}&lt;/h3&gt;
+                &lt;button class="modal-close"&gt;×&lt;/button&gt;
+              &lt;/div&gt;
+              &lt;div class="modal-body"&gt;&lt;/div&gt;
+              &lt;div class="modal-footer"&gt;
+                &lt;button class="btn btn-ghost modal-cancel"&gt;Cancel&lt;/button&gt;
+                &lt;button class="btn btn-primary modal-confirm"&gt;Confirm&lt;/button&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        `;
+
+        const $modal = $(modalHtml);
+
+        // Add content
+        if (typeof settings.content === 'string') {
+          $modal.find('.modal-body').html(settings.content);
+        } else {
+          $modal.find('.modal-body').append(settings.content);
+        }
+
+        // Append to body
+        $('body').append($modal);
+
+        // Show modal
+        setTimeout(() =&gt; {
+          $modal.addClass('is-open');
+          settings.onOpen?.();
+        }, 10);
+
+        // Close handlers
+        const closeModal = () =&gt; {
+          $modal.removeClass('is-open');
+          setTimeout(() =&gt; {
+            $modal.remove();
+            settings.onClose?.();
+          }, 300);
+        };
+
+        $modal.find('.modal-close, .modal-cancel').on('click', closeModal);
+
+        if (settings.closeOnOverlay) {
+          $modal.find('.modal-backdrop').on('click', closeModal);
+        }
+      });
+    });
+  };
+
+  // Toast plugin
+  $.fn.monochromeToast = function(message: string, type: 'success' | 'error' | 'info' = 'info') {
+    const toastHtml = `
+      &lt;div class="toast toast-${type}"&gt;
+        &lt;div class="toast-content"&gt;
+          &lt;span class="toast-message"&gt;${message}&lt;/span&gt;
+          &lt;button class="toast-close"&gt;×&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    `;
+
+    const $toast = $(toastHtml);
+
+    // Create container if not exists
+    let $container = $('.toast-container');
+    if (!$container.length) {
+      $container = $('&lt;div class="toast-container"&gt;&lt;/div&gt;');
+      $('body').append($container);
+    }
+
+    $container.append($toast);
+
+    // Auto remove after 5 seconds
+    setTimeout(() =&gt; {
+      $toast.fadeOut(300, function() {
+        $(this).remove();
+      });
+    }, 5000);
+
+    // Manual close
+    $toast.find('.toast-close').on('click', function() {
+      $toast.fadeOut(300, function() {
+        $(this).remove();
+      });
+    });
+
+    return this;
+  };
+})(jQuery);</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">Usage Example</div>
+                        <div class="code-content">
+                            <pre><code class="language-typescript">// Initialize theme
+$('html').monochrome({
+  theme: 'warm',
+  mode: 'light'
+});
+
+// Style buttons
+$('.my-button').monochromeButton({
+  variant: 'primary',
+  size: 'large'
+});
+
+// Create modal
+$('#open-modal').monochromeModal({
+  title: 'Confirm Action',
+  content: 'Are you sure you want to proceed?',
+  size: 'small',
+  onOpen: () =&gt; console.log('Modal opened'),
+  onClose: () =&gt; console.log('Modal closed')
+});
+
+// Show toast
+$(document).monochromeToast('Operation successful!', 'success');</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Custom Library Tab -->
+            <div class="tab-content" id="custom-content">
+                <div class="guide-section">
+                    <h2 class="section-title">Build Your Own Library</h2>
+                    <p class="section-description">
+                        Step-by-step guide to create a custom component library
+                        with TypeScript
+                    </p>
+
+                    <div class="feature-grid">
+                        <div class="feature-item">
+                            <h3 class="feature-title">1. Project Setup</h3>
+                            <p class="feature-description">
+                                Initialize TypeScript project with proper
+                                configuration
+                            </p>
+                        </div>
+                        <div class="feature-item">
+                            <h3 class="feature-title">2. Design Tokens</h3>
+                            <p class="feature-description">
+                                Export CSS variables as TypeScript constants
+                            </p>
+                        </div>
+                        <div class="feature-item">
+                            <h3 class="feature-title">
+                                3. Component Architecture
+                            </h3>
+                            <p class="feature-description">
+                                Create modular, reusable component structure
+                            </p>
+                        </div>
+                        <div class="feature-item">
+                            <h3 class="feature-title">4. Build System</h3>
+                            <p class="feature-description">
+                                Configure bundlers for different output formats
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            Using Monochrome Edge UI Components
+                        </div>
+                        <div class="code-content">
+                            <pre><code class="language-bash"># 1. Clone or download the UI Components
+git clone https://github.com/your-org/monochrome.git
+
+# 2. Navigate to the package you want to use
+cd monochrome/packages/react  # or vanilla-ts, web-components, jquery
+
+# 3. Install dependencies and build
+npm install
+npm run build
+
+# 4. Link the package locally
+npm link
+
+# 5. In your project, link to the package
+cd ~/your-project
+npm link @monochrome-edge/react  # or @monochrome-edge/vanilla, etc.
+
+# 6. Import the CSS in your project
+# Add to your main CSS or HTML:
+&lt;link rel="stylesheet" href="node_modules/monochrome/design-system/monochrome-edge.css"&gt;
+&lt;link rel="stylesheet" href="node_modules/monochrome/design-system/tokens/warm-theme.css"&gt;</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">tsconfig.json</div>
+                        <div class="code-content">
+                            <pre><code class="language-json">{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "lib": ["ES2022", "DOM"],
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            Design Tokens (tokens/index.ts)
+                        </div>
+                        <div class="code-content">
+                            <pre><code class="language-typescript">// tokens/colors.ts
+export const Colors = {
+  warm: {
+    primary: '#8B8680',
+    secondary: '#A8A29E',
+    background: '#FAFAF9',
+    text: '#1A1918',
+    border: '#E7E5E4',
+    highlight: '#D4A574'
+  },
+  cold: {
+    primary: '#6B7280',
+    secondary: '#9CA3AF',
+    background: '#FAFBFC',
+    text: '#18181B',
+    border: '#E4E4E7',
+    highlight: '#93BBFE'
+  }
+} as const;
+
+// tokens/typography.ts
+export const Typography = {
+  fontFamily: {
+    sans: "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+    mono: "'SFMono-Regular', Consolas, 'Liberation Mono', monospace"
+  },
+  fontSize: {
+    xs: '0.75rem',
+    sm: '0.875rem',
+    base: '1rem',
+    lg: '1.125rem',
+    xl: '1.25rem',
+    '2xl': '1.5rem',
+    '3xl': '1.875rem',
+    '4xl': '2.25rem'
+  },
+  fontWeight: {
+    normal: 400,
+    medium: 500,
+    semibold: 600,
+    bold: 700
+  }
+} as const;
+
+// tokens/index.ts
+export * from './colors';
+export * from './typography';
+
+export type Theme = 'warm' | 'cold';
+export type Mode = 'light' | 'dark';
+export type Size = 'small' | 'medium' | 'large';
+export type Variant = 'primary' | 'secondary' | 'ghost' | 'outline' | 'danger';</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">Base Component Class</div>
+                        <div class="code-content">
+                            <pre><code class="language-typescript">// components/BaseComponent.ts
+export abstract class BaseComponent&lt;T extends HTMLElement = HTMLElement&gt; {
+  protected element: T;
+  protected options: Record&lt;string, any&gt;;
+
+  constructor(element: T | string, options: Record&lt;string, any&gt; = {}) {
+    this.element = typeof element === 'string'
+      ? document.querySelector&lt;T&gt;(element)!
+      : element;
+    this.options = options;
+    this.init();
+  }
+
+  protected abstract init(): void;
+
+  protected addClass(...classes: string[]): void {
+    this.element.classList.add(...classes.filter(Boolean));
+  }
+
+  protected removeClass(...classes: string[]): void {
+    this.element.classList.remove(...classes);
+  }
+
+  protected toggleClass(className: string, force?: boolean): void {
+    this.element.classList.toggle(className, force);
+  }
+
+  protected on&lt;K extends keyof HTMLElementEventMap&gt;(
+    event: K,
+    handler: (ev: HTMLElementEventMap[K]) =&gt; void
+  ): void {
+    this.element.addEventListener(event, handler);
+  }
+
+  protected off&lt;K extends keyof HTMLElementEventMap&gt;(
+    event: K,
+    handler: (ev: HTMLElementEventMap[K]) =&gt; void
+  ): void {
+    this.element.removeEventListener(event, handler);
+  }
+
+  protected emit(eventName: string, detail?: any): void {
+    this.element.dispatchEvent(new CustomEvent(eventName, { detail }));
+  }
+
+  public destroy(): void {
+    // Override in child classes for cleanup
+  }
+}</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">Component Example</div>
+                        <div class="code-content">
+                            <pre><code class="language-typescript">// components/Button/Button.ts
+import { BaseComponent } from '../BaseComponent';
+import { Size, Variant } from '../../tokens';
+
+export interface ButtonOptions {
+  variant?: Variant;
+  size?: Size;
+  loading?: boolean;
+  disabled?: boolean;
+  icon?: string;
+}
+
+export class Button extends BaseComponent&lt;HTMLButtonElement&gt; {
+  private _loading = false;
+  private _disabled = false;
+
+  constructor(element: HTMLButtonElement | string, options: ButtonOptions = {}) {
+    super(element, options);
+  }
+
+  protected init(): void {
+    this.addClass('btn');
+    this.setVariant(this.options.variant || 'primary');
+    this.setSize(this.options.size || 'medium');
+
+    if (this.options.loading) {
+      this.setLoading(true);
+    }
+
+    if (this.options.disabled) {
+      this.setDisabled(true);
+    }
+
+    this.on('click', this.handleClick.bind(this));
+  }
+
+  private handleClick(event: MouseEvent): void {
+    if (this._loading || this._disabled) {
+      event.preventDefault();
+      event.stopPropagation();
+      return;
+    }
+    this.emit('monochrome:click', { button: this });
+  }
+
+  public setVariant(variant: Variant): void {
+    // Remove old variant classes
+    ['primary', 'secondary', 'ghost', 'outline', 'danger'].forEach(v =&gt; {
+      this.removeClass(`btn-${v}`);
+    });
+    this.addClass(`btn-${variant}`);
+  }
+
+  public setSize(size: Size): void {
+    // Remove old size classes
+    this.removeClass('btn-small', 'btn-large');
+    if (size !== 'medium') {
+      this.addClass(`btn-${size}`);
+    }
+  }
+
+  public setLoading(loading: boolean): void {
+    this._loading = loading;
+    this.toggleClass('loading', loading);
+    this.element.disabled = loading || this._disabled;
+
+    if (loading) {
+      this.element.setAttribute('aria-busy', 'true');
+    } else {
+      this.element.removeAttribute('aria-busy');
+    }
+  }
+
+  public setDisabled(disabled: boolean): void {
+    this._disabled = disabled;
+    this.element.disabled = disabled || this._loading;
+
+    if (disabled) {
+      this.element.setAttribute('aria-disabled', 'true');
+    } else {
+      this.element.removeAttribute('aria-disabled');
+    }
+  }
+
+  public get loading(): boolean {
+    return this._loading;
+  }
+
+  public get disabled(): boolean {
+    return this._disabled;
+  }
+
+  public static create(text: string, options: ButtonOptions = {}): Button {
+    const element = document.createElement('button');
+    element.textContent = text;
+    return new Button(element, options);
+  }
+}
+
+// Auto-initialize buttons with data attributes
+document.addEventListener('DOMContentLoaded', () =&gt; {
+  document.querySelectorAll&lt;HTMLButtonElement&gt;('[data-monochrome="button"]').forEach(el =&gt; {
+    new Button(el, {
+      variant: el.dataset.variant as Variant,
+      size: el.dataset.size as Size,
+      loading: el.dataset.loading === 'true',
+      disabled: el.hasAttribute('disabled')
+    });
+  });
+});</code></pre>
+                        </div>
+                    </div>
+
+                    <div class="code-block">
+                        <div class="code-header">
+                            Build Configuration (rollup.config.js)
+                        </div>
+                        <div class="code-content">
+                            <pre><code class="language-javascript">import typescript from '@rollup/plugin-typescript';
+import { terser } from 'rollup-plugin-terser';
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+
+export default [
+  // ESM build
+  {
+    input: 'src/index.ts',
+    output: {
+      file: 'dist/monochrome.esm.js',
+      format: 'esm',
+      sourcemap: true
+    },
+    plugins: [
+      resolve(),
+      commonjs(),
+      typescript({
+        tsconfig: './tsconfig.json',
+        declaration: true,
+        declarationDir: './dist/types'
+      })
+    ]
+  },
+  // UMD build
+  {
+    input: 'src/index.ts',
+    output: {
+      file: 'dist/monochrome.umd.js',
+      format: 'umd',
+      name: 'Monochrome',
+      sourcemap: true
+    },
+    plugins: [
+      resolve(),
+      commonjs(),
+      typescript({
+        tsconfig: './tsconfig.json'
+      })
+    ]
+  },
+  // Minified UMD build
+  {
+    input: 'src/index.ts',
+    output: {
+      file: 'dist/monochrome.umd.min.js',
+      format: 'umd',
+      name: 'Monochrome',
+      sourcemap: true
+    },
+    plugins: [
+      resolve(),
+      commonjs(),
+      typescript({
+        tsconfig: './tsconfig.json'
+      }),
+      terser()
+    ]
+  }
+];</code></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function showTab(tabName) {
+                // Update tabs
+                document.querySelectorAll(".tab").forEach((tab) => {
+                    tab.classList.remove("active");
+                    if (
+                        tab.textContent
+                            .toLowerCase()
+                            .includes(tabName.toLowerCase()) ||
+                        (tabName === "vanilla" &&
+                            tab.textContent === "Vanilla TS") ||
+                        (tabName === "webcomponents" &&
+                            tab.textContent === "Web Components") ||
+                        (tabName === "custom" &&
+                            tab.textContent === "Custom Library")
+                    ) {
+                        tab.classList.add("active");
+                    }
+                });
+
+                // Update content
+                document.querySelectorAll(".tab-content").forEach((content) => {
+                    content.classList.remove("active");
+                });
+                const targetContent = document.getElementById(
+                    `${tabName}-content`,
+                );
+                if (targetContent) {
+                    targetContent.classList.add("active");
+                }
+
+                // Scroll to top of content
+                window.scrollTo({
+                    top: document.querySelector(".tabs").offsetTop - 20,
+                    behavior: "smooth",
+                });
+            }
+
+            // Initialize Prism.js
+            Prism.highlightAll();
+        </script>
+    </body>
+</html>
