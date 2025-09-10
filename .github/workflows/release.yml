@@ -1,0 +1,179 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+  pull-requests: write
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Analyze commits and determine version
+        id: version
+        run: |
+          # Get latest tag
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          CURRENT_VERSION=${LATEST_TAG#v}
+          
+          # Split version
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT_VERSION"
+          
+          # Analyze commits since last tag
+          if [ "$LATEST_TAG" = "v0.0.0" ]; then
+            COMMITS=$(git log --format=%s)
+          else
+            COMMITS=$(git log ${LATEST_TAG}..HEAD --format=%s)
+          fi
+          
+          # Determine version bump
+          BUMP="patch"
+          while IFS= read -r commit; do
+            if [[ "$commit" =~ ^(feat!|fix!|BREAKING CHANGE) ]] || [[ "$commit" =~ "BREAKING CHANGE:" ]]; then
+              BUMP="major"
+              break
+            elif [[ "$commit" =~ ^feat ]]; then
+              if [ "$BUMP" != "major" ]; then
+                BUMP="minor"
+              fi
+            fi
+          done <<< "$COMMITS"
+          
+          # Calculate new version
+          case $BUMP in
+            major)
+              NEW_VERSION="$((MAJOR + 1)).0.0"
+              ;;
+            minor)
+              NEW_VERSION="${MAJOR}.$((MINOR + 1)).0"
+              ;;
+            patch)
+              NEW_VERSION="${MAJOR}.${MINOR}.$((PATCH + 1))"
+              ;;
+          esac
+          
+          echo "Current version: $CURRENT_VERSION"
+          echo "Bump type: $BUMP"
+          echo "New version: $NEW_VERSION"
+          
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "bump_type=$BUMP" >> $GITHUB_OUTPUT
+
+      - name: Generate changelog
+        id: changelog
+        run: |
+          NEW_VERSION=${{ steps.version.outputs.new_version }}
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
+          
+          echo "# Changelog for v${NEW_VERSION}" > CHANGELOG_TEMP.md
+          echo "" >> CHANGELOG_TEMP.md
+          
+          if [ -z "$LATEST_TAG" ]; then
+            git log --format="- %s (%h)" >> CHANGELOG_TEMP.md
+          else
+            git log ${LATEST_TAG}..HEAD --format="- %s (%h)" >> CHANGELOG_TEMP.md
+          fi
+          
+          # Categorize changes
+          echo "## Changes" > CHANGELOG.md
+          echo "" >> CHANGELOG.md
+          
+          if grep -q "^feat" CHANGELOG_TEMP.md; then
+            echo "### ✨ Features" >> CHANGELOG.md
+            grep "^- feat" CHANGELOG_TEMP.md | sed 's/^- feat:/- /' >> CHANGELOG.md
+            echo "" >> CHANGELOG.md
+          fi
+          
+          if grep -q "^fix" CHANGELOG_TEMP.md; then
+            echo "### 🐛 Bug Fixes" >> CHANGELOG.md
+            grep "^- fix" CHANGELOG_TEMP.md | sed 's/^- fix:/- /' >> CHANGELOG.md
+            echo "" >> CHANGELOG.md
+          fi
+          
+          if grep -q "^docs" CHANGELOG_TEMP.md; then
+            echo "### 📚 Documentation" >> CHANGELOG.md
+            grep "^- docs" CHANGELOG_TEMP.md | sed 's/^- docs:/- /' >> CHANGELOG.md
+            echo "" >> CHANGELOG.md
+          fi
+          
+          if grep -q "^chore" CHANGELOG_TEMP.md; then
+            echo "### 🔧 Chores" >> CHANGELOG.md
+            grep "^- chore" CHANGELOG_TEMP.md | sed 's/^- chore:/- /' >> CHANGELOG.md
+            echo "" >> CHANGELOG.md
+          fi
+          
+          # Set multiline output
+          {
+            echo 'changelog<<EOF'
+            cat CHANGELOG.md
+            echo 'EOF'
+          } >> $GITHUB_OUTPUT
+
+      - name: Update package.json version
+        run: |
+          npm version ${{ steps.version.outputs.new_version }} --no-git-tag-version
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          git commit -m "chore: bump version to ${{ steps.version.outputs.new_version }} [skip ci]"
+
+      - name: Build
+        run: npm run build
+
+      - name: Create and push tag
+        run: |
+          git tag v${{ steps.version.outputs.new_version }}
+          git push origin main --tags
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.version.outputs.new_version }}
+          release_name: Release v${{ steps.version.outputs.new_version }}
+          body: ${{ steps.changelog.outputs.changelog }}
+          draft: false
+          prerelease: false
+
+      - name: Publish to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        continue-on-error: true
+
+      - name: Comment on PR (if triggered by PR merge)
+        if: github.event.pull_request
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const version = '${{ steps.version.outputs.new_version }}';
+            const bump = '${{ steps.version.outputs.bump_type }}';
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: `🎉 Released in v${version} (${bump} version bump)`
+            });
