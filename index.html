@@ -1,0 +1,2167 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-theme-variant="warm">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Monochrome Edge UI Components</title>
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            as="style"
+            crossorigin
+            href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+        />
+
+        <!-- Monochrome Edge UI Components -->
+        <!-- Single import includes both themes -->
+        <link rel="stylesheet" href="ui/monochrome-edge.css" />
+
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+        <!-- Prism.js for code highlighting -->
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+            rel="stylesheet"
+        />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: var(--font-family-sans);
+                background-color: var(--theme-bg);
+                color: var(--theme-text-primary);
+                transition: all var(--transition-speed);
+            }
+
+            .ui-layout {
+                display: flex;
+                min-height: 100vh;
+            }
+
+            .ds-sidebar {
+                width: 260px;
+                background-color: var(--theme-surface);
+                border-right: 1px solid var(--theme-border);
+                position: sticky;
+                top: 0;
+                height: 100vh;
+                overflow-y: auto;
+            }
+
+            .ds-main {
+                flex: 1;
+                padding: 2rem;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+
+            .ds-header {
+                padding: 1.5rem;
+                border-bottom: 1px solid var(--theme-border);
+            }
+
+            .ds-title {
+                font-size: 1.5rem;
+                font-weight: 700;
+                color: var(--theme-text-primary);
+                margin-bottom: 0.5rem;
+            }
+
+            .ds-subtitle {
+                font-size: 0.875rem;
+                color: var(--theme-text-secondary);
+            }
+
+            .ds-controls {
+                display: flex;
+                gap: 1rem;
+                padding: 1rem 1.5rem;
+                border-bottom: 1px solid var(--theme-border);
+            }
+
+            .ds-nav {
+                padding: 1rem 0;
+            }
+
+            .ds-nav-item {
+                display: block;
+                padding: 0.625rem 1.5rem;
+                margin: 0.125rem 0.5rem;
+                font-size: 0.875rem;
+                color: var(--theme-text-primary);
+                text-decoration: none;
+                transition: all var(--transition-speed);
+                cursor: pointer;
+                border-left: 3px solid transparent;
+                border-radius: 2px;
+                position: relative;
+            }
+
+            .ds-nav-item:hover {
+                background-color: rgba(0, 0, 0, 0.02);
+                border-left-color: var(--theme-border);
+            }
+
+            .ds-nav-item.active {
+                background-color: var(--theme-surface);
+                color: var(--theme-highlight);
+                border-left-color: var(--theme-highlight);
+                font-weight: 500;
+            }
+
+            .ds-section {
+                margin-bottom: 3rem;
+                display: none;
+            }
+
+            .ds-section.active {
+                display: block;
+            }
+
+            .ds-section-title {
+                font-size: 1.875rem;
+                font-weight: 700;
+                margin-bottom: 1rem;
+                color: var(--theme-text-primary);
+            }
+
+            .ds-section-description {
+                font-size: 1rem;
+                color: var(--theme-text-secondary);
+                margin-bottom: 2rem;
+                line-height: 1.6;
+            }
+
+            .component-showcase {
+                background-color: var(--theme-surface);
+                border: 1px solid var(--theme-border);
+                border-radius: var(--border-radius);
+                margin-bottom: 2rem;
+                overflow: hidden;
+            }
+
+            .component-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 1rem 1.5rem;
+                border-bottom: 1px solid var(--theme-border);
+                background-color: var(--theme-bg);
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .component-title {
+                font-size: 1rem;
+                font-weight: 600;
+                color: var(--theme-text-primary);
+                white-space: nowrap;
+            }
+
+            .component-toggle {
+                display: flex;
+                border: 1px solid var(--theme-border);
+                border-radius: var(--border-radius);
+                overflow: hidden;
+            }
+
+            .toggle-btn {
+                padding: 0.375rem 0.75rem;
+                font-size: 0.75rem;
+                font-weight: 500;
+                background-color: transparent;
+                border: none;
+                color: var(--theme-text-secondary);
+                cursor: pointer;
+                transition: all var(--transition-speed);
+            }
+
+            .toggle-btn:not(:last-child) {
+                border-right: 1px solid var(--theme-border);
+            }
+
+            .toggle-btn.active {
+                background-color: var(--theme-accent);
+                color: var(--theme-accent-contrast);
+            }
+
+            .component-content {
+                position: relative;
+            }
+
+            .component-preview {
+                padding: 2rem;
+                min-height: 120px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .component-code {
+                display: none;
+                max-height: 400px;
+                overflow: auto;
+            }
+
+            .component-code pre {
+                margin: 0;
+                font-size: 0.875rem;
+                background-color: #1a1a1a !important;
+            }
+
+            .component-code pre code {
+                color: #f8f8f2 !important;
+            }
+
+            .component-code.active {
+                display: block;
+            }
+
+            .component-preview.hidden {
+                display: none;
+            }
+
+            .color-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 1rem;
+                margin-top: 1rem;
+            }
+
+            .color-swatch {
+                height: 100px;
+                border-radius: var(--border-radius);
+                padding: 1rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-end;
+                position: relative;
+                overflow: hidden;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+
+            .color-name {
+                font-size: 0.75rem;
+                font-weight: 600;
+                margin-bottom: 0.25rem;
+            }
+
+            .color-value {
+                font-size: 0.75rem;
+                font-family: var(--font-family-mono);
+                opacity: 0.9;
+            }
+
+            .demo-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1rem;
+            }
+
+            .demo-form {
+                max-width: 400px;
+            }
+
+            pre code {
+                font-size: 0.875rem !important;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="ui-layout">
+            <!-- Sidebar -->
+            <aside class="ds-sidebar">
+                <div class="ds-header">
+                    <h1 class="ds-title">Monochrome Edge</h1>
+                    <p class="ds-subtitle">v1.0</p>
+                </div>
+
+                <div class="ds-controls">
+                    <div style="flex: 1">
+                        <label for="theme-switcher" class="label-small"
+                            >Theme</label
+                        >
+                        <select
+                            id="theme-switcher"
+                            class="select select-small"
+                            style="width: 100%"
+                        >
+                            <option value="warm" selected>Warm</option>
+                            <option value="cold">Cold</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1">
+                        <label for="mode-switcher" class="label-small"
+                            >Mode</label
+                        >
+                        <select
+                            id="mode-switcher"
+                            class="select select-small"
+                            style="width: 100%"
+                        >
+                            <option value="light">Light</option>
+                            <option value="dark">Dark</option>
+                        </select>
+                    </div>
+                </div>
+
+                <nav class="ds-nav">
+                    <a class="ds-nav-item active" data-section="overview"
+                        >Overview</a
+                    >
+                    <a class="ds-nav-item" data-section="colors">Colors</a>
+                    <a class="ds-nav-item" data-section="typography"
+                        >Typography</a
+                    >
+                    <a class="ds-nav-item" data-section="buttons">Buttons</a>
+                    <a class="ds-nav-item" data-section="forms">Forms</a>
+                    <a class="ds-nav-item" data-section="cards">Cards</a>
+                    <a class="ds-nav-item" data-section="navigation"
+                        >Navigation</a
+                    >
+                    <a class="ds-nav-item" data-section="modals">Modals</a>
+                    <a class="ds-nav-item" data-section="tables">Tables</a>
+                    <a class="ds-nav-item" data-section="layouts">Layouts</a>
+                    <a class="ds-nav-item" data-section="examples">Examples</a>
+                    <a class="ds-nav-item" data-section="integration"
+                        >Integration</a
+                    >
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="ds-main">
+                <!-- Overview Section -->
+                <section class="ds-section active" id="overview">
+                    <h2 class="ds-section-title">
+                        Monochrome Edge UI Components
+                    </h2>
+                    <p class="ds-section-description">
+                        A modern, minimalist UI Components with two distinct
+                        themes. Warm theme for content management systems and
+                        publishing, Cold theme for SaaS applications and API
+                        businesses.
+                    </p>
+
+                    <div class="demo-grid">
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="text-h4">Warm Theme</h3>
+                                <p class="text-body-small text-muted">
+                                    Warm, content-focused design for CMS and
+                                    publishing platforms. Features Blond Wood
+                                    (#D3C8AB) as the primary accent.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h3 class="text-h4">Cold Theme</h3>
+                                <p class="text-body-small text-muted">
+                                    Cold, professional design for SaaS and
+                                    API-driven businesses. Features Basalt
+                                    (#8C9092) as the primary accent.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Colors Section -->
+                <section class="ds-section" id="colors">
+                    <h2 class="ds-section-title">Colors</h2>
+                    <p class="ds-section-description">
+                        Our color system is built on Pantone colors with
+                        semantic variations for different use cases.
+                    </p>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Theme Colors</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="primary-colors"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="primary-colors"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="primary-colors">
+                            <div class="component-preview">
+                                <!-- Primary Colors -->
+                                <h4
+                                    style="
+                                        margin-top: 2rem;
+                                        margin-bottom: 1rem;
+                                    "
+                                >
+                                    Base Colors
+                                </h4>
+                                <div
+                                    class="color-grid"
+                                    style="width: 100%"
+                                    id="color-display"
+                                >
+                                    <!-- Colors will be dynamically loaded based on theme -->
+                                </div>
+
+                                <!-- Semantic Colors -->
+                                <h4
+                                    style="
+                                        margin-top: 2rem;
+                                        margin-bottom: 1rem;
+                                    "
+                                >
+                                    Semantic Colors
+                                </h4>
+                                <div class="color-grid" style="width: 100%">
+                                    <div
+                                        class="color-swatch"
+                                        style="
+                                            background-color: var(
+                                                --color-success
+                                            );
+                                        "
+                                    >
+                                        <span class="color-name">Success</span>
+                                        <span class="color-value">#7B9F60</span>
+                                    </div>
+                                    <div
+                                        class="color-swatch"
+                                        style="
+                                            background-color: var(
+                                                --color-warning
+                                            );
+                                        "
+                                    >
+                                        <span class="color-name">Warning</span>
+                                        <span class="color-value">#D4A574</span>
+                                    </div>
+                                    <div
+                                        class="color-swatch"
+                                        style="
+                                            background-color: var(
+                                                --color-error
+                                            );
+                                        "
+                                    >
+                                        <span
+                                            class="color-name"
+                                            style="color: white"
+                                            >Error</span
+                                        >
+                                        <span
+                                            class="color-value"
+                                            style="color: white"
+                                            >#8B3A3A</span
+                                        >
+                                    </div>
+                                    <div
+                                        class="color-swatch"
+                                        style="
+                                            background-color: var(--color-info);
+                                        "
+                                    >
+                                        <span
+                                            class="color-name"
+                                            style="color: white"
+                                            >Info</span
+                                        >
+                                        <span
+                                            class="color-value"
+                                            style="color: white"
+                                            >#6B7280</span
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-css">/* Cool Gray Color Scale */
+--cool-100: #F7F8F9;
+--cool-200: #E5E7EB;
+--cool-300: #D1D5DB;
+--cool-400: #9CA3AF;
+--cool-500: #6B7280;
+--cool-600: #4B5563;
+--cool-700: #374151;
+--cool-800: #1F2937;
+--cool-900: #111827;
+
+/* Theme Highlights */
+--theme-highlight: #1E3A8A; /* Light: Deep navy blue */
+--theme-highlight: #3B82F6; /* Dark: Navy blue */</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Typography Section -->
+                <section class="ds-section" id="typography">
+                    <h2 class="ds-section-title">Typography</h2>
+                    <p class="ds-section-description">
+                        Clean, readable typography system based on Inter font
+                        family.
+                    </p>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Type Scale</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="type-scale"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="type-scale"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="type-scale">
+                            <div
+                                class="component-preview"
+                                style="
+                                    align-items: flex-start;
+                                    flex-direction: column;
+                                "
+                            >
+                                <h1 class="text-h1">Heading 1 - 2.5rem</h1>
+                                <h2 class="text-h2">Heading 2 - 2rem</h2>
+                                <h3 class="text-h3">Heading 3 - 1.5rem</h3>
+                                <h4 class="text-h4">Heading 4 - 1.25rem</h4>
+                                <p class="text-body">Body text - 1rem</p>
+                                <p class="text-body-small">
+                                    Small body text - 0.875rem
+                                </p>
+                                <p class="text-caption">
+                                    Caption text - 0.75rem
+                                </p>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-html">&lt;h1 class="text-h1"&gt;Heading 1&lt;/h1&gt;
+&lt;h2 class="text-h2"&gt;Heading 2&lt;/h2&gt;
+&lt;h3 class="text-h3"&gt;Heading 3&lt;/h3&gt;
+&lt;h4 class="text-h4"&gt;Heading 4&lt;/h4&gt;
+&lt;p class="text-body"&gt;Body text&lt;/p&gt;
+&lt;p class="text-body-small"&gt;Small body&lt;/p&gt;
+&lt;p class="text-caption"&gt;Caption&lt;/p&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Buttons Section -->
+                <section class="ds-section" id="buttons">
+                    <h2 class="ds-section-title">Buttons</h2>
+                    <p class="ds-section-description">
+                        Flexible button system with multiple variants and sizes.
+                    </p>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Button Variants</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="button-variants"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="button-variants"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="button-variants">
+                            <div class="component-preview">
+                                <button class="btn btn-primary">Primary</button>
+                                <button class="btn btn-secondary">
+                                    Secondary
+                                </button>
+                                <button class="btn btn-ghost">Ghost</button>
+                                <button class="btn btn-outline">Outline</button>
+                                <button class="btn btn-danger">Danger</button>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-html">&lt;button class="btn btn-primary"&gt;Primary&lt;/button&gt;
+&lt;button class="btn btn-secondary"&gt;Secondary&lt;/button&gt;
+&lt;button class="btn btn-ghost"&gt;Ghost&lt;/button&gt;
+&lt;button class="btn btn-outline"&gt;Outline&lt;/button&gt;
+&lt;button class="btn btn-danger"&gt;Danger&lt;/button&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Button Sizes</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="button-sizes"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="button-sizes"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="button-sizes">
+                            <div class="component-preview">
+                                <button class="btn btn-primary btn-small">
+                                    Small
+                                </button>
+                                <button class="btn btn-primary">Default</button>
+                                <button class="btn btn-primary btn-large">
+                                    Large
+                                </button>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-html">&lt;button class="btn btn-primary btn-small"&gt;Small&lt;/button&gt;
+&lt;button class="btn btn-primary"&gt;Default&lt;/button&gt;
+&lt;button class="btn btn-primary btn-large"&gt;Large&lt;/button&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Forms Section -->
+                <section class="ds-section" id="forms">
+                    <h2 class="ds-section-title">Forms</h2>
+                    <p class="ds-section-description">
+                        Comprehensive form components for data input and
+                        validation.
+                    </p>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Form Elements</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="form-elements"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="form-elements"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="form-elements">
+                            <div
+                                class="component-preview"
+                                style="align-items: flex-start"
+                            >
+                                <div class="demo-form" style="width: 100%">
+                                    <div class="form-group">
+                                        <label class="label"
+                                            >Email Address</label
+                                        >
+                                        <input
+                                            type="email"
+                                            class="input"
+                                            placeholder="you@example.com"
+                                        />
+                                        <span class="helper-text"
+                                            >We'll never share your email.</span
+                                        >
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label">Message</label>
+                                        <textarea
+                                            class="textarea"
+                                            placeholder="Enter your message..."
+                                        ></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label">Country</label>
+                                        <select class="select">
+                                            <option>United States</option>
+                                            <option>Canada</option>
+                                            <option>Mexico</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="checkbox">
+                                            <input type="checkbox" />
+                                            <span class="checkbox-mark"></span>
+                                            I agree to the terms
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-html">&lt;div class="form-group"&gt;
+    &lt;label class="label"&gt;Email Address&lt;/label&gt;
+    &lt;input type="email" class="input" placeholder="you@example.com"&gt;
+    &lt;span class="helper-text"&gt;We'll never share your email.&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Cards Section -->
+                <section class="ds-section" id="cards">
+                    <h2 class="ds-section-title">Cards</h2>
+                    <p class="ds-section-description">
+                        Versatile card components for displaying grouped
+                        content.
+                    </p>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Card Types</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="card-types"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="card-types"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="card-types">
+                            <div class="component-preview">
+                                <div class="demo-grid" style="width: 100%">
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <h4 class="card-header-title">
+                                                Card Title
+                                            </h4>
+                                        </div>
+                                        <div class="card-body">
+                                            <p class="text-body-small">
+                                                This is a basic card with header
+                                                and body.
+                                            </p>
+                                        </div>
+                                        <div class="card-footer">
+                                            <button
+                                                class="btn btn-primary btn-small"
+                                            >
+                                                Action
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="stat-card">
+                                        <div class="stat-card-label">
+                                            Total Revenue
+                                        </div>
+                                        <div class="stat-card-value">
+                                            $45,231
+                                        </div>
+                                        <div
+                                            class="stat-card-change stat-card-change-positive"
+                                        >
+                                            +12.5%
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-html">&lt;div class="card"&gt;
+    &lt;div class="card-header"&gt;
+        &lt;h4 class="card-header-title"&gt;Card Title&lt;/h4&gt;
+    &lt;/div&gt;
+    &lt;div class="card-body"&gt;
+        &lt;p&gt;Card content&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Navigation Section -->
+                <section class="ds-section" id="navigation">
+                    <h2 class="ds-section-title">Navigation</h2>
+                    <p class="ds-section-description">
+                        Navigation components for menus and navigation bars.
+                    </p>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Navigation Items</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="nav-items"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="nav-items"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="nav-items">
+                            <div
+                                class="component-preview"
+                                style="align-items: flex-start"
+                            >
+                                <div
+                                    style="
+                                        width: 250px;
+                                        background: var(--theme-bg);
+                                        border-radius: var(--border-radius);
+                                        padding: 0.5rem;
+                                    "
+                                >
+                                    <a class="nav-item">
+                                        <span class="nav-item-label"
+                                            >Dashboard</span
+                                        >
+                                    </a>
+                                    <a class="nav-item is-active">
+                                        <span class="nav-item-label"
+                                            >Projects</span
+                                        >
+                                        <span class="nav-item-badge">3</span>
+                                    </a>
+                                    <a class="nav-item">
+                                        <span class="nav-item-label"
+                                            >Settings</span
+                                        >
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-html">&lt;a class="nav-item is-active"&gt;
+    &lt;span class="nav-item-label"&gt;Projects&lt;/span&gt;
+    &lt;span class="nav-item-badge"&gt;3&lt;/span&gt;
+&lt;/a&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Modals Section -->
+                <section class="ds-section" id="modals">
+                    <h2 class="ds-section-title">Modals</h2>
+                    <p class="ds-section-description">
+                        Modal dialogs for user interactions and confirmations.
+                    </p>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Modal Example</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="modal-example"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="modal-example"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="modal-example">
+                            <div class="component-preview">
+                                <button
+                                    class="btn btn-primary"
+                                    onclick="showModal()"
+                                >
+                                    Open Modal
+                                </button>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-html">&lt;div class="modal"&gt;
+    &lt;div class="modal-backdrop"&gt;&lt;/div&gt;
+    &lt;div class="modal-content"&gt;
+        &lt;div class="modal-header"&gt;
+            &lt;h3 class="modal-title"&gt;Modal Title&lt;/h3&gt;
+            &lt;button class="modal-close"&gt;×&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div class="modal-body"&gt;
+            Modal content goes here
+        &lt;/div&gt;
+        &lt;div class="modal-footer"&gt;
+            &lt;button class="btn btn-ghost"&gt;Cancel&lt;/button&gt;
+            &lt;button class="btn btn-primary"&gt;Confirm&lt;/button&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Tables Section -->
+                <section class="ds-section" id="tables">
+                    <h2 class="ds-section-title">Tables</h2>
+                    <p class="ds-section-description">
+                        Data tables for displaying structured information.
+                    </p>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Data Table</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="data-table"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="data-table"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="data-table">
+                            <div
+                                class="component-preview"
+                                style="width: 100%; padding: 0"
+                            >
+                                <div class="data-table-container">
+                                    <table class="data-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Status</th>
+                                                <th>Role</th>
+                                                <th>Actions</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>John Doe</td>
+                                                <td>
+                                                    <span
+                                                        class="badge badge-success"
+                                                        >Active</span
+                                                    >
+                                                </td>
+                                                <td>Admin</td>
+                                                <td>
+                                                    <button
+                                                        class="btn btn-ghost btn-small"
+                                                    >
+                                                        Edit
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Jane Smith</td>
+                                                <td>
+                                                    <span
+                                                        class="badge badge-warning"
+                                                        >Pending</span
+                                                    >
+                                                </td>
+                                                <td>User</td>
+                                                <td>
+                                                    <button
+                                                        class="btn btn-ghost btn-small"
+                                                    >
+                                                        Edit
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-html">&lt;table class="data-table"&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Name&lt;/th&gt;
+            &lt;th&gt;Status&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;John Doe&lt;/td&gt;
+            &lt;td&gt;&lt;span class="badge badge-success"&gt;Active&lt;/span&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Layouts Section -->
+                <section class="ds-section" id="layouts">
+                    <h2 class="ds-section-title">Layouts</h2>
+                    <p class="ds-section-description">
+                        Pre-built layout templates for CMS and SaaS
+                        applications.
+                    </p>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">
+                                Warm Layout Structure
+                            </h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="cms-layout"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="cms-layout"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="cms-layout">
+                            <div
+                                class="component-preview"
+                                style="height: 300px; align-items: flex-start"
+                            >
+                                <div
+                                    style="
+                                        width: 100%;
+                                        height: 100%;
+                                        border: 2px dashed var(--theme-border);
+                                        border-radius: var(--border-radius);
+                                        display: grid;
+                                        grid-template-areas: &quot;sidebar header&quot; &quot;sidebar main&quot;;
+                                        grid-template-columns: 80px 1fr;
+                                        grid-template-rows: 50px 1fr;
+                                    "
+                                >
+                                    <div
+                                        style="
+                                            grid-area: sidebar;
+                                            background: var(--theme-accent);
+                                            opacity: 0.2;
+                                            display: flex;
+                                            align-items: center;
+                                            justify-content: center;
+                                        "
+                                    >
+                                        Sidebar
+                                    </div>
+                                    <div
+                                        style="
+                                            grid-area: header;
+                                            background: var(--theme-surface);
+                                            border-bottom: 1px solid
+                                                var(--theme-border);
+                                            display: flex;
+                                            align-items: center;
+                                            justify-content: center;
+                                        "
+                                    >
+                                        Header
+                                    </div>
+                                    <div
+                                        style="
+                                            grid-area: main;
+                                            padding: 1rem;
+                                            display: flex;
+                                            align-items: center;
+                                            justify-content: center;
+                                        "
+                                    >
+                                        Main Content
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-html">&lt;div class="warm-layout"&gt;
+    &lt;aside class="warm-sidebar"&gt;
+        &lt;!-- Sidebar content --&gt;
+    &lt;/aside&gt;
+    &lt;header class="warm-header"&gt;
+        &lt;!-- Header content --&gt;
+    &lt;/header&gt;
+    &lt;main class="warm-main"&gt;
+        &lt;!-- Main content --&gt;
+    &lt;/main&gt;
+&lt;/div&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Examples Section -->
+                <section class="ds-section" id="examples">
+                    <h2 class="ds-section-title">Component Examples</h2>
+                    <p class="ds-section-description">
+                        Real-world examples of Monochrome components in
+                        different frameworks.
+                    </p>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Button Component</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="button-examples"
+                                >
+                                    React
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="button-examples"
+                                >
+                                    Vue
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="button-examples"
+                                >
+                                    Vanilla JS
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="button-examples"
+                                >
+                                    jQuery
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="button-examples"
+                                >
+                                    Web Components
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="button-examples">
+                            <div
+                                class="component-code active"
+                                data-framework="react"
+                            >
+                                <pre><code class="language-jsx">import React from 'react';
+import { Button } from '@monochrome-edge';  // TSX components from main package
+
+function App() {
+  return (
+    &lt;div&gt;
+      &lt;Button variant="primary" size="large"&gt;
+        Primary Button
+      &lt;/Button&gt;
+      &lt;Button variant="secondary" loading&gt;
+        Loading...
+      &lt;/Button&gt;
+      &lt;Button variant="ghost" onClick={() => alert('Clicked!')}&gt;
+        Ghost Button
+      &lt;/Button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+                            </div>
+                            <div class="component-code" data-framework="vue">
+                                <pre><code class="language-vue">&lt;template&gt;
+  &lt;div&gt;
+    &lt;monochrome-button variant="primary" size="large"&gt;
+      Primary Button
+    &lt;/monochrome-button&gt;
+    &lt;monochrome-button variant="secondary" :loading="true"&gt;
+      Loading...
+    &lt;/monochrome-button&gt;
+    &lt;monochrome-button variant="ghost" @click="handleClick"&gt;
+      Ghost Button
+    &lt;/monochrome-button&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup lang="ts"&gt;
+import { MonochromeButton } from '@monochrome-edge/vue';
+
+const handleClick = () => {
+  alert('Clicked!');
+};
+&lt;/script&gt;</code></pre>
+                            </div>
+                            <div
+                                class="component-code"
+                                data-framework="vanilla"
+                            >
+                                <pre><code class="language-javascript">import { MonochromeComponents } from '@monochrome-edge/vanilla';
+
+// Create buttons
+const primaryBtn = MonochromeComponents.button('Primary Button', {
+  variant: 'primary',
+  size: 'large'
+});
+
+const loadingBtn = MonochromeComponents.button('Loading...', {
+  variant: 'secondary',
+  loading: true
+});
+
+const ghostBtn = MonochromeComponents.button('Ghost Button', {
+  variant: 'ghost',
+  onClick: (e) => alert('Clicked!')
+});
+
+// Append to container
+const container = document.getElementById('button-container');
+container.appendChild(primaryBtn);
+container.appendChild(loadingBtn);
+container.appendChild(ghostBtn);</code></pre>
+                            </div>
+                            <div class="component-code" data-framework="jquery">
+                                <pre><code class="language-javascript">// Initialize buttons with jQuery
+$('#primary-btn').monochromeButton({
+  variant: 'primary',
+  size: 'large'
+});
+
+$('#loading-btn').monochromeButton({
+  variant: 'secondary',
+  loading: true
+});
+
+$('#ghost-btn').monochromeButton({
+  variant: 'ghost'
+}).on('click', function() {
+  alert('Clicked!');
+});
+
+// Or create dynamically
+$('&lt;button&gt;Dynamic Button&lt;/button&gt;')
+  .monochromeButton({ variant: 'primary' })
+  .appendTo('#container');</code></pre>
+                            </div>
+                            <div
+                                class="component-code"
+                                data-framework="webcomponents"
+                            >
+                                <pre><code class="language-html">&lt;!-- Import Web Components first --&gt;
+&lt;script type="module"&gt;
+  import '@monochrome-edge/wc';
+&lt;/script&gt;
+
+&lt;!-- Use as custom elements --&gt;
+&lt;monochrome-button variant="primary" size="large"&gt;
+  Primary Button
+&lt;/monochrome-button&gt;
+
+&lt;monochrome-button variant="secondary" loading="true"&gt;
+  Loading...
+&lt;/monochrome-button&gt;
+
+&lt;monochrome-button variant="ghost" id="ghost-btn"&gt;
+  Ghost Button
+&lt;/monochrome-button&gt;
+
+&lt;script&gt;
+  // Add event listener
+  document.getElementById('ghost-btn')
+    .addEventListener('click', () => alert('Clicked!'));
+
+  // Or create dynamically
+  const btn = document.createElement('monochrome-button');
+  btn.setAttribute('variant', 'primary');
+  btn.textContent = 'Dynamic Button';
+  document.body.appendChild(btn);
+&lt;/script&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Form Component</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="form-examples"
+                                >
+                                    React
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="form-examples"
+                                >
+                                    Vue
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="form-examples"
+                                >
+                                    Vanilla JS
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="form-examples"
+                                >
+                                    jQuery
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="form-examples"
+                                >
+                                    Web Components
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="form-examples">
+                            <div
+                                class="component-code active"
+                                data-framework="react"
+                            >
+                                <pre><code class="language-jsx">import React, { useState } from 'react';
+import { FormGroup, Label, Input, Button } from '@monochrome-edge';  // TSX components
+
+function LoginForm() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  return (
+    &lt;form onSubmit={(e) => e.preventDefault()}&gt;
+      &lt;FormGroup&gt;
+        &lt;Label htmlFor="email" required&gt;Email&lt;/Label&gt;
+        &lt;Input
+          id="email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="you@example.com"
+        /&gt;
+      &lt;/FormGroup&gt;
+
+      &lt;FormGroup&gt;
+        &lt;Label htmlFor="password" required&gt;Password&lt;/Label&gt;
+        &lt;Input
+          id="password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        /&gt;
+      &lt;/FormGroup&gt;
+
+      &lt;Button type="submit" variant="primary"&gt;
+        Sign In
+      &lt;/Button&gt;
+    &lt;/form&gt;
+  );
+}</code></pre>
+                            </div>
+                            <div class="component-code" data-framework="vue">
+                                <pre><code class="language-vue">&lt;template&gt;
+  &lt;form @submit.prevent="handleSubmit"&gt;
+    &lt;form-group&gt;
+      &lt;form-label for="email" required&gt;Email&lt;/form-label&gt;
+      &lt;form-input
+        id="email"
+        type="email"
+        v-model="email"
+        placeholder="you@example.com"
+      /&gt;
+    &lt;/form-group&gt;
+
+    &lt;form-group&gt;
+      &lt;form-label for="password" required&gt;Password&lt;/form-label&gt;
+      &lt;form-input
+        id="password"
+        type="password"
+        v-model="password"
+      /&gt;
+    &lt;/form-group&gt;
+
+    &lt;monochrome-button type="submit" variant="primary"&gt;
+      Sign In
+    &lt;/monochrome-button&gt;
+  &lt;/form&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { ref } from 'vue';
+
+const email = ref('');
+const password = ref('');
+
+const handleSubmit = () => {
+  console.log('Login:', email.value, password.value);
+};
+&lt;/script&gt;</code></pre>
+                            </div>
+                            <div
+                                class="component-code"
+                                data-framework="vanilla"
+                            >
+                                <pre><code class="language-javascript">import { MonochromeComponents } from '@monochrome-edge/vanilla';
+
+// Create form elements
+const emailInput = MonochromeComponents.input({
+  type: 'email',
+  placeholder: 'you@example.com',
+  onChange: (value) => console.log('Email:', value)
+});
+
+const passwordInput = MonochromeComponents.input({
+  type: 'password',
+  onChange: (value) => console.log('Password:', value)
+});
+
+const emailGroup = MonochromeComponents.formGroup(
+  'Email',
+  emailInput,
+  { required: true }
+);
+
+const passwordGroup = MonochromeComponents.formGroup(
+  'Password',
+  passwordInput,
+  { required: true }
+);
+
+const submitBtn = MonochromeComponents.button('Sign In', {
+  variant: 'primary',
+  onClick: () => {
+    console.log('Form submitted');
+  }
+});
+
+// Create form
+const form = document.createElement('form');
+form.appendChild(emailGroup);
+form.appendChild(passwordGroup);
+form.appendChild(submitBtn);
+
+document.getElementById('form-container').appendChild(form);</code></pre>
+                            </div>
+                            <div class="component-code" data-framework="jquery">
+                                <pre><code class="language-javascript">// Enhance existing form
+$('#login-form').monochromeForm();
+
+// Handle form submission
+$('#login-form').on('submit', function(e) {
+  e.preventDefault();
+
+  const formData = {
+    email: $('#email').val(),
+    password: $('#password').val()
+  };
+
+  console.log('Login:', formData);
+});
+
+// Add validation
+$('#email').on('blur', function() {
+  const $input = $(this);
+  if (!$input.val().includes('@')) {
+    $input.addClass('is-error');
+    $input.after('&lt;span class="helper-text error"&gt;Invalid email&lt;/span&gt;');
+  } else {
+    $input.removeClass('is-error');
+    $input.next('.helper-text').remove();
+  }
+});</code></pre>
+                            </div>
+                            <div
+                                class="component-code"
+                                data-framework="webcomponents"
+                            >
+                                <pre><code class="language-html">&lt;form id="login-form"&gt;
+  &lt;div class="form-group"&gt;
+    &lt;label class="label" for="email"&gt;
+      Email &lt;span class="text-danger"&gt;*&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;input
+      type="email"
+      id="email"
+      class="input"
+      placeholder="you@example.com"
+      required
+    &gt;
+  &lt;/div&gt;
+
+  &lt;div class="form-group"&gt;
+    &lt;label class="label" for="password"&gt;
+      Password &lt;span class="text-danger"&gt;*&lt;/span&gt;
+    &lt;/label&gt;
+    &lt;input
+      type="password"
+      id="password"
+      class="input"
+      required
+    &gt;
+  &lt;/div&gt;
+
+  &lt;monochrome-button type="submit" variant="primary"&gt;
+    Sign In
+  &lt;/monochrome-button&gt;
+&lt;/form&gt;
+
+&lt;script&gt;
+  document.getElementById('login-form')
+    .addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      console.log('Login:', Object.fromEntries(formData));
+    });
+&lt;/script&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Integration Section -->
+                <section class="ds-section" id="integration">
+                    <h2 class="ds-section-title">Integration Guide</h2>
+                    <p class="ds-section-description">
+                        How to integrate Monochrome Edge UI Components into your
+                        project.
+                    </p>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Installation</h3>
+                        </div>
+                        <div class="component-content">
+                            <div
+                                class="component-preview"
+                                style="text-align: left"
+                            >
+                                <h4>Option 1: Yarn Package (Recommended)</h4>
+                                <pre
+                                    style="
+                                        background: var(--theme-surface);
+                                        padding: 1rem;
+                                        border-radius: var(--border-radius);
+                                        margin: 1rem 0;
+                                    "
+                                ><code class="language-bash"># Install the core UI Components (includes React/TSX support)
+yarn add @monochrome
+
+# Install framework-specific packages
+yarn add @monochrome-edge/vue       # For Vue
+yarn add @monochrome-edge/vanilla   # For Vanilla JS/TS
+yarn add @monochrome-edge/jquery    # For jQuery projects
+yarn add @monochrome-edge/wc        # For Web Components</code></pre>
+
+                                <h4>Option 2: CDN</h4>
+                                <pre
+                                    style="
+                                        background: var(--theme-surface);
+                                        padding: 1rem;
+                                        border-radius: var(--border-radius);
+                                        margin: 1rem 0;
+                                    "
+                                ><code class="language-html">&lt;!-- CSS --&gt;
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/dist/monochrome-edge.css"&gt;
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/dist/tokens/cold-theme.css"&gt;
+
+&lt;!-- JavaScript (optional, for components) --&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/@monochrome-edge/vanilla/dist/index.js"&gt;&lt;/script&gt;</code></pre>
+
+                                <h4>Option 3: Local Development</h4>
+                                <pre
+                                    style="
+                                        background: var(--theme-surface);
+                                        padding: 1rem;
+                                        border-radius: var(--border-radius);
+                                        margin: 1rem 0;
+                                    "
+                                ><code class="language-bash"># Clone the repository
+git clone https://github.com/your-org/monochrome-edge.git
+
+# Navigate to package directory
+cd monochrome-edge/packages/[framework]
+
+# Install dependencies
+npm install
+
+# Build the package
+npm run build
+
+# Link for local development
+npm link</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Framework Setup</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="setup-examples"
+                                >
+                                    React
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="setup-examples"
+                                >
+                                    Vue
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="setup-examples"
+                                >
+                                    Vanilla JS
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="setup-examples"
+                                >
+                                    jQuery
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="setup-examples"
+                                >
+                                    Custom
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="setup-examples">
+                            <div
+                                class="component-code active"
+                                data-framework="react"
+                            >
+                                <pre><code class="language-jsx">// 1. Import styles in your root component or index file
+import '@monochrome-edge/dist/monochrome-edge.css';
+import '@monochrome-edge/dist/tokens/cold-theme.css';
+
+// 2. Import and use components (TSX/React)
+import { Button, Card, useTheme } from '@monochrome-edge';
+
+function App() {
+  const { theme, mode, toggleTheme, toggleMode } = useTheme();
+
+  return (
+    &lt;Card&gt;
+      &lt;h1&gt;My App&lt;/h1&gt;
+      &lt;Button onClick={toggleTheme}&gt;Toggle Theme&lt;/Button&gt;
+      &lt;Button onClick={toggleMode}&gt;Toggle Mode&lt;/Button&gt;
+    &lt;/Card&gt;
+  );
+}
+
+export default App;</code></pre>
+                            </div>
+                            <div class="component-code" data-framework="vue">
+                                <pre><code class="language-javascript">// main.js or main.ts
+import { createApp } from 'vue';
+import App from './App.vue';
+
+// Import styles
+import 'monochrome-edge/dist/monochrome-edge.css';
+import 'monochrome-edge/dist/tokens/cold-theme.css';
+
+// Import components
+import MonochromeVue from '@monochrome-edge/vue';
+
+const app = createApp(App);
+app.use(MonochromeVue);
+app.mount('#app');</code></pre>
+                            </div>
+                            <div
+                                class="component-code"
+                                data-framework="vanilla"
+                            >
+                                <pre><code class="language-javascript">// Import styles
+import '@monochrome-edge/dist/monochrome-edge.css';
+import '@monochrome-edge/dist/tokens/cold-theme.css';
+
+// Import components and theme manager
+import { MonochromeComponents, ThemeManager } from '@monochrome-edge/vanilla';
+
+// Initialize theme manager
+const theme = new ThemeManager('cold', 'light');
+
+// Create components
+const button = MonochromeComponents.button('Click me', {
+  variant: 'primary',
+  onClick: () => {
+    theme.toggleTheme();
+  }
+});
+
+document.body.appendChild(button);</code></pre>
+                            </div>
+                            <div class="component-code" data-framework="jquery">
+                                <pre><code class="language-html">&lt;!-- Include jQuery first --&gt;
+&lt;script src="https://code.jquery.com/jquery-3.7.1.min.js"&gt;&lt;/script&gt;
+
+&lt;!-- Include Monochrome CSS --&gt;
+&lt;link rel="stylesheet" href="node_modules/@monochrome-edge/dist/monochrome-edge.css"&gt;
+&lt;link rel="stylesheet" href="node_modules/@monochrome-edge/dist/tokens/cold-theme.css"&gt;
+
+&lt;!-- Include Monochrome jQuery plugin --&gt;
+&lt;script src="node_modules/@monochrome-edge/jquery/dist/monochrome-jquery.js"&gt;&lt;/script&gt;
+
+&lt;script&gt;
+$(document).ready(function() {
+  // Initialize theme
+  $('html').monochrome({
+    theme: 'cold',
+    mode: 'light'
+  });
+
+  // Enhance components
+  $('.btn').monochromeButton();
+  $('form').monochromeForm();
+});
+&lt;/script&gt;</code></pre>
+                            </div>
+                            <div class="component-code" data-framework="custom">
+                                <pre><code class="language-typescript">// custom-library.ts
+import '@monochrome-edge/dist/monochrome-edge.css';
+
+// Extend Monochrome classes
+class CustomButton extends HTMLElement {
+  constructor() {
+    super();
+    this.classList.add('btn', 'btn-primary');
+  }
+
+  connectedCallback() {
+    this.addEventListener('click', this.handleClick);
+  }
+
+  handleClick = () => {
+    // Custom logic
+    this.classList.toggle('loading');
+  };
+}
+
+customElements.define('custom-button', CustomButton);
+
+// Use design tokens in your styles
+const styles = `
+  .custom-component {
+    background: var(--theme-surface);
+    color: var(--theme-text-primary);
+    border: 1px solid var(--theme-border);
+    border-radius: var(--border-radius);
+    font-family: var(--font-family-sans);
+  }
+`;
+
+export { CustomButton, styles };</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">
+                                Custom Library Development
+                            </h3>
+                        </div>
+                        <div class="component-content">
+                            <div
+                                class="component-preview"
+                                style="text-align: left"
+                            >
+                                <h4>Step 1: Set up your project structure</h4>
+                                <pre
+                                    style="
+                                        background: var(--theme-surface);
+                                        padding: 1rem;
+                                        border-radius: var(--border-radius);
+                                        margin: 1rem 0;
+                                    "
+                                ><code class="language-bash">my-custom-library/
+├── src/
+│   ├── components/
+│   │   ├── Button.ts
+│   │   ├── Card.ts
+│   │   └── index.ts
+│   ├── styles/
+│   │   └── overrides.css
+│   └── index.ts
+├── package.json
+└── tsconfig.json</code></pre>
+
+                                <h4>
+                                    Step 2: Install Monochrome as a dependency
+                                </h4>
+                                <pre
+                                    style="
+                                        background: var(--theme-surface);
+                                        padding: 1rem;
+                                        border-radius: var(--border-radius);
+                                        margin: 1rem 0;
+                                    "
+                                ><code class="language-json">{
+  "name": "my-custom-library",
+  "dependencies": {
+    "@monochrome": "latest"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  }
+}</code></pre>
+
+                                <h4>Step 3: Extend Monochrome components</h4>
+                                <pre
+                                    style="
+                                        background: var(--theme-surface);
+                                        padding: 1rem;
+                                        border-radius: var(--border-radius);
+                                        margin: 1rem 0;
+                                    "
+                                ><code class="language-typescript">// src/components/Button.ts
+import '@monochrome-edge/dist/monochrome-edge.css';
+
+export class EnhancedButton {
+  private element: HTMLButtonElement;
+
+  constructor(text: string, options?: any) {
+    this.element = document.createElement('button');
+    this.element.className = 'btn btn-primary';
+    this.element.textContent = text;
+
+    // Add custom functionality
+    this.element.addEventListener('click', () => {
+      this.element.classList.add('pulse-animation');
+      setTimeout(() => {
+        this.element.classList.remove('pulse-animation');
+      }, 300);
+    });
+  }
+
+  mount(container: HTMLElement) {
+    container.appendChild(this.element);
+  }
+}</code></pre>
+
+                                <h4>
+                                    Step 4: Create custom styles using design
+                                    tokens
+                                </h4>
+                                <pre
+                                    style="
+                                        background: var(--theme-surface);
+                                        padding: 1rem;
+                                        border-radius: var(--border-radius);
+                                        margin: 1rem 0;
+                                    "
+                                ><code class="language-css">/* src/styles/overrides.css */
+@import '@monochrome-edge/dist/monochrome-edge.css';
+
+.pulse-animation {
+  animation: pulse 0.3s ease-in-out;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Use Monochrome design tokens */
+.custom-card {
+  background: var(--theme-surface);
+  border: 2px solid var(--theme-highlight);
+  border-radius: calc(var(--border-radius) * 2);
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}</code></pre>
+
+                                <h4>Step 5: Export your library</h4>
+                                <pre
+                                    style="
+                                        background: var(--theme-surface);
+                                        padding: 1rem;
+                                        border-radius: var(--border-radius);
+                                        margin: 1rem 0;
+                                    "
+                                ><code class="language-typescript">// src/index.ts
+export { EnhancedButton } from './components/Button';
+export { CustomCard } from './components/Card';
+
+// Export a convenience initialization function
+export function initializeCustomLibrary() {
+  // Load Monochrome CSS if not already loaded
+  if (!document.getElementById('monochrome-css')) {
+    const link = document.createElement('link');
+    link.id = 'monochrome-css';
+    link.rel = 'stylesheet';
+    link.href = 'node_modules/@monochrome-edge/dist/monochrome-edge.css';
+    document.head.appendChild(link);
+  }
+
+  // Auto-enhance existing elements
+  document.querySelectorAll('[data-custom]').forEach(el => {
+    // Apply custom enhancements
+  });
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- Sample Modal -->
+        <div class="modal" id="sampleModal">
+            <div class="modal-backdrop" onclick="hideModal()"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Sample Modal</h3>
+                    <button class="modal-close" onclick="hideModal()">×</button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        This is a sample modal dialog. You can add any content
+                        here.
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ghost" onclick="hideModal()">
+                        Cancel
+                    </button>
+                    <button class="btn btn-primary" onclick="hideModal()">
+                        Confirm
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                // Theme and mode switchers
+                $("#theme-switcher").on("change", function () {
+                    const theme = $(this).val();
+                    console.log("Switching theme variant to:", theme);
+                    $("html").attr("data-theme-variant", theme);
+                    loadThemeColors(); // Reload color display
+                });
+
+                $("#mode-switcher").on("change", function () {
+                    const mode = $(this).val();
+                    $("html").attr("data-theme", mode);
+                });
+
+                // Navigation
+                $(".ds-nav-item").on("click", function (e) {
+                    e.preventDefault();
+                    const section = $(this).data("section");
+
+                    // Update active nav
+                    $(".ds-nav-item").removeClass("active");
+                    $(this).addClass("active");
+
+                    // Show section
+                    $(".ds-section").removeClass("active");
+                    $(`#${section}`).addClass("active");
+                });
+
+                // Component toggle (Preview/Code and Framework toggles)
+                $(".toggle-btn").on("click", function () {
+                    const target = $(this).data("target");
+                    const text = $(this).text();
+
+                    // Check if this is a framework toggle (in Examples or Integration section)
+                    const isFrameworkToggle = [
+                        "React",
+                        "Vue",
+                        "Vanilla JS",
+                        "jQuery",
+                        "Web Components",
+                        "Custom",
+                    ].includes(text);
+
+                    if (isFrameworkToggle) {
+                        // Framework toggle logic
+                        const frameworkMap = {
+                            React: "react",
+                            Vue: "vue",
+                            "Vanilla JS": "vanilla",
+                            jQuery: "jquery",
+                            "Web Components": "webcomponents",
+                            Custom: "custom",
+                        };
+
+                        const framework = frameworkMap[text];
+
+                        // Update button states
+                        $(this).siblings().removeClass("active");
+                        $(this).addClass("active");
+
+                        // Hide all framework code blocks and show selected one
+                        const content = $(`#${target}`);
+                        content.find(".component-code").removeClass("active");
+                        content
+                            .find(
+                                `.component-code[data-framework="${framework}"]`,
+                            )
+                            .addClass("active");
+
+                        // Re-highlight code when showing
+                        const activeCode = content.find(
+                            `.component-code[data-framework="${framework}"]`,
+                        )[0];
+                        if (activeCode) {
+                            Prism.highlightAllUnder(activeCode);
+                        }
+                    } else {
+                        // Original Preview/Code toggle logic
+                        const isCode = text === "Code";
+
+                        // Update button states
+                        $(this).siblings().removeClass("active");
+                        $(this).addClass("active");
+
+                        // Toggle content
+                        const content = $(`#${target}`);
+                        if (isCode) {
+                            content
+                                .find(".component-preview")
+                                .addClass("hidden");
+                            content.find(".component-code").addClass("active");
+                            // Re-highlight code when showing
+                            Prism.highlightAllUnder(content[0]);
+                        } else {
+                            content
+                                .find(".component-preview")
+                                .removeClass("hidden");
+                            content
+                                .find(".component-code")
+                                .removeClass("active");
+                        }
+                    }
+                });
+
+                // Initialize all code blocks
+                $(".component-code").each(function () {
+                    Prism.highlightAllUnder(this);
+                });
+
+                // Function to load theme colors
+                function loadThemeColors() {
+                    const currentTheme = $("html").attr("data-theme-variant") || "warm";
+                    const colorDisplay = $("#color-display");
+
+                    if (currentTheme === "warm") {
+                        colorDisplay.html(`
+                            <div class="color-swatch" style="background-color: #3D1A10;">
+                                <span class="color-name" style="color: white">Wine 900</span>
+                                <span class="color-value" style="color: white">#3D1A10</span>
+                            </div>
+                            <div class="color-swatch" style="background-color: #5A4535;">
+                                <span class="color-name" style="color: white">Brown 700</span>
+                                <span class="color-value" style="color: white">#5A4535</span>
+                            </div>
+                            <div class="color-swatch" style="background-color: #9C8770;">
+                                <span class="color-name" style="color: white">Olive 500</span>
+                                <span class="color-value" style="color: white">#9C8770</span>
+                            </div>
+                            <div class="color-swatch" style="background-color: #D4C4B0;">
+                                <span class="color-name">Sand 300</span>
+                                <span class="color-value">#D4C4B0</span>
+                            </div>
+                            <div class="color-swatch" style="background-color: #F5F2EC;">
+                                <span class="color-name">Cream 100</span>
+                                <span class="color-value">#F5F2EC</span>
+                            </div>
+                            <div class="color-swatch" style="background-color: #3d0604;">
+                                <span class="color-name" style="color: white">Deep Wine</span>
+                                <span class="color-value" style="color: white">#3d0604</span>
+                            </div>
+                            <div class="color-swatch" style="background-color: #9ca77e;">
+                                <span class="color-name">Pure Olive</span>
+                                <span class="color-value">#9ca77e</span>
+                            </div>
+                        `);
+                    } else {
+                        colorDisplay.html(`
+                            <div class="color-swatch" style="background-color: #111827;">
+                                <span class="color-name" style="color: white">Cool Gray 900</span>
+                                <span class="color-value" style="color: white">#111827</span>
+                            </div>
+                            <div class="color-swatch" style="background-color: #374151;">
+                                <span class="color-name" style="color: white">Cool Gray 700</span>
+                                <span class="color-value" style="color: white">#374151</span>
+                            </div>
+                            <div class="color-swatch" style="background-color: #6B7280;">
+                                <span class="color-name" style="color: white">Cool Gray 500</span>
+                                <span class="color-value" style="color: white">#6B7280</span>
+                            </div>
+                            <div class="color-swatch" style="background-color: #D1D5DB;">
+                                <span class="color-name">Cool Gray 300</span>
+                                <span class="color-value">#D1D5DB</span>
+                            </div>
+                            <div class="color-swatch" style="background-color: #F7F8F9;">
+                                <span class="color-name">Cool Gray 100</span>
+                                <span class="color-value">#F7F8F9</span>
+                            </div>
+                        `);
+                    }
+                }
+
+                // Load initial colors
+                loadThemeColors();
+
+                // Colors are already updated in the theme change handler above
+            });
+
+            // Modal functions
+            function showModal() {
+                $("#sampleModal").addClass("is-open");
+            }
+
+            function hideModal() {
+                $("#sampleModal").removeClass("is-open");
+            }
+        </script>
+    </body>
+</html>
