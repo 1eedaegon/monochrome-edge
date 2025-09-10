@@ -80,7 +80,7 @@ server.listen(PORT, (): void => {
 ║   Monochrome Edge UI Components Server     ║
 ║                                            ║
 ║   Server running at:                       ║
-║   http://localhost:${PORT}                 ║
+║   http://localhost:${PORT}                    ║
 ║                                            ║
 ║   Press Ctrl+C to stop                     ║
 ║                                            ║
