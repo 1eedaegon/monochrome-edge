@@ -35,11 +35,7 @@ export class ThemeManager {
   private apply() {
     const root = document.documentElement;
     root.setAttribute('data-theme', this.currentMode);
-    
-    const themeLink = document.getElementById('theme-link') as HTMLLinkElement;
-    if (themeLink) {
-      themeLink.href = themeLink.href.replace(/(warm|cold)/, this.currentTheme);
-    }
+    root.setAttribute('data-theme-variant', this.currentTheme);
   }
 
   getTheme() {

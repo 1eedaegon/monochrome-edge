@@ -43,7 +43,8 @@ export function ThemeProvider({
 
   React.useEffect(() => {
     document.documentElement.setAttribute('data-theme', mode);
-  }, [mode]);
+    document.documentElement.setAttribute('data-theme-variant', theme);
+  }, [mode, theme]);
 
   return (
     <ThemeContext.Provider value={{ theme, mode, setTheme, setMode, toggleMode }}>

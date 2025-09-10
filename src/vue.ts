@@ -57,8 +57,8 @@ export const ThemeProvider = defineComponent({
     };
 
     onMounted(() => {
-      document.documentElement.setAttribute('data-theme-variant', theme.value);
-      document.documentElement.setAttribute('data-theme', mode.value);
+      setTheme(theme.value);
+      setMode(mode.value);
     });
 
     provide(ThemeKey, {
