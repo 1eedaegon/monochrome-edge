@@ -6,6 +6,7 @@
 
 /* Base Reset and Theme Application */
 @import url("./base/reset.css");
+@import url("./base/responsive.css");
 
 /* Base Tokens - Both themes loaded with different selectors */
 @import url("./tokens/warm-theme.css");
