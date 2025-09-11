@@ -1,0 +1,106 @@
+name: PR Version Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - 'package.json'
+      - 'src/**'
+      - 'ui/**'
+
+jobs:
+  version-check:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+    
+    - name: Check base branch
+      run: |
+        git fetch origin ${{ github.base_ref }}
+    
+    - name: Get version info
+      id: version_check
+      run: |
+        # Get current branch version
+        CURRENT_VERSION=$(node -p "require('./package.json').version")
+        echo "current_version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+        
+        # Get base branch version
+        git show origin/${{ github.base_ref }}:package.json > base-package.json
+        BASE_VERSION=$(node -p "require('./base-package.json').version")
+        echo "base_version=$BASE_VERSION" >> $GITHUB_OUTPUT
+        
+        # Check if version was bumped
+        if [ "$CURRENT_VERSION" = "$BASE_VERSION" ]; then
+          echo "needs_bump=true" >> $GITHUB_OUTPUT
+          echo "⚠️ Version not bumped from base branch ($BASE_VERSION)"
+        else
+          echo "needs_bump=false" >> $GITHUB_OUTPUT
+          echo "✅ Version bumped: $BASE_VERSION → $CURRENT_VERSION"
+        fi
+    
+    - name: Check version in HTML
+      run: |
+        npm run version:update
+        
+        # Check if there are uncommitted changes
+        if [[ -n $(git status --porcelain index.html) ]]; then
+          echo "❌ Version in index.html is not synchronized"
+          echo "Please run 'npm run version:update' and commit the changes"
+          exit 1
+        else
+          echo "✅ Version in index.html is synchronized"
+        fi
+    
+    - name: Comment PR (if version needs bump)
+      if: steps.version_check.outputs.needs_bump == 'true'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const message = `## ⚠️ Version Bump Required
+          
+          The package version hasn't been bumped from the base branch.
+          
+          **Current version:** ${{ steps.version_check.outputs.current_version }}
+          **Base version:** ${{ steps.version_check.outputs.base_version }}
+          
+          Please bump the version using one of:
+          - \`npm version patch\` - for bug fixes
+          - \`npm version minor\` - for new features
+          - \`npm version major\` - for breaking changes
+          
+          This will automatically update the changelog and sync all version references.`;
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: message
+          });
+    
+    - name: Set PR status
+      if: always()
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const status = '${{ steps.version_check.outputs.needs_bump }}' === 'true' ? 'pending' : 'success';
+          const description = '${{ steps.version_check.outputs.needs_bump }}' === 'true' 
+            ? 'Version bump required' 
+            : 'Version check passed';
+          
+          github.rest.repos.createCommitStatus({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            sha: context.payload.pull_request.head.sha,
+            state: status,
+            description: description,
+            context: 'version-check'
+          });
