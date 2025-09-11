@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Update version in HTML files before commit
+npm run version:update
+
+# Stage any changes made by version update
+git add index.html
+
+# Optional: Run tests before commit
+# npm test
