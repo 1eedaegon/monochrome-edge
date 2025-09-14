@@ -68,7 +68,7 @@ import '@monochrome-edge/ui/jquery'
 </head>
 <body>
   <button class="btn btn-primary">Click me</button>
-  
+
   <!-- Optional: JavaScript components -->
   <script src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/index.js"></script>
   <script>
@@ -180,18 +180,18 @@ modal.show()
   --theme-bg: /* Dynamic based on theme */
   --theme-surface: /* Dynamic based on theme */
   --theme-accent: /* Dynamic based on theme */
-  
+
   /* Typography */
   --font-family-sans: system-ui, -apple-system, sans-serif
   --font-size-base: 16px
-  
+
   /* Spacing */
   --spacing-xs: 0.25rem
   --spacing-sm: 0.5rem
   --spacing-md: 1rem
   --spacing-lg: 1.5rem
   --spacing-xl: 2rem
-  
+
   /* Borders */
   --border-radius-sm: 4px
   --border-radius-md: 8px
@@ -307,7 +307,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines.
 
 ## Links
 
-- [Documentation](https://monochrome-edge.dev)
+- [Documentation](DEVELOPMENT.md)
 - [GitHub](https://github.com/1eedaegon/monochrome-edge)
 - [npm](https://www.npmjs.com/package/@monochrome-edge/ui)
 - [jsDelivr CDN](https://www.jsdelivr.com/package/npm/@monochrome-edge/ui)
