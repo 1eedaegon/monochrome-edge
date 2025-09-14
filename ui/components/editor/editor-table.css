@@ -1,0 +1,265 @@
+/* Editor Table Component - Enhanced Markdown Tables */
+
+.editor-table-wrapper {
+    margin: 1rem 0;
+    overflow-x: auto;
+    position: relative;
+}
+
+.editor-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.editor-table thead {
+    background: var(--theme-bg);
+    border-bottom: 2px solid var(--theme-accent);
+}
+
+.editor-table th {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--theme-text-primary);
+    position: relative;
+    user-select: none;
+}
+
+.editor-table td {
+    padding: 0.75rem 1rem;
+    border-top: 1px solid var(--theme-border);
+    color: var(--theme-text-secondary);
+    position: relative;
+}
+
+/* Editable cells */
+.editor-table td[contenteditable="true"] {
+    cursor: text;
+    outline: none;
+    transition: background 0.2s;
+}
+
+.editor-table td[contenteditable="true"]:hover {
+    background: var(--theme-bg);
+}
+
+.editor-table td[contenteditable="true"]:focus {
+    background: var(--theme-bg);
+    box-shadow: inset 0 0 0 2px var(--theme-accent-alpha);
+}
+
+/* Cell selection */
+.editor-table td.selected,
+.editor-table th.selected {
+    background: var(--theme-accent-alpha) !important;
+}
+
+.editor-table td.selecting {
+    background: var(--theme-info-alpha);
+}
+
+/* Resize handles */
+.editor-table-resize-handle {
+    position: absolute;
+    top: 0;
+    right: -3px;
+    bottom: 0;
+    width: 6px;
+    cursor: col-resize;
+    background: transparent;
+    z-index: 10;
+}
+
+.editor-table-resize-handle:hover,
+.editor-table-resize-handle.resizing {
+    background: var(--theme-accent);
+}
+
+/* Row resize handle */
+.editor-table-row-resize {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -3px;
+    height: 6px;
+    cursor: row-resize;
+    background: transparent;
+}
+
+.editor-table-row-resize:hover {
+    background: var(--theme-accent);
+}
+
+/* Add column/row buttons */
+.editor-table-add-col,
+.editor-table-add-row {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: var(--theme-accent);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s;
+    font-size: 18px;
+    line-height: 1;
+    border: none;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+.editor-table-wrapper:hover .editor-table-add-col,
+.editor-table-wrapper:hover .editor-table-add-row {
+    opacity: 1;
+}
+
+.editor-table-add-col {
+    top: 50%;
+    right: -12px;
+    transform: translateY(-50%);
+}
+
+.editor-table-add-row {
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.editor-table-add-col::before { content: '+'; }
+.editor-table-add-row::before { content: '+'; }
+
+/* Table toolbar */
+.editor-table-toolbar {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.25rem;
+    background: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.editor-table-wrapper:hover .editor-table-toolbar {
+    opacity: 1;
+}
+
+.editor-table-btn {
+    padding: 0.25rem 0.5rem;
+    background: transparent;
+    border: none;
+    color: var(--theme-text-secondary);
+    cursor: pointer;
+    border-radius: var(--border-radius-sm);
+    transition: all 0.2s;
+    font-size: 0.875rem;
+}
+
+.editor-table-btn:hover {
+    background: var(--theme-bg);
+    color: var(--theme-text-primary);
+}
+
+/* Markdown mode display */
+.editor-table.markdown-mode {
+    font-family: 'SF Mono', Monaco, monospace;
+    font-size: 0.9em;
+}
+
+.editor-table.markdown-mode td,
+.editor-table.markdown-mode th {
+    border: 1px solid var(--theme-text-muted);
+    padding: 0.5rem;
+}
+
+.editor-table.markdown-mode td::before,
+.editor-table.markdown-mode th::before,
+.editor-table.markdown-mode td::after,
+.editor-table.markdown-mode th::after {
+    content: '|';
+    color: var(--theme-text-muted);
+    position: absolute;
+}
+
+.editor-table.markdown-mode td::before,
+.editor-table.markdown-mode th::before {
+    left: 0;
+}
+
+.editor-table.markdown-mode td::after,
+.editor-table.markdown-mode th::after {
+    right: 0;
+}
+
+/* Alignment indicators */
+.editor-table .align-left { text-align: left; }
+.editor-table .align-center { text-align: center; }
+.editor-table .align-right { text-align: right; }
+
+/* Copy/paste overlay */
+.editor-table-paste-preview {
+    position: absolute;
+    background: var(--theme-accent-alpha);
+    border: 2px dashed var(--theme-accent);
+    pointer-events: none;
+    z-index: 100;
+}
+
+/* Context menu */
+.editor-table-context-menu {
+    position: fixed;
+    background: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 0.25rem;
+    min-width: 160px;
+    z-index: 1000;
+    display: none;
+}
+
+.editor-table-context-menu.active {
+    display: block;
+}
+
+.editor-table-menu-item {
+    padding: 0.5rem 0.75rem;
+    cursor: pointer;
+    border-radius: var(--border-radius-sm);
+    transition: background 0.2s;
+    font-size: 0.875rem;
+    color: var(--theme-text-primary);
+}
+
+.editor-table-menu-item:hover {
+    background: var(--theme-bg);
+}
+
+.editor-table-menu-divider {
+    height: 1px;
+    background: var(--theme-border);
+    margin: 0.25rem 0;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .editor-table {
+        font-size: 0.875rem;
+    }
+    
+    .editor-table th,
+    .editor-table td {
+        padding: 0.5rem;
+    }
+}

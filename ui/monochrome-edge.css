@@ -51,3 +51,13 @@
 @import url("./utilities/spacing.css");
 @import url("./utilities/flex.css");
 @import url("./utilities/grid.css");
+
+/* New Components */
+@import url("./components/modal/modal.css");
+@import url("./components/toast/toast.css");
+@import url("./components/tabs/tabs.css");
+@import url("./components/tabs/file-tabs.css");
+@import url("./components/accordion/accordion.css");
+@import url("./components/progress/progress.css");
+@import url("./components/command/command.css");
+@import url("./components/tree/tree.css");
