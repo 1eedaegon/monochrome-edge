@@ -36,21 +36,21 @@ npm install @monochrome-edge/ui
 ### CSS Import
 
 ```html
-<!-- Local file -->
-<link rel="stylesheet" href="node_modules/@monochrome-edge/ui/dist/monochrome.min.css">
-
 <!-- CDN -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/monochrome.min.css">
+
+<!-- Or use specific version -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@0.3.1/dist/monochrome.min.css">
 ```
 
 ### JavaScript Import
 
 ```javascript
-// ES6 Modules
-import { Button, Modal, Toast } from '@monochrome-edge/ui'
+// ES6 Modules from CDN
+import { Button, Modal, Toast } from 'https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/index.esm.js'
 
-// CommonJS
-const { Button, Modal, Toast } = require('@monochrome-edge/ui')
+// Or from npm package
+import { Button, Modal, Toast } from '@monochrome-edge/ui'
 ```
 
 ### Framework Support
