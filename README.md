@@ -2,6 +2,8 @@
 
 A modern, minimalist UI component library with dual-theme system for web applications.
 
+![Theme Demo](theme-demo.gif)
+
 ## Overview
 
 Monochrome Edge provides a comprehensive set of UI components built with pure CSS and optional JavaScript enhancements. The library features a sophisticated dual-theme system (Warm/Cold) with automatic light/dark mode support.
