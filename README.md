@@ -20,15 +20,6 @@ npm install @monochrome-edge/ui
 <!-- Latest version -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/monochrome.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/index.js"></script>
-
-<!-- Specific version -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@0.3.1/dist/monochrome.min.css">
-<script src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@0.3.1/dist/index.js"></script>
-
-<!-- ES Module -->
-<script type="module">
-  import { Button, Modal } from 'https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/index.esm.js'
-</script>
 ```
 
 ## Quick Start
