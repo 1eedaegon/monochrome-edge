@@ -1,0 +1,372 @@
+/* Editor Special Blocks - Code, Math, etc. */
+
+/* Code Block */
+.editor-code-block {
+    position: relative;
+    margin: 1rem 0;
+    background: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+}
+
+.editor-code-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    background: var(--theme-bg);
+    border-bottom: 1px solid var(--theme-border);
+}
+
+.editor-code-language {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--theme-text-secondary);
+}
+
+.editor-code-language select {
+    padding: 0.25rem 0.5rem;
+    background: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    border-radius: var(--border-radius-sm);
+    color: var(--theme-text-primary);
+    font-size: 0.875rem;
+    outline: none;
+    cursor: pointer;
+}
+
+.editor-code-actions {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.editor-code-btn {
+    padding: 0.25rem 0.5rem;
+    background: transparent;
+    border: none;
+    color: var(--theme-text-secondary);
+    cursor: pointer;
+    border-radius: var(--border-radius-sm);
+    transition: all 0.2s;
+    font-size: 0.75rem;
+}
+
+.editor-code-btn:hover {
+    background: var(--theme-surface);
+    color: var(--theme-text-primary);
+}
+
+.editor-code-content {
+    position: relative;
+    padding: 1rem;
+    overflow-x: auto;
+}
+
+.editor-code-pre {
+    margin: 0;
+    font-family: 'SF Mono', Monaco, 'Courier New', monospace;
+    font-size: 0.9em;
+    line-height: 1.5;
+    tab-size: 4;
+    white-space: pre;
+    color: var(--theme-text-primary);
+    outline: none;
+}
+
+/* Line numbers */
+.editor-code-content.with-lines {
+    display: flex;
+}
+
+.editor-code-lines {
+    flex-shrink: 0;
+    padding-right: 1rem;
+    margin-right: 1rem;
+    border-right: 1px solid var(--theme-border);
+    color: var(--theme-text-muted);
+    user-select: none;
+    font-family: 'SF Mono', Monaco, monospace;
+    font-size: 0.9em;
+    line-height: 1.5;
+}
+
+.editor-code-line-number {
+    display: block;
+    text-align: right;
+}
+
+/* Syntax highlighting (basic) */
+.editor-code-pre .keyword { color: var(--theme-accent); font-weight: 600; }
+.editor-code-pre .string { color: var(--theme-success); }
+.editor-code-pre .comment { color: var(--theme-text-muted); font-style: italic; }
+.editor-code-pre .number { color: var(--theme-warning); }
+.editor-code-pre .function { color: var(--theme-info); }
+
+/* Math Block */
+.editor-math-block {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    border-radius: var(--border-radius);
+    position: relative;
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.editor-math-content {
+    width: 100%;
+    text-align: center;
+    font-size: 1.1em;
+    color: var(--theme-text-primary);
+}
+
+.editor-math-input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100%;
+    padding: 1rem;
+    background: var(--theme-bg);
+    border: none;
+    font-family: 'SF Mono', Monaco, monospace;
+    font-size: 0.9em;
+    color: var(--theme-text-primary);
+    outline: none;
+    resize: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.editor-math-block:hover .editor-math-input,
+.editor-math-block.editing .editor-math-input {
+    opacity: 1;
+}
+
+.editor-math-error {
+    color: var(--theme-error);
+    font-size: 0.875rem;
+    font-style: italic;
+}
+
+/* Inline math */
+.editor-math-inline {
+    display: inline-block;
+    padding: 0 0.25rem;
+    background: var(--theme-surface);
+    border-radius: var(--border-radius-sm);
+    position: relative;
+    cursor: pointer;
+}
+
+.editor-math-inline:hover {
+    background: var(--theme-bg);
+}
+
+/* Image Block */
+.editor-image-block {
+    margin: 1rem 0;
+    text-align: center;
+    position: relative;
+}
+
+.editor-image-wrapper {
+    display: inline-block;
+    position: relative;
+    max-width: 100%;
+}
+
+.editor-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.editor-image-caption {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--theme-text-secondary);
+    font-style: italic;
+}
+
+.editor-image-toolbar {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    gap: 0.25rem;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.editor-image-wrapper:hover .editor-image-toolbar {
+    opacity: 1;
+}
+
+.editor-image-btn {
+    width: 32px;
+    height: 32px;
+    background: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    border-radius: var(--border-radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--theme-text-secondary);
+    transition: all 0.2s;
+}
+
+.editor-image-btn:hover {
+    background: var(--theme-bg);
+    color: var(--theme-text-primary);
+}
+
+/* File Upload Zone */
+.editor-upload-zone {
+    margin: 1rem 0;
+    padding: 2rem;
+    background: var(--theme-surface);
+    border: 2px dashed var(--theme-border);
+    border-radius: var(--border-radius);
+    text-align: center;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.editor-upload-zone:hover,
+.editor-upload-zone.drag-over {
+    background: var(--theme-bg);
+    border-color: var(--theme-accent);
+}
+
+.editor-upload-icon {
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 1rem;
+    color: var(--theme-text-muted);
+    opacity: 0.5;
+}
+
+.editor-upload-text {
+    color: var(--theme-text-secondary);
+    font-size: 0.875rem;
+}
+
+.editor-upload-hint {
+    margin-top: 0.5rem;
+    color: var(--theme-text-muted);
+    font-size: 0.75rem;
+}
+
+/* Quote Block Enhanced */
+.editor-quote-block {
+    margin: 1rem 0;
+    padding: 1rem 1rem 1rem 1.5rem;
+    background: var(--theme-surface);
+    border-left: 4px solid var(--theme-accent);
+    border-radius: var(--border-radius);
+    position: relative;
+}
+
+.editor-quote-block::before {
+    content: '"';
+    position: absolute;
+    left: 0.5rem;
+    top: 0.5rem;
+    font-size: 2rem;
+    color: var(--theme-accent);
+    opacity: 0.3;
+    font-family: Georgia, serif;
+}
+
+.editor-quote-content {
+    font-style: italic;
+    color: var(--theme-text-secondary);
+    line-height: 1.6;
+}
+
+.editor-quote-author {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--theme-text-muted);
+    font-style: normal;
+}
+
+.editor-quote-author::before {
+    content: '— ';
+}
+
+/* Callout/Alert Blocks */
+.editor-callout {
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--theme-accent);
+}
+
+.editor-callout.info {
+    background: var(--theme-info-alpha);
+    border-left-color: var(--theme-info);
+}
+
+.editor-callout.warning {
+    background: var(--theme-warning-alpha);
+    border-left-color: var(--theme-warning);
+}
+
+.editor-callout.error {
+    background: var(--theme-error-alpha);
+    border-left-color: var(--theme-error);
+}
+
+.editor-callout.success {
+    background: var(--theme-success-alpha);
+    border-left-color: var(--theme-success);
+}
+
+.editor-callout-title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.editor-callout-icon {
+    width: 20px;
+    height: 20px;
+}
+
+/* Divider */
+.editor-divider {
+    margin: 2rem 0;
+    border: none;
+    border-top: 1px solid var(--theme-border);
+    position: relative;
+}
+
+.editor-divider.fancy {
+    border-top: none;
+    text-align: center;
+    height: 20px;
+}
+
+.editor-divider.fancy::before {
+    content: '• • •';
+    color: var(--theme-text-muted);
+    letter-spacing: 1rem;
+    font-size: 1.5rem;
+    line-height: 1;
+}
