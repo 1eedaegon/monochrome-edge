@@ -8,8 +8,27 @@ Monochrome Edge provides a comprehensive set of UI components built with pure CS
 
 ## Installation
 
+### NPM
+
 ```bash
 npm install @monochrome-edge/ui
+```
+
+### CDN (jsDelivr)
+
+```html
+<!-- Latest version -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/monochrome.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/index.js"></script>
+
+<!-- Specific version -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@0.3.1/dist/monochrome.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@0.3.1/dist/index.js"></script>
+
+<!-- ES Module -->
+<script type="module">
+  import { Button, Modal } from 'https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/index.esm.js'
+</script>
 ```
 
 ## Quick Start
@@ -17,8 +36,11 @@ npm install @monochrome-edge/ui
 ### CSS Import
 
 ```html
-<!-- Single import includes both themes -->
+<!-- Local file -->
 <link rel="stylesheet" href="node_modules/@monochrome-edge/ui/dist/monochrome.min.css">
+
+<!-- CDN -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/monochrome.min.css">
 ```
 
 ### JavaScript Import
@@ -42,6 +64,30 @@ import { Button, Card } from '@monochrome-edge/ui/vue'
 
 // jQuery
 import '@monochrome-edge/ui/jquery'
+```
+
+### CDN Usage
+
+```html
+<!DOCTYPE html>
+<html data-theme-variant="warm">
+<head>
+  <!-- Monochrome Edge from jsDelivr -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/monochrome.min.css">
+</head>
+<body>
+  <button class="btn btn-primary">Click me</button>
+  
+  <!-- Optional: JavaScript components -->
+  <script src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/index.js"></script>
+  <script>
+    // Components are available globally
+    const modal = new MonochromeEdge.Modal({
+      title: 'Hello World'
+    })
+  </script>
+</body>
+</html>
 ```
 
 ## Theme System
@@ -273,3 +319,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines.
 - [Documentation](https://monochrome-edge.dev)
 - [GitHub](https://github.com/1eedaegon/monochrome-edge)
 - [npm](https://www.npmjs.com/package/@monochrome-edge/ui)
+- [jsDelivr CDN](https://www.jsdelivr.com/package/npm/@monochrome-edge/ui)
