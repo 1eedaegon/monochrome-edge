@@ -165,6 +165,23 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         continue-on-error: true
 
+      - name: Purge jsDelivr cache
+        if: success()
+        run: |
+          # Wait for npm to propagate
+          sleep 30
+
+          # Purge jsDelivr cache for the new version
+          curl -X POST \
+            "https://purge.jsdelivr.net/npm/@monochrome-edge/ui@${{ steps.version.outputs.new_version }}" \
+            || echo "jsDelivr purge failed (non-critical)"
+
+          # Also purge latest tag
+          curl -X POST \
+            "https://purge.jsdelivr.net/npm/@monochrome-edge/ui" \
+            || echo "jsDelivr latest purge failed (non-critical)"
+        continue-on-error: true
+
       - name: Comment on PR (if triggered by PR merge)
         if: github.event.pull_request
         uses: actions/github-script@v7
