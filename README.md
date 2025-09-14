@@ -2,7 +2,7 @@
 
 A modern, minimalist UI component library with dual-theme system for web applications.
 
-![Theme Demo](theme-demo.gif)
+![Theme Demo](docs/theme-demo.gif)
 
 ## Overview
 
