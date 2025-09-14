@@ -299,7 +299,7 @@ const props: ButtonProps = {
 
 ## License
 
-MIT
+[MIT](LICENSE)
 
 ## Contributing
 
