@@ -20,8 +20,8 @@ npm install @monochrome-edge/ui
 
 ```html
 <!-- Latest version -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/monochrome.min.css">
-<script src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/index.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/index.js"></script>
 ```
 
 ## Quick Start
@@ -30,17 +30,17 @@ npm install @monochrome-edge/ui
 
 ```html
 <!-- CDN -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/monochrome.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css">
 
 <!-- Or use specific version -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@0.3.1/dist/monochrome.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css">
 ```
 
 ### JavaScript Import
 
 ```javascript
 // ES6 Modules from CDN
-import { Button, Modal, Toast } from 'https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/index.esm.js'
+import { Button, Modal, Toast } from 'https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/index.esm.js'
 
 // Or from npm package
 import { Button, Modal, Toast } from '@monochrome-edge/ui'
@@ -66,13 +66,13 @@ import '@monochrome-edge/ui/jquery'
 <html data-theme-variant="warm">
 <head>
   <!-- Monochrome Edge from jsDelivr -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/monochrome.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css">
 </head>
 <body>
   <button class="btn btn-primary">Click me</button>
 
   <!-- Optional: JavaScript components -->
-  <script src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/index.js"></script>
   <script>
     // Components are available globally
     const modal = new MonochromeEdge.Modal({
