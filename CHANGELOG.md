@@ -5,11 +5,11 @@ All notable changes to Monochrome Edge UI Components will be documented in this 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.4.6] - 2025-09-14
+## [0.4.7] - 2025-09-14
 
-### Documentation
+### Bug Fixes
 
-- docs: update license links ([b290c0d](../../commit/b290c0d54c97a2870e1886cb62e99b2de003f803))
+- fix: remove duplicated version on index.html ([be10ae9](../../commit/be10ae9929783cf6b9eea0e2fa06f6ace7525287))
 
 ## Changes
 
