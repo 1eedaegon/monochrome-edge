@@ -184,17 +184,17 @@
                 min-width: 0;
                 overflow-x: auto;
             }
-            
+
             /* Prevent code blocks from causing overflow */
             pre {
                 overflow-x: auto;
                 max-width: 100%;
             }
-            
+
             code {
                 word-break: break-word;
             }
-            
+
             .component-preview,
             .component-code {
                 overflow-x: auto;
@@ -231,12 +231,11 @@
             .ds-nav {
                 padding: 1rem 1.5rem;
             }
-            
+
             .ds-nav .nav-item {
                 margin-left: 0;
                 margin-right: 0;
             }
-
 
             .ds-section {
                 margin-bottom: 3rem;
@@ -403,8 +402,23 @@
                 <span></span>
             </div>
             <div>
+<<<<<<< HEAD
                 <div class="ds-title" style="font-size: 1.125rem; margin-bottom: 0;">Monochrome Edge</div>
                 <div class="ds-subtitle" style="font-size: 0.75rem; text-align: right;">v<!-- VERSION -->0.3.1<!-- /VERSION --></div>
+=======
+                <div
+                    class="ds-title"
+                    style="font-size: 1.125rem; margin-bottom: 0"
+                >
+                    Monochrome Edge
+                </div>
+                <div
+                    class="ds-subtitle"
+                    style="font-size: 0.75rem; text-align: right"
+                >
+                    v<!-- VERSION -->0.3.0<!-- /VERSION -->
+                </div>
+>>>>>>> 56374ba (fix: update demo on index.html)
             </div>
         </div>
 
@@ -413,7 +427,16 @@
             <aside class="ds-sidebar">
                 <div class="ds-header">
                     <h1 class="ds-title">Monochrome Edge</h1>
+<<<<<<< HEAD
                     <p class="ds-subtitle" style="text-align: right; margin-top: 0.5rem;">v<!-- VERSION -->0.3.1<!-- /VERSION --></p>
+=======
+                    <p
+                        class="ds-subtitle"
+                        style="text-align: right; margin-top: 0.5rem"
+                    >
+                        v<!-- VERSION -->0.3.0<!-- /VERSION -->
+                    </p>
+>>>>>>> 56374ba (fix: update demo on index.html)
                 </div>
 
                 <div class="ds-controls">
@@ -481,6 +504,9 @@
                     </a>
                     <a class="nav-item" data-section="examples">
                         <span class="nav-item-label">Examples</span>
+                    </a>
+                    <a class="nav-item" data-section="editor">
+                        <span class="nav-item-label">Editor</span>
                     </a>
                     <a class="nav-item" data-section="integration">
                         <span class="nav-item-label">Integration</span>
@@ -759,19 +785,46 @@
                                 <button class="btn btn-danger">Danger</button>
                             </div>
                             <div class="component-code">
-                                <div style="padding: 2rem;">
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">HTML/CSS</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>&lt;button class="btn btn-primary"&gt;Primary&lt;/button&gt;
+                                <div style="padding: 2rem">
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        HTML/CSS
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;button class="btn btn-primary"&gt;Primary&lt;/button&gt;
 &lt;button class="btn btn-secondary"&gt;Secondary&lt;/button&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">React</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>import { Button } from '@monochrome-edge/ui/react';
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        React
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>import { Button } from '@monochrome-edge/ui/react';
 
 &lt;Button variant="primary"&gt;Primary&lt;/Button&gt;
 &lt;Button variant="secondary"&gt;Secondary&lt;/Button&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vue.js</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>&lt;template&gt;
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Vue.js
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;template&gt;
   &lt;Button variant="primary"&gt;Primary&lt;/Button&gt;
   &lt;Button variant="secondary"&gt;Secondary&lt;/Button&gt;
 &lt;/template&gt;
@@ -780,19 +833,44 @@
 import { Button } from '@monochrome-edge/ui/vue';
 &lt;/script&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Web Components</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>&lt;mono-button variant="primary"&gt;Primary&lt;/mono-button&gt;
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Web Components
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;mono-button variant="primary"&gt;Primary&lt;/mono-button&gt;
 &lt;mono-button variant="secondary"&gt;Secondary&lt;/mono-button&gt;
 
 &lt;script type="module"&gt;
   import '@monochrome-edge/ui/wc';
 &lt;/script&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">jQuery</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>$('&lt;button&gt;').addClass('btn btn-primary').text('Primary').appendTo('#app');
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        jQuery
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>$('&lt;button&gt;').addClass('btn btn-primary').text('Primary').appendTo('#app');
 $('&lt;button&gt;').addClass('btn btn-secondary').text('Secondary').appendTo('#app');</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vanilla JavaScript</h4>
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Vanilla JavaScript
+                                    </h4>
                                     <pre><code>import { createButton } from '@monochrome-edge/ui';
 
 const btn1 = createButton('Primary', { variant: 'primary' });
@@ -833,23 +911,57 @@ document.body.appendChild(btn2);</code></pre>
                                 </button>
                             </div>
                             <div class="component-code">
-                                <div style="padding: 2rem;">
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">HTML/CSS</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>&lt;button class="btn btn-primary btn-small"&gt;Small&lt;/button&gt;
+                                <div style="padding: 2rem">
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        HTML/CSS
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;button class="btn btn-primary btn-small"&gt;Small&lt;/button&gt;
 &lt;button class="btn btn-primary"&gt;Default&lt;/button&gt;
 &lt;button class="btn btn-primary btn-large"&gt;Large&lt;/button&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">React</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>&lt;Button size="small"&gt;Small&lt;/Button&gt;
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        React
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;Button size="small"&gt;Small&lt;/Button&gt;
 &lt;Button&gt;Default&lt;/Button&gt;
 &lt;Button size="large"&gt;Large&lt;/Button&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vue.js</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>&lt;Button :size="'small'"&gt;Small&lt;/Button&gt;
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Vue.js
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;Button :size="'small'"&gt;Small&lt;/Button&gt;
 &lt;Button&gt;Default&lt;/Button&gt;
 &lt;Button :size="'large'"&gt;Large&lt;/Button&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">jQuery</h4>
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        jQuery
+                                    </h4>
                                     <pre><code>$('.btn').addClass('btn-small');
 $('.btn').addClass('btn-large');</code></pre>
                                 </div>
@@ -928,33 +1040,67 @@ $('.btn').addClass('btn-large');</code></pre>
                                 </div>
                             </div>
                             <div class="component-code">
-                                <div style="padding: 2rem;">
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">HTML/CSS</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>&lt;div class="form-group"&gt;
+                                <div style="padding: 2rem">
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        HTML/CSS
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;div class="form-group"&gt;
     &lt;label class="label"&gt;Email Address&lt;/label&gt;
     &lt;input type="email" class="input" placeholder="you@example.com"&gt;
     &lt;span class="helper-text"&gt;We'll never share your email.&lt;/span&gt;
 &lt;/div&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">React</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>import { Input } from '@monochrome-edge/ui/react';
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        React
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>import { Input } from '@monochrome-edge/ui/react';
 
-&lt;Input 
+&lt;Input
     label="Email Address"
     type="email"
     placeholder="you@example.com"
     helperText="We'll never share your email."
 /&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vue.js</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>&lt;Input 
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Vue.js
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;Input
     label="Email Address"
     type="email"
     placeholder="you@example.com"
     helper-text="We'll never share your email."
 /&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">jQuery</h4>
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        jQuery
+                                    </h4>
                                     <pre><code>$('#email-input').wrap('&lt;div class="form-group"&gt;&lt;/div&gt;');
 $('#email-input').before('&lt;label class="label"&gt;Email Address&lt;/label&gt;');
 $('#email-input').after('&lt;span class="helper-text"&gt;We\'ll never share your email.&lt;/span&gt;');</code></pre>
@@ -968,7 +1114,8 @@ $('#email-input').after('&lt;span class="helper-text"&gt;We\'ll never share your
                 <section class="ds-section" id="dropdowns">
                     <h2 class="ds-section-title">Dropdowns</h2>
                     <p class="ds-section-description">
-                        Flexible dropdown menus and select components with theme support.
+                        Flexible dropdown menus and select components with theme
+                        support.
                     </p>
 
                     <div class="component-showcase">
@@ -991,29 +1138,49 @@ $('#email-input').after('&lt;span class="helper-text"&gt;We\'ll never share your
                         </div>
                         <div class="component-content" id="dropdown-menu">
                             <div class="component-preview">
-                                <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
+                                <div
+                                    style="
+                                        display: flex;
+                                        gap: 2rem;
+                                        flex-wrap: wrap;
+                                    "
+                                >
                                     <div class="form-group">
-                                        <label class="label">Basic Select</label>
+                                        <label class="label"
+                                            >Basic Select</label
+                                        >
                                         <select class="select">
-                                            <option value="">Choose an option</option>
+                                            <option value="">
+                                                Choose an option
+                                            </option>
                                             <option value="1">Option 1</option>
-                                            <option value="2" selected>Option 2</option>
+                                            <option value="2" selected>
+                                                Option 2
+                                            </option>
                                             <option value="3">Option 3</option>
                                             <option value="4">Option 4</option>
                                             <option value="5">Option 5</option>
                                         </select>
                                     </div>
-                                    
+
                                     <div class="form-group">
-                                        <label class="label">Disabled Select</label>
+                                        <label class="label"
+                                            >Disabled Select</label
+                                        >
                                         <select class="select" disabled>
                                             <option>Disabled</option>
                                         </select>
                                     </div>
-                                    
+
                                     <div class="form-group">
-                                        <label class="label">Multiple Select</label>
-                                        <select class="select" multiple size="4">
+                                        <label class="label"
+                                            >Multiple Select</label
+                                        >
+                                        <select
+                                            class="select"
+                                            multiple
+                                            size="4"
+                                        >
                                             <option value="1">Option 1</option>
                                             <option value="2">Option 2</option>
                                             <option value="3">Option 3</option>
@@ -1023,9 +1190,18 @@ $('#email-input').after('&lt;span class="helper-text"&gt;We\'ll never share your
                                 </div>
                             </div>
                             <div class="component-code">
-                                <div style="padding: 2rem;">
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">HTML/CSS</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>&lt;!-- Basic Select --&gt;
+                                <div style="padding: 2rem">
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        HTML/CSS
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;!-- Basic Select --&gt;
 &lt;select class="select"&gt;
     &lt;option value=""&gt;Choose an option&lt;/option&gt;
     &lt;option value="1"&gt;Option 1&lt;/option&gt;
@@ -1041,24 +1217,49 @@ $('#email-input').after('&lt;span class="helper-text"&gt;We\'ll never share your
     &lt;option value="4"&gt;Option 4&lt;/option&gt;
 &lt;/select&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">React</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>import { Dropdown } from '@monochrome-edge/ui/react';
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        React
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>import { Dropdown } from '@monochrome-edge/ui/react';
 
-&lt;Dropdown 
+&lt;Dropdown
     options={['Option 1', 'Option 2', 'Option 3']}
     value={selected}
     onChange={(value) => setSelected(value)}
     placeholder="Select Option"
 /&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vue.js</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>&lt;Dropdown 
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Vue.js
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;Dropdown
     :options="['Option 1', 'Option 2', 'Option 3']"
     v-model="selected"
     placeholder="Select Option"
 /&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">jQuery</h4>
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        jQuery
+                                    </h4>
                                     <pre><code>function toggleDropdown(button) {
     const dropdown = $(button).parent('.dropdown');
     dropdown.toggleClass('is-open');
@@ -1144,9 +1345,18 @@ $('.dropdown-option').on('click', function() {
                                 </div>
                             </div>
                             <div class="component-code">
-                                <div style="padding: 2rem;">
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">HTML/CSS</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>&lt;!-- Basic Card --&gt;
+                                <div style="padding: 2rem">
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        HTML/CSS
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;!-- Basic Card --&gt;
 &lt;div class="card"&gt;
     &lt;div class="card-header"&gt;
         &lt;h4 class="card-header-title"&gt;Card Title&lt;/h4&gt;
@@ -1163,19 +1373,44 @@ $('.dropdown-option').on('click', function() {
     &lt;div class="stat-card-change stat-card-change-positive"&gt;+12.5%&lt;/div&gt;
 &lt;/div&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">React</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>import { Card } from '@monochrome-edge/ui/react';
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        React
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>import { Card } from '@monochrome-edge/ui/react';
 
 &lt;Card title="Card Title"&gt;
     &lt;p&gt;Card content&lt;/p&gt;
 &lt;/Card&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vue.js</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>&lt;Card title="Card Title"&gt;
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Vue.js
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;Card title="Card Title"&gt;
     &lt;p&gt;Card content&lt;/p&gt;
 &lt;/Card&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vanilla JavaScript</h4>
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Vanilla JavaScript
+                                    </h4>
                                     <pre><code>import { createCard } from '@monochrome-edge/ui';
 
 const card = createCard('Card Title', 'Card content');
@@ -1243,9 +1478,18 @@ document.body.appendChild(card);</code></pre>
                                 </div>
                             </div>
                             <div class="component-code">
-                                <div style="padding: 2rem;">
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">HTML/CSS</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>&lt;nav class="nav"&gt;
+                                <div style="padding: 2rem">
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        HTML/CSS
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;nav class="nav"&gt;
     &lt;a class="nav-item"&gt;
         &lt;span class="nav-item-label"&gt;Dashboard&lt;/span&gt;
     &lt;/a&gt;
@@ -1258,8 +1502,17 @@ document.body.appendChild(card);</code></pre>
     &lt;/a&gt;
 &lt;/nav&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">React</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>import { Nav, NavItem } from '@monochrome-edge/ui/react';
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        React
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>import { Nav, NavItem } from '@monochrome-edge/ui/react';
 
 &lt;Nav&gt;
     &lt;NavItem label="Dashboard" /&gt;
@@ -1267,14 +1520,30 @@ document.body.appendChild(card);</code></pre>
     &lt;NavItem label="Settings" /&gt;
 &lt;/Nav&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vue.js</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>&lt;Nav&gt;
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Vue.js
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;Nav&gt;
     &lt;NavItem label="Dashboard" /&gt;
     &lt;NavItem label="Projects" :active="true" :badge="3" /&gt;
     &lt;NavItem label="Settings" /&gt;
 &lt;/Nav&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">jQuery</h4>
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        jQuery
+                                    </h4>
                                     <pre><code>$('.nav-item').on('click', function() {
     $('.nav-item').removeClass('is-active');
     $(this).addClass('is-active');
@@ -1320,9 +1589,18 @@ document.body.appendChild(card);</code></pre>
                                 </button>
                             </div>
                             <div class="component-code">
-                                <div style="padding: 2rem;">
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">HTML/CSS</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>&lt;div class="modal is-open"&gt;
+                                <div style="padding: 2rem">
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        HTML/CSS
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;div class="modal is-open"&gt;
     &lt;div class="modal-backdrop" onclick="closeModal()"&gt;&lt;/div&gt;
     &lt;div class="modal-content"&gt;
         &lt;div class="modal-header"&gt;
@@ -1339,10 +1617,19 @@ document.body.appendChild(card);</code></pre>
     &lt;/div&gt;
 &lt;/div&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">React</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>import { Modal } from '@monochrome-edge/ui/react';
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        React
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>import { Modal } from '@monochrome-edge/ui/react';
 
-&lt;Modal 
+&lt;Modal
     isOpen={isOpen}
     onClose={() => setIsOpen(false)}
     title="Modal Title"
@@ -1354,8 +1641,17 @@ document.body.appendChild(card);</code></pre>
     &lt;/Modal.Footer&gt;
 &lt;/Modal&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vue.js</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>&lt;Modal 
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Vue.js
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;Modal
     :is-open="isOpen"
     @close="isOpen = false"
     title="Modal Title"
@@ -1367,7 +1663,14 @@ document.body.appendChild(card);</code></pre>
     &lt;/template&gt;
 &lt;/Modal&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">jQuery</h4>
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        jQuery
+                                    </h4>
                                     <pre><code>// Open modal
 $('#openModal').on('click', function() {
     $('#myModal').addClass('is-open');
@@ -1463,9 +1766,18 @@ $('.modal-backdrop, .modal-close').on('click', function() {
                                 </div>
                             </div>
                             <div class="component-code">
-                                <div style="padding: 2rem;">
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">HTML/CSS</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>&lt;div class="table-container"&gt;
+                                <div style="padding: 2rem">
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        HTML/CSS
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;div class="table-container"&gt;
     &lt;table class="data-table"&gt;
         &lt;thead&gt;
             &lt;tr&gt;
@@ -1486,8 +1798,17 @@ $('.modal-backdrop, .modal-close').on('click', function() {
     &lt;/table&gt;
 &lt;/div&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">React</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>import { Table, Badge, Button } from '@monochrome-edge/ui/react';
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        React
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>import { Table, Badge, Button } from '@monochrome-edge/ui/react';
 
 const data = [
     { name: 'John Doe', status: 'active', role: 'Admin' },
@@ -1521,8 +1842,17 @@ const data = [
     &lt;/Table.Body&gt;
 &lt;/Table&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vue.js</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>&lt;Table&gt;
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Vue.js
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;Table&gt;
     &lt;TableHeader&gt;
         &lt;TableRow&gt;
             &lt;TableHeaderCell&gt;Name&lt;/TableHeaderCell&gt;
@@ -1547,7 +1877,14 @@ const data = [
     &lt;/TableBody&gt;
 &lt;/Table&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">jQuery</h4>
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        jQuery
+                                    </h4>
                                     <pre><code>// Add row dynamically
 $('#addRow').on('click', function() {
     const newRow = `
@@ -1581,9 +1918,7 @@ $('th').on('click', function() {
 
                     <div class="component-showcase">
                         <div class="component-header">
-                            <h3 class="component-title">
-                                Layout Structure
-                            </h3>
+                            <h3 class="component-title">Layout Structure</h3>
                             <div class="component-toggle">
                                 <button
                                     class="toggle-btn active"
@@ -1601,37 +1936,205 @@ $('th').on('click', function() {
                         </div>
                         <div class="component-content" id="cms-layout">
                             <div class="component-preview">
-                                <div class="demo-grid" style="width: 100%; gap: 2rem;">
+                                <div
+                                    class="demo-grid"
+                                    style="width: 100%; gap: 2rem"
+                                >
                                     <!-- Desktop Layout -->
-                                    <div style="flex: 1;">
-                                        <h4 style="margin-bottom: 1rem; color: var(--theme-text-secondary); font-size: 0.875rem;">Desktop Layout</h4>
-                                        <div style="width: 100%; height: 250px; border: 1px solid var(--theme-border); border-radius: var(--border-radius); display: grid; grid-template-areas: 'sidebar header' 'sidebar main'; grid-template-columns: 200px 1fr; grid-template-rows: 60px 1fr; overflow: hidden;">
-                                            <div style="grid-area: sidebar; background: var(--theme-surface); border-right: 1px solid var(--theme-border); padding: 1rem; font-size: 0.75rem; color: var(--theme-text-secondary);">Sidebar</div>
-                                            <div style="grid-area: header; background: var(--theme-surface); border-bottom: 1px solid var(--theme-border); padding: 1rem; font-size: 0.75rem; color: var(--theme-text-secondary);">Header</div>
-                                            <div style="grid-area: main; background: var(--theme-bg); padding: 1rem; font-size: 0.875rem; color: var(--theme-text-primary);">Main Content</div>
+                                    <div style="flex: 1">
+                                        <h4
+                                            style="
+                                                margin-bottom: 1rem;
+                                                color: var(
+                                                    --theme-text-secondary
+                                                );
+                                                font-size: 0.875rem;
+                                            "
+                                        >
+                                            Desktop Layout
+                                        </h4>
+                                        <div
+                                            style="
+                                                width: 100%;
+                                                height: 250px;
+                                                border: 1px solid
+                                                    var(--theme-border);
+                                                border-radius: var(
+                                                    --border-radius
+                                                );
+                                                display: grid;
+                                                grid-template-areas: &quot;sidebar header&quot; &quot;sidebar main&quot;;
+                                                grid-template-columns: 200px 1fr;
+                                                grid-template-rows: 60px 1fr;
+                                                overflow: hidden;
+                                            "
+                                        >
+                                            <div
+                                                style="
+                                                    grid-area: sidebar;
+                                                    background: var(
+                                                        --theme-surface
+                                                    );
+                                                    border-right: 1px solid
+                                                        var(--theme-border);
+                                                    padding: 1rem;
+                                                    font-size: 0.75rem;
+                                                    color: var(
+                                                        --theme-text-secondary
+                                                    );
+                                                "
+                                            >
+                                                Sidebar
+                                            </div>
+                                            <div
+                                                style="
+                                                    grid-area: header;
+                                                    background: var(
+                                                        --theme-surface
+                                                    );
+                                                    border-bottom: 1px solid
+                                                        var(--theme-border);
+                                                    padding: 1rem;
+                                                    font-size: 0.75rem;
+                                                    color: var(
+                                                        --theme-text-secondary
+                                                    );
+                                                "
+                                            >
+                                                Header
+                                            </div>
+                                            <div
+                                                style="
+                                                    grid-area: main;
+                                                    background: var(--theme-bg);
+                                                    padding: 1rem;
+                                                    font-size: 0.875rem;
+                                                    color: var(
+                                                        --theme-text-primary
+                                                    );
+                                                "
+                                            >
+                                                Main Content
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- Mobile Layout -->
-                                    <div style="width: 150px;">
-                                        <h4 style="margin-bottom: 1rem; color: var(--theme-text-secondary); font-size: 0.875rem;">Mobile Layout</h4>
-                                        <div style="width: 150px; height: 250px; border: 1px solid var(--theme-border); border-radius: var(--border-radius); display: flex; flex-direction: column; overflow: hidden;">
-                                            <div style="height: 40px; background: var(--theme-surface); border-bottom: 1px solid var(--theme-border); display: flex; align-items: center; padding: 0 0.5rem; gap: 0.5rem;">
-                                                <div style="display: flex; flex-direction: column; gap: 2px;">
-                                                    <span style="width: 12px; height: 1.5px; background: var(--theme-text-primary);"></span>
-                                                    <span style="width: 12px; height: 1.5px; background: var(--theme-text-primary);"></span>
-                                                    <span style="width: 12px; height: 1.5px; background: var(--theme-text-primary);"></span>
+                                    <div style="width: 150px">
+                                        <h4
+                                            style="
+                                                margin-bottom: 1rem;
+                                                color: var(
+                                                    --theme-text-secondary
+                                                );
+                                                font-size: 0.875rem;
+                                            "
+                                        >
+                                            Mobile Layout
+                                        </h4>
+                                        <div
+                                            style="
+                                                width: 150px;
+                                                height: 250px;
+                                                border: 1px solid
+                                                    var(--theme-border);
+                                                border-radius: var(
+                                                    --border-radius
+                                                );
+                                                display: flex;
+                                                flex-direction: column;
+                                                overflow: hidden;
+                                            "
+                                        >
+                                            <div
+                                                style="
+                                                    height: 40px;
+                                                    background: var(
+                                                        --theme-surface
+                                                    );
+                                                    border-bottom: 1px solid
+                                                        var(--theme-border);
+                                                    display: flex;
+                                                    align-items: center;
+                                                    padding: 0 0.5rem;
+                                                    gap: 0.5rem;
+                                                "
+                                            >
+                                                <div
+                                                    style="
+                                                        display: flex;
+                                                        flex-direction: column;
+                                                        gap: 2px;
+                                                    "
+                                                >
+                                                    <span
+                                                        style="
+                                                            width: 12px;
+                                                            height: 1.5px;
+                                                            background: var(
+                                                                --theme-text-primary
+                                                            );
+                                                        "
+                                                    ></span>
+                                                    <span
+                                                        style="
+                                                            width: 12px;
+                                                            height: 1.5px;
+                                                            background: var(
+                                                                --theme-text-primary
+                                                            );
+                                                        "
+                                                    ></span>
+                                                    <span
+                                                        style="
+                                                            width: 12px;
+                                                            height: 1.5px;
+                                                            background: var(
+                                                                --theme-text-primary
+                                                            );
+                                                        "
+                                                    ></span>
                                                 </div>
-                                                <div style="font-size: 0.625rem; color: var(--theme-text-primary);">Menu</div>
+                                                <div
+                                                    style="
+                                                        font-size: 0.625rem;
+                                                        color: var(
+                                                            --theme-text-primary
+                                                        );
+                                                    "
+                                                >
+                                                    Menu
+                                                </div>
                                             </div>
-                                            <div style="flex: 1; background: var(--theme-bg); padding: 1rem; font-size: 0.75rem; color: var(--theme-text-primary);">Content</div>
+                                            <div
+                                                style="
+                                                    flex: 1;
+                                                    background: var(--theme-bg);
+                                                    padding: 1rem;
+                                                    font-size: 0.75rem;
+                                                    color: var(
+                                                        --theme-text-primary
+                                                    );
+                                                "
+                                            >
+                                                Content
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="component-code">
-                                <div style="padding: 2rem;">
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">HTML/CSS</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>&lt;div class="layout-container"&gt;
+                                <div style="padding: 2rem">
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        HTML/CSS
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;div class="layout-container"&gt;
     &lt;aside class="layout-sidebar"&gt;
         &lt;nav class="sidebar-nav"&gt;
             &lt;a class="nav-item is-active"&gt;Dashboard&lt;/a&gt;
@@ -1653,8 +2156,17 @@ $('th').on('click', function() {
     &lt;/div&gt;
 &lt;/div&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">React</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>import { Layout } from '@monochrome-edge/ui/react';
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        React
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>import { Layout } from '@monochrome-edge/ui/react';
 
 &lt;Layout&gt;
     &lt;Layout.Sidebar&gt;
@@ -1676,8 +2188,17 @@ $('th').on('click', function() {
     &lt;/Layout.Main&gt;
 &lt;/Layout&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vue.js</h4>
-                                    <pre style="margin-bottom: 2rem;"><code>&lt;Layout&gt;
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Vue.js
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;Layout&gt;
     &lt;LayoutSidebar&gt;
         &lt;Nav&gt;
             &lt;NavItem :active="true"&gt;Dashboard&lt;/NavItem&gt;
@@ -1697,7 +2218,14 @@ $('th').on('click', function() {
     &lt;/LayoutMain&gt;
 &lt;/Layout&gt;</code></pre>
 
-                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">jQuery</h4>
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        jQuery
+                                    </h4>
                                     <pre><code>// Toggle sidebar
 $('#sidebarToggle').on('click', function() {
     $('.layout-sidebar').toggleClass('collapsed');
@@ -2661,20 +3189,20 @@ class ModalController {
     this.backdrop = this.modal.querySelector('.modal-backdrop');
     this.closeBtn = this.modal.querySelector('.modal-close');
     this.cancelBtn = this.modal.querySelector('.btn-ghost');
-    
+
     this.bindEvents();
   }
-  
+
   bindEvents() {
     this.backdrop.addEventListener('click', () => this.close());
     this.closeBtn.addEventListener('click', () => this.close());
     this.cancelBtn.addEventListener('click', () => this.close());
   }
-  
+
   open() {
     this.modal.classList.add('is-open');
   }
-  
+
   close() {
     this.modal.classList.remove('is-open');
   }
@@ -2834,8 +3362,8 @@ const table = MonochromeComponents.table({
   columns: [
     { key: 'name', label: 'Name' },
     { key: 'email', label: 'Email' },
-    { 
-      key: 'status', 
+    {
+      key: 'status',
       label: 'Status',
       render: (value) => {
         const badge = document.createElement('span');
@@ -2849,17 +3377,17 @@ const table = MonochromeComponents.table({
       label: 'Actions',
       render: (_, row) => {
         const container = document.createElement('div');
-        
+
         const editBtn = document.createElement('button');
         editBtn.className = 'btn btn-sm btn-ghost';
         editBtn.textContent = 'Edit';
         editBtn.onclick = () => console.log('Edit:', row);
-        
+
         const deleteBtn = document.createElement('button');
         deleteBtn.className = 'btn btn-sm btn-danger';
         deleteBtn.textContent = 'Delete';
         deleteBtn.onclick = () => console.log('Delete:', row);
-        
+
         container.appendChild(editBtn);
         container.appendChild(deleteBtn);
         return container;
@@ -2957,17 +3485,17 @@ const tbody = document.getElementById('table-body');
 
 data.forEach(row => {
   const tr = document.createElement('tr');
-  
+
   // Name cell
   const nameCell = document.createElement('td');
   nameCell.textContent = row.name;
   tr.appendChild(nameCell);
-  
+
   // Email cell
   const emailCell = document.createElement('td');
   emailCell.textContent = row.email;
   tr.appendChild(emailCell);
-  
+
   // Status cell
   const statusCell = document.createElement('td');
   const badge = document.createElement('span');
@@ -2975,15 +3503,15 @@ data.forEach(row => {
   badge.textContent = row.status;
   statusCell.appendChild(badge);
   tr.appendChild(statusCell);
-  
+
   // Actions cell
   const actionsCell = document.createElement('td');
-  
+
   const editBtn = document.createElement('button');
   editBtn.className = 'btn btn-sm btn-ghost';
   editBtn.textContent = 'Edit';
   editBtn.onclick = () => console.log('Edit:', row);
-  
+
   const deleteBtn = document.createElement('button');
   deleteBtn.className = 'btn btn-sm btn-danger';
   deleteBtn.textContent = 'Delete';
@@ -2992,11 +3520,11 @@ data.forEach(row => {
       tr.remove();
     }
   };
-  
+
   actionsCell.appendChild(editBtn);
   actionsCell.appendChild(deleteBtn);
   tr.appendChild(actionsCell);
-  
+
   tbody.appendChild(tr);
 });
 &lt;/script&gt;</code></pre>
@@ -3006,7 +3534,9 @@ data.forEach(row => {
 
                     <div class="component-showcase">
                         <div class="component-header">
-                            <h3 class="component-title">Navigation Component</h3>
+                            <h3 class="component-title">
+                                Navigation Component
+                            </h3>
                             <div class="component-toggle">
                                 <button
                                     class="toggle-btn active"
@@ -3071,7 +3601,7 @@ function Navigation() {
           &lt;/NavItem&gt;
         ))}
       &lt;/NavGroup&gt;
-      
+
       &lt;NavGroup title="Account"&gt;
         &lt;NavItem&gt;
           &lt;span className="nav-item-label"&gt;Profile&lt;/span&gt;
@@ -3098,7 +3628,7 @@ function Navigation() {
         &lt;span class="nav-item-label"&gt;{{ item.label }}&lt;/span&gt;
       &lt;/nav-item&gt;
     &lt;/nav-group&gt;
-    
+
     &lt;nav-group title="Account"&gt;
       &lt;nav-item&gt;
         &lt;span class="nav-item-label"&gt;Profile&lt;/span&gt;
@@ -3149,7 +3679,7 @@ const nav = MonochromeComponents.navigation({
   ],
   onItemClick: (item) => {
     console.log('Navigating to:', item.id);
-    
+
     // Update active state
     nav.querySelectorAll('.nav-item').forEach(el => {
       el.classList.remove('is-active');
@@ -3188,9 +3718,9 @@ const $nav = $('&lt;nav class="nav"&gt;&lt;/nav&gt;');
 navData.groups.forEach(group => {
   const $group = $('&lt;div class="nav-group"&gt;&lt;/div&gt;');
   $group.append(`&lt;div class="nav-group-title"&gt;${group.title}&lt;/div&gt;`);
-  
+
   const $items = $('&lt;div class="nav-group-items"&gt;&lt;/div&gt;');
-  
+
   group.items.forEach(item => {
     const $item = $(`
       &lt;a href="#" class="nav-item" data-id="${item.id}"&gt;
@@ -3200,7 +3730,7 @@ navData.groups.forEach(group => {
     `);
     $items.append($item);
   });
-  
+
   $group.append($items);
   $nav.append($group);
 });
@@ -3237,9 +3767,9 @@ $('.nav-item').on('click', function(e) {
       &lt;/a&gt;
     &lt;/div&gt;
   &lt;/div&gt;
-  
+
   &lt;div class="nav-divider"&gt;&lt;/div&gt;
-  
+
   &lt;div class="nav-group"&gt;
     &lt;div class="nav-group-title"&gt;Account&lt;/div&gt;
     &lt;div class="nav-group-items"&gt;
@@ -3258,13 +3788,13 @@ $('.nav-item').on('click', function(e) {
 document.querySelectorAll('.nav-item').forEach(item => {
   item.addEventListener('click', function(e) {
     e.preventDefault();
-    
+
     // Update active state
     document.querySelectorAll('.nav-item').forEach(el => {
       el.classList.remove('is-active');
     });
     this.classList.add('is-active');
-    
+
     // Navigate to section
     const section = this.dataset.section;
     console.log('Navigating to:', section);
@@ -3328,7 +3858,7 @@ function SelectExample() {
       {/* Basic Select */}
       &lt;div className="form-group"&gt;
         &lt;label className="label"&gt;Basic Select&lt;/label&gt;
-        &lt;select 
+        &lt;select
           className="select"
           value={selectedValue}
           onChange={(e) => setSelectedValue(e.target.value)}
@@ -3343,7 +3873,7 @@ function SelectExample() {
       {/* Multiple Select */}
       &lt;div className="form-group"&gt;
         &lt;label className="label"&gt;Multiple Select&lt;/label&gt;
-        &lt;select 
+        &lt;select
           className="select"
           multiple
           size={4}
@@ -3445,26 +3975,26 @@ class CustomDropdown {
     this.button = element.querySelector('.dropdown-button');
     this.panel = element.querySelector('.dropdown-panel');
     this.isOpen = false;
-    
+
     this.bindEvents();
   }
-  
+
   bindEvents() {
     this.button.addEventListener('click', () => this.toggle());
-    
+
     document.addEventListener('click', (e) => {
       if (!this.element.contains(e.target)) {
         this.close();
       }
     });
   }
-  
+
   toggle() {
     this.isOpen = !this.isOpen;
     this.element.classList.toggle('is-open', this.isOpen);
     this.panel.classList.toggle('is-open', this.isOpen);
   }
-  
+
   close() {
     this.isOpen = false;
     this.element.classList.remove('is-open');
@@ -3483,31 +4013,31 @@ $.fn.monochromeDropdown = function(options) {
     placeholder: 'Select...',
     onChange: function() {}
   }, options);
-  
+
   return this.each(function() {
     const $dropdown = $(this);
     const $button = $dropdown.find('.dropdown-button');
     const $panel = $dropdown.find('.dropdown-panel');
-    
+
     // Toggle dropdown
     $button.on('click', function(e) {
       e.stopPropagation();
       $dropdown.toggleClass('is-open');
       $panel.toggleClass('is-open');
     });
-    
+
     // Select option
     $panel.find('.dropdown-option').on('click', function() {
       const value = $(this).data('value');
       const text = $(this).text();
-      
+
       $button.find('span:first').text(text);
       $panel.find('.dropdown-option').removeClass('is-selected');
       $(this).addClass('is-selected');
-      
+
       $dropdown.removeClass('is-open');
       $panel.removeClass('is-open');
-      
+
       settings.onChange(value);
     });
   });
@@ -3523,7 +4053,7 @@ $('.dropdown').monochromeDropdown({
 // Action dropdown
 $('#action-dropdown').on('click', '.dropdown-option', function() {
   const action = $(this).data('action');
-  
+
   switch(action) {
     case 'edit':
       console.log('Edit action');
@@ -3537,7 +4067,7 @@ $('#action-dropdown').on('click', '.dropdown-option', function() {
       }
       break;
   }
-  
+
   $('#action-dropdown').removeClass('is-open');
 });</code></pre>
                             </div>
@@ -3575,52 +4105,52 @@ class DropdownController {
     this.button = element.querySelector('.dropdown-button');
     this.panel = element.querySelector('.dropdown-panel');
     this.options = element.querySelectorAll('.dropdown-option');
-    
+
     this.init();
   }
-  
+
   init() {
     // Toggle dropdown
     this.button.addEventListener('click', (e) => {
       e.stopPropagation();
       this.toggle();
     });
-    
+
     // Handle option clicks
     this.options.forEach(option => {
       option.addEventListener('click', (e) => {
         this.handleSelect(e.target);
       });
     });
-    
+
     // Close on outside click
     document.addEventListener('click', () => {
       this.close();
     });
   }
-  
+
   toggle() {
     this.element.classList.toggle('is-open');
     this.panel.classList.toggle('is-open');
   }
-  
+
   close() {
     this.element.classList.remove('is-open');
     this.panel.classList.remove('is-open');
   }
-  
+
   handleSelect(option) {
     const value = option.dataset.value || option.dataset.action;
-    
+
     if (option.dataset.value) {
       // Update button text for select dropdown
       this.button.querySelector('span:first-child').textContent = option.textContent;
-      
+
       // Update selected state
       this.options.forEach(opt => opt.classList.remove('is-selected'));
       option.classList.add('is-selected');
     }
-    
+
     console.log('Selected:', value);
     this.close();
   }
@@ -3630,6 +4160,602 @@ class DropdownController {
 new DropdownController(document.getElementById('simple-dropdown'));
 new DropdownController(document.getElementById('action-dropdown'));
 &lt;/script&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Editor Section -->
+                <section class="ds-section" id="editor">
+                    <h2 class="ds-section-title">Editor</h2>
+
+                    <!-- Live Demo -->
+                    <div class="ds-component-demo">
+                        <div class="ds-demo-header">
+                            <h3>Live Demo</h3>
+                            <div class="ds-demo-actions">
+                                <button
+                                    class="btn btn-sm btn-ghost"
+                                    onclick="document.getElementById('cmsEditorFrame').src = document.getElementById('cmsEditorFrame').src"
+                                >
+                                    Refresh
+                                </button>
+                                <a
+                                    href="editor-demo.html"
+                                    target="_blank"
+                                    class="btn btn-sm btn-primary"
+                                >
+                                    Open Fullscreen
+                                </a>
+                            </div>
+                        </div>
+                        <div
+                            class="ds-demo-content"
+                            style="padding: 0; height: 600px"
+                        >
+                            <iframe
+                                id="editorFrame"
+                                src="editor.html"
+                                style="
+                                    width: 100%;
+                                    height: 100%;
+                                    border: none;
+                                    border-radius: var(--border-radius);
+                                "
+                                title="Editor Demo"
+                            >
+                            </iframe>
+                        </div>
+                    </div>
+
+                    <!-- Framework Examples -->
+                    <div class="ds-component-demo" style="margin-top: 2rem">
+                        <div class="ds-demo-header">
+                            <h3>Implementation Examples</h3>
+                            <div class="btn-group">
+                                <button
+                                    class="btn btn-sm btn-primary"
+                                    data-framework="react"
+                                >
+                                    React
+                                </button>
+                                <button
+                                    class="btn btn-sm btn-ghost"
+                                    data-framework="vue"
+                                >
+                                    Vue
+                                </button>
+                                <button
+                                    class="btn btn-sm btn-ghost"
+                                    data-framework="vanilla"
+                                >
+                                    Vanilla JS
+                                </button>
+                                <button
+                                    class="btn btn-sm btn-ghost"
+                                    data-framework="jquery"
+                                >
+                                    jQuery
+                                </button>
+                            </div>
+                        </div>
+                        <div class="ds-demo-content">
+                            <!-- React Example -->
+                            <div
+                                class="component-code"
+                                data-framework="react"
+                                style="display: block"
+                            >
+                                <pre><code class="language-jsx">import React, { useState, useEffect } from 'react';
+import { marked } from 'marked';
+import '@monochrome-edge/ui/css';
+
+function CMSEditor({ initialContent = '', onSave }) {
+  const [content, setContent] = useState(initialContent);
+  const [preview, setPreview] = useState('');
+  const [viewMode, setViewMode] = useState('split');
+  const [theme, setTheme] = useState('warm');
+
+  useEffect(() => {
+    setPreview(marked(content));
+  }, [content]);
+
+  const formatText = (format) => {
+    const textarea = document.getElementById('editor');
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const selectedText = content.substring(start, end);
+
+    let formatted;
+    switch(format) {
+      case 'bold':
+        formatted = `**${selectedText}**`;
+        break;
+      case 'italic':
+        formatted = `*${selectedText}*`;
+        break;
+      case 'heading':
+        formatted = `# ${selectedText}`;
+        break;
+      default:
+        formatted = selectedText;
+    }
+
+    const newContent = content.substring(0, start) + formatted + content.substring(end);
+    setContent(newContent);
+  };
+
+  return (
+    &lt;div className="cms-editor-container" data-theme-variant={theme}&gt;
+      &lt;div className="editor-header"&gt;
+        &lt;div className="editor-toolbar"&gt;
+          &lt;button onClick={() =&gt; formatText('bold')}&gt;Bold&lt;/button&gt;
+          &lt;button onClick={() =&gt; formatText('italic')}&gt;Italic&lt;/button&gt;
+          &lt;button onClick={() =&gt; formatText('heading')}&gt;Heading&lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div className="view-toggle btn-group"&gt;
+          &lt;button
+            className={viewMode === 'editor' ? 'btn-primary' : 'btn-ghost'}
+            onClick={() =&gt; setViewMode('editor')}&gt;
+            Editor
+          &lt;/button&gt;
+          &lt;button
+            className={viewMode === 'preview' ? 'btn-primary' : 'btn-ghost'}
+            onClick={() =&gt; setViewMode('preview')}&gt;
+            Preview
+          &lt;/button&gt;
+          &lt;button
+            className={viewMode === 'split' ? 'btn-primary' : 'btn-ghost'}
+            onClick={() =&gt; setViewMode('split')}&gt;
+            Split
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+
+      &lt;div className={`editor-content ${viewMode}-mode`}&gt;
+        &lt;div className="editor-pane"&gt;
+          &lt;textarea
+            id="editor"
+            value={content}
+            onChange={(e) =&gt; setContent(e.target.value)}
+            placeholder="Start writing..."
+          /&gt;
+        &lt;/div&gt;
+        &lt;div className="preview-pane"&gt;
+          &lt;div
+            className="markdown-preview"
+            dangerouslySetInnerHTML={{ __html: preview }}
+          /&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  );
+}
+
+export default CMSEditor;</code></pre>
+                            </div>
+
+                            <!-- Vue Example -->
+                            <div
+                                class="component-code"
+                                data-framework="vue"
+                                style="display: none"
+                            >
+                                <pre><code class="language-vue">&lt;template&gt;
+  &lt;div class="cms-editor-container" :data-theme-variant="theme"&gt;
+    &lt;div class="editor-header"&gt;
+      &lt;div class="editor-toolbar"&gt;
+        &lt;button @click="formatText('bold')"&gt;Bold&lt;/button&gt;
+        &lt;button @click="formatText('italic')"&gt;Italic&lt;/button&gt;
+        &lt;button @click="formatText('heading')"&gt;Heading&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div class="view-toggle btn-group"&gt;
+        &lt;button
+          :class="viewMode === 'editor' ? 'btn-primary' : 'btn-ghost'"
+          @click="viewMode = 'editor'"&gt;
+          Editor
+        &lt;/button&gt;
+        &lt;button
+          :class="viewMode === 'preview' ? 'btn-primary' : 'btn-ghost'"
+          @click="viewMode = 'preview'"&gt;
+          Preview
+        &lt;/button&gt;
+        &lt;button
+          :class="viewMode === 'split' ? 'btn-primary' : 'btn-ghost'"
+          @click="viewMode = 'split'"&gt;
+          Split
+        &lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+
+    &lt;div :class="['editor-content', `${viewMode}-mode`]"&gt;
+      &lt;div class="editor-pane"&gt;
+        &lt;textarea
+          ref="editor"
+          v-model="content"
+          @input="updatePreview"
+          placeholder="Start writing..."
+        &gt;&lt;/textarea&gt;
+      &lt;/div&gt;
+      &lt;div class="preview-pane"&gt;
+        &lt;div class="markdown-preview" v-html="preview"&gt;&lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script&gt;
+import { marked } from 'marked';
+
+export default {
+  name: 'CMSEditor',
+  props: {
+    initialContent: {
+      type: String,
+      default: ''
+    }
+  },
+  data() {
+    return {
+      content: this.initialContent,
+      preview: '',
+      viewMode: 'split',
+      theme: 'warm'
+    };
+  },
+  mounted() {
+    this.updatePreview();
+  },
+  methods: {
+    updatePreview() {
+      this.preview = marked(this.content);
+    },
+    formatText(format) {
+      const textarea = this.$refs.editor;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const selectedText = this.content.substring(start, end);
+
+      let formatted;
+      switch(format) {
+        case 'bold':
+          formatted = `**${selectedText}**`;
+          break;
+        case 'italic':
+          formatted = `*${selectedText}*`;
+          break;
+        case 'heading':
+          formatted = `# ${selectedText}`;
+          break;
+        default:
+          formatted = selectedText;
+      }
+
+      this.content = this.content.substring(0, start) +
+                    formatted +
+                    this.content.substring(end);
+      this.updatePreview();
+    }
+  }
+};
+&lt;/script&gt;
+
+&lt;style&gt;
+@import '@monochrome-edge/ui/css';
+&lt;/style&gt;</code></pre>
+                            </div>
+
+                            <!-- Vanilla JS Example -->
+                            <div
+                                class="component-code"
+                                data-framework="vanilla"
+                                style="display: none"
+                            >
+                                <pre><code class="language-javascript">import { marked } from 'marked';
+import '@monochrome-edge/ui/css';
+
+class CMSEditor {
+  constructor(container, options = {}) {
+    this.container = container;
+    this.options = {
+      initialContent: '',
+      theme: 'warm',
+      onSave: null,
+      ...options
+    };
+
+    this.content = this.options.initialContent;
+    this.viewMode = 'split';
+    this.init();
+  }
+
+  init() {
+    this.render();
+    this.attachEventListeners();
+    this.updatePreview();
+  }
+
+  render() {
+    this.container.innerHTML = `
+      &lt;div class="cms-editor-container" data-theme-variant="${this.options.theme}"&gt;
+        &lt;div class="editor-header"&gt;
+          &lt;div class="editor-toolbar"&gt;
+            &lt;button data-format="bold"&gt;Bold&lt;/button&gt;
+            &lt;button data-format="italic"&gt;Italic&lt;/button&gt;
+            &lt;button data-format="heading"&gt;Heading&lt;/button&gt;
+          &lt;/div&gt;
+          &lt;div class="view-toggle btn-group"&gt;
+            &lt;button data-view="editor" class="btn-ghost"&gt;Editor&lt;/button&gt;
+            &lt;button data-view="preview" class="btn-ghost"&gt;Preview&lt;/button&gt;
+            &lt;button data-view="split" class="btn-primary"&gt;Split&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div class="editor-content split-mode"&gt;
+          &lt;div class="editor-pane"&gt;
+            &lt;textarea id="markdown-editor" placeholder="Start writing..."&gt;${this.content}&lt;/textarea&gt;
+          &lt;/div&gt;
+          &lt;div class="preview-pane"&gt;
+            &lt;div class="markdown-preview"&gt;&lt;/div&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    `;
+
+    this.editor = this.container.querySelector('#markdown-editor');
+    this.preview = this.container.querySelector('.markdown-preview');
+    this.editorContent = this.container.querySelector('.editor-content');
+  }
+
+  attachEventListeners() {
+    // Editor input
+    this.editor.addEventListener('input', () =&gt; {
+      this.content = this.editor.value;
+      this.updatePreview();
+    });
+
+    // Toolbar buttons
+    this.container.querySelectorAll('[data-format]').forEach(btn =&gt; {
+      btn.addEventListener('click', (e) =&gt; {
+        this.formatText(e.target.dataset.format);
+      });
+    });
+
+    // View mode buttons
+    this.container.querySelectorAll('[data-view]').forEach(btn =&gt; {
+      btn.addEventListener('click', (e) =&gt; {
+        this.setViewMode(e.target.dataset.view);
+      });
+    });
+  }
+
+  formatText(format) {
+    const start = this.editor.selectionStart;
+    const end = this.editor.selectionEnd;
+    const selectedText = this.content.substring(start, end);
+
+    let formatted;
+    switch(format) {
+      case 'bold':
+        formatted = `**${selectedText}**`;
+        break;
+      case 'italic':
+        formatted = `*${selectedText}*`;
+        break;
+      case 'heading':
+        formatted = `# ${selectedText}`;
+        break;
+      default:
+        formatted = selectedText;
+    }
+
+    this.content = this.content.substring(0, start) +
+                  formatted +
+                  this.content.substring(end);
+    this.editor.value = this.content;
+    this.updatePreview();
+
+    // Restore cursor position
+    const newPos = start + formatted.length;
+    this.editor.setSelectionRange(newPos, newPos);
+    this.editor.focus();
+  }
+
+  setViewMode(mode) {
+    this.viewMode = mode;
+    this.editorContent.className = `editor-content ${mode}-mode`;
+
+    // Update button states
+    this.container.querySelectorAll('[data-view]').forEach(btn =&gt; {
+      btn.className = btn.dataset.view === mode ? 'btn-primary' : 'btn-ghost';
+    });
+  }
+
+  updatePreview() {
+    this.preview.innerHTML = marked(this.content);
+  }
+
+  getContent() {
+    return this.content;
+  }
+
+  setContent(content) {
+    this.content = content;
+    this.editor.value = content;
+    this.updatePreview();
+  }
+}
+
+// Usage
+const editor = new CMSEditor(document.getElementById('editor-container'), {
+  initialContent: '# Welcome to CMS Editor\n\nStart writing your content...',
+  theme: 'warm',
+  onSave: (content) =&gt; {
+    console.log('Saving:', content);
+  }
+});</code></pre>
+                            </div>
+
+                            <!-- jQuery Example -->
+                            <div
+                                class="component-code"
+                                data-framework="jquery"
+                                style="display: none"
+                            >
+                                <pre><code class="language-javascript">// jQuery CMS Editor Plugin
+(function($) {
+  $.fn.cmsEditor = function(options) {
+    const settings = $.extend({
+      initialContent: '',
+      theme: 'warm',
+      onSave: null
+    }, options);
+
+    return this.each(function() {
+      const $container = $(this);
+      let content = settings.initialContent;
+      let viewMode = 'split';
+
+      // Initialize marked
+      if (typeof marked === 'undefined') {
+        console.error('marked.js is required for CMS Editor');
+        return;
+      }
+
+      // Render editor HTML
+      function render() {
+        const html = `
+          &lt;div class="cms-editor-container" data-theme-variant="${settings.theme}"&gt;
+            &lt;div class="editor-header"&gt;
+              &lt;div class="editor-toolbar"&gt;
+                &lt;button data-format="bold"&gt;Bold&lt;/button&gt;
+                &lt;button data-format="italic"&gt;Italic&lt;/button&gt;
+                &lt;button data-format="heading"&gt;Heading&lt;/button&gt;
+              &lt;/div&gt;
+              &lt;div class="view-toggle btn-group"&gt;
+                &lt;button data-view="editor" class="btn-ghost"&gt;Editor&lt;/button&gt;
+                &lt;button data-view="preview" class="btn-ghost"&gt;Preview&lt;/button&gt;
+                &lt;button data-view="split" class="btn-primary"&gt;Split&lt;/button&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div class="editor-content split-mode"&gt;
+              &lt;div class="editor-pane"&gt;
+                &lt;textarea class="markdown-editor" placeholder="Start writing..."&gt;${content}&lt;/textarea&gt;
+              &lt;/div&gt;
+              &lt;div class="preview-pane"&gt;
+                &lt;div class="markdown-preview"&gt;&lt;/div&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;
+          &lt;/div&gt;
+        `;
+        $container.html(html);
+      }
+
+      // Update preview
+      function updatePreview() {
+        const $preview = $container.find('.markdown-preview');
+        $preview.html(marked.parse(content));
+      }
+
+      // Format selected text
+      function formatText(format) {
+        const textarea = $container.find('.markdown-editor')[0];
+        const start = textarea.selectionStart;
+        const end = textarea.selectionEnd;
+        const selectedText = content.substring(start, end);
+
+        let formatted;
+        switch(format) {
+          case 'bold':
+            formatted = `**${selectedText}**`;
+            break;
+          case 'italic':
+            formatted = `*${selectedText}*`;
+            break;
+          case 'heading':
+            formatted = `# ${selectedText}`;
+            break;
+          default:
+            formatted = selectedText;
+        }
+
+        content = content.substring(0, start) + formatted + content.substring(end);
+        $(textarea).val(content);
+        updatePreview();
+
+        // Restore cursor position
+        const newPos = start + formatted.length;
+        textarea.setSelectionRange(newPos, newPos);
+        textarea.focus();
+      }
+
+      // Set view mode
+      function setViewMode(mode) {
+        viewMode = mode;
+        $container.find('.editor-content')
+          .removeClass('editor-mode preview-mode split-mode')
+          .addClass(mode + '-mode');
+
+        // Update button states
+        $container.find('[data-view]').each(function() {
+          $(this).removeClass('btn-primary btn-ghost')
+            .addClass($(this).data('view') === mode ? 'btn-primary' : 'btn-ghost');
+        });
+      }
+
+      // Initialize
+      render();
+      updatePreview();
+
+      // Event listeners
+      $container.on('input', '.markdown-editor', function() {
+        content = $(this).val();
+        updatePreview();
+      });
+
+      $container.on('click', '[data-format]', function() {
+        formatText($(this).data('format'));
+      });
+
+      $container.on('click', '[data-view]', function() {
+        setViewMode($(this).data('view'));
+      });
+
+      // Public methods
+      $container.data('cmsEditor', {
+        getContent: function() { return content; },
+        setContent: function(newContent) {
+          content = newContent;
+          $container.find('.markdown-editor').val(content);
+          updatePreview();
+        },
+        save: function() {
+          if (settings.onSave) {
+            settings.onSave(content);
+          }
+        }
+      });
+    });
+  };
+})(jQuery);
+
+// Usage
+$(document).ready(function() {
+  $('#editor-container').cmsEditor({
+    initialContent: '# Welcome to CMS Editor\n\nStart writing your content...',
+    theme: 'warm',
+    onSave: function(content) {
+      console.log('Saving:', content);
+    }
+  });
+
+  // Access methods
+  const editor = $('#editor-container').data('cmsEditor');
+  // editor.getContent();
+  // editor.setContent('New content');
+  // editor.save();
+});</code></pre>
                             </div>
                         </div>
                     </div>
@@ -3654,7 +4780,12 @@ new DropdownController(document.getElementById('action-dropdown'));
                             >
                                 <h4>Option 1: Yarn Package (Recommended)</h4>
                                 <pre
-                                    style="background: var(--theme-surface); padding: 1rem; border-radius: var(--border-radius); margin: 1rem 0;"
+                                    style="
+                                        background: var(--theme-surface);
+                                        padding: 1rem;
+                                        border-radius: var(--border-radius);
+                                        margin: 1rem 0;
+                                    "
                                 ><code class="language-bash"># Install the core UI Components (includes React/TSX support)
 yarn add @monochrome
 
@@ -3666,7 +4797,12 @@ yarn add @monochrome-edge/wc        # For Web Components</code></pre>
 
                                 <h4>Option 2: CDN</h4>
                                 <pre
-                                    style="background: var(--theme-surface); padding: 1rem; border-radius: var(--border-radius); margin: 1rem 0;"
+                                    style="
+                                        background: var(--theme-surface);
+                                        padding: 1rem;
+                                        border-radius: var(--border-radius);
+                                        margin: 1rem 0;
+                                    "
                                 ><code class="language-html">&lt;!-- CSS --&gt;
 &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/dist/monochrome-edge.css"&gt;
 &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/dist/tokens/cold-theme.css"&gt;
@@ -3676,7 +4812,12 @@ yarn add @monochrome-edge/wc        # For Web Components</code></pre>
 
                                 <h4>Option 3: Local Development</h4>
                                 <pre
-                                    style="background: var(--theme-surface); padding: 1rem; border-radius: var(--border-radius); margin: 1rem 0;"
+                                    style="
+                                        background: var(--theme-surface);
+                                        padding: 1rem;
+                                        border-radius: var(--border-radius);
+                                        margin: 1rem 0;
+                                    "
                                 ><code class="language-bash"># Clone the repository
 git clone https://github.com/your-org/monochrome-edge.git
 
@@ -3874,7 +5015,12 @@ export { CustomButton, styles };</code></pre>
                             >
                                 <h4>Step 1: Set up your project structure</h4>
                                 <pre
-                                    style="background: var(--theme-surface); padding: 1rem; border-radius: var(--border-radius); margin: 1rem 0;"
+                                    style="
+                                        background: var(--theme-surface);
+                                        padding: 1rem;
+                                        border-radius: var(--border-radius);
+                                        margin: 1rem 0;
+                                    "
                                 ><code class="language-bash">my-custom-library/
 ├── src/
 │   ├── components/
@@ -3891,11 +5037,16 @@ export { CustomButton, styles };</code></pre>
                                     Step 2: Install Monochrome as a dependency
                                 </h4>
                                 <pre
-                                    style="background: var(--theme-surface); padding: 1rem; border-radius: var(--border-radius); margin: 1rem 0;"
+                                    style="
+                                        background: var(--theme-surface);
+                                        padding: 1rem;
+                                        border-radius: var(--border-radius);
+                                        margin: 1rem 0;
+                                    "
                                 ><code class="language-json">{
   "name": "my-custom-library",
   "dependencies": {
-    "@monochrome": "latest"
+    "@monochrome-edge/ui": "latest"
   },
   "devDependencies": {
     "typescript": "^5.0.0"
@@ -3904,7 +5055,12 @@ export { CustomButton, styles };</code></pre>
 
                                 <h4>Step 3: Extend Monochrome components</h4>
                                 <pre
-                                    style="background: var(--theme-surface); padding: 1rem; border-radius: var(--border-radius); margin: 1rem 0;"
+                                    style="
+                                        background: var(--theme-surface);
+                                        padding: 1rem;
+                                        border-radius: var(--border-radius);
+                                        margin: 1rem 0;
+                                    "
                                 ><code class="language-typescript">// src/components/Button.ts
 import '@monochrome-edge/dist/monochrome-edge.css';
 
@@ -3935,7 +5091,12 @@ export class EnhancedButton {
                                     tokens
                                 </h4>
                                 <pre
-                                    style="background: var(--theme-surface); padding: 1rem; border-radius: var(--border-radius); margin: 1rem 0;"
+                                    style="
+                                        background: var(--theme-surface);
+                                        padding: 1rem;
+                                        border-radius: var(--border-radius);
+                                        margin: 1rem 0;
+                                    "
                                 ><code class="language-css">/* src/styles/overrides.css */
 @import '@monochrome-edge/dist/monochrome-edge.css';
 
@@ -3960,7 +5121,12 @@ export class EnhancedButton {
 
                                 <h4>Step 5: Export your library</h4>
                                 <pre
-                                    style="background: var(--theme-surface); padding: 1rem; border-radius: var(--border-radius); margin: 1rem 0;"
+                                    style="
+                                        background: var(--theme-surface);
+                                        padding: 1rem;
+                                        border-radius: var(--border-radius);
+                                        margin: 1rem 0;
+                                    "
                                 ><code class="language-typescript">// src/index.ts
 export { EnhancedButton } from './components/Button';
 export { CustomCard } from './components/Card';
@@ -3990,9 +5156,10 @@ export function initializeCustomLibrary() {
                 <section class="ds-section" id="changelog">
                     <h2 class="ds-section-title">Changelog</h2>
                     <p class="ds-section-description">
-                        Track all notable changes to Monochrome Edge UI Components.
+                        Track all notable changes to Monochrome Edge UI
+                        Components.
                     </p>
-                    
+
                     <style>
                         .changelog-entry {
                             background-color: var(--theme-surface);
@@ -4001,7 +5168,7 @@ export function initializeCustomLibrary() {
                             margin-bottom: 1.5rem;
                             overflow: hidden;
                         }
-                        
+
                         .changelog-version {
                             padding: 1rem 1.5rem;
                             margin: 0;
@@ -4013,25 +5180,25 @@ export function initializeCustomLibrary() {
                             justify-content: space-between;
                             align-items: center;
                         }
-                        
+
                         .changelog-date {
                             font-size: 0.875rem;
                             font-weight: 400;
                             color: var(--theme-text-secondary);
                         }
-                        
+
                         .changelog-content {
                             padding: 1.5rem;
                         }
-                        
+
                         .changelog-category {
                             margin-bottom: 1.5rem;
                         }
-                        
+
                         .changelog-category:last-child {
                             margin-bottom: 0;
                         }
-                        
+
                         .changelog-category-title {
                             font-size: 0.875rem;
                             font-weight: 600;
@@ -4040,13 +5207,13 @@ export function initializeCustomLibrary() {
                             color: var(--theme-text-secondary);
                             margin-bottom: 0.75rem;
                         }
-                        
+
                         .changelog-list {
                             list-style: none;
                             padding: 0;
                             margin: 0;
                         }
-                        
+
                         .changelog-list li {
                             padding: 0.5rem 0;
                             border-bottom: 1px solid var(--theme-border);
@@ -4054,16 +5221,16 @@ export function initializeCustomLibrary() {
                             justify-content: space-between;
                             align-items: center;
                         }
-                        
+
                         .changelog-list li:last-child {
                             border-bottom: none;
                         }
-                        
+
                         .changelog-commit {
                             flex: 1;
                             color: var(--theme-text-primary);
                         }
-                        
+
                         .changelog-hash {
                             font-family: monospace;
                             font-size: 0.75rem;
@@ -4074,15 +5241,16 @@ export function initializeCustomLibrary() {
                             border-radius: 3px;
                             transition: all var(--transition-speed);
                         }
-                        
+
                         .changelog-hash:hover {
                             color: var(--theme-accent);
                             background-color: var(--theme-surface);
                         }
                     </style>
-                    
+
                     <div class="changelog-container">
                         <!-- CHANGELOG_START -->
+<<<<<<< HEAD
 <div class="changelog-entry" data-version="0.3.1">
     <h3 class="changelog-version">v0.3.1 <span class="changelog-date">2025-09-11</span></h3>
     <div class="changelog-content">
@@ -4102,6 +5270,36 @@ export function initializeCustomLibrary() {
     </div>
 </div>
                     <!-- CHANGELOG_END -->
+=======
+                        <div class="changelog-entry" data-version="0.3.0">
+                            <h3 class="changelog-version">
+                                v0.3.0
+                                <span class="changelog-date">2025-09-10</span>
+                            </h3>
+                            <div class="changelog-content">
+                                <div class="changelog-category">
+                                    <h4 class="changelog-category-title">
+                                        Features
+                                    </h4>
+                                    <ul class="changelog-list">
+                                        <li>
+                                            <span class="changelog-commit"
+                                                >feat: add auto version tagging
+                                                to page</span
+                                            >
+                                            <a
+                                                href="#"
+                                                class="changelog-hash"
+                                                title="f82b6db3e0a68b129f83527cf09493df341855e4"
+                                                >f82b6db</a
+                                            >
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- CHANGELOG_END -->
+>>>>>>> 56374ba (fix: update demo on index.html)
                     </div>
                 </section>
             </main>
@@ -4149,8 +5347,18 @@ export function initializeCustomLibrary() {
 
                 // Navigation - only for sidebar nav items
                 $(".ds-nav .nav-item").on("click", function (e) {
+                    // Don't prevent default for external links
+                    if (
+                        $(this).attr("href") &&
+                        $(this).attr("target") === "_blank"
+                    ) {
+                        return;
+                    }
+
                     e.preventDefault();
                     const section = $(this).data("section");
+
+                    if (!section) return; // Skip if no section data
 
                     // Update active nav
                     $(".ds-nav .nav-item").removeClass("is-active");
@@ -4162,11 +5370,11 @@ export function initializeCustomLibrary() {
 
                     // Close mobile sidebar after selection
                     if ($(window).width() <= 768) {
-                        $('.ds-sidebar').removeClass('is-open');
-                        $('.hamburger').removeClass('is-active');
-                        $('.sidebar-overlay').removeClass('is-visible');
+                        $(".ds-sidebar").removeClass("is-open");
+                        $(".hamburger").removeClass("is-active");
+                        $(".sidebar-overlay").removeClass("is-visible");
                         setTimeout(() => {
-                            $('.sidebar-overlay').remove();
+                            $(".sidebar-overlay").remove();
                         }, 300);
                     }
                 });
@@ -4175,7 +5383,7 @@ export function initializeCustomLibrary() {
                 $(document).on("click", ".demo-nav-item", function (e) {
                     e.preventDefault();
                     e.stopPropagation();
-                    
+
                     // Only toggle active state within the same container
                     const $container = $(this).parent();
                     $container.find(".nav-item").removeClass("is-active");
@@ -4189,7 +5397,10 @@ export function initializeCustomLibrary() {
                     const text = $this.text().trim();
 
                     // Don't do anything if already active
-                    if ($this.hasClass("active") && (text === "Preview" || text === "Code")) {
+                    if (
+                        $this.hasClass("active") &&
+                        (text === "Preview" || text === "Code")
+                    ) {
                         return;
                     }
 
@@ -4210,34 +5421,44 @@ export function initializeCustomLibrary() {
                         // Hide preview, show code
                         $preview.css("display", "none");
                         $code.css("display", "block");
-                        
+
                         // Re-highlight code when showing
                         setTimeout(() => {
-                            $code.find("pre code").each(function() {
+                            $code.find("pre code").each(function () {
                                 if (!$(this).hasClass("language-html")) {
                                     Prism.highlightElement(this);
                                 }
                             });
                         }, 10);
                     } else {
-                        // Handle framework-specific toggles in Examples section
+                        // Handle framework-specific toggles in Examples and CMS Editor sections
                         const frameworkMap = {
-                            "React": "react",
-                            "Vue": "vue",
+                            React: "react",
+                            Vue: "vue",
                             "Vanilla JS": "vanilla",
-                            "jQuery": "jquery",
+                            jQuery: "jquery",
                             "Web Components": "webcomponents",
-                            "Custom": "custom"
+                            Custom: "custom",
                         };
 
                         const framework = frameworkMap[text];
                         if (framework) {
-                            // This is a framework toggle in Examples section
-                            $content.find(".component-code").hide().removeClass("active");
-                            $content.find(`.component-code[data-framework="${framework}"]`).show().addClass("active");
-                            
+                            // This is a framework toggle in Examples or CMS Editor section
+                            $content
+                                .find(".component-code")
+                                .hide()
+                                .removeClass("active");
+                            $content
+                                .find(
+                                    `.component-code[data-framework="${framework}"]`,
+                                )
+                                .show()
+                                .addClass("active");
+
                             // Re-highlight code
-                            const $activeCode = $content.find(`.component-code[data-framework="${framework}"]`);
+                            const $activeCode = $content.find(
+                                `.component-code[data-framework="${framework}"]`,
+                            );
                             if ($activeCode.length) {
                                 Prism.highlightAllUnder($activeCode[0]);
                             }
@@ -4252,7 +5473,8 @@ export function initializeCustomLibrary() {
 
                 // Function to load theme colors
                 function loadThemeColors() {
-                    const currentTheme = $("html").attr("data-theme-variant") || "warm";
+                    const currentTheme =
+                        $("html").attr("data-theme-variant") || "warm";
                     const colorDisplay = $("#color-display");
 
                     if (currentTheme === "warm") {
@@ -4353,28 +5575,28 @@ export function initializeCustomLibrary() {
 
             // Sidebar toggle for mobile
             function toggleSidebar() {
-                $('.ds-sidebar').toggleClass('is-open');
-                $('.hamburger').toggleClass('is-active');
-                
+                $(".ds-sidebar").toggleClass("is-open");
+                $(".hamburger").toggleClass("is-active");
+
                 // Add overlay when sidebar is open
-                if ($('.ds-sidebar').hasClass('is-open')) {
-                    if (!$('.sidebar-overlay').length) {
-                        $('body').append('<div class="sidebar-overlay"></div>');
+                if ($(".ds-sidebar").hasClass("is-open")) {
+                    if (!$(".sidebar-overlay").length) {
+                        $("body").append('<div class="sidebar-overlay"></div>');
                     }
-                    $('.sidebar-overlay').addClass('is-visible');
+                    $(".sidebar-overlay").addClass("is-visible");
                 } else {
-                    $('.sidebar-overlay').removeClass('is-visible');
+                    $(".sidebar-overlay").removeClass("is-visible");
                     setTimeout(() => {
-                        $('.sidebar-overlay').remove();
+                        $(".sidebar-overlay").remove();
                     }, 300);
                 }
             }
 
             // Close sidebar when clicking overlay
-            $(document).on('click', '.sidebar-overlay', function() {
-                $('.ds-sidebar').removeClass('is-open');
-                $('.hamburger').removeClass('is-active');
-                $(this).removeClass('is-visible');
+            $(document).on("click", ".sidebar-overlay", function () {
+                $(".ds-sidebar").removeClass("is-open");
+                $(".hamburger").removeClass("is-active");
+                $(this).removeClass("is-visible");
                 setTimeout(() => {
                     $(this).remove();
                 }, 300);
@@ -4382,26 +5604,29 @@ export function initializeCustomLibrary() {
 
             // Dropdown functions
             function toggleDropdown(button) {
-                const dropdown = $(button).parent('.dropdown');
-                dropdown.toggleClass('is-open');
-                dropdown.find('.dropdown-panel').toggleClass('is-open');
+                const dropdown = $(button).parent(".dropdown");
+                dropdown.toggleClass("is-open");
+                dropdown.find(".dropdown-panel").toggleClass("is-open");
             }
 
             // Initialize dropdown clicks
-            $(document).on('click', '.dropdown-option', function() {
+            $(document).on("click", ".dropdown-option", function () {
                 const text = $(this).text();
-                $(this).closest('.dropdown').find('.dropdown-button span:first').text(text);
-                $(this).siblings().removeClass('is-selected');
-                $(this).addClass('is-selected');
-                $(this).closest('.dropdown').removeClass('is-open');
-                $(this).closest('.dropdown-panel').removeClass('is-open');
+                $(this)
+                    .closest(".dropdown")
+                    .find(".dropdown-button span:first")
+                    .text(text);
+                $(this).siblings().removeClass("is-selected");
+                $(this).addClass("is-selected");
+                $(this).closest(".dropdown").removeClass("is-open");
+                $(this).closest(".dropdown-panel").removeClass("is-open");
             });
 
             // Close dropdown when clicking outside
-            $(document).on('click', function(event) {
-                if (!$(event.target).closest('.dropdown').length) {
-                    $('.dropdown').removeClass('is-open');
-                    $('.dropdown-panel').removeClass('is-open');
+            $(document).on("click", function (event) {
+                if (!$(event.target).closest(".dropdown").length) {
+                    $(".dropdown").removeClass("is-open");
+                    $(".dropdown-panel").removeClass("is-open");
                 }
             });
         </script>
