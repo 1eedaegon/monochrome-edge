@@ -5,12 +5,15 @@ All notable changes to Monochrome Edge UI Components will be documented in this 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.3.1] - 2025-09-11
+## [0.4.0] - 2025-09-14
 
-### Other
+### Features
 
-- ci: prevent version conflict ([69715dd](../../commit/69715dd2ba3cefad404b4ad491d83c983648cbef))
-- ci: prevent version conflict ([640911f](../../commit/640911ff80c34021513307f7ac3e58ab53d17283))
+- feat: add file tabs && add tree component ([bc71e8a](../../commit/bc71e8aba895548a77eca4a178e3e4faae394c51))
+
+### Bug Fixes
+
+- fix: update demo on index.html ([6e6dd4b](../../commit/6e6dd4b2a1edfc26c0c71adac5554d24136679bb))
 
 ## Changes
 
