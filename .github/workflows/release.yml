@@ -165,6 +165,24 @@ jobs:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         continue-on-error: true
 
+      - name: Configure GitHub Packages
+        run: |
+          echo "@${GITHUB_REPOSITORY_OWNER}:registry=https://npm.pkg.github.com" >> ~/.npmrc
+          echo "//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}" >> ~/.npmrc
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Publish to GitHub Packages
+        run: |
+          # Temporarily modify package.json for GitHub Packages
+          npm pkg set name="@1eedaegon/monochrome-edge"
+          npm publish --registry https://npm.pkg.github.com --access public
+          # Restore original name
+          npm pkg set name="@monochrome-edge/ui"
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
       - name: Purge jsDelivr cache
         if: success()
         run: |
