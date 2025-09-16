@@ -20,6 +20,7 @@ const version = packageJson.version;
 // Files to update
 const filesToUpdate = [
     path.join(__dirname, '..', 'index.html'),
+    path.join(__dirname, '..', 'docs', 'index.html'),
     // Add more files here if needed
 ];
 
