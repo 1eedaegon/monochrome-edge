@@ -2,7 +2,15 @@
 
 A modern, minimalist UI component library with dual-theme system for web applications.
 
+[![Live Demo](https://img.shields.io/badge/Demo-GitHub%20Pages-blue?style=for-the-badge)](https://1eedaegon.github.io/monochrome-edge/)
+[![NPM Version](https://img.shields.io/npm/v/@monochrome-edge/ui?style=for-the-badge)](https://www.npmjs.com/package/@monochrome-edge/ui)
+[![GitHub Package](https://img.shields.io/badge/GitHub-Package-green?style=for-the-badge)](https://github.com/1eedaegon/monochrome-edge/packages)
+
 ![Theme Demo](docs/theme-demo.gif)
+
+## 🌐 Live Demo
+
+Check out our live demo and interactive playground: **[https://1eedaegon.github.io/monochrome-edge/](https://1eedaegon.github.io/monochrome-edge/)**
 
 ## Overview
 
@@ -23,6 +31,7 @@ npm install @monochrome-edge/ui
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css">
 <script src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/index.js"></script>
 ```
+
 
 ## Quick Start
 
