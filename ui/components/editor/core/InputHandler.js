@@ -19,10 +19,16 @@ export class InputHandler {
         this.register('mod+b', () => this.toggleFormat('bold'));
         this.register('mod+i', () => this.toggleFormat('italic'));
         this.register('mod+u', () => this.toggleFormat('underline'));
-        this.register('mod+shift+s', () => this.toggleFormat('strikethrough'));
+        this.register('mod+shift+x', () => this.toggleFormat('strikethrough'));
         this.register('mod+e', () => this.toggleFormat('code'));
-        
-        // Block formatting
+
+        // Header shortcuts (Ctrl/Cmd + Shift + 1-4)
+        this.register('mod+shift+1', () => this.transformBlock('heading1'));
+        this.register('mod+shift+2', () => this.transformBlock('heading2'));
+        this.register('mod+shift+3', () => this.transformBlock('heading3'));
+        this.register('mod+shift+4', () => this.transformBlock('heading4'));
+
+        // Block formatting (alternative shortcuts)
         this.register('mod+alt+1', () => this.transformBlock('heading1'));
         this.register('mod+alt+2', () => this.transformBlock('heading2'));
         this.register('mod+alt+3', () => this.transformBlock('heading3'));
@@ -92,23 +98,69 @@ export class InputHandler {
     handleKeyDown(e) {
         // Skip if composing (IME input)
         if (this.isComposing) return;
-        
+
+        // Handle special keys first
+        const currentBlock = this.editor.currentBlockElement;
+
+        // Tab handling for lists
+        if (e.key === 'Tab' && currentBlock) {
+            const blockType = currentBlock.dataset.blockType;
+            if (blockType === 'bullet' || blockType === 'number' || blockType === 'checkbox') {
+                e.preventDefault();
+                if (e.shiftKey) {
+                    this.outdentListItem();
+                } else {
+                    this.indentListItem();
+                }
+                return;
+            }
+        }
+
+        // Enter handling for lists
+        if (e.key === 'Enter' && !e.shiftKey && currentBlock) {
+            const blockType = currentBlock.dataset.blockType;
+            if (blockType === 'bullet' || blockType === 'number' || blockType === 'checkbox') {
+                const content = currentBlock.textContent.trim();
+                if (content === '') {
+                    // Double enter - exit list mode
+                    e.preventDefault();
+                    this.transformBlock('paragraph');
+                    return;
+                } else {
+                    // Continue list
+                    e.preventDefault();
+                    this.continueList(blockType);
+                    return;
+                }
+            }
+        }
+
+        // Shift+Enter for new line with same indentation
+        if (e.key === 'Enter' && e.shiftKey && currentBlock) {
+            const blockType = currentBlock.dataset.blockType;
+            if (blockType === 'bullet' || blockType === 'number' || blockType === 'checkbox') {
+                e.preventDefault();
+                this.insertSoftBreak();
+                return;
+            }
+        }
+
         // Build shortcut string
         const keys = [];
         if (e.ctrlKey) keys.push('ctrl');
         if (e.metaKey) keys.push('meta');
         if (e.altKey) keys.push('alt');
         if (e.shiftKey) keys.push('shift');
-        
+
         // Add the actual key
         const key = e.key.toLowerCase();
         if (key !== 'control' && key !== 'meta' && key !== 'alt' && key !== 'shift') {
             keys.push(key);
         }
-        
+
         const shortcut = keys.sort().join('+');
         const handler = this.shortcuts.get(shortcut);
-        
+
         if (handler) {
             e.preventDefault();
             handler(e);
@@ -471,19 +523,26 @@ export class InputHandler {
     // Formatting Methods
     toggleFormat(format) {
         const selection = this.editor.selectionManager.getSelection();
-        if (!selection || selection.isCollapsed) return;
-        
-        const blockId = selection.blockId;
+        const blockId = selection ? selection.blockId : this.editor.currentBlockId;
         const block = this.editor.dataModel.getBlock(blockId);
         if (!block) return;
-        
-        // Apply inline style
-        const startOffset = Math.min(selection.anchorOffset, selection.focusOffset);
-        const endOffset = Math.max(selection.anchorOffset, selection.focusOffset);
-        const length = endOffset - startOffset;
-        
-        this.editor.dataModel.applyInlineStyle(blockId, startOffset, length, format);
-        
+
+        // If no selection, apply to whole line
+        if (!selection || selection.isCollapsed) {
+            const content = block.content || '';
+            if (content.trim()) {
+                // Apply format to entire block content
+                this.editor.dataModel.applyInlineStyle(blockId, 0, content.length, format);
+            }
+        } else {
+            // Apply to selection
+            const startOffset = Math.min(selection.anchorOffset, selection.focusOffset);
+            const endOffset = Math.max(selection.anchorOffset, selection.focusOffset);
+            const length = endOffset - startOffset;
+
+            this.editor.dataModel.applyInlineStyle(blockId, startOffset, length, format);
+        }
+
         // Update rendering
         this.editor.renderer.update(blockId, block);
     }
@@ -594,6 +653,76 @@ export class InputHandler {
         }
     }
     
+    // List handling methods
+    indentListItem() {
+        const blockId = this.editor.currentBlockId;
+        const block = this.editor.dataModel.getBlock(blockId);
+        if (!block) return;
+
+        const currentIndent = block.attributes?.indent || 0;
+        block.attributes = { ...block.attributes, indent: currentIndent + 1 };
+        this.editor.dataModel.updateBlock(blockId, block);
+        this.editor.renderer.update(blockId, block);
+    }
+
+    outdentListItem() {
+        const blockId = this.editor.currentBlockId;
+        const block = this.editor.dataModel.getBlock(blockId);
+        if (!block) return;
+
+        const currentIndent = block.attributes?.indent || 0;
+        if (currentIndent > 0) {
+            block.attributes = { ...block.attributes, indent: currentIndent - 1 };
+            this.editor.dataModel.updateBlock(blockId, block);
+            this.editor.renderer.update(blockId, block);
+        }
+    }
+
+    continueList(listType) {
+        const currentBlockId = this.editor.currentBlockId;
+        const currentBlock = this.editor.dataModel.getBlock(currentBlockId);
+        if (!currentBlock) return;
+
+        // Create new list item
+        const newBlock = this.editor.dataModel.createBlock(listType, '');
+        newBlock.attributes = { ...currentBlock.attributes };
+
+        // If numbered list, increment index
+        if (listType === 'number') {
+            const currentIndex = currentBlock.attributes?.index || 1;
+            newBlock.attributes.index = currentIndex + 1;
+        }
+
+        // Insert after current block
+        const currentIndex = this.editor.dataModel.findBlockIndex(currentBlockId);
+        this.editor.dataModel.insertBlock(newBlock, currentIndex + 1);
+
+        // Render and focus new block
+        this.editor.render();
+        setTimeout(() => {
+            const newElement = document.querySelector(`[data-block-id="${newBlock.id}"]`);
+            if (newElement) {
+                this.editor.renderer.focusBlock(newElement);
+            }
+        }, 0);
+    }
+
+    insertSoftBreak() {
+        // Insert a line break within the same block
+        const selection = window.getSelection();
+        if (!selection.rangeCount) return;
+
+        const range = selection.getRangeAt(0);
+        const br = document.createElement('br');
+        range.insertNode(br);
+
+        // Move cursor after the break
+        range.setStartAfter(br);
+        range.setEndAfter(br);
+        selection.removeAllRanges();
+        selection.addRange(range);
+    }
+
     destroy() {
         this.shortcuts.clear();
     }
