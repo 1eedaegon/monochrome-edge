@@ -1,0 +1,515 @@
+/**
+ * Enhanced Editor Styles
+ * Complete styling for all editor features including Obsidian-like focus indicators
+ */
+
+/* Base Editor Styles */
+.editor-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: var(--theme-background, #ffffff);
+    font-family: var(--theme-font-family, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif);
+}
+
+.editor-content-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem 3rem;
+}
+
+.editor-content {
+    max-width: 800px;
+    margin: 0 auto;
+    min-height: 100%;
+}
+
+.editor-content.empty::before {
+    content: attr(data-placeholder);
+    color: var(--theme-text-secondary, #999);
+    font-style: italic;
+    pointer-events: none;
+    position: absolute;
+}
+
+/* Block Wrapper with Focus Syntax Display */
+.editor-block-wrapper {
+    position: relative;
+    margin: 0.5rem 0;
+    display: flex;
+    align-items: flex-start;
+}
+
+.editor-block-wrapper.focused .syntax-indicator {
+    opacity: 1;
+}
+
+/* Syntax Indicators (Obsidian-like) */
+.syntax-indicator {
+    position: absolute;
+    left: -2rem;
+    color: var(--theme-text-secondary, #999);
+    font-family: monospace;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.2s;
+    user-select: none;
+    padding-top: 0.25rem;
+}
+
+.block-heading1-wrapper .syntax-indicator { font-size: 20px; }
+.block-heading2-wrapper .syntax-indicator { font-size: 18px; }
+.block-heading3-wrapper .syntax-indicator { font-size: 16px; }
+.block-heading4-wrapper .syntax-indicator { font-size: 14px; }
+
+/* Editor Blocks */
+.editor-block {
+    width: 100%;
+    outline: none;
+    position: relative;
+}
+
+.editor-block[data-placeholder]:empty::before {
+    content: attr(data-placeholder);
+    color: var(--theme-text-secondary, #999);
+    pointer-events: none;
+    position: absolute;
+}
+
+/* Headings */
+.block-heading1 {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin: 1rem 0 0.5rem;
+}
+
+.block-heading2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0.8rem 0 0.4rem;
+}
+
+.block-heading3 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0.6rem 0 0.3rem;
+}
+
+.block-heading4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin: 0.5rem 0 0.25rem;
+}
+
+/* Paragraph */
+.block-paragraph {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0.5rem 0;
+}
+
+/* Quote */
+.block-quote {
+    padding-left: 1rem;
+    border-left: 3px solid var(--theme-accent, #007bff);
+    font-style: italic;
+    color: var(--theme-text-secondary, #666);
+    margin: 0.5rem 0;
+}
+
+/* Lists */
+.block-bullet-wrapper,
+.block-number-wrapper {
+    display: flex;
+    align-items: flex-start;
+    margin: 0.25rem 0;
+}
+
+.list-marker {
+    min-width: 1.5rem;
+    color: var(--theme-text-secondary, #666);
+    user-select: none;
+}
+
+.block-bullet,
+.block-number {
+    flex: 1;
+    line-height: 1.6;
+}
+
+/* Checkbox */
+.block-checkbox-wrapper {
+    display: flex;
+    align-items: flex-start;
+    margin: 0.25rem 0;
+}
+
+.checkbox-input {
+    margin-right: 0.5rem;
+    margin-top: 0.25rem;
+    cursor: pointer;
+}
+
+.checkbox-content {
+    flex: 1;
+    line-height: 1.6;
+}
+
+.block-checkbox-wrapper[data-checked="true"] .checkbox-content {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+/* Code Block */
+.block-codeblock-wrapper {
+    margin: 1rem 0;
+    border: 1px solid var(--theme-border, #e0e0e0);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--theme-surface, #f8f8f8);
+}
+
+.code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background: var(--theme-background, #fff);
+    border-bottom: 1px solid var(--theme-border, #e0e0e0);
+}
+
+.code-language {
+    padding: 0.25rem 0.5rem;
+    border: 1px solid var(--theme-border, #e0e0e0);
+    border-radius: 4px;
+    background: var(--theme-surface, #f8f8f8);
+    font-size: 12px;
+}
+
+.code-copy-btn {
+    padding: 0.25rem 0.75rem;
+    background: var(--theme-accent, #007bff);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.2s;
+}
+
+.code-copy-btn:hover {
+    background: var(--theme-accent-dark, #0056b3);
+}
+
+.code-pre {
+    margin: 0;
+    padding: 1rem;
+    overflow-x: auto;
+}
+
+.code-pre code {
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    display: block;
+    min-height: 1.5em;
+}
+
+/* Math Block */
+.block-math-wrapper {
+    margin: 1rem 0;
+    padding: 1rem;
+    border: 1px solid var(--theme-border, #e0e0e0);
+    border-radius: 8px;
+    background: var(--theme-surface, #f8f8f8);
+}
+
+.math-display {
+    text-align: center;
+    padding: 1rem;
+    cursor: pointer;
+    min-height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.math-input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--theme-border, #e0e0e0);
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 3rem;
+}
+
+/* Table Block */
+.block-table-wrapper {
+    margin: 1rem 0;
+    overflow-x: auto;
+}
+
+.table-container {
+    min-width: 100%;
+    overflow-x: auto;
+}
+
+.editor-table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--theme-border, #e0e0e0);
+}
+
+.editor-table td {
+    border: 1px solid var(--theme-border, #e0e0e0);
+    padding: 0;
+}
+
+.table-cell-content {
+    padding: 0.5rem;
+    min-height: 2rem;
+    outline: none;
+}
+
+.table-header .table-cell-content {
+    font-weight: 600;
+    background: var(--theme-surface, #f8f8f8);
+}
+
+.table-controls {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.table-btn {
+    padding: 0.25rem 0.75rem;
+    background: var(--theme-surface, #f8f8f8);
+    border: 1px solid var(--theme-border, #e0e0e0);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    transition: background 0.2s;
+}
+
+.table-btn:hover {
+    background: var(--theme-accent-light, #e8f4ff);
+}
+
+/* Image Block */
+.block-image-wrapper {
+    margin: 1rem 0;
+    text-align: center;
+}
+
+.image-container {
+    display: inline-block;
+    max-width: 100%;
+}
+
+.image-container img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.image-caption {
+    margin-top: 0.5rem;
+    font-size: 14px;
+    color: var(--theme-text-secondary, #666);
+    text-align: center;
+}
+
+.image-size-info {
+    font-size: 11px;
+    color: var(--theme-text-secondary, #999);
+    margin-top: 0.25rem;
+}
+
+/* Divider */
+.block-divider-wrapper {
+    margin: 1.5rem 0;
+}
+
+.editor-divider {
+    border: none;
+    border-top: 2px solid var(--theme-border, #e0e0e0);
+}
+
+/* Inline Styles */
+.editor-block strong {
+    font-weight: 600;
+}
+
+.editor-block em {
+    font-style: italic;
+}
+
+.editor-block del {
+    text-decoration: line-through;
+    opacity: 0.6;
+}
+
+.editor-block code {
+    padding: 0.2rem 0.4rem;
+    background: var(--theme-surface, #f4f4f4);
+    border: 1px solid var(--theme-border, #e0e0e0);
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 0.9em;
+}
+
+.editor-block a {
+    color: var(--theme-accent, #007bff);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.editor-block a:hover {
+    color: var(--theme-accent-dark, #0056b3);
+}
+
+/* Toolbar */
+.editor-toolbar-container {
+    border-bottom: 1px solid var(--theme-border, #e0e0e0);
+    background: var(--theme-surface, #f8f8f8);
+    padding: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.toolbar-group {
+    display: flex;
+    gap: 0.25rem;
+    padding: 0 0.5rem;
+    border-right: 1px solid var(--theme-border, #e0e0e0);
+}
+
+.toolbar-group:last-child {
+    border-right: none;
+}
+
+.toolbar-btn {
+    padding: 0.5rem;
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.toolbar-btn:hover {
+    background: var(--theme-accent-light, #e8f4ff);
+}
+
+.toolbar-btn.active {
+    background: var(--theme-accent, #007bff);
+    color: white;
+}
+
+/* Floating Toolbar */
+.floating-toolbar {
+    position: fixed;
+    background: var(--theme-surface, #fff);
+    border: 1px solid var(--theme-border, #e0e0e0);
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    padding: 0.25rem;
+    display: flex;
+    gap: 0.25rem;
+    z-index: 1000;
+}
+
+/* Status Bar */
+.editor-status-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem 1rem;
+    background: var(--theme-surface, #f8f8f8);
+    border-top: 1px solid var(--theme-border, #e0e0e0);
+    font-size: 12px;
+    color: var(--theme-text-secondary, #666);
+}
+
+.status-left {
+    display: flex;
+    gap: 1rem;
+}
+
+/* Drag & Drop */
+.editor-content.dragover {
+    background: var(--theme-accent-light, #e8f4ff) !important;
+    outline: 2px dashed var(--theme-accent, #007bff) !important;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.slash-menu-enhanced,
+.floating-toolbar {
+    animation: fadeIn 0.2s ease-out;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    .editor-wrapper {
+        --theme-background: #1a1a1a;
+        --theme-surface: #2a2a2a;
+        --theme-border: #3a3a3a;
+        --theme-text: #e0e0e0;
+        --theme-text-secondary: #999;
+        --theme-accent: #4a9eff;
+        --theme-accent-light: #1a3a5a;
+        --theme-accent-dark: #2a7adf;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .editor-content-wrapper {
+        padding: 1rem;
+    }
+
+    .syntax-indicator {
+        display: none;
+    }
+
+    .editor-toolbar-container {
+        overflow-x: auto;
+    }
+}
+
+/* Print Styles */
+@media print {
+    .editor-toolbar-container,
+    .editor-status-bar,
+    .syntax-indicator,
+    .table-controls,
+    .code-header {
+        display: none !important;
+    }
+
+    .editor-content-wrapper {
+        padding: 0;
+    }
+
+    .editor-block-wrapper {
+        break-inside: avoid;
+    }
+}
