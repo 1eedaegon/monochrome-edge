@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-theme-variant="warm">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monochrome Edge Editor - Live Demo</title>
+    <meta name="description" content="WYSIWYG Block Editor Demo - Notion-style blocks with Obsidian features">
+
+    <!-- Monochrome Edge CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/monochrome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/editor.min.css">
+
+    <!-- KaTeX for Math -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+
+    <!-- Prism.js for Code Highlighting -->
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-css.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: var(--color-background);
+        }
+
+        .demo-header {
+            background: var(--color-surface);
+            border-bottom: 1px solid var(--color-border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .demo-header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--color-primary);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .editor-container {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .editor-sidebar {
+            width: 250px;
+            background: var(--color-surface);
+            border-right: 1px solid var(--color-border);
+            padding: 1rem;
+            overflow-y: auto;
+        }
+
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-section h3 {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--color-text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .shortcut-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .shortcut-list li {
+            padding: 0.25rem 0;
+            font-size: 0.875rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .shortcut-key {
+            background: var(--color-background);
+            padding: 0.125rem 0.25rem;
+            border-radius: 3px;
+            font-family: monospace;
+            font-size: 0.75rem;
+        }
+
+        .editor-main {
+            flex: 1;
+            background: white;
+            overflow: hidden;
+        }
+
+        #editor {
+            height: 100%;
+        }
+
+        .demo-footer {
+            background: var(--color-surface);
+            border-top: 1px solid var(--color-border);
+            padding: 0.5rem 2rem;
+            font-size: 0.875rem;
+            color: var(--color-text-secondary);
+            display: flex;
+            justify-content: space-between;
+        }
+
+        @media (max-width: 768px) {
+            .editor-sidebar {
+                display: none;
+            }
+        }
+
+        /* Loading state */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            font-size: 1.25rem;
+            color: var(--color-text-secondary);
+        }
+
+        .spinner {
+            border: 3px solid var(--color-border);
+            border-top: 3px solid var(--color-primary);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin-right: 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="demo-header">
+        <h1>📝 Monochrome Edge Editor</h1>
+        <div class="header-actions">
+            <button class="btn btn-secondary" onclick="clearEditor()">Clear</button>
+            <button class="btn btn-secondary" onclick="loadSample()">Load Sample</button>
+            <button class="btn btn-primary" onclick="exportMarkdown()">Export</button>
+            <a href="index.html" class="btn">← Back to Components</a>
+        </div>
+    </header>
+
+    <!-- Main Editor Area -->
+    <div class="editor-container">
+        <!-- Sidebar -->
+        <aside class="editor-sidebar">
+            <div class="sidebar-section">
+                <h3>Keyboard Shortcuts</h3>
+                <ul class="shortcut-list">
+                    <li>Bold <span class="shortcut-key">Ctrl+B</span></li>
+                    <li>Italic <span class="shortcut-key">Ctrl+I</span></li>
+                    <li>Strike <span class="shortcut-key">Ctrl+Shift+X</span></li>
+                    <li>Code <span class="shortcut-key">Ctrl+E</span></li>
+                    <li>Link <span class="shortcut-key">Ctrl+K</span></li>
+                    <li>Undo <span class="shortcut-key">Ctrl+Z</span></li>
+                    <li>Redo <span class="shortcut-key">Ctrl+Y</span></li>
+                    <li>Save <span class="shortcut-key">Ctrl+S</span></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Markdown Shortcuts</h3>
+                <ul class="shortcut-list">
+                    <li>H1 <span class="shortcut-key"># Space</span></li>
+                    <li>H2 <span class="shortcut-key">## Space</span></li>
+                    <li>Bullet <span class="shortcut-key">- Space</span></li>
+                    <li>Number <span class="shortcut-key">1. Space</span></li>
+                    <li>Quote <span class="shortcut-key">&gt; Space</span></li>
+                    <li>Code <span class="shortcut-key">```</span></li>
+                    <li>Task <span class="shortcut-key">[] Space</span></li>
+                    <li>Divider <span class="shortcut-key">---</span></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Slash Commands</h3>
+                <p style="font-size: 0.875rem; line-height: 1.5;">
+                    Type <span class="shortcut-key">/</span> anywhere to open the command menu with fuzzy search.
+                </p>
+            </div>
+
+            <div class="sidebar-section">
+                <h3>Features</h3>
+                <ul style="list-style: none; padding: 0; font-size: 0.875rem; line-height: 1.8;">
+                    <li>✅ Focus line syntax</li>
+                    <li>✅ LaTeX math blocks</li>
+                    <li>✅ Code highlighting</li>
+                    <li>✅ Smart tables</li>
+                    <li>✅ Drag & drop images</li>
+                    <li>✅ File templates</li>
+                    <li>✅ Auto-save</li>
+                    <li>✅ Export MD/HTML/JSON</li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Editor -->
+        <main class="editor-main">
+            <div id="editor">
+                <div class="loading">
+                    <div class="spinner"></div>
+                    Loading editor...
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="demo-footer">
+        <div>Press <strong>/</strong> for commands • <strong>F1</strong> for help</div>
+        <div id="status">Ready</div>
+    </footer>
+
+    <!-- Editor Script -->
+    <script src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/monochrome-edge-editor.min.js"></script>
+    <script>
+        // Use the UMD global MonochromeEditor
+        const { EditorCore } = MonochromeEditor;
+
+        let editor = null;
+
+        // Initialize editor
+        async function initEditor() {
+            try {
+                editor = new EditorCore('#editor', {
+                    placeholder: 'Start typing or press "/" for commands...',
+                    enableToolbar: true,
+                    enableFloatingToolbar: true,
+                    enableSlashMenu: true,
+                    enableMath: true,
+                    enableCodeHighlight: true,
+                    autoSave: true,
+
+                    onReady: () => {
+                        console.log('Editor ready!');
+                        loadSample();
+                        updateStatus('Editor ready');
+                    },
+
+                    onChange: (doc) => {
+                        const wordCount = doc.metadata?.wordCount || 0;
+                        updateStatus(`${wordCount} words • Auto-saved`);
+                    },
+
+                    onSave: (doc) => {
+                        updateStatus('Document saved');
+                    }
+                });
+
+                // Make editor globally accessible
+                window.editor = editor;
+
+            } catch (error) {
+                console.error('Failed to initialize editor:', error);
+                document.getElementById('editor').innerHTML = `
+                    <div style="padding: 2rem; text-align: center; color: var(--color-danger);">
+                        Failed to load editor. Check console for details.
+                    </div>
+                `;
+            }
+        }
+
+        // Helper functions
+        function updateStatus(message) {
+            document.getElementById('status').textContent = message;
+        }
+
+        window.clearEditor = function() {
+            if (editor) {
+                editor.clear();
+                updateStatus('Document cleared');
+            }
+        };
+
+        window.loadSample = function() {
+            if (editor) {
+                const sampleContent = `# Welcome to Monochrome Edge Editor! 🚀
+
+This is a **powerful** WYSIWYG block editor with _Notion-style_ blocks and Obsidian-like features.
+
+## ✨ Quick Start
+
+Try these features:
+
+### Text Formatting
+- **Bold text** with \`Ctrl/Cmd + B\`
+- *Italic text* with \`Ctrl/Cmd + I\`
+- ~~Strikethrough~~ with \`Ctrl/Cmd + Shift + X\`
+- \`Inline code\` with \`Ctrl/Cmd + E\`
+
+### Markdown Shortcuts
+Type these patterns and press space:
+
+- \`#\` → Heading 1
+- \`##\` → Heading 2
+- \`-\` → Bullet list
+- \`1.\` → Numbered list
+- \`>\` → Quote block
+- \`[]\` → Task list
+- \`---\` → Divider
+
+> 💡 **Pro tip**: Type \`/\` anywhere to open the command menu with fuzzy search!
+
+### Lists & Tasks
+
+- First bullet point
+- Second bullet point
+  - Nested item (press Tab)
+  - Another nested item
+- Back to main level (Shift+Tab)
+
+1. Numbered list item
+2. Auto-incrementing numbers
+3. Also supports nesting
+
+### Code Blocks
+
+\`\`\`javascript
+// Syntax-highlighted code
+function fibonacci(n) {
+    if (n <= 1) return n;
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+console.log(fibonacci(10)); // 55
+\`\`\`
+
+### Math Support
+
+Click the formula below to edit the LaTeX:
+
+$$E = mc^2$$
+
+$$\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}$$
+
+### Tables
+
+| Feature | Status | Notes |
+|---------|--------|-------|
+| Markdown | ✅ Ready | Full support |
+| LaTeX | ✅ Ready | KaTeX rendering |
+| Code | ✅ Ready | Prism.js highlighting |
+| Templates | ✅ Ready | Built-in templates |
+
+---
+
+## 🎯 Focus Mode
+
+Notice how the markdown syntax indicators appear on the left when you focus a line? That's the Obsidian-style focus feature!
+
+## 📝 Try It Yourself
+
+1. Delete this content and start fresh
+2. Type \`/\` to explore all block types
+3. Drag and drop an image
+4. Use keyboard shortcuts for quick formatting
+5. Export your work as Markdown
+
+Happy writing! 🎉`;
+
+                editor.setContent(sampleContent);
+                updateStatus('Sample content loaded');
+            }
+        };
+
+        window.exportMarkdown = function() {
+            if (editor) {
+                const content = editor.getContent();
+                const blob = new Blob([content.markdown], { type: 'text/markdown' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'document.md';
+                a.click();
+                URL.revokeObjectURL(url);
+                updateStatus('Document exported');
+            }
+        };
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // F1 for help
+            if (e.key === 'F1') {
+                e.preventDefault();
+                alert(`Monochrome Edge Editor - Help
+
+KEYBOARD SHORTCUTS:
+• Ctrl/Cmd + B: Bold
+• Ctrl/Cmd + I: Italic
+• Ctrl/Cmd + Shift + X: Strikethrough
+• Ctrl/Cmd + E: Code
+• Ctrl/Cmd + K: Link
+• Ctrl/Cmd + Shift + 1-4: Headers
+• Ctrl/Cmd + Z/Y: Undo/Redo
+• Ctrl/Cmd + S: Save
+
+MARKDOWN SHORTCUTS:
+• # Space: Heading 1
+• ## Space: Heading 2
+• - Space: Bullet list
+• 1. Space: Numbered list
+• > Space: Quote
+• [] Space: Checkbox
+• \`\`\` : Code block
+• --- : Divider
+
+SLASH COMMANDS:
+Type / anywhere to see all available blocks
+
+LISTS:
+• Tab: Indent
+• Shift+Tab: Outdent
+• Enter: Continue list
+• Enter×2: Exit list`);
+            }
+
+            // Ctrl/Cmd + S to save
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                if (editor) {
+                    editor.save();
+                }
+            }
+        });
+
+        // Initialize on load
+        initEditor();
+    </script>
+</body>
+</html>
