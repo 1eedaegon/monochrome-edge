@@ -8,9 +8,9 @@ A modern, minimalist UI component library with dual-theme system for web applica
 
 ![Theme Demo](docs/theme-demo.gif)
 
-## 🌐 Live Demo
+## Demo
 
-Check out our live demo and interactive playground: **[https://1eedaegon.github.io/monochrome-edge/](https://1eedaegon.github.io/monochrome-edge/)**
+Check out demo : **[Monochrome Edge](https://1eedaegon.github.io/monochrome-edge/)**
 
 ## Overview
 
