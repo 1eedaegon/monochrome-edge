@@ -48,7 +48,7 @@
     "build:editor": "npm run build:editor:bundle && npm run build:editor:minify",
     "build:editor:bundle": "rollup -c rollup.editor.config.js",
     "build:editor:minify": "terser dist/monochrome-edge-editor.js -o dist/monochrome-edge-editor.min.js --compress --mangle",
-    "minify:css": "mkdir -p dist && postcss ui/monochrome-edge.css -o dist/monochrome.min.css && postcss ui/tokens/warm-theme.css -o dist/warm-theme.min.css && postcss ui/tokens/cold-theme.css -o dist/cold-theme.min.css && postcss ui/components/editor/styles/editor-enhanced.css -o dist/editor.min.css",
+    "minify:css": "mkdir -p dist && postcss ui/monochrome-edge.css -o dist/monochrome.min.css -b ui && postcss ui/tokens/warm-theme.css -o dist/warm-theme.min.css -b ui && postcss ui/tokens/cold-theme.css -o dist/cold-theme.min.css -b ui && postcss ui/components/editor/styles/editor-enhanced.css -o dist/editor.min.css -b ui",
     "copy:ui": "cp -r ui dist/",
     "prepublishOnly": "npm run build",
     "test": "echo \"No tests configured yet\"",
