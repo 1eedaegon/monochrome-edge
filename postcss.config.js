@@ -1,5 +1,6 @@
 export default {
   plugins: {
+    'postcss-import': {}, // Resolve @import statements first
     cssnano: {
       preset: ['default', {
         discardComments: {
