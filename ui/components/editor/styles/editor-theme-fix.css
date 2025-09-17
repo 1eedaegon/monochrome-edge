@@ -8,10 +8,12 @@
 [data-theme="light"] .editor-toolbar-container,
 [data-theme="light"] .editor-content,
 [data-theme="light"] .editor-content-wrapper,
+[data-theme="light"] .ProseMirror,
 :root .editor-wrapper,
 :root .editor-toolbar-container,
 :root .editor-content,
-:root .editor-content-wrapper {
+:root .editor-content-wrapper,
+:root .ProseMirror {
     --theme-bg: #ffffff;
     --theme-surface: #f8f9fa;
     --theme-border: #dee2e6;
@@ -25,7 +27,8 @@
 [data-theme="dark"] .editor-wrapper,
 [data-theme="dark"] .editor-toolbar-container,
 [data-theme="dark"] .editor-content,
-[data-theme="dark"] .editor-content-wrapper {
+[data-theme="dark"] .editor-content-wrapper,
+[data-theme="dark"] .ProseMirror {
     --theme-bg: #1a1a1a;
     --theme-surface: #2d2d2d;
     --theme-border: #404040;
@@ -46,24 +49,59 @@
 }
 
 .editor-content {
-    background: var(--theme-surface) !important;
-    color: var(--theme-text-primary) !important;
-    border-color: var(--theme-border) !important;
-}
-
-.editor-toolbar-container {
-    background: var(--theme-surface) !important;
-    border-color: var(--theme-border) !important;
-}
-
-.toolbar-btn {
-    color: var(--theme-text-secondary) !important;
-}
-
-.toolbar-btn:hover {
     background: var(--theme-bg) !important;
     color: var(--theme-text-primary) !important;
     border-color: var(--theme-border) !important;
+}
+
+/* ProseMirror editor specific - Light theme */
+[data-theme="light"] .ProseMirror,
+:root .ProseMirror {
+    background: #ffffff !important;
+    color: #212529 !important;
+}
+
+/* ProseMirror editor specific - Dark theme */
+[data-theme="dark"] .ProseMirror {
+    background: #1a1a1a !important;
+    color: #e0e0e0 !important;
+}
+
+/* Toolbar - Light theme */
+[data-theme="light"] .editor-toolbar-container,
+:root .editor-toolbar-container {
+    background: #f8f9fa !important;
+    border-color: #dee2e6 !important;
+}
+
+/* Toolbar - Dark theme */
+[data-theme="dark"] .editor-toolbar-container {
+    background: #2d2d2d !important;
+    border-color: #404040 !important;
+}
+
+/* Toolbar buttons - Light theme */
+[data-theme="light"] .toolbar-btn,
+:root .toolbar-btn {
+    color: #6c757d !important;
+}
+
+[data-theme="light"] .toolbar-btn:hover,
+:root .toolbar-btn:hover {
+    background: #ffffff !important;
+    color: #212529 !important;
+    border-color: #dee2e6 !important;
+}
+
+/* Toolbar buttons - Dark theme */
+[data-theme="dark"] .toolbar-btn {
+    color: #a0a0a0 !important;
+}
+
+[data-theme="dark"] .toolbar-btn:hover {
+    background: #1a1a1a !important;
+    color: #e0e0e0 !important;
+    border-color: #404040 !important;
 }
 
 .toolbar-btn.active {
