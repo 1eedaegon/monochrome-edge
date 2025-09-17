@@ -5342,7 +5342,115 @@ export function initializeCustomLibrary() {
                 $("#mode-switcher").on("change", function () {
                     const mode = $(this).val();
                     $("html").attr("data-theme", mode);
+
+                    // Update CSS variables for editor components
+                    if (mode === 'light') {
+                        document.documentElement.style.setProperty('--theme-bg', '#ffffff');
+                        document.documentElement.style.setProperty('--theme-surface', '#f8f9fa');
+                        document.documentElement.style.setProperty('--theme-border', '#dee2e6');
+                        document.documentElement.style.setProperty('--theme-text-primary', '#212529');
+                        document.documentElement.style.setProperty('--theme-text-secondary', '#6c757d');
+                        document.documentElement.style.setProperty('--theme-accent', '#007bff');
+                        document.documentElement.style.setProperty('--theme-accent-contrast', '#ffffff');
+                    } else {
+                        document.documentElement.style.setProperty('--theme-bg', '#1a1a1a');
+                        document.documentElement.style.setProperty('--theme-surface', '#2d2d2d');
+                        document.documentElement.style.setProperty('--theme-border', '#404040');
+                        document.documentElement.style.setProperty('--theme-text-primary', '#e0e0e0');
+                        document.documentElement.style.setProperty('--theme-text-secondary', '#a0a0a0');
+                        document.documentElement.style.setProperty('--theme-accent', '#4a9eff');
+                        document.documentElement.style.setProperty('--theme-accent-contrast', '#ffffff');
+                    }
+
+                    // Update editor iframe theme
+                    const editorFrame = document.getElementById('editorFrame');
+                    if (editorFrame && editorFrame.contentWindow) {
+                        try {
+                            const frameDoc = editorFrame.contentDocument || editorFrame.contentWindow.document;
+                            if (frameDoc && frameDoc.documentElement) {
+                                frameDoc.documentElement.setAttribute('data-theme', mode);
+                                // Also update CSS variables in the iframe
+                                if (mode === 'light') {
+                                    frameDoc.documentElement.style.setProperty('--theme-bg', '#ffffff');
+                                    frameDoc.documentElement.style.setProperty('--theme-surface', '#f8f9fa');
+                                    frameDoc.documentElement.style.setProperty('--theme-border', '#dee2e6');
+                                    frameDoc.documentElement.style.setProperty('--theme-text-primary', '#212529');
+                                    frameDoc.documentElement.style.setProperty('--theme-text-secondary', '#6c757d');
+                                    frameDoc.documentElement.style.setProperty('--theme-accent', '#007bff');
+                                    frameDoc.documentElement.style.setProperty('--theme-accent-contrast', '#ffffff');
+                                    frameDoc.documentElement.style.setProperty('--color-background', '#ffffff');
+                                    frameDoc.documentElement.style.setProperty('--color-surface', '#f8f9fa');
+                                    frameDoc.documentElement.style.setProperty('--color-border', '#dee2e6');
+                                    frameDoc.documentElement.style.setProperty('--color-text', '#212529');
+                                    frameDoc.documentElement.style.setProperty('--color-text-secondary', '#6c757d');
+                                    frameDoc.documentElement.style.setProperty('--color-primary', '#007bff');
+                                } else {
+                                    frameDoc.documentElement.style.setProperty('--theme-bg', '#1a1a1a');
+                                    frameDoc.documentElement.style.setProperty('--theme-surface', '#2d2d2d');
+                                    frameDoc.documentElement.style.setProperty('--theme-border', '#404040');
+                                    frameDoc.documentElement.style.setProperty('--theme-text-primary', '#e0e0e0');
+                                    frameDoc.documentElement.style.setProperty('--theme-text-secondary', '#a0a0a0');
+                                    frameDoc.documentElement.style.setProperty('--theme-accent', '#4a9eff');
+                                    frameDoc.documentElement.style.setProperty('--theme-accent-contrast', '#ffffff');
+                                    frameDoc.documentElement.style.setProperty('--color-background', '#1a1a1a');
+                                    frameDoc.documentElement.style.setProperty('--color-surface', '#2d2d2d');
+                                    frameDoc.documentElement.style.setProperty('--color-border', '#404040');
+                                    frameDoc.documentElement.style.setProperty('--color-text', '#e0e0e0');
+                                    frameDoc.documentElement.style.setProperty('--color-text-secondary', '#a0a0a0');
+                                    frameDoc.documentElement.style.setProperty('--color-primary', '#4a9eff');
+                                }
+                            }
+                        } catch (e) {
+                            console.log('Could not access iframe content:', e);
+                        }
+                    }
                 });
+
+                // Sync editor iframe theme on load
+                const editorFrame = document.getElementById('editorFrame');
+                if (editorFrame) {
+                    editorFrame.addEventListener('load', function() {
+                        const currentMode = $("html").attr("data-theme") || 'light';
+                        try {
+                            const frameDoc = editorFrame.contentDocument || editorFrame.contentWindow.document;
+                            if (frameDoc && frameDoc.documentElement) {
+                                frameDoc.documentElement.setAttribute('data-theme', currentMode);
+                                // Set CSS variables based on current mode
+                                if (currentMode === 'light') {
+                                    frameDoc.documentElement.style.setProperty('--theme-bg', '#ffffff');
+                                    frameDoc.documentElement.style.setProperty('--theme-surface', '#f8f9fa');
+                                    frameDoc.documentElement.style.setProperty('--theme-border', '#dee2e6');
+                                    frameDoc.documentElement.style.setProperty('--theme-text-primary', '#212529');
+                                    frameDoc.documentElement.style.setProperty('--theme-text-secondary', '#6c757d');
+                                    frameDoc.documentElement.style.setProperty('--theme-accent', '#007bff');
+                                    frameDoc.documentElement.style.setProperty('--theme-accent-contrast', '#ffffff');
+                                    frameDoc.documentElement.style.setProperty('--color-background', '#ffffff');
+                                    frameDoc.documentElement.style.setProperty('--color-surface', '#f8f9fa');
+                                    frameDoc.documentElement.style.setProperty('--color-border', '#dee2e6');
+                                    frameDoc.documentElement.style.setProperty('--color-text', '#212529');
+                                    frameDoc.documentElement.style.setProperty('--color-text-secondary', '#6c757d');
+                                    frameDoc.documentElement.style.setProperty('--color-primary', '#007bff');
+                                } else {
+                                    frameDoc.documentElement.style.setProperty('--theme-bg', '#1a1a1a');
+                                    frameDoc.documentElement.style.setProperty('--theme-surface', '#2d2d2d');
+                                    frameDoc.documentElement.style.setProperty('--theme-border', '#404040');
+                                    frameDoc.documentElement.style.setProperty('--theme-text-primary', '#e0e0e0');
+                                    frameDoc.documentElement.style.setProperty('--theme-text-secondary', '#a0a0a0');
+                                    frameDoc.documentElement.style.setProperty('--theme-accent', '#4a9eff');
+                                    frameDoc.documentElement.style.setProperty('--theme-accent-contrast', '#ffffff');
+                                    frameDoc.documentElement.style.setProperty('--color-background', '#1a1a1a');
+                                    frameDoc.documentElement.style.setProperty('--color-surface', '#2d2d2d');
+                                    frameDoc.documentElement.style.setProperty('--color-border', '#404040');
+                                    frameDoc.documentElement.style.setProperty('--color-text', '#e0e0e0');
+                                    frameDoc.documentElement.style.setProperty('--color-text-secondary', '#a0a0a0');
+                                    frameDoc.documentElement.style.setProperty('--color-primary', '#4a9eff');
+                                }
+                            }
+                        } catch (e) {
+                            console.log('Could not access iframe content on load:', e);
+                        }
+                    });
+                }
 
                 // Navigation - only for sidebar nav items
                 $(".ds-nav .nav-item").on("click", function (e) {
