@@ -153,7 +153,7 @@ export class TabComponent {
 
             .tab-item.active {
                 background: var(--theme-background, #fff);
-                border-bottom: 2px solid var(--theme-accent, #007bff);
+                border-bottom: 2px solid var(--theme-accent);
             }
 
             .tab-item.unsaved .tab-title::after {
@@ -286,7 +286,7 @@ export class TabComponent {
             }
 
             .tab-dropdown-item.active {
-                background: var(--theme-accent, #007bff);
+                background: var(--theme-accent);
                 color: white;
             }
 
@@ -301,7 +301,7 @@ export class TabComponent {
                 top: 0;
                 width: 2px;
                 height: 40px;
-                background: var(--theme-accent, #007bff);
+                background: var(--theme-accent);
                 pointer-events: none;
                 transition: left 0.2s;
             }
