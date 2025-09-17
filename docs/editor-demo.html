@@ -22,6 +22,38 @@
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-css.min.js"></script>
 
     <style>
+        /* Define fallback theme variables */
+        :root,
+        [data-theme="light"] {
+            --color-background: #ffffff;
+            --color-surface: #f8f9fa;
+            --color-border: #dee2e6;
+            --color-text: #212529;
+            --color-text-secondary: #6c757d;
+            --color-primary: #007bff;
+            --color-accent: #007bff;
+        }
+
+        [data-theme="dark"] {
+            --color-background: #1a1a1a;
+            --color-surface: #2d2d2d;
+            --color-border: #404040;
+            --color-text: #e0e0e0;
+            --color-text-secondary: #a0a0a0;
+            --color-primary: #4a9eff;
+            --color-accent: #4a9eff;
+        }
+
+        /* Map to theme variables for compatibility */
+        :root {
+            --theme-bg: var(--color-background);
+            --theme-surface: var(--color-surface);
+            --theme-border: var(--color-border);
+            --theme-text-primary: var(--color-text);
+            --theme-text-secondary: var(--color-text-secondary);
+            --theme-accent: var(--color-primary);
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -29,6 +61,8 @@
             display: flex;
             flex-direction: column;
             background: var(--color-background);
+            color: var(--color-text);
+            transition: background-color 0.3s ease, color 0.3s ease;
         }
 
         .demo-header {
@@ -43,7 +77,7 @@
         .demo-header h1 {
             margin: 0;
             font-size: 1.5rem;
-            color: var(--color-primary);
+            color: var(--color-text);
         }
 
         .header-actions {
@@ -61,6 +95,7 @@
             width: 250px;
             background: var(--color-surface);
             border-right: 1px solid var(--color-border);
+            color: var(--color-text);
             padding: 1rem;
             overflow-y: auto;
         }
@@ -100,7 +135,7 @@
 
         .editor-main {
             flex: 1;
-            background: white;
+            background: var(--color-surface);
             overflow: hidden;
         }
 
@@ -155,6 +190,7 @@
     <header class="demo-header">
         <h1>📝 Monochrome Edge Editor</h1>
         <div class="header-actions">
+            <button class="btn btn-secondary" onclick="toggleTheme()">🌓 Theme</button>
             <button class="btn btn-secondary" onclick="clearEditor()">Clear</button>
             <button class="btn btn-secondary" onclick="loadSample()">Load Sample</button>
             <button class="btn btn-primary" onclick="exportMarkdown()">Export</button>
@@ -444,6 +480,24 @@ LISTS:
                 }
             }
         });
+
+        // Theme toggle
+        window.toggleTheme = function() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+
+            // Update CSS variables mapping
+            document.documentElement.style.setProperty('--theme-bg', `var(--color-background)`);
+            document.documentElement.style.setProperty('--theme-surface', `var(--color-surface)`);
+            document.documentElement.style.setProperty('--theme-border', `var(--color-border)`);
+            document.documentElement.style.setProperty('--theme-text-primary', `var(--color-text)`);
+            document.documentElement.style.setProperty('--theme-text-secondary', `var(--color-text-secondary)`);
+            document.documentElement.style.setProperty('--theme-accent', `var(--color-primary)`);
+
+            updateStatus(`Switched to ${newTheme} mode`);
+        };
 
         // Initialize on load
         initEditor();
