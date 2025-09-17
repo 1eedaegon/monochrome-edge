@@ -1,7 +1,10 @@
 /**
- * Enhanced Editor Styles
- * Complete styling for all editor features including Obsidian-like focus indicators
+ * Monochrome Edge Editor Styles
+ * Modern WYSIWYG editor with Notion-style blocks and Obsidian-like focus indicators
  */
+
+/* Import theme fix for proper theme reactivity */
+@import url('./editor-theme-fix.css');
 
 /* Base Editor Styles */
 .editor-wrapper {
@@ -49,12 +52,12 @@
 }
 
 .editor-block-wrapper:hover {
-    background: var(--theme-bg);
+    background: var(--theme-bg, var(--color-background, rgba(0,0,0,0.02)));
     margin-left: -0.5rem;
     margin-right: -0.5rem;
     padding-left: 0.5rem;
     padding-right: 0.5rem;
-    border-radius: calc(var(--border-radius) / 2);
+    border-radius: calc(var(--border-radius, 8px) / 2);
 }
 
 .editor-block-wrapper.focused .syntax-indicator {
@@ -85,7 +88,8 @@
     width: 100%;
     outline: none;
     position: relative;
-    caret-color: var(--theme-accent);
+    caret-color: var(--theme-accent, var(--color-primary, #007bff));
+    color: var(--theme-text-primary, var(--color-text, #333333));
 }
 
 .editor-block:focus {
@@ -107,7 +111,7 @@
     font-weight: var(--font-weight-h1, 700);
     line-height: 1.25;
     margin: 1.25rem 0 0.625rem;
-    color: var(--theme-text-primary);
+    color: var(--theme-text-primary, var(--color-text, #333333));
     letter-spacing: -0.01em;
 }
 
@@ -116,7 +120,7 @@
     font-weight: 600;
     line-height: 1.35;
     margin: 1rem 0 0.5rem;
-    color: var(--theme-text-primary);
+    color: var(--theme-text-primary, var(--color-text, #333333));
 }
 
 .block-heading3 {
@@ -124,7 +128,7 @@
     font-weight: 600;
     line-height: 1.45;
     margin: 0.875rem 0 0.5rem;
-    color: var(--theme-text-primary);
+    color: var(--theme-text-primary, var(--color-text, #333333));
 }
 
 .block-heading4 {
@@ -132,7 +136,7 @@
     font-weight: 600;
     line-height: 1.5;
     margin: 0.75rem 0 0.375rem;
-    color: var(--theme-text-primary);
+    color: var(--theme-text-primary, var(--color-text, #333333));
 }
 
 .block-heading4 {
@@ -147,16 +151,16 @@
     font-size: var(--font-size-body, 1rem);
     line-height: 1.7;
     margin: 0.5rem 0;
-    color: var(--theme-text-primary);
+    color: var(--theme-text-primary, var(--color-text, #333333));
     font-weight: var(--font-weight-body, 400);
 }
 
 /* Quote */
 .block-quote {
     padding-left: 1rem;
-    border-left: 3px solid var(--theme-accent);
+    border-left: 3px solid var(--theme-accent, var(--color-primary, #007bff));
     font-style: italic;
-    color: var(--theme-text-secondary);
+    color: var(--theme-text-secondary, var(--color-text-secondary, #666666));
     margin: 0.5rem 0;
 }
 
@@ -170,7 +174,7 @@
 
 .list-marker {
     min-width: 1.75rem;
-    color: var(--theme-text-secondary);
+    color: var(--theme-text-secondary, var(--color-text-secondary, #666666));
     user-select: none;
     font-weight: 500;
 }
@@ -179,7 +183,7 @@
 .block-number {
     flex: 1;
     line-height: 1.7;
-    color: var(--theme-text-primary);
+    color: var(--theme-text-primary, var(--color-text, #333333));
 }
 
 /* Checkbox */

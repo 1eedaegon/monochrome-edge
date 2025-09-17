@@ -1,0 +1,155 @@
+/**
+ * Editor Theme Fix
+ * Ensures editor components respond to theme changes properly
+ */
+
+/* Light theme values for editor */
+[data-theme="light"] .editor-wrapper,
+[data-theme="light"] .editor-toolbar-container,
+[data-theme="light"] .editor-content {
+    --theme-bg: var(--color-background, #ffffff);
+    --theme-surface: var(--color-surface, #f8f9fa);
+    --theme-border: var(--color-border, #dee2e6);
+    --theme-text-primary: var(--color-text, #212529);
+    --theme-text-secondary: var(--color-text-secondary, #6c757d);
+    --theme-accent: var(--color-primary, #007bff);
+    --theme-accent-contrast: white;
+}
+
+/* Dark theme values for editor */
+[data-theme="dark"] .editor-wrapper,
+[data-theme="dark"] .editor-toolbar-container,
+[data-theme="dark"] .editor-content {
+    --theme-bg: var(--color-background, #1a1a1a);
+    --theme-surface: var(--color-surface, #2d2d2d);
+    --theme-border: var(--color-border, #404040);
+    --theme-text-primary: var(--color-text, #e0e0e0);
+    --theme-text-secondary: var(--color-text-secondary, #a0a0a0);
+    --theme-accent: var(--color-primary, #4a9eff);
+    --theme-accent-contrast: white;
+}
+
+/* Ensure editor components use theme variables */
+.editor-wrapper {
+    background: var(--theme-bg) !important;
+    color: var(--theme-text-primary) !important;
+}
+
+.editor-content-wrapper {
+    background: var(--theme-bg) !important;
+}
+
+.editor-content {
+    background: var(--theme-surface) !important;
+    color: var(--theme-text-primary) !important;
+    border-color: var(--theme-border) !important;
+}
+
+.editor-toolbar-container {
+    background: var(--theme-surface) !important;
+    border-color: var(--theme-border) !important;
+}
+
+.toolbar-btn {
+    color: var(--theme-text-secondary) !important;
+}
+
+.toolbar-btn:hover {
+    background: var(--theme-bg) !important;
+    color: var(--theme-text-primary) !important;
+    border-color: var(--theme-border) !important;
+}
+
+.toolbar-btn.active {
+    background: var(--theme-accent) !important;
+    color: var(--theme-accent-contrast) !important;
+    border-color: var(--theme-accent) !important;
+}
+
+/* Editor blocks text color */
+.editor-block,
+.block-heading1,
+.block-heading2,
+.block-heading3,
+.block-heading4,
+.block-paragraph {
+    color: var(--theme-text-primary) !important;
+}
+
+.block-quote {
+    color: var(--theme-text-secondary) !important;
+    border-color: var(--theme-accent) !important;
+}
+
+.list-marker {
+    color: var(--theme-text-secondary) !important;
+}
+
+.block-bullet,
+.block-number {
+    color: var(--theme-text-primary) !important;
+}
+
+/* Floating toolbar theme support */
+.floating-toolbar {
+    background: var(--theme-surface) !important;
+    border-color: var(--theme-border) !important;
+}
+
+.floating-toolbar button {
+    color: var(--theme-text-secondary) !important;
+}
+
+.floating-toolbar button:hover {
+    background: var(--theme-bg) !important;
+    color: var(--theme-text-primary) !important;
+}
+
+/* Slash menu theme support */
+.slash-menu-enhanced {
+    background: var(--theme-surface) !important;
+    border-color: var(--theme-border) !important;
+}
+
+.slash-menu-enhanced .menu-search {
+    background: var(--theme-bg) !important;
+    border-color: var(--theme-border) !important;
+    color: var(--theme-text-primary) !important;
+}
+
+.slash-menu-enhanced .menu-item {
+    color: var(--theme-text-primary) !important;
+}
+
+.slash-menu-enhanced .menu-item:hover,
+.slash-menu-enhanced .menu-item.selected {
+    background: var(--theme-bg) !important;
+}
+
+/* Code blocks */
+.block-codeblock-wrapper {
+    background: var(--theme-surface) !important;
+    border-color: var(--theme-border) !important;
+}
+
+.code-header {
+    background: var(--theme-bg) !important;
+    border-color: var(--theme-border) !important;
+}
+
+/* Status bar */
+.editor-status-bar {
+    background: var(--theme-surface) !important;
+    border-color: var(--theme-border) !important;
+    color: var(--theme-text-secondary) !important;
+}
+
+/* Transitions for smooth theme changes */
+.editor-wrapper,
+.editor-content,
+.editor-toolbar-container,
+.toolbar-btn,
+.floating-toolbar,
+.slash-menu-enhanced {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease !important;
+}
