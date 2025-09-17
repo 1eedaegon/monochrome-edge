@@ -3,30 +3,36 @@
  * Ensures editor components respond to theme changes properly
  */
 
-/* Light theme values for editor */
+/* Light theme values for editor - explicit values */
 [data-theme="light"] .editor-wrapper,
 [data-theme="light"] .editor-toolbar-container,
-[data-theme="light"] .editor-content {
-    --theme-bg: var(--color-background, #ffffff);
-    --theme-surface: var(--color-surface, #f8f9fa);
-    --theme-border: var(--color-border, #dee2e6);
-    --theme-text-primary: var(--color-text, #212529);
-    --theme-text-secondary: var(--color-text-secondary, #6c757d);
-    --theme-accent: var(--color-primary, #007bff);
-    --theme-accent-contrast: white;
+[data-theme="light"] .editor-content,
+[data-theme="light"] .editor-content-wrapper,
+:root .editor-wrapper,
+:root .editor-toolbar-container,
+:root .editor-content,
+:root .editor-content-wrapper {
+    --theme-bg: #ffffff;
+    --theme-surface: #f8f9fa;
+    --theme-border: #dee2e6;
+    --theme-text-primary: #212529;
+    --theme-text-secondary: #6c757d;
+    --theme-accent: #007bff;
+    --theme-accent-contrast: #ffffff;
 }
 
-/* Dark theme values for editor */
+/* Dark theme values for editor - explicit values */
 [data-theme="dark"] .editor-wrapper,
 [data-theme="dark"] .editor-toolbar-container,
-[data-theme="dark"] .editor-content {
-    --theme-bg: var(--color-background, #1a1a1a);
-    --theme-surface: var(--color-surface, #2d2d2d);
-    --theme-border: var(--color-border, #404040);
-    --theme-text-primary: var(--color-text, #e0e0e0);
-    --theme-text-secondary: var(--color-text-secondary, #a0a0a0);
-    --theme-accent: var(--color-primary, #4a9eff);
-    --theme-accent-contrast: white;
+[data-theme="dark"] .editor-content,
+[data-theme="dark"] .editor-content-wrapper {
+    --theme-bg: #1a1a1a;
+    --theme-surface: #2d2d2d;
+    --theme-border: #404040;
+    --theme-text-primary: #e0e0e0;
+    --theme-text-secondary: #a0a0a0;
+    --theme-accent: #4a9eff;
+    --theme-accent-contrast: #ffffff;
 }
 
 /* Ensure editor components use theme variables */

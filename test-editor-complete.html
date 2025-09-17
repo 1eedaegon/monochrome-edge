@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-theme-variant="warm">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor Feature Test - All 12 Features</title>
+
+    <!-- Monochrome Edge CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/monochrome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/editor.min.css">
+
+    <!-- Required for Math and Code highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: var(--theme-bg, var(--color-background));
+        }
+
+        .test-header {
+            background: var(--theme-surface, var(--color-surface));
+            border-bottom: 1px solid var(--theme-border, var(--color-border));
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .feature-checklist {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.5rem;
+            padding: 1rem;
+            background: var(--theme-bg, var(--color-background));
+            border-bottom: 1px solid var(--theme-border, var(--color-border));
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .feature-item input {
+            cursor: pointer;
+        }
+
+        .editor-container {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        #editor {
+            height: 100%;
+        }
+
+        .test-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .status-bar {
+            background: var(--theme-surface, var(--color-surface));
+            border-top: 1px solid var(--theme-border, var(--color-border));
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            color: var(--theme-text-secondary, var(--color-text-secondary));
+        }
+    </style>
+</head>
+<body>
+    <header class="test-header">
+        <h1>Editor Feature Test Suite</h1>
+        <div class="test-actions">
+            <button class="btn btn-secondary" onclick="loadTestContent()">Load Test Content</button>
+            <button class="btn btn-secondary" onclick="clearEditor()">Clear</button>
+            <button class="btn btn-primary" onclick="getMarkdown()">Get Markdown</button>
+        </div>
+    </header>
+
+    <div class="feature-checklist">
+        <div class="feature-item">
+            <input type="checkbox" id="feat-1" onchange="checkFeature(1, this.checked)">
+            <label for="feat-1">1. Headers (H1-H4)</label>
+        </div>
+        <div class="feature-item">
+            <input type="checkbox" id="feat-2" onchange="checkFeature(2, this.checked)">
+            <label for="feat-2">2. Bold (Ctrl+B)</label>
+        </div>
+        <div class="feature-item">
+            <input type="checkbox" id="feat-3" onchange="checkFeature(3, this.checked)">
+            <label for="feat-3">3. Italic (Ctrl+I)</label>
+        </div>
+        <div class="feature-item">
+            <input type="checkbox" id="feat-4" onchange="checkFeature(4, this.checked)">
+            <label for="feat-4">4. Strikethrough</label>
+        </div>
+        <div class="feature-item">
+            <input type="checkbox" id="feat-5" onchange="checkFeature(5, this.checked)">
+            <label for="feat-5">5. Quote (>)</label>
+        </div>
+        <div class="feature-item">
+            <input type="checkbox" id="feat-6" onchange="checkFeature(6, this.checked)">
+            <label for="feat-6">6. Links (Ctrl+K)</label>
+        </div>
+        <div class="feature-item">
+            <input type="checkbox" id="feat-7" onchange="checkFeature(7, this.checked)">
+            <label for="feat-7">7. Image Upload</label>
+        </div>
+        <div class="feature-item">
+            <input type="checkbox" id="feat-8" onchange="checkFeature(8, this.checked)">
+            <label for="feat-8">8. Code Blocks</label>
+        </div>
+        <div class="feature-item">
+            <input type="checkbox" id="feat-9" onchange="checkFeature(9, this.checked)">
+            <label for="feat-9">9. LaTeX Math</label>
+        </div>
+        <div class="feature-item">
+            <input type="checkbox" id="feat-10" onchange="checkFeature(10, this.checked)">
+            <label for="feat-10">10. Lists (-, 1., [])</label>
+        </div>
+        <div class="feature-item">
+            <input type="checkbox" id="feat-11" onchange="checkFeature(11, this.checked)">
+            <label for="feat-11">11. Tables</label>
+        </div>
+        <div class="feature-item">
+            <input type="checkbox" id="feat-12" onchange="checkFeature(12, this.checked)">
+            <label for="feat-12">12. Document Links</label>
+        </div>
+    </div>
+
+    <div class="editor-container">
+        <div id="editor"></div>
+    </div>
+
+    <div class="status-bar" id="status">
+        Ready - Use "/" for commands, test each feature above
+    </div>
+
+    <!-- Editor Script -->
+    <script src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/monochrome-edge-editor.min.js"></script>
+    <script>
+        const { EditorCore } = MonochromeEditor;
+        let editor = null;
+        let featureStatus = new Array(12).fill(false);
+
+        // Initialize editor
+        async function initEditor() {
+            try {
+                editor = new EditorCore('#editor', {
+                    placeholder: 'Test each feature from the checklist above...',
+                    enableToolbar: true,
+                    enableFloatingToolbar: true,
+                    enableSlashMenu: true,
+                    enableMath: true,
+                    enableCodeHighlight: true,
+                    autoSave: false,
+
+                    onReady: () => {
+                        console.log('Editor ready for testing!');
+                        updateStatus('Editor ready - Begin testing features');
+                    },
+
+                    onChange: (doc) => {
+                        const blockCount = doc.blocks ? doc.blocks.length : 0;
+                        updateStatus(`${blockCount} blocks • Testing in progress`);
+                    }
+                });
+
+                window.editor = editor;
+
+            } catch (error) {
+                console.error('Failed to initialize editor:', error);
+                document.getElementById('editor').innerHTML = `
+                    <div style="padding: 2rem; text-align: center; color: red;">
+                        Failed to load editor: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        function updateStatus(message) {
+            document.getElementById('status').textContent = message;
+        }
+
+        function checkFeature(featureNum, checked) {
+            featureStatus[featureNum - 1] = checked;
+            const completed = featureStatus.filter(f => f).length;
+            updateStatus(`${completed}/12 features tested`);
+
+            if (completed === 12) {
+                updateStatus('✅ All features tested successfully!');
+            }
+        }
+
+        function clearEditor() {
+            if (editor) {
+                editor.clear();
+                updateStatus('Editor cleared');
+            }
+        }
+
+        function loadTestContent() {
+            if (editor) {
+                const testContent = `# Feature Test 1: Headers
+This is a test document for all editor features.
+
+## Heading 2 Test
+### Heading 3 Test
+#### Heading 4 Test
+
+## Feature Test 2-4: Inline Formatting
+**Bold text** with Ctrl+B
+*Italic text* with Ctrl+I
+~~Strikethrough text~~ with Ctrl+Shift+X
+\`Inline code\` with Ctrl+E
+
+## Feature Test 5: Quotes
+> This is a blockquote
+> It can span multiple lines
+> Use ">" at the start of a line
+
+## Feature Test 6: Links
+[Monochrome Edge](https://github.com/1eedaegon/monochrome-edge)
+Press Ctrl+K to add links
+
+## Feature Test 7: Images
+Drag and drop an image file here to test upload
+
+## Feature Test 8: Code Blocks
+\`\`\`javascript
+// Syntax highlighted code
+function testEditor() {
+    console.log("Testing code highlighting");
+    return true;
+}
+\`\`\`
+
+## Feature Test 9: LaTeX Math
+Inline math: $E = mc^2$
+
+Block math:
+$$\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}$$
+
+## Feature Test 10: Lists
+
+### Bullet List
+- First item
+- Second item
+  - Nested item
+  - Another nested
+- Third item
+
+### Numbered List
+1. First step
+2. Second step
+3. Third step
+
+### Checkbox List
+[] Task 1
+[] Task 2
+[x] Completed task
+
+## Feature Test 11: Tables
+
+| Feature | Status | Notes |
+|---------|--------|-------|
+| Headers | ✅ | H1-H4 working |
+| Bold | ✅ | Ctrl+B |
+| Tables | Testing | Grid editor |
+
+## Feature Test 12: Document Links
+[[Internal Document]]
+Link to other documents in the system
+
+---
+
+End of test document. Check each feature above!`;
+
+                editor.setContent(testContent);
+                updateStatus('Test content loaded - verify each feature');
+            }
+        }
+
+        function getMarkdown() {
+            if (editor) {
+                const content = editor.getContent();
+                console.log('Markdown output:', content.markdown);
+                alert('Markdown output logged to console');
+                updateStatus('Markdown exported to console');
+            }
+        }
+
+        // Initialize on load
+        initEditor();
+    </script>
+</body>
+</html>
