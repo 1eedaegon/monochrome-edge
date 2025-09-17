@@ -37,23 +37,19 @@
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-css.min.js"></script>
 
     <style>
-        /* Use Monochrome Edge theme variables - no hardcoded colors */
-        /* All theme variables come from monochrome.min.css */
-
         body {
             margin: 0;
             padding: 0;
             height: 100vh;
             display: flex;
             flex-direction: column;
-            background: var(--color-background);
-            color: var(--color-text);
-            transition: background-color 0.3s ease, color 0.3s ease;
+            background: var(--theme-background);
+            color: var(--theme-text-primary);
         }
 
         .demo-header {
-            background: var(--color-surface);
-            border-bottom: 1px solid var(--color-border);
+            background: var(--theme-surface);
+            border-bottom: 1px solid var(--theme-border);
             padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
@@ -63,7 +59,7 @@
         .demo-header h1 {
             margin: 0;
             font-size: 1.5rem;
-            color: var(--color-text);
+            color: var(--theme-text-primary);
         }
 
         .header-actions {
@@ -79,9 +75,9 @@
 
         .editor-sidebar {
             width: 250px;
-            background: var(--color-surface);
-            border-right: 1px solid var(--color-border);
-            color: var(--color-text);
+            background: var(--theme-surface);
+            border-right: 1px solid var(--theme-border);
+            color: var(--theme-text-primary);
             padding: 1rem;
             overflow-y: auto;
         }
@@ -94,7 +90,7 @@
             font-size: 0.875rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            color: var(--color-text-secondary);
+            color: var(--theme-text-secondary);
             margin-bottom: 0.5rem;
         }
 
@@ -112,7 +108,7 @@
         }
 
         .shortcut-key {
-            background: var(--color-background);
+            background: var(--theme-background);
             padding: 0.125rem 0.25rem;
             border-radius: 3px;
             font-family: monospace;
@@ -121,7 +117,7 @@
 
         .editor-main {
             flex: 1;
-            background: var(--color-surface);
+            background: var(--theme-surface);
             overflow: hidden;
         }
 
@@ -130,11 +126,11 @@
         }
 
         .demo-footer {
-            background: var(--color-surface);
-            border-top: 1px solid var(--color-border);
+            background: var(--theme-surface);
+            border-top: 1px solid var(--theme-border);
             padding: 0.5rem 2rem;
             font-size: 0.875rem;
-            color: var(--color-text-secondary);
+            color: var(--theme-text-secondary);
             display: flex;
             justify-content: space-between;
         }
@@ -152,12 +148,12 @@
             justify-content: center;
             height: 100%;
             font-size: 1.25rem;
-            color: var(--color-text-secondary);
+            color: var(--theme-text-secondary);
         }
 
         .spinner {
-            border: 3px solid var(--color-border);
-            border-top: 3px solid var(--color-primary);
+            border: 3px solid var(--theme-border);
+            border-top: 3px solid var(--theme-accent);
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -304,7 +300,7 @@
             } catch (error) {
                 console.error('Failed to initialize editor:', error);
                 document.getElementById('editor').innerHTML = `
-                    <div style="padding: 2rem; text-align: center; color: var(--color-danger);">
+                    <div style="padding: 2rem; text-align: center; color: var(--theme-danger);">
                         Failed to load editor. Check console for details.
                     </div>
                 `;
@@ -325,7 +321,7 @@
 
         window.loadSample = function() {
             if (editor) {
-                const sampleContent = `# Welcome to Monochrome Edge Editor!
+                const sampleContent = `# Welcome to Monochrome Edge Editor
 
 This is a **powerful** WYSIWYG block editor with _Notion-style_ blocks and Obsidian-like features.
 
@@ -350,7 +346,7 @@ Type these patterns and press space:
 - \`[]\` → Task list
 - \`---\` → Divider
 
-> 💡 **Pro tip**: Type \`/\` anywhere to open the command menu with fuzzy search!
+> **Pro tip**: Type \`/\` anywhere to open the command menu with fuzzy search!
 
 ### Lists & Tasks
 
@@ -388,10 +384,10 @@ $$\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}$$
 
 | Feature | Status | Notes |
 |---------|--------|-------|
-| Markdown | ✅ Ready | Full support |
-| LaTeX | ✅ Ready | KaTeX rendering |
-| Code | ✅ Ready | Prism.js highlighting |
-| Templates | ✅ Ready | Built-in templates |
+| Markdown | Ready | Full support |
+| LaTeX | Ready | KaTeX rendering |
+| Code | Ready | Prism.js highlighting |
+| Templates | Ready | Built-in templates |
 
 ---
 
@@ -480,15 +476,6 @@ LISTS:
             const currentTheme = html.getAttribute('data-theme');
             const newTheme = currentTheme === 'light' ? 'dark' : 'light';
             html.setAttribute('data-theme', newTheme);
-
-            // Update CSS variables mapping
-            document.documentElement.style.setProperty('--theme-bg', `var(--color-background)`);
-            document.documentElement.style.setProperty('--theme-surface', `var(--color-surface)`);
-            document.documentElement.style.setProperty('--theme-border', `var(--color-border)`);
-            document.documentElement.style.setProperty('--theme-text-primary', `var(--color-text)`);
-            document.documentElement.style.setProperty('--theme-text-secondary', `var(--color-text-secondary)`);
-            document.documentElement.style.setProperty('--theme-accent', `var(--color-primary)`);
-
             updateStatus(`Switched to ${newTheme} mode`);
         };
 
