@@ -32,7 +32,7 @@ export class FloatingToolbarCore {
             background: var(--theme-surface, #fff);
             border: 1px solid var(--theme-border, #e0e0e0);
             border-radius: 6px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: var(--theme-shadow-md, 0 4px 12px var(--theme-shadow-color));
             padding: 4px;
             display: none;
             z-index: 1000;

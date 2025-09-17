@@ -242,7 +242,7 @@ export class ToolbarCore {
             border: 1px solid var(--theme-border);
             border-radius: var(--border-radius);
             padding: 1.5rem;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            box-shadow: var(--theme-shadow-xl, 0 10px 40px var(--theme-shadow-color));
             z-index: 2000;
             min-width: 300px;
         `;
@@ -415,7 +415,7 @@ export class ToolbarCore {
             color: white;
             padding: 12px 20px;
             border-radius: 6px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            box-shadow: var(--theme-shadow-md, 0 2px 10px var(--theme-shadow-color));
             z-index: 9999;
             font-size: 14px;
         `;

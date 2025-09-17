@@ -35,14 +35,14 @@ export class SlashMenuCore {
             { id: 'math', icon: '∑', name: 'Math Block', description: 'LaTeX mathematical expression', shortcut: '$$', keywords: ['latex', 'equation', 'formula'] },
 
             // Media
-            { id: 'image', icon: '🖼', name: 'Image', description: 'Upload or embed image', keywords: ['picture', 'photo', 'img'] },
+            { id: 'image', icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></svg>', name: 'Image', description: 'Upload or embed image', keywords: ['picture', 'photo', 'img'] },
             { id: 'table', icon: '⊞', name: 'Table', description: 'Insert table', keywords: ['grid', 'spreadsheet'] },
             { id: 'divider', icon: '—', name: 'Divider', description: 'Horizontal line', shortcut: '---', keywords: ['hr', 'separator', 'line'] },
 
             // Advanced
-            { id: 'embed', icon: '🔗', name: 'Embed', description: 'Embed external content', keywords: ['iframe', 'video', 'youtube'] },
-            { id: 'callout', icon: '📢', name: 'Callout', description: 'Highlighted note or warning', keywords: ['note', 'warning', 'info', 'tip'] },
-            { id: 'toggle', icon: '▸', name: 'Toggle', description: 'Collapsible content', keywords: ['collapse', 'accordion', 'details'] }
+            { id: 'embed', icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"></path></svg>', name: 'Embed', description: 'Embed external content', keywords: ['iframe', 'video', 'youtube'] },
+            { id: 'callout', icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>', name: 'Callout', description: 'Highlighted note or warning', keywords: ['note', 'warning', 'info', 'tip'] },
+            { id: 'toggle', icon: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>', name: 'Toggle', description: 'Collapsible content', keywords: ['collapse', 'accordion', 'details'] }
         ];
 
         this.create();
@@ -59,7 +59,7 @@ export class SlashMenuCore {
             background: var(--theme-surface, #fff);
             border: 1px solid var(--theme-border, #e0e0e0);
             border-radius: 12px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            box-shadow: var(--theme-shadow-lg, 0 8px 24px var(--theme-shadow-color));
             width: 400px;
             max-height: 450px;
             z-index: 10000;
