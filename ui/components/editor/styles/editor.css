@@ -90,7 +90,7 @@
     outline: none;
     position: relative;
     caret-color: var(--theme-accent, var(--color-primary));
-    color: var(--theme-text-primary, var(--color-text, #333333));
+    color: var(--theme-text-primary, var(--color-text));
 }
 
 .editor-block:focus {
@@ -112,7 +112,7 @@
     font-weight: var(--font-weight-h1, 700);
     line-height: 1.25;
     margin: 1.25rem 0 0.625rem;
-    color: var(--theme-text-primary, var(--color-text, #333333));
+    color: var(--theme-text-primary, var(--color-text));
     letter-spacing: -0.01em;
 }
 
@@ -121,7 +121,7 @@
     font-weight: 600;
     line-height: 1.35;
     margin: 1rem 0 0.5rem;
-    color: var(--theme-text-primary, var(--color-text, #333333));
+    color: var(--theme-text-primary, var(--color-text));
 }
 
 .block-heading3 {
@@ -129,7 +129,7 @@
     font-weight: 600;
     line-height: 1.45;
     margin: 0.875rem 0 0.5rem;
-    color: var(--theme-text-primary, var(--color-text, #333333));
+    color: var(--theme-text-primary, var(--color-text));
 }
 
 .block-heading4 {
@@ -137,7 +137,7 @@
     font-weight: 600;
     line-height: 1.5;
     margin: 0.75rem 0 0.375rem;
-    color: var(--theme-text-primary, var(--color-text, #333333));
+    color: var(--theme-text-primary, var(--color-text));
 }
 
 .block-heading4 {
@@ -152,7 +152,7 @@
     font-size: var(--font-size-body, 1rem);
     line-height: 1.7;
     margin: 0.5rem 0;
-    color: var(--theme-text-primary, var(--color-text, #333333));
+    color: var(--theme-text-primary, var(--color-text));
     font-weight: var(--font-weight-body, 400);
 }
 
@@ -161,7 +161,7 @@
     padding-left: 1rem;
     border-left: 3px solid var(--theme-accent, var(--color-primary));
     font-style: italic;
-    color: var(--theme-text-secondary, var(--color-text-secondary, #666666));
+    color: var(--theme-text-secondary, var(--color-text-secondary));
     margin: 0.5rem 0;
 }
 
@@ -175,7 +175,7 @@
 
 .list-marker {
     min-width: 1.75rem;
-    color: var(--theme-text-secondary, var(--color-text-secondary, #666666));
+    color: var(--theme-text-secondary, var(--color-text-secondary));
     user-select: none;
     font-weight: 500;
 }
@@ -184,7 +184,7 @@
 .block-number {
     flex: 1;
     line-height: 1.7;
-    color: var(--theme-text-primary, var(--color-text, #333333));
+    color: var(--theme-text-primary, var(--color-text));
 }
 
 /* Checkbox */
@@ -282,9 +282,9 @@
 .block-math-wrapper {
     margin: 1rem 0;
     padding: 1rem;
-    border: 1px solid var(--theme-border, #e0e0e0);
+    border: 1px solid var(--theme-border);
     border-radius: 8px;
-    background: var(--theme-surface, #f8f8f8);
+    background: var(--theme-surface);
 }
 
 .math-display {
@@ -300,7 +300,7 @@
 .math-input {
     width: 100%;
     padding: 0.5rem;
-    border: 1px solid var(--theme-border, #e0e0e0);
+    border: 1px solid var(--theme-border);
     border-radius: 4px;
     font-family: monospace;
     font-size: 14px;
@@ -322,11 +322,11 @@
 .editor-table {
     width: 100%;
     border-collapse: collapse;
-    border: 1px solid var(--theme-border, #e0e0e0);
+    border: 1px solid var(--theme-border);
 }
 
 .editor-table td {
-    border: 1px solid var(--theme-border, #e0e0e0);
+    border: 1px solid var(--theme-border);
     padding: 0;
 }
 
@@ -338,7 +338,7 @@
 
 .table-header .table-cell-content {
     font-weight: 600;
-    background: var(--theme-surface, #f8f8f8);
+    background: var(--theme-surface);
 }
 
 .table-controls {
@@ -349,8 +349,8 @@
 
 .table-btn {
     padding: 0.25rem 0.75rem;
-    background: var(--theme-surface, #f8f8f8);
-    border: 1px solid var(--theme-border, #e0e0e0);
+    background: var(--theme-surface);
+    border: 1px solid var(--theme-border);
     border-radius: 4px;
     cursor: pointer;
     font-size: 12px;
@@ -358,7 +358,7 @@
 }
 
 .table-btn:hover {
-    background: var(--theme-accent-light, #e8f4ff);
+    background: var(--theme-accent-light);
 }
 
 /* Image Block */
@@ -383,13 +383,13 @@
 .image-caption {
     margin-top: 0.5rem;
     font-size: 14px;
-    color: var(--theme-text-secondary, #666);
+    color: var(--theme-text-secondary);
     text-align: center;
 }
 
 .image-size-info {
     font-size: 11px;
-    color: var(--theme-text-secondary, #999);
+    color: var(--theme-text-secondary);
     margin-top: 0.25rem;
 }
 
@@ -400,7 +400,7 @@
 
 .editor-divider {
     border: none;
-    border-top: 2px solid var(--theme-border, #e0e0e0);
+    border-top: 2px solid var(--theme-border);
 }
 
 /* Inline Styles */
@@ -419,8 +419,8 @@
 
 .editor-block code {
     padding: 0.2rem 0.4rem;
-    background: var(--theme-surface, #f4f4f4);
-    border: 1px solid var(--theme-border, #e0e0e0);
+    background: var(--theme-surface);
+    border: 1px solid var(--theme-border);
     border-radius: 3px;
     font-family: monospace;
     font-size: 0.9em;
@@ -438,7 +438,7 @@
 
 /* Toolbar - Monochrome Edge Style */
 .editor-toolbar-container {
-    border-bottom: 1px solid var(--theme-border, var(--color-border, #e0e0e0));
+    border-bottom: 1px solid var(--theme-border, var(--color-border));
     background: var(--theme-surface, var(--color-surface));
     padding: 0.75rem 1rem;
     display: flex;
@@ -476,16 +476,16 @@
     align-items: center;
     justify-content: center;
     transition: all var(--transition-speed, 0.2s ease);
-    color: var(--theme-text-secondary, var(--color-text-secondary, #666666));
+    color: var(--theme-text-secondary, var(--color-text-secondary));
     font-size: 0.875rem;
     font-weight: 500;
     position: relative;
 }
 
 .toolbar-btn:hover {
-    background: var(--theme-bg, var(--color-background, #f8f8f8));
-    color: var(--theme-text-primary, var(--color-text, #333333));
-    border-color: var(--theme-border, var(--color-border, #e0e0e0));
+    background: var(--theme-bg, var(--color-background));
+    color: var(--theme-text-primary, var(--color-text));
+    border-color: var(--theme-border, var(--color-border));
 }
 
 .toolbar-btn:active {
@@ -494,7 +494,7 @@
 
 .toolbar-btn.active {
     background: var(--theme-accent, var(--color-primary));
-    color: var(--theme-accent-contrast, #ffffff);
+    color: var(--theme-accent-contrast);
     border-color: var(--theme-accent, var(--color-primary));
 }
 
@@ -507,8 +507,8 @@
 /* Floating Toolbar - Monochrome Edge Card Style */
 .floating-toolbar {
     position: fixed;
-    background: var(--theme-surface, var(--color-surface, #ffffff));
-    border: 1px solid var(--theme-border, var(--color-border, #e0e0e0));
+    background: var(--theme-surface, var(--color-surface));
+    border: 1px solid var(--theme-border, var(--color-border));
     border-radius: var(--border-radius, 8px);
     box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.08);
     padding: 0.375rem;
@@ -527,7 +527,7 @@
     border: 1px solid transparent;
     cursor: pointer;
     transition: all var(--transition-speed, 0.2s ease);
-    color: var(--theme-text-secondary, var(--color-text-secondary, #666666));
+    color: var(--theme-text-secondary, var(--color-text-secondary));
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -535,9 +535,9 @@
 }
 
 .floating-toolbar button:hover {
-    background: var(--theme-bg, var(--color-background, #f8f8f8));
-    border-color: var(--theme-border, var(--color-border, #e0e0e0));
-    color: var(--theme-text-primary, var(--color-text, #333333));
+    background: var(--theme-bg, var(--color-background));
+    border-color: var(--theme-border, var(--color-border));
+    color: var(--theme-text-primary, var(--color-text));
 }
 
 .floating-toolbar button:active {
@@ -546,15 +546,15 @@
 
 .floating-toolbar button.active {
     background: var(--theme-accent, var(--color-primary));
-    color: var(--theme-accent-contrast, #ffffff);
+    color: var(--theme-accent-contrast);
     border-color: var(--theme-accent, var(--color-primary));
 }
 
 /* Slash Menu */
 .slash-menu-enhanced {
     position: fixed;
-    background: var(--theme-surface, var(--color-surface, #ffffff));
-    border: 1px solid var(--theme-border, var(--color-border, #e0e0e0));
+    background: var(--theme-surface, var(--color-surface));
+    border: 1px solid var(--theme-border, var(--color-border));
     border-radius: var(--border-radius);
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     padding: 0.5rem;
@@ -669,18 +669,7 @@
 }
 
 /* Dark Mode Support */
-@media (prefers-color-scheme: dark) {
-    .editor-wrapper {
-        --theme-background: #1a1a1a;
-        --theme-surface: #2a2a2a;
-        --theme-border: #3a3a3a;
-        --theme-text: #e0e0e0;
-        --theme-text-secondary: #999;
-        /* Theme accent is set by the theme CSS */
-        --theme-accent-light: #1a3a5a;
-        --theme-accent-dark: #2a7adf;
-    }
-}
+/* Dark mode is handled by Monochrome Edge theme */
 
 /* Responsive */
 @media (max-width: 768px) {

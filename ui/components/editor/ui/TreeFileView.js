@@ -229,7 +229,7 @@ export class TreeFileView {
                 background: var(--theme-surface, #fff);
                 border: 1px solid var(--theme-border, #e0e0e0);
                 border-radius: 6px;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+                box-shadow: var(--theme-shadow-md, 0 4px 12px var(--theme-shadow-color));
                 padding: 4px;
                 z-index: 10000;
                 min-width: 150px;
@@ -516,22 +516,22 @@ export class TreeFileView {
         // File icon based on extension
         const ext = node.name.split('.').pop().toLowerCase();
         const iconMap = {
-            'md': '📝',
-            'txt': '📄',
-            'js': '🟨',
-            'ts': '🔷',
-            'html': '🌐',
-            'css': '🎨',
+            'md': 'MD',
+            'txt': 'TXT',
+            'js': 'JS',
+            'ts': 'TS',
+            'html': 'HTML',
+            'css': 'CSS',
             'json': '{}',
-            'png': '🖼',
-            'jpg': '🖼',
-            'jpeg': '🖼',
-            'gif': '🖼',
-            'svg': '🖼',
-            'pdf': '📕'
+            'png': 'IMG',
+            'jpg': 'IMG',
+            'jpeg': 'IMG',
+            'gif': 'GIF',
+            'svg': 'SVG',
+            'pdf': 'PDF'
         };
 
-        return iconMap[ext] || '📄';
+        return iconMap[ext] || 'FILE';
     }
 
     findNode(id, nodes = this.fileTree) {
