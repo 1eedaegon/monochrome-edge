@@ -147,7 +147,7 @@ export class TreeFileView {
             }
 
             .tree-search-input:focus {
-                border-color: var(--theme-accent, #007bff);
+                border-color: var(--theme-accent);
             }
 
             .tree-container {
@@ -174,7 +174,7 @@ export class TreeFileView {
             }
 
             .tree-node-content.selected {
-                background: var(--theme-accent, #007bff);
+                background: var(--theme-accent);
                 color: white;
             }
 

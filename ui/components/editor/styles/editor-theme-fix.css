@@ -1,107 +1,81 @@
 /**
  * Editor Theme Fix
- * Ensures editor components respond to theme changes properly
+ * Ensures editor components respond to theme changes and match Monochrome Edge theme
  */
 
-/* Light theme values for editor - explicit values */
-[data-theme="light"] .editor-wrapper,
-[data-theme="light"] .editor-toolbar-container,
-[data-theme="light"] .editor-content,
-[data-theme="light"] .editor-content-wrapper,
-[data-theme="light"] .ProseMirror,
-:root .editor-wrapper,
-:root .editor-toolbar-container,
-:root .editor-content,
-:root .editor-content-wrapper,
-:root .ProseMirror {
-    --theme-bg: #ffffff;
-    --theme-surface: #f8f9fa;
-    --theme-border: #dee2e6;
-    --theme-text-primary: #212529;
-    --theme-text-secondary: #6c757d;
-    --theme-accent: #007bff;
-    --theme-accent-contrast: #ffffff;
-}
-
-/* Dark theme values for editor - explicit values */
-[data-theme="dark"] .editor-wrapper,
-[data-theme="dark"] .editor-toolbar-container,
-[data-theme="dark"] .editor-content,
-[data-theme="dark"] .editor-content-wrapper,
-[data-theme="dark"] .ProseMirror {
-    --theme-bg: #1a1a1a;
-    --theme-surface: #2d2d2d;
-    --theme-border: #404040;
-    --theme-text-primary: #e0e0e0;
-    --theme-text-secondary: #a0a0a0;
-    --theme-accent: #4a9eff;
-    --theme-accent-contrast: #ffffff;
-}
-
-/* Ensure editor components use theme variables */
+/* Editor wrapper - uses theme background */
 .editor-wrapper {
-    background: var(--theme-bg) !important;
-    color: var(--theme-text-primary) !important;
+    background: var(--theme-background, #f8f9fa) !important;
+    color: var(--theme-text-primary, #212529) !important;
 }
 
 .editor-content-wrapper {
-    background: var(--theme-bg) !important;
+    background: var(--theme-background, #f8f9fa) !important;
+    padding: 1.5rem !important;
 }
 
+/* Editor content - card style */
 .editor-content {
-    background: var(--theme-bg) !important;
-    color: var(--theme-text-primary) !important;
-    border-color: var(--theme-border) !important;
+    background: var(--theme-surface, #ffffff) !important;
+    color: var(--theme-text-primary, #212529) !important;
+    border: 1px solid var(--theme-border, #e9ecef) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04) !important;
+    padding: 2rem !important;
+    max-width: 900px !important;
+    margin: 0 auto !important;
 }
 
-/* ProseMirror editor specific - Light theme */
-[data-theme="light"] .ProseMirror,
-:root .ProseMirror {
-    background: #ffffff !important;
-    color: #212529 !important;
+/* Dark theme specific overrides for editor content */
+[data-theme="dark"] .editor-content {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
 }
 
-/* ProseMirror editor specific - Dark theme */
-[data-theme="dark"] .ProseMirror {
-    background: #1a1a1a !important;
-    color: #e0e0e0 !important;
+/* ProseMirror editor */
+.ProseMirror {
+    background: transparent !important;
+    color: var(--theme-text-primary, #212529) !important;
 }
 
-/* Toolbar - Light theme */
-[data-theme="light"] .editor-toolbar-container,
-:root .editor-toolbar-container {
-    background: #f8f9fa !important;
-    border-color: #dee2e6 !important;
+/* Toolbar container */
+.editor-toolbar-container {
+    background: var(--theme-surface, #ffffff) !important;
+    border-bottom: 1px solid var(--theme-border, #e9ecef) !important;
+    padding: 0.75rem 1rem !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Toolbar - Dark theme */
 [data-theme="dark"] .editor-toolbar-container {
-    background: #2d2d2d !important;
-    border-color: #404040 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
 }
 
-/* Toolbar buttons - Light theme */
-[data-theme="light"] .toolbar-btn,
-:root .toolbar-btn {
-    color: #6c757d !important;
+/* Toolbar groups */
+.toolbar-group {
+    display: inline-flex !important;
+    gap: 0.25rem !important;
+    padding: 0 0.5rem !important;
+    border-right: 1px solid var(--theme-border, #e9ecef) !important;
 }
 
-[data-theme="light"] .toolbar-btn:hover,
-:root .toolbar-btn:hover {
-    background: #ffffff !important;
-    color: #212529 !important;
-    border-color: #dee2e6 !important;
+.toolbar-group:last-child {
+    border-right: none !important;
 }
 
-/* Toolbar buttons - Dark theme */
-[data-theme="dark"] .toolbar-btn {
-    color: #a0a0a0 !important;
+/* Toolbar buttons - Monochrome Edge style */
+.toolbar-btn {
+    background: transparent !important;
+    color: var(--theme-text-secondary, #6c757d) !important;
+    border: 1px solid transparent !important;
+    padding: 0.375rem 0.75rem !important;
+    border-radius: 6px !important;
+    font-weight: 500 !important;
+    transition: all 0.2s ease !important;
 }
 
-[data-theme="dark"] .toolbar-btn:hover {
-    background: #1a1a1a !important;
-    color: #e0e0e0 !important;
-    border-color: #404040 !important;
+.toolbar-btn:hover {
+    background: var(--theme-background, #e9ecef) !important;
+    color: var(--theme-text-primary, #212529) !important;
+    border-color: var(--theme-border, #dee2e6) !important;
 }
 
 .toolbar-btn.active {
@@ -110,7 +84,7 @@
     border-color: var(--theme-accent) !important;
 }
 
-/* Editor blocks text color */
+/* Text elements */
 .editor-block,
 .block-heading1,
 .block-heading2,
@@ -134,7 +108,7 @@
     color: var(--theme-text-primary) !important;
 }
 
-/* Floating toolbar theme support */
+/* Floating toolbar */
 .floating-toolbar {
     background: var(--theme-surface) !important;
     border-color: var(--theme-border) !important;
@@ -145,18 +119,18 @@
 }
 
 .floating-toolbar button:hover {
-    background: var(--theme-bg) !important;
+    background: var(--theme-background) !important;
     color: var(--theme-text-primary) !important;
 }
 
-/* Slash menu theme support */
+/* Slash menu */
 .slash-menu-enhanced {
     background: var(--theme-surface) !important;
     border-color: var(--theme-border) !important;
 }
 
 .slash-menu-enhanced .menu-search {
-    background: var(--theme-bg) !important;
+    background: var(--theme-background) !important;
     border-color: var(--theme-border) !important;
     color: var(--theme-text-primary) !important;
 }
@@ -167,7 +141,7 @@
 
 .slash-menu-enhanced .menu-item:hover,
 .slash-menu-enhanced .menu-item.selected {
-    background: var(--theme-bg) !important;
+    background: var(--theme-background) !important;
 }
 
 /* Code blocks */
@@ -177,7 +151,7 @@
 }
 
 .code-header {
-    background: var(--theme-bg) !important;
+    background: var(--theme-background) !important;
     border-color: var(--theme-border) !important;
 }
 

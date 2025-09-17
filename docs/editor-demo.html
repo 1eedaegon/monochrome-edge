@@ -6,9 +6,24 @@
     <title>Monochrome Edge Editor - Live Demo</title>
     <meta name="description" content="WYSIWYG Block Editor Demo - Notion-style blocks with Obsidian features">
 
-    <!-- Monochrome Edge CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/monochrome.min.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/editor.min.css">
+    <!-- Detect environment and load appropriate assets -->
+    <script>
+        // Check if running locally (localhost or 127.0.0.1)
+        const isLocal = window.location.hostname === 'localhost' ||
+                       window.location.hostname === '127.0.0.1' ||
+                       window.location.hostname === '';
+
+        // Load CSS based on environment
+        if (isLocal) {
+            // Local development - use local files
+            document.write('<link rel="stylesheet" href="../dist/monochrome.min.css">');
+            document.write('<link rel="stylesheet" href="../dist/editor.min.css">');
+        } else {
+            // Production - use CDN
+            document.write('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css">');
+            document.write('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/editor.min.css">');
+        }
+    </script>
 
     <!-- KaTeX for Math -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
@@ -22,37 +37,8 @@
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-css.min.js"></script>
 
     <style>
-        /* Define fallback theme variables */
-        :root,
-        [data-theme="light"] {
-            --color-background: #ffffff;
-            --color-surface: #f8f9fa;
-            --color-border: #dee2e6;
-            --color-text: #212529;
-            --color-text-secondary: #6c757d;
-            --color-primary: #007bff;
-            --color-accent: #007bff;
-        }
-
-        [data-theme="dark"] {
-            --color-background: #1a1a1a;
-            --color-surface: #2d2d2d;
-            --color-border: #404040;
-            --color-text: #e0e0e0;
-            --color-text-secondary: #a0a0a0;
-            --color-primary: #4a9eff;
-            --color-accent: #4a9eff;
-        }
-
-        /* Map to theme variables for compatibility */
-        :root {
-            --theme-bg: var(--color-background);
-            --theme-surface: var(--color-surface);
-            --theme-border: var(--color-border);
-            --theme-text-primary: var(--color-text);
-            --theme-text-secondary: var(--color-text-secondary);
-            --theme-accent: var(--color-primary);
-        }
+        /* Use Monochrome Edge theme variables - no hardcoded colors */
+        /* All theme variables come from monochrome.min.css */
 
         body {
             margin: 0;
@@ -188,9 +174,9 @@
 <body>
     <!-- Header -->
     <header class="demo-header">
-        <h1>📝 Monochrome Edge Editor</h1>
+        <h1>Monochrome Edge Editor</h1>
         <div class="header-actions">
-            <button class="btn btn-secondary" onclick="toggleTheme()">🌓 Theme</button>
+            <button class="btn btn-secondary" onclick="toggleTheme()">Theme</button>
             <button class="btn btn-secondary" onclick="clearEditor()">Clear</button>
             <button class="btn btn-secondary" onclick="loadSample()">Load Sample</button>
             <button class="btn btn-primary" onclick="exportMarkdown()">Export</button>
@@ -269,8 +255,15 @@
         <div id="status">Ready</div>
     </footer>
 
-    <!-- Editor Script -->
-    <script src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/dist/monochrome-edge-editor.min.js"></script>
+    <!-- Editor Script - Environment-based loading -->
+    <script>
+        // Load editor script based on environment
+        if (isLocal) {
+            document.write('<script src="../dist/monochrome-edge-editor.min.js"><\/script>');
+        } else {
+            document.write('<script src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome-edge-editor.min.js"><\/script>');
+        }
+    </script>
     <script>
         // Use the UMD global MonochromeEditor
         const { EditorCore } = MonochromeEditor;
@@ -332,11 +325,11 @@
 
         window.loadSample = function() {
             if (editor) {
-                const sampleContent = `# Welcome to Monochrome Edge Editor! 🚀
+                const sampleContent = `# Welcome to Monochrome Edge Editor!
 
 This is a **powerful** WYSIWYG block editor with _Notion-style_ blocks and Obsidian-like features.
 
-## ✨ Quick Start
+## Quick Start
 
 Try these features:
 
@@ -402,11 +395,11 @@ $$\\int_{-\\infty}^{\\infty} e^{-x^2} dx = \\sqrt{\\pi}$$
 
 ---
 
-## 🎯 Focus Mode
+## Focus Mode
 
 Notice how the markdown syntax indicators appear on the left when you focus a line? That's the Obsidian-style focus feature!
 
-## 📝 Try It Yourself
+## Try It Yourself
 
 1. Delete this content and start fresh
 2. Type \`/\` to explore all block types
@@ -414,7 +407,7 @@ Notice how the markdown syntax indicators appear on the left when you focus a li
 4. Use keyboard shortcuts for quick formatting
 5. Export your work as Markdown
 
-Happy writing! 🎉`;
+Happy writing!`;
 
                 editor.setContent(sampleContent);
                 updateStatus('Sample content loaded');

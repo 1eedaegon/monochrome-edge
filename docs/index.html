@@ -20,8 +20,22 @@
         />
 
         <!-- Monochrome Edge UI Components -->
-        <!-- Single import includes both themes -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css" />
+        <!-- Environment-based CSS loading -->
+        <script>
+            const isLocal = window.location.hostname === 'localhost' ||
+                           window.location.hostname === '127.0.0.1' ||
+                           window.location.hostname === '';
+
+            if (isLocal) {
+                // Local development - use local files
+                document.write('<link rel="stylesheet" href="../dist/monochrome.min.css">');
+                document.write('<link rel="stylesheet" href="../dist/editor.min.css">');
+            } else {
+                // Production - use CDN
+                document.write('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css">');
+                document.write('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/editor.min.css">');
+            }
+        </script>
 
         <!-- jQuery -->
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -5358,7 +5372,7 @@ export function initializeCustomLibrary() {
                         document.documentElement.style.setProperty('--theme-border', '#404040');
                         document.documentElement.style.setProperty('--theme-text-primary', '#e0e0e0');
                         document.documentElement.style.setProperty('--theme-text-secondary', '#a0a0a0');
-                        document.documentElement.style.setProperty('--theme-accent', '#4a9eff');
+                        // Theme accent is already set by the theme CSS
                         document.documentElement.style.setProperty('--theme-accent-contrast', '#ffffff');
                     }
 
@@ -5390,14 +5404,14 @@ export function initializeCustomLibrary() {
                                     frameDoc.documentElement.style.setProperty('--theme-border', '#404040');
                                     frameDoc.documentElement.style.setProperty('--theme-text-primary', '#e0e0e0');
                                     frameDoc.documentElement.style.setProperty('--theme-text-secondary', '#a0a0a0');
-                                    frameDoc.documentElement.style.setProperty('--theme-accent', '#4a9eff');
+                                    // Theme accent is already set by the theme CSS
                                     frameDoc.documentElement.style.setProperty('--theme-accent-contrast', '#ffffff');
                                     frameDoc.documentElement.style.setProperty('--color-background', '#1a1a1a');
                                     frameDoc.documentElement.style.setProperty('--color-surface', '#2d2d2d');
                                     frameDoc.documentElement.style.setProperty('--color-border', '#404040');
                                     frameDoc.documentElement.style.setProperty('--color-text', '#e0e0e0');
                                     frameDoc.documentElement.style.setProperty('--color-text-secondary', '#a0a0a0');
-                                    frameDoc.documentElement.style.setProperty('--color-primary', '#4a9eff');
+                                    // Primary color is already set by the theme CSS
                                 }
                             }
                         } catch (e) {
@@ -5436,14 +5450,14 @@ export function initializeCustomLibrary() {
                                     frameDoc.documentElement.style.setProperty('--theme-border', '#404040');
                                     frameDoc.documentElement.style.setProperty('--theme-text-primary', '#e0e0e0');
                                     frameDoc.documentElement.style.setProperty('--theme-text-secondary', '#a0a0a0');
-                                    frameDoc.documentElement.style.setProperty('--theme-accent', '#4a9eff');
+                                    // Theme accent is already set by the theme CSS
                                     frameDoc.documentElement.style.setProperty('--theme-accent-contrast', '#ffffff');
                                     frameDoc.documentElement.style.setProperty('--color-background', '#1a1a1a');
                                     frameDoc.documentElement.style.setProperty('--color-surface', '#2d2d2d');
                                     frameDoc.documentElement.style.setProperty('--color-border', '#404040');
                                     frameDoc.documentElement.style.setProperty('--color-text', '#e0e0e0');
                                     frameDoc.documentElement.style.setProperty('--color-text-secondary', '#a0a0a0');
-                                    frameDoc.documentElement.style.setProperty('--color-primary', '#4a9eff');
+                                    // Primary color is already set by the theme CSS
                                 }
                             }
                         } catch (e) {
