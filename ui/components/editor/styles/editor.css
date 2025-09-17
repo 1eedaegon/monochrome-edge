@@ -11,16 +11,16 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    background: var(--theme-bg, var(--color-background, #ffffff));
+    background: var(--theme-bg);
     font-family: var(--font-family-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
-    color: var(--theme-text-primary, var(--color-text, #333333));
+    color: var(--theme-text-primary);
 }
 
 .editor-content-wrapper {
     flex: 1;
     overflow-y: auto;
     padding: 1.5rem;
-    background: var(--theme-bg, var(--color-background, #ffffff));
+    background: var(--theme-bg);
 }
 
 .editor-content {
@@ -28,9 +28,10 @@
     margin: 0 auto;
     min-height: 100%;
     padding: 2rem;
-    background: var(--theme-surface, var(--color-surface, #ffffff));
+    background: var(--theme-surface);
     border-radius: var(--border-radius, 8px);
-    border: 1px solid var(--theme-border, var(--color-border, #e0e0e0));
+    border: 1px solid var(--theme-border);
+    color: var(--theme-text-primary);
 }
 
 .editor-content.empty::before {

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-theme-variant="warm">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor Theme Test</title>
+
+    <!-- Define theme variables FIRST -->
+    <style>
+        /* Light theme variables */
+        :root,
+        [data-theme="light"] {
+            --color-background: #ffffff;
+            --color-surface: #f8f9fa;
+            --color-border: #dee2e6;
+            --color-text: #212529;
+            --color-text-secondary: #6c757d;
+            --color-primary: #007bff;
+            --color-primary-hover: #0056b3;
+            --color-accent: #007bff;
+            --color-danger: #dc3545;
+        }
+
+        /* Dark theme variables */
+        [data-theme="dark"] {
+            --color-background: #1a1a1a;
+            --color-surface: #2d2d2d;
+            --color-border: #404040;
+            --color-text: #e0e0e0;
+            --color-text-secondary: #a0a0a0;
+            --color-primary: #4a9eff;
+            --color-primary-hover: #2a7eff;
+            --color-accent: #4a9eff;
+            --color-danger: #ff5555;
+        }
+
+        /* Also map to theme variables for compatibility */
+        :root {
+            --theme-bg: var(--color-background);
+            --theme-surface: var(--color-surface);
+            --theme-border: var(--color-border);
+            --theme-text-primary: var(--color-text);
+            --theme-text-secondary: var(--color-text-secondary);
+            --theme-accent: var(--color-primary);
+        }
+    </style>
+
+    <!-- Monochrome Edge CSS -->
+    <link rel="stylesheet" href="dist/monochrome.min.css">
+    <link rel="stylesheet" href="dist/editor.min.css">
+
+    <!-- Required for Math and Code highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-javascript.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: var(--color-background);
+            color: var(--color-text);
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .demo-header {
+            background: var(--color-surface);
+            border-bottom: 1px solid var(--color-border);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .demo-header h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: var(--color-text);
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--color-border);
+            background: var(--color-surface);
+            color: var(--color-text);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--color-primary);
+            color: white;
+            border-color: var(--color-primary);
+        }
+
+        .editor-container {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        #editor {
+            height: 100%;
+        }
+
+        .theme-indicator {
+            padding: 0.25rem 0.75rem;
+            background: var(--color-primary);
+            color: white;
+            border-radius: 4px;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body>
+    <header class="demo-header">
+        <h1>📝 Editor Theme Test</h1>
+        <div class="header-actions">
+            <span class="theme-indicator" id="theme-indicator">Light Mode</span>
+            <button class="btn" onclick="toggleTheme()">🌓 Toggle Theme</button>
+            <button class="btn" onclick="loadSample()">Load Sample</button>
+            <button class="btn" onclick="clearEditor()">Clear</button>
+        </div>
+    </header>
+
+    <div class="editor-container">
+        <div id="editor"></div>
+    </div>
+
+    <!-- Editor Script -->
+    <script src="dist/monochrome-edge-editor.min.js"></script>
+    <script>
+        const { EditorCore } = MonochromeEditor;
+        let editor = null;
+
+        // Initialize editor
+        async function initEditor() {
+            try {
+                editor = new EditorCore('#editor', {
+                    placeholder: 'Start typing to test theme...',
+                    enableToolbar: true,
+                    enableFloatingToolbar: true,
+                    enableSlashMenu: true,
+                    enableMath: true,
+                    enableCodeHighlight: true,
+                    autoSave: false,
+
+                    onReady: () => {
+                        console.log('Editor ready!');
+                        loadSample();
+                    }
+                });
+
+                window.editor = editor;
+
+            } catch (error) {
+                console.error('Failed to initialize editor:', error);
+                document.getElementById('editor').innerHTML = `
+                    <div style="padding: 2rem; text-align: center; color: var(--color-danger);">
+                        Failed to load editor: ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', newTheme);
+
+            // Update indicator
+            document.getElementById('theme-indicator').textContent =
+                newTheme === 'light' ? 'Light Mode' : 'Dark Mode';
+
+            // Update CSS variables
+            document.documentElement.style.setProperty('--theme-bg', `var(--color-background)`);
+            document.documentElement.style.setProperty('--theme-surface', `var(--color-surface)`);
+            document.documentElement.style.setProperty('--theme-border', `var(--color-border)`);
+            document.documentElement.style.setProperty('--theme-text-primary', `var(--color-text)`);
+            document.documentElement.style.setProperty('--theme-text-secondary', `var(--color-text-secondary)`);
+            document.documentElement.style.setProperty('--theme-accent', `var(--color-primary)`);
+        }
+
+        function clearEditor() {
+            if (editor) {
+                editor.clear();
+            }
+        }
+
+        function loadSample() {
+            if (editor) {
+                const sampleContent = `# Theme Test Document
+
+This document tests **light** and *dark* themes.
+
+## Text Visibility Test
+
+Regular paragraph text should be clearly visible in both themes.
+
+> This is a quote block - should have distinct styling
+
+### Code Block Test
+
+\`\`\`javascript
+// Code should be syntax highlighted
+function testTheme() {
+    console.log("Testing theme visibility");
+    return true;
+}
+\`\`\`
+
+### List Test
+
+- Bullet item 1
+- Bullet item 2
+  - Nested item
+
+1. Numbered item
+2. Another numbered
+
+### Inline Formatting
+
+This has **bold**, *italic*, ~~strikethrough~~, and \`inline code\`.
+
+---
+
+End of theme test`;
+
+                editor.setContent(sampleContent);
+            }
+        }
+
+        // Initialize on load
+        initEditor();
+    </script>
+</body>
+</html>
