@@ -1,0 +1,7 @@
+# GitHub Packages configuration with npm fallback
+@monochrome-edge:registry=https://npm.pkg.github.com
+@1eedaegon:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${NODE_AUTH_TOKEN}
+
+# Fallback to npm for everything else
+registry=https://registry.npmjs.org/
