@@ -8,16 +8,16 @@
     height: 100%;
     display: flex;
     flex-direction: column;
-    background: var(--theme-bg);
-    font-family: var(--font-family-sans);
-    color: var(--theme-text-primary);
+    background: var(--theme-bg, var(--color-background, #ffffff));
+    font-family: var(--font-family-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+    color: var(--theme-text-primary, var(--color-text, #333333));
 }
 
 .editor-content-wrapper {
     flex: 1;
     overflow-y: auto;
     padding: 1.5rem;
-    background: var(--theme-bg);
+    background: var(--theme-bg, var(--color-background, #ffffff));
 }
 
 .editor-content {
@@ -25,9 +25,9 @@
     margin: 0 auto;
     min-height: 100%;
     padding: 2rem;
-    background: var(--theme-surface);
-    border-radius: var(--border-radius);
-    border: 1px solid var(--theme-border);
+    background: var(--theme-surface, var(--color-surface, #ffffff));
+    border-radius: var(--border-radius, 8px);
+    border: 1px solid var(--theme-border, var(--color-border, #e0e0e0));
 }
 
 .editor-content.empty::before {
@@ -433,8 +433,8 @@
 
 /* Toolbar - Monochrome Edge Style */
 .editor-toolbar-container {
-    border-bottom: 1px solid var(--theme-border);
-    background: var(--theme-surface);
+    border-bottom: 1px solid var(--theme-border, var(--color-border, #e0e0e0));
+    background: var(--theme-surface, var(--color-surface, #ffffff));
     padding: 0.75rem 1rem;
     display: flex;
     gap: 0.75rem;
@@ -465,22 +465,22 @@
     height: 2rem;
     background: transparent;
     border: 1px solid transparent;
-    border-radius: calc(var(--border-radius) / 2);
+    border-radius: calc(var(--border-radius, 8px) / 2);
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    transition: all var(--transition-speed);
-    color: var(--theme-text-secondary);
+    transition: all var(--transition-speed, 0.2s ease);
+    color: var(--theme-text-secondary, var(--color-text-secondary, #666666));
     font-size: 0.875rem;
     font-weight: 500;
     position: relative;
 }
 
 .toolbar-btn:hover {
-    background: var(--theme-bg);
-    color: var(--theme-text-primary);
-    border-color: var(--theme-border);
+    background: var(--theme-bg, var(--color-background, #f8f8f8));
+    color: var(--theme-text-primary, var(--color-text, #333333));
+    border-color: var(--theme-border, var(--color-border, #e0e0e0));
 }
 
 .toolbar-btn:active {
@@ -488,9 +488,9 @@
 }
 
 .toolbar-btn.active {
-    background: var(--theme-accent);
-    color: var(--theme-accent-contrast);
-    border-color: var(--theme-accent);
+    background: var(--theme-accent, var(--color-primary, #007bff));
+    color: var(--theme-accent-contrast, #ffffff);
+    border-color: var(--theme-accent, var(--color-primary, #007bff));
 }
 
 .toolbar-btn[disabled] {
@@ -502,27 +502,27 @@
 /* Floating Toolbar - Monochrome Edge Card Style */
 .floating-toolbar {
     position: fixed;
-    background: var(--theme-surface);
-    border: 1px solid var(--theme-border);
-    border-radius: var(--border-radius);
+    background: var(--theme-surface, var(--color-surface, #ffffff));
+    border: 1px solid var(--theme-border, var(--color-border, #e0e0e0));
+    border-radius: var(--border-radius, 8px);
     box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.08);
     padding: 0.375rem;
     display: flex;
     gap: 0.25rem;
     z-index: 1000;
-    transition: all var(--transition-speed);
+    transition: all var(--transition-speed, 0.2s ease);
 }
 
 .floating-toolbar button {
     width: 1.75rem;
     height: 1.75rem;
     padding: 0;
-    border-radius: calc(var(--border-radius) / 2);
+    border-radius: calc(var(--border-radius, 8px) / 2);
     background: transparent;
     border: 1px solid transparent;
     cursor: pointer;
-    transition: all var(--transition-speed);
-    color: var(--theme-text-secondary);
+    transition: all var(--transition-speed, 0.2s ease);
+    color: var(--theme-text-secondary, var(--color-text-secondary, #666666));
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -530,9 +530,9 @@
 }
 
 .floating-toolbar button:hover {
-    background: var(--theme-bg);
-    border-color: var(--theme-border);
-    color: var(--theme-text-primary);
+    background: var(--theme-bg, var(--color-background, #f8f8f8));
+    border-color: var(--theme-border, var(--color-border, #e0e0e0));
+    color: var(--theme-text-primary, var(--color-text, #333333));
 }
 
 .floating-toolbar button:active {
@@ -540,16 +540,16 @@
 }
 
 .floating-toolbar button.active {
-    background: var(--theme-accent);
-    color: var(--theme-accent-contrast);
-    border-color: var(--theme-accent);
+    background: var(--theme-accent, var(--color-primary, #007bff));
+    color: var(--theme-accent-contrast, #ffffff);
+    border-color: var(--theme-accent, var(--color-primary, #007bff));
 }
 
 /* Slash Menu */
 .slash-menu-enhanced {
     position: fixed;
-    background: var(--theme-surface);
-    border: 1px solid var(--theme-border);
+    background: var(--theme-surface, var(--color-surface, #ffffff));
+    border: 1px solid var(--theme-border, var(--color-border, #e0e0e0));
     border-radius: var(--border-radius);
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     padding: 0.5rem;
