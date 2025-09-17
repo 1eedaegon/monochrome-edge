@@ -1,84 +1,66 @@
 /**
- * Editor Theme Fix
- * Ensures editor components respond to theme changes and match Monochrome Edge theme
+ * Editor Theme Integration with Monochrome Edge
+ * This file ensures the editor uses ONLY Monochrome Edge theme variables
+ * No hardcoded colors allowed!
  */
 
-/* Editor wrapper - uses theme background */
+/* Force all editor components to use Monochrome Edge variables */
+.editor-wrapper,
+.editor-content-wrapper,
+.editor-content,
+.editor-toolbar-container,
+.ProseMirror {
+    /* Reset any hardcoded colors */
+    background: inherit !important;
+    color: inherit !important;
+    border-color: inherit !important;
+}
+
+/* Editor wrapper - use theme background */
 .editor-wrapper {
-    background: var(--theme-background, #f8f9fa) !important;
-    color: var(--theme-text-primary, #212529) !important;
+    background: var(--theme-background) !important;
+    color: var(--theme-text-primary) !important;
 }
 
+/* Content wrapper */
 .editor-content-wrapper {
-    background: var(--theme-background, #f8f9fa) !important;
-    padding: 1.5rem !important;
+    background: var(--theme-background) !important;
 }
 
-/* Editor content - card style */
+/* Editor content area */
 .editor-content {
-    background: var(--theme-surface, #ffffff) !important;
-    color: var(--theme-text-primary, #212529) !important;
-    border: 1px solid var(--theme-border, #e9ecef) !important;
-    border-radius: 8px !important;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04) !important;
-    padding: 2rem !important;
-    max-width: 900px !important;
-    margin: 0 auto !important;
+    background: var(--theme-surface) !important;
+    color: var(--theme-text-primary) !important;
+    border: 1px solid var(--theme-border) !important;
 }
 
-/* Dark theme specific overrides for editor content */
-[data-theme="dark"] .editor-content {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important;
-}
-
-/* ProseMirror editor */
+/* ProseMirror content */
 .ProseMirror {
     background: transparent !important;
-    color: var(--theme-text-primary, #212529) !important;
+    color: var(--theme-text-primary) !important;
 }
 
-/* Toolbar container */
+/* Toolbar */
 .editor-toolbar-container {
-    background: var(--theme-surface, #ffffff) !important;
-    border-bottom: 1px solid var(--theme-border, #e9ecef) !important;
-    padding: 0.75rem 1rem !important;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+    background: var(--theme-surface) !important;
+    border-bottom: 1px solid var(--theme-border) !important;
 }
 
-[data-theme="dark"] .editor-toolbar-container {
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) !important;
-}
-
-/* Toolbar groups */
-.toolbar-group {
-    display: inline-flex !important;
-    gap: 0.25rem !important;
-    padding: 0 0.5rem !important;
-    border-right: 1px solid var(--theme-border, #e9ecef) !important;
-}
-
-.toolbar-group:last-child {
-    border-right: none !important;
-}
-
-/* Toolbar buttons - Monochrome Edge style */
+/* Toolbar buttons */
 .toolbar-btn {
     background: transparent !important;
-    color: var(--theme-text-secondary, #6c757d) !important;
+    color: var(--theme-text-secondary) !important;
     border: 1px solid transparent !important;
-    padding: 0.375rem 0.75rem !important;
-    border-radius: 6px !important;
-    font-weight: 500 !important;
-    transition: all 0.2s ease !important;
 }
 
 .toolbar-btn:hover {
-    background: var(--theme-background, #e9ecef) !important;
-    color: var(--theme-text-primary, #212529) !important;
-    border-color: var(--theme-border, #dee2e6) !important;
+    background: var(--theme-background) !important;
+    color: var(--theme-text-primary) !important;
+    border-color: var(--theme-border) !important;
 }
 
-.toolbar-btn.active {
+.toolbar-btn.active,
+.toolbar-btn:active {
     background: var(--theme-accent) !important;
     color: var(--theme-accent-contrast) !important;
     border-color: var(--theme-accent) !important;
@@ -90,28 +72,32 @@
 .block-heading2,
 .block-heading3,
 .block-heading4,
-.block-paragraph {
-    color: var(--theme-text-primary) !important;
-}
-
-.block-quote {
-    color: var(--theme-text-secondary) !important;
-    border-color: var(--theme-accent) !important;
-}
-
-.list-marker {
-    color: var(--theme-text-secondary) !important;
-}
-
+.block-paragraph,
 .block-bullet,
 .block-number {
     color: var(--theme-text-primary) !important;
 }
 
+/* Secondary text */
+.block-quote,
+.list-marker,
+.editor-block[data-placeholder]:empty:before {
+    color: var(--theme-text-secondary) !important;
+}
+
+/* Accents */
+.block-quote {
+    border-left-color: var(--theme-accent) !important;
+}
+
+.editor-block a {
+    color: var(--theme-accent) !important;
+}
+
 /* Floating toolbar */
 .floating-toolbar {
     background: var(--theme-surface) !important;
-    border-color: var(--theme-border) !important;
+    border: 1px solid var(--theme-border) !important;
 }
 
 .floating-toolbar button {
@@ -123,10 +109,15 @@
     color: var(--theme-text-primary) !important;
 }
 
+.floating-toolbar button.active {
+    background: var(--theme-accent) !important;
+    color: var(--theme-accent-contrast) !important;
+}
+
 /* Slash menu */
 .slash-menu-enhanced {
     background: var(--theme-surface) !important;
-    border-color: var(--theme-border) !important;
+    border: 1px solid var(--theme-border) !important;
 }
 
 .slash-menu-enhanced .menu-search {
@@ -147,27 +138,38 @@
 /* Code blocks */
 .block-codeblock-wrapper {
     background: var(--theme-surface) !important;
-    border-color: var(--theme-border) !important;
+    border: 1px solid var(--theme-border) !important;
 }
 
 .code-header {
     background: var(--theme-background) !important;
+    border-bottom: 1px solid var(--theme-border) !important;
+}
+
+.code-language,
+.code-copy-btn {
     border-color: var(--theme-border) !important;
+    color: var(--theme-text-secondary) !important;
+}
+
+/* Tables */
+.editor-table,
+.editor-table td {
+    border-color: var(--theme-border) !important;
+}
+
+.table-header .table-cell-content {
+    background: var(--theme-surface) !important;
 }
 
 /* Status bar */
 .editor-status-bar {
     background: var(--theme-surface) !important;
-    border-color: var(--theme-border) !important;
+    border-top: 1px solid var(--theme-border) !important;
     color: var(--theme-text-secondary) !important;
 }
 
-/* Transitions for smooth theme changes */
-.editor-wrapper,
-.editor-content,
-.editor-toolbar-container,
-.toolbar-btn,
-.floating-toolbar,
-.slash-menu-enhanced {
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease !important;
+/* Remove ALL transitions - let theme handle it */
+* {
+    transition: none !important;
 }
