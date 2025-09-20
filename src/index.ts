@@ -6,6 +6,10 @@
 // Core utilities
 export const VERSION = '1.0.0';
 
+// Components
+import { Modal } from './components/Modal';
+export { Modal };
+
 // Theme management
 export class ThemeManager {
   private currentTheme: 'warm' | 'cold' = 'warm';
@@ -109,6 +113,7 @@ export function showToast(message: string, type: 'success' | 'error' | 'info' = 
 export default {
   VERSION,
   ThemeManager,
+  Modal,
   createButton,
   createCard,
   showToast

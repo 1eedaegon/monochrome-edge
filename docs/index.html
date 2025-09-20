@@ -5318,30 +5318,7 @@ export function initializeCustomLibrary() {
             </main>
         </div>
 
-        <!-- Sample Modal -->
-        <div class="modal" id="sampleModal">
-            <div class="modal-backdrop" onclick="hideModal()"></div>
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">Sample Modal</h3>
-                    <button class="modal-close" onclick="hideModal()">×</button>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        This is a sample modal dialog. You can add any content
-                        here.
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-ghost" onclick="hideModal()">
-                        Cancel
-                    </button>
-                    <button class="btn btn-primary" onclick="hideModal()">
-                        Confirm
-                    </button>
-                </div>
-            </div>
-        </div>
+        <!-- Sample Modal will be created dynamically by JavaScript -->
 
         <script>
             $(document).ready(function () {
@@ -5685,14 +5662,7 @@ export function initializeCustomLibrary() {
                 // Colors are already updated in the theme change handler above
             });
 
-            // Modal functions
-            function showModal() {
-                $("#sampleModal").addClass("is-open");
-            }
-
-            function hideModal() {
-                $("#sampleModal").removeClass("is-open");
-            }
+            // Modal functions are defined globally at the end of body
 
             // Sidebar toggle for mobile
             function toggleSidebar() {
@@ -5750,6 +5720,59 @@ export function initializeCustomLibrary() {
                     $(".dropdown-panel").removeClass("is-open");
                 }
             });
+        </script>
+
+        <!-- Modal Library Integration -->
+        <script type="module">
+            import { Modal } from '../dist/index.esm.js';
+
+            // Create sample modal instance
+            let sampleModal = null;
+
+            // Global functions for demo
+            window.showModal = function() {
+                if (!sampleModal) {
+                    sampleModal = new Modal({
+                        title: 'Sample Modal',
+                        content: '<p>This is a sample modal dialog. You can add any content here.</p>',
+                        size: 'md',
+                        onClose: () => {
+                            console.log('Modal closed');
+                        }
+                    });
+
+                    // Add custom footer buttons
+                    const footer = document.createElement('div');
+                    footer.className = 'modal-footer';
+                    footer.innerHTML = `
+                        <button class="btn btn-ghost" onclick="hideModal()">Cancel</button>
+                        <button class="btn btn-primary" onclick="hideModal()">Confirm</button>
+                    `;
+
+                    // We'll add the footer after modal is created
+                    setTimeout(() => {
+                        if (sampleModal.container) {
+                            const modalContent = sampleModal.container.querySelector('.modal-content');
+                            if (modalContent && !modalContent.querySelector('.modal-footer')) {
+                                modalContent.appendChild(footer);
+                            }
+                        }
+                    }, 100);
+                }
+                sampleModal.open();
+                console.log('Modal opened');
+            };
+
+            window.hideModal = function() {
+                if (sampleModal) {
+                    sampleModal.close();
+                }
+            };
+
+            // Make Modal available globally
+            window.Modal = Modal;
+
+            console.log('Modal library loaded');
         </script>
     </body>
 </html>
