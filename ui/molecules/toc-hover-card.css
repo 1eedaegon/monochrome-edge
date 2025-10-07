@@ -1,0 +1,65 @@
+/*
+ * TOC Hover Card Component
+ * Thick card style for standalone navigation
+ * Perfect for sidebar or floating navigation
+ */
+
+.toc-hover-card {
+    position: relative;
+    display: inline-block;
+}
+
+.toc-card {
+    min-width: 300px;
+    max-width: 400px;
+    background: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+}
+
+.toc-card-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--theme-text-secondary);
+    margin: 0 0 1rem 0;
+}
+
+.toc-card-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.toc-card-item {
+    margin-bottom: 0.75rem;
+}
+
+.toc-card-item:last-child {
+    margin-bottom: 0;
+}
+
+.toc-card-link {
+    display: block;
+    color: var(--theme-text-primary);
+    text-decoration: none;
+    font-size: 0.875rem;
+    padding: 0.5rem 0.75rem;
+    border-left: 3px solid transparent;
+    transition: all var(--transition-speed);
+}
+
+.toc-card-link:hover {
+    border-left-color: var(--theme-text-primary);
+    background: var(--theme-bg);
+    padding-left: 1rem;
+}
+
+.toc-card-link.is-active {
+    border-left-color: var(--theme-text-primary);
+    background: var(--theme-bg);
+    font-weight: 600;
+}

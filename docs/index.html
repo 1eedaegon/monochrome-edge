@@ -104,8 +104,9 @@
                     '<link rel="stylesheet" href="../ui/monochrome-edge.css">',
                 );
             } else {
+                // For GitHub Pages, use relative path to built CSS
                 document.write(
-                    '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css">',
+                    '<link rel="stylesheet" href="../dist/monochrome.min.css">',
                 );
             }
 
@@ -9210,21 +9211,33 @@ new DropdownController(document.getElementById('action-dropdown'));
                     </style>
                     <div class="changelog-container">
                         <!-- CHANGELOG_START -->
-<div class="changelog-entry" data-version="1.6.1">
-    <h3 class="changelog-version">v1.6.1 <span class="changelog-date">2025-10-07</span></h3>
-    <div class="changelog-content">
-        <div class="changelog-category">
-            <h4 class="changelog-category-title">Bug Fixes</h4>
-            <ul class="changelog-list">
-                <li>
-                    <span class="changelog-commit">fix: resolve conflict</span>
-                    <a href="#" class="changelog-hash" title="af45ab4b22691a4e95bda0167b21f6a242b04ce1">af45ab4</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
-                    <!-- CHANGELOG_END -->
+                        <div class="changelog-entry" data-version="1.6.1">
+                            <h3 class="changelog-version">
+                                v1.6.1
+                                <span class="changelog-date">2025-10-07</span>
+                            </h3>
+                            <div class="changelog-content">
+                                <div class="changelog-category">
+                                    <h4 class="changelog-category-title">
+                                        Bug Fixes
+                                    </h4>
+                                    <ul class="changelog-list">
+                                        <li>
+                                            <span class="changelog-commit"
+                                                >fix: resolve conflict</span
+                                            >
+                                            <a
+                                                href="#"
+                                                class="changelog-hash"
+                                                title="af45ab4b22691a4e95bda0167b21f6a242b04ce1"
+                                                >af45ab4</a
+                                            >
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- CHANGELOG_END -->
                     </div>
 
                     <div class="changelog-pagination">
