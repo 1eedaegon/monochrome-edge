@@ -1,0 +1,930 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-theme-variant="warm">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Integration Guide - Monochrome Edge</title>
+
+        <!-- SEO Meta Tags -->
+        <meta
+            name="description"
+            content="Learn how to integrate Monochrome Edge UI component library into your project. CDN, npm, and custom installation guides."
+        />
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+
+        <!-- Monochrome Edge CSS -->
+        <script>
+            const isLocal =
+                window.location.hostname === "localhost" ||
+                window.location.hostname === "127.0.0.1" ||
+                window.location.hostname === "";
+
+            if (isLocal) {
+                document.write(
+                    '<link rel="stylesheet" href="../ui/monochrome-edge.css">',
+                );
+            } else {
+                document.write(
+                    '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css">',
+                );
+            }
+        </script>
+
+        <!-- Prism.js for syntax highlighting -->
+        <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
+            rel="stylesheet"
+        />
+
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family:
+                    "Inter",
+                    -apple-system,
+                    BlinkMacSystemFont,
+                    "Segoe UI",
+                    sans-serif;
+                background-color: var(--theme-bg);
+                color: var(--theme-text-primary);
+                line-height: 1.6;
+                transition:
+                    background-color 0.3s,
+                    color 0.3s;
+            }
+
+            /* Layout */
+            .container {
+                max-width: 680px;
+                margin: 0 auto;
+                padding: 4rem 1.5rem;
+            }
+
+            /* Header */
+            .header {
+                margin-bottom: 4rem;
+            }
+
+            .header-nav {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                margin-bottom: 3rem;
+            }
+
+            .back-link {
+                color: var(--theme-text-secondary);
+                text-decoration: none;
+                font-size: 0.875rem;
+                transition: color 0.2s;
+            }
+
+            .back-link:hover {
+                color: var(--theme-text-primary);
+            }
+
+            .header-title {
+                font-size: 2.5rem;
+                font-weight: 700;
+                letter-spacing: -0.02em;
+                margin-bottom: 0.75rem;
+                color: var(--theme-text-primary);
+            }
+
+            .header-subtitle {
+                font-size: 1.125rem;
+                color: var(--theme-text-secondary);
+                font-weight: 400;
+            }
+
+            /* Table of Contents */
+            .toc {
+                background: var(--theme-surface);
+                border: 1px solid var(--theme-border);
+                border-radius: 8px;
+                padding: 1.5rem;
+                margin-bottom: 3rem;
+            }
+
+            .toc-title {
+                font-size: 0.875rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                color: var(--theme-text-secondary);
+                margin-bottom: 1rem;
+            }
+
+            .toc-list {
+                list-style: none;
+            }
+
+            .toc-item {
+                margin-bottom: 0.5rem;
+            }
+
+            .toc-link {
+                color: var(--theme-text-primary);
+                text-decoration: none;
+                font-size: 0.9375rem;
+                transition: color 0.2s;
+            }
+
+            .toc-link:hover {
+                color: var(--theme-highlight);
+            }
+
+            /* Section */
+            .section {
+                margin-bottom: 4rem;
+            }
+
+            .section-title {
+                font-size: 1.875rem;
+                font-weight: 700;
+                letter-spacing: -0.02em;
+                margin-bottom: 1rem;
+                color: var(--theme-text-primary);
+                scroll-margin-top: 2rem;
+            }
+
+            .section-subtitle {
+                font-size: 1.25rem;
+                font-weight: 600;
+                margin-top: 2rem;
+                margin-bottom: 0.75rem;
+                color: var(--theme-text-primary);
+            }
+
+            .section-text {
+                font-size: 1rem;
+                color: var(--theme-text-secondary);
+                margin-bottom: 1.5rem;
+                line-height: 1.7;
+            }
+
+            /* Code Block */
+            .code-block {
+                position: relative;
+                background: var(--theme-surface);
+                border: 1px solid var(--theme-border);
+                border-radius: 8px;
+                margin-bottom: 1.5rem;
+                overflow: hidden;
+            }
+
+            .code-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 0.75rem 1rem;
+                background: var(--theme-bg);
+                border-bottom: 1px solid var(--theme-border);
+            }
+
+            .code-label {
+                font-size: 0.8125rem;
+                font-weight: 500;
+                color: var(--theme-text-secondary);
+                font-family: "SF Mono", Monaco, monospace;
+            }
+
+            .copy-button {
+                padding: 0.25rem 0.75rem;
+                font-size: 0.75rem;
+                background: transparent;
+                border: 1px solid var(--theme-border);
+                border-radius: 4px;
+                color: var(--theme-text-secondary);
+                cursor: pointer;
+                transition: all 0.2s;
+                font-weight: 500;
+            }
+
+            .copy-button:hover {
+                background: var(--theme-bg);
+                border-color: var(--theme-text-secondary);
+                color: var(--theme-text-primary);
+            }
+
+            .copy-button.copied {
+                color: var(--theme-success);
+                border-color: var(--theme-success);
+            }
+
+            .code-content {
+                padding: 0;
+            }
+
+            .code-content pre {
+                margin: 0;
+                padding: 1rem;
+                overflow-x: auto;
+            }
+
+            .code-content code {
+                font-family: "SF Mono", Monaco, "Cascadia Code", monospace;
+                font-size: 0.875rem;
+                line-height: 1.6;
+            }
+
+            /* Info Box */
+            .info-box {
+                background: var(--theme-surface);
+                border-left: 3px solid var(--theme-highlight);
+                padding: 1rem 1.25rem;
+                margin-bottom: 1.5rem;
+                border-radius: 4px;
+            }
+
+            .info-box-title {
+                font-size: 0.875rem;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+                color: var(--theme-text-primary);
+            }
+
+            .info-box-text {
+                font-size: 0.875rem;
+                color: var(--theme-text-secondary);
+                line-height: 1.6;
+            }
+
+            /* Steps */
+            .steps {
+                counter-reset: step;
+            }
+
+            .step {
+                position: relative;
+                padding-left: 3rem;
+                margin-bottom: 2rem;
+            }
+
+            .step::before {
+                counter-increment: step;
+                content: counter(step);
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 2rem;
+                height: 2rem;
+                background: var(--theme-surface);
+                border: 2px solid var(--theme-border);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 600;
+                font-size: 0.875rem;
+                color: var(--theme-text-primary);
+            }
+
+            .step-title {
+                font-size: 1.125rem;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+                color: var(--theme-text-primary);
+            }
+
+            .step-text {
+                font-size: 0.9375rem;
+                color: var(--theme-text-secondary);
+                margin-bottom: 1rem;
+                line-height: 1.6;
+            }
+
+            /* Links */
+            a {
+                color: var(--theme-highlight);
+                text-decoration: underline;
+                text-decoration-color: var(--theme-border);
+                text-underline-offset: 2px;
+                transition: text-decoration-color 0.2s;
+            }
+
+            a:hover {
+                text-decoration-color: var(--theme-highlight);
+            }
+
+            /* Footer */
+            .footer {
+                margin-top: 6rem;
+                padding-top: 3rem;
+                border-top: 1px solid var(--theme-border);
+            }
+
+            .footer-text {
+                font-size: 0.875rem;
+                color: var(--theme-text-secondary);
+                text-align: center;
+            }
+
+            /* Theme Toggle */
+            .theme-toggle {
+                position: fixed;
+                bottom: 2rem;
+                right: 2rem;
+                display: flex;
+                gap: 0.5rem;
+            }
+
+            .theme-btn {
+                width: 2.5rem;
+                height: 2.5rem;
+                border-radius: 50%;
+                border: 1px solid var(--theme-border);
+                background: var(--theme-surface);
+                color: var(--theme-text-primary);
+                cursor: pointer;
+                transition: all 0.2s;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 1rem;
+            }
+
+            .theme-btn:hover {
+                background: var(--theme-bg);
+                border-color: var(--theme-text-secondary);
+            }
+
+            /* Responsive */
+            @media (max-width: 640px) {
+                .container {
+                    padding: 2rem 1rem;
+                }
+
+                .header-title {
+                    font-size: 2rem;
+                }
+
+                .section-title {
+                    font-size: 1.5rem;
+                }
+
+                .theme-toggle {
+                    bottom: 1rem;
+                    right: 1rem;
+                }
+            }
+
+            /* Code theme override for better readability */
+            pre[class*="language-"] {
+                background: transparent !important;
+            }
+
+            code[class*="language-"] {
+                background: transparent !important;
+                color: var(--theme-text-primary) !important;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Header -->
+            <header class="header">
+                <nav class="header-nav">
+                    <a href="../index.html" class="back-link">← Back to Home</a>
+                </nav>
+                <h1 class="header-title">Integration Guide</h1>
+                <p class="header-subtitle">
+                    Get started with Monochrome Edge in minutes. Choose your
+                    preferred installation method.
+                </p>
+            </header>
+
+            <!-- Table of Contents -->
+            <nav class="toc">
+                <h2 class="toc-title">Contents</h2>
+                <ul class="toc-list">
+                    <li class="toc-item">
+                        <a href="#quick-start" class="toc-link">Quick Start</a>
+                    </li>
+                    <li class="toc-item">
+                        <a href="#cdn" class="toc-link">CDN Installation</a>
+                    </li>
+                    <li class="toc-item">
+                        <a href="#npm" class="toc-link">npm Installation</a>
+                    </li>
+                    <li class="toc-item">
+                        <a href="#usage" class="toc-link">Basic Usage</a>
+                    </li>
+                    <li class="toc-item">
+                        <a href="#theming" class="toc-link"
+                            >Theme Configuration</a
+                        >
+                    </li>
+                    <li class="toc-item">
+                        <a href="#components" class="toc-link"
+                            >Using Components</a
+                        >
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Quick Start -->
+            <section class="section" id="quick-start">
+                <h2 class="section-title">Quick Start</h2>
+                <p class="section-text">
+                    The fastest way to start using Monochrome Edge is via CDN.
+                    Add a single line to your HTML and you're ready to go.
+                </p>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-label">HTML</span>
+                        <button class="copy-button" onclick="copyCode(this)">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-html">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css"&gt;</code></pre>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <div class="info-box-title">💡 Production Tip</div>
+                    <div class="info-box-text">
+                        For production, pin to a specific version instead of
+                        using <code>@latest</code> to ensure consistent styling
+                        across deployments.
+                    </div>
+                </div>
+            </section>
+
+            <!-- CDN Installation -->
+            <section class="section" id="cdn">
+                <h2 class="section-title">CDN Installation</h2>
+                <p class="section-text">
+                    Use jsDelivr CDN for the fastest and easiest integration. No
+                    build process required.
+                </p>
+
+                <h3 class="section-subtitle">Complete Setup</h3>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-label">index.html</span>
+                        <button class="copy-button" onclick="copyCode(this)">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang="en" data-theme="light" data-theme-variant="warm"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;My App&lt;/title&gt;
+
+    &lt;!-- Monochrome Edge CSS --&gt;
+    &lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;button class="btn btn-primary"&gt;Click Me&lt;/button&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+                    </div>
+                </div>
+
+                <h3 class="section-subtitle">Version Pinning</h3>
+                <p class="section-text">
+                    Replace <code>@latest</code> with a specific version for
+                    production stability:
+                </p>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-label">HTML</span>
+                        <button class="copy-button" onclick="copyCode(this)">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-html">&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@1.1.1/dist/monochrome.min.css"&gt;</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- npm Installation -->
+            <section class="section" id="npm">
+                <h2 class="section-title">npm Installation</h2>
+                <p class="section-text">
+                    For projects with a build process, install via npm for
+                    better control and tree-shaking benefits.
+                </p>
+
+                <div class="steps">
+                    <div class="step">
+                        <h3 class="step-title">Install the package</h3>
+                        <p class="step-text">
+                            Run the following command in your project directory:
+                        </p>
+
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-label">Terminal</span>
+                                <button
+                                    class="copy-button"
+                                    onclick="copyCode(this)"
+                                >
+                                    Copy
+                                </button>
+                            </div>
+                            <div class="code-content">
+                                <pre><code class="language-bash">npm install @monochrome-edge/ui</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <h3 class="step-title">Import the CSS</h3>
+                        <p class="step-text">
+                            Import the CSS file in your main JavaScript or CSS
+                            entry point:
+                        </p>
+
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-label">main.js</span>
+                                <button
+                                    class="copy-button"
+                                    onclick="copyCode(this)"
+                                >
+                                    Copy
+                                </button>
+                            </div>
+                            <div class="code-content">
+                                <pre><code class="language-javascript">import '@monochrome-edge/ui/dist/monochrome.min.css';</code></pre>
+                            </div>
+                        </div>
+
+                        <p class="section-text" style="margin-top: 1rem">
+                            Or in your CSS file:
+                        </p>
+
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-label">styles.css</span>
+                                <button
+                                    class="copy-button"
+                                    onclick="copyCode(this)"
+                                >
+                                    Copy
+                                </button>
+                            </div>
+                            <div class="code-content">
+                                <pre><code class="language-css">@import '@monochrome-edge/ui/dist/monochrome.min.css';</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="step">
+                        <h3 class="step-title">Start using components</h3>
+                        <p class="step-text">
+                            You're all set! Start using Monochrome Edge classes
+                            in your HTML.
+                        </p>
+
+                        <div class="code-block">
+                            <div class="code-header">
+                                <span class="code-label">App.jsx</span>
+                                <button
+                                    class="copy-button"
+                                    onclick="copyCode(this)"
+                                >
+                                    Copy
+                                </button>
+                            </div>
+                            <div class="code-content">
+                                <pre><code class="language-jsx">function App() {
+  return (
+    &lt;div className="card"&gt;
+      &lt;h2&gt;Welcome&lt;/h2&gt;
+      &lt;p&gt;Get started with Monochrome Edge&lt;/p&gt;
+      &lt;button className="btn btn-primary"&gt;Get Started&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Basic Usage -->
+            <section class="section" id="usage">
+                <h2 class="section-title">Basic Usage</h2>
+                <p class="section-text">
+                    Monochrome Edge is a pure CSS library. Apply classes to your
+                    HTML elements to style them.
+                </p>
+
+                <h3 class="section-subtitle">Buttons</h3>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-label">HTML</span>
+                        <button class="copy-button" onclick="copyCode(this)">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-html">&lt;button class="btn btn-primary"&gt;Primary Button&lt;/button&gt;
+&lt;button class="btn btn-secondary"&gt;Secondary Button&lt;/button&gt;
+&lt;button class="btn btn-ghost"&gt;Ghost Button&lt;/button&gt;</code></pre>
+                    </div>
+                </div>
+
+                <h3 class="section-subtitle">Cards</h3>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-label">HTML</span>
+                        <button class="copy-button" onclick="copyCode(this)">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-html">&lt;div class="card"&gt;
+  &lt;h3&gt;Card Title&lt;/h3&gt;
+  &lt;p&gt;Card content goes here.&lt;/p&gt;
+  &lt;button class="btn btn-primary"&gt;Action&lt;/button&gt;
+&lt;/div&gt;</code></pre>
+                    </div>
+                </div>
+
+                <h3 class="section-subtitle">Forms</h3>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-label">HTML</span>
+                        <button class="copy-button" onclick="copyCode(this)">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-html">&lt;div class="form-group"&gt;
+  &lt;label class="label"&gt;Email&lt;/label&gt;
+  &lt;input type="email" class="input" placeholder="you@example.com"&gt;
+&lt;/div&gt;</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Theme Configuration -->
+            <section class="section" id="theming">
+                <h2 class="section-title">Theme Configuration</h2>
+                <p class="section-text">
+                    Monochrome Edge includes two theme variants (Warm and Cold)
+                    and supports light/dark modes.
+                </p>
+
+                <h3 class="section-subtitle">Setting Theme Attributes</h3>
+                <p class="section-text">
+                    Control themes using HTML data attributes on the root
+                    element:
+                </p>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-label">HTML</span>
+                        <button class="copy-button" onclick="copyCode(this)">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-html">&lt;!-- Warm theme, light mode --&gt;
+&lt;html data-theme="light" data-theme-variant="warm"&gt;
+
+&lt;!-- Cold theme, dark mode --&gt;
+&lt;html data-theme="dark" data-theme-variant="cold"&gt;</code></pre>
+                    </div>
+                </div>
+
+                <h3 class="section-subtitle">Dynamic Theme Switching</h3>
+                <p class="section-text">
+                    Toggle themes programmatically with JavaScript:
+                </p>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-label">JavaScript</span>
+                        <button class="copy-button" onclick="copyCode(this)">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-javascript">// Toggle light/dark mode
+function toggleMode() {
+  const html = document.documentElement;
+  const currentMode = html.getAttribute('data-theme');
+  html.setAttribute('data-theme', currentMode === 'light' ? 'dark' : 'light');
+}
+
+// Toggle warm/cold variant
+function toggleVariant() {
+  const html = document.documentElement;
+  const currentVariant = html.getAttribute('data-theme-variant');
+  html.setAttribute('data-theme-variant', currentVariant === 'warm' ? 'cold' : 'warm');
+}</code></pre>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Components -->
+            <section class="section" id="components">
+                <h2 class="section-title">Using Components</h2>
+                <p class="section-text">
+                    Explore all available components and their variants in the
+                    main documentation.
+                </p>
+
+                <div class="info-box">
+                    <div class="info-box-title">📚 Complete Documentation</div>
+                    <div class="info-box-text">
+                        View the full component library and interactive examples
+                        at the <a href="../index.html">main demo page</a>.
+                    </div>
+                </div>
+
+                <h3 class="section-subtitle">Landscape Backgrounds</h3>
+                <p class="section-text">
+                    Add animated landscape backgrounds for visual depth:
+                </p>
+
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-label">HTML</span>
+                        <button class="copy-button" onclick="copyCode(this)">
+                            Copy
+                        </button>
+                    </div>
+                    <div class="code-content">
+                        <pre><code class="language-html">&lt;!-- Wave pattern --&gt;
+&lt;div class="b-landscape b-landscape-wave"&gt;&lt;/div&gt;
+
+&lt;!-- Mountain pattern --&gt;
+&lt;div class="b-landscape b-landscape-mountain"&gt;&lt;/div&gt;
+
+&lt;!-- Colored mode --&gt;
+&lt;div class="b-landscape b-landscape-wave" data-landscape-mode="colored"&gt;&lt;/div&gt;</code></pre>
+                    </div>
+                </div>
+
+                <h3 class="section-subtitle">Available Patterns</h3>
+                <ul
+                    style="
+                        list-style: disc;
+                        padding-left: 1.5rem;
+                        color: var(--theme-text-secondary);
+                        margin-bottom: 1.5rem;
+                    "
+                >
+                    <li>
+                        <code>b-landscape-wave</code> - Flowing wave pattern
+                    </li>
+                    <li>
+                        <code>b-landscape-mountain</code> - Mountain silhouette
+                    </li>
+                    <li><code>b-landscape-forest</code> - Forest treeline</li>
+                    <li><code>b-landscape-desert</code> - Desert dunes</li>
+                </ul>
+            </section>
+
+            <!-- Footer -->
+            <footer class="footer">
+                <p class="footer-text">
+                    Made with focus on minimalism and usability.
+                    <a href="https://github.com/1eedaegon/monochrome-edge"
+                        >View on GitHub</a
+                    >
+                </p>
+            </footer>
+        </div>
+
+        <!-- Theme Toggle -->
+        <div class="theme-toggle">
+            <button
+                class="theme-btn"
+                onclick="toggleMode()"
+                title="Toggle light/dark mode"
+            >
+                <span id="mode-icon">🌙</span>
+            </button>
+            <button
+                class="theme-btn"
+                onclick="toggleVariant()"
+                title="Toggle warm/cold theme"
+            >
+                <span id="variant-icon">🔥</span>
+            </button>
+        </div>
+
+        <!-- Prism.js -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+
+        <script>
+            // Copy code functionality
+            function copyCode(button) {
+                const codeBlock = button.closest(".code-block");
+                const code = codeBlock.querySelector("code").textContent;
+
+                navigator.clipboard.writeText(code).then(() => {
+                    button.textContent = "Copied!";
+                    button.classList.add("copied");
+
+                    setTimeout(() => {
+                        button.textContent = "Copy";
+                        button.classList.remove("copied");
+                    }, 2000);
+                });
+            }
+
+            // Theme toggling
+            function toggleMode() {
+                const html = document.documentElement;
+                const currentMode = html.getAttribute("data-theme");
+                const newMode = currentMode === "light" ? "dark" : "light";
+                html.setAttribute("data-theme", newMode);
+
+                const icon = document.getElementById("mode-icon");
+                icon.textContent = newMode === "light" ? "🌙" : "☀️";
+
+                localStorage.setItem("theme-mode", newMode);
+            }
+
+            function toggleVariant() {
+                const html = document.documentElement;
+                const currentVariant = html.getAttribute("data-theme-variant");
+                const newVariant = currentVariant === "warm" ? "cold" : "warm";
+                html.setAttribute("data-theme-variant", newVariant);
+
+                const icon = document.getElementById("variant-icon");
+                icon.textContent = newVariant === "warm" ? "🔥" : "❄️";
+
+                localStorage.setItem("theme-variant", newVariant);
+            }
+
+            // Restore theme from localStorage
+            window.addEventListener("DOMContentLoaded", () => {
+                const savedMode = localStorage.getItem("theme-mode");
+                const savedVariant = localStorage.getItem("theme-variant");
+
+                if (savedMode) {
+                    document.documentElement.setAttribute(
+                        "data-theme",
+                        savedMode,
+                    );
+                    document.getElementById("mode-icon").textContent =
+                        savedMode === "light" ? "🌙" : "☀️";
+                }
+
+                if (savedVariant) {
+                    document.documentElement.setAttribute(
+                        "data-theme-variant",
+                        savedVariant,
+                    );
+                    document.getElementById("variant-icon").textContent =
+                        savedVariant === "warm" ? "🔥" : "❄️";
+                }
+            });
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+                anchor.addEventListener("click", function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(
+                        this.getAttribute("href"),
+                    );
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start",
+                        });
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
