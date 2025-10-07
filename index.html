@@ -50,23 +50,65 @@
                 transition: all var(--transition-speed);
             }
 
+            /* Logo theme switching - handled by JavaScript updateLogoColors() */
+
             .ui-layout {
                 display: flex;
                 min-height: 100vh;
-                overflow-x: hidden;
+                position: relative;
             }
 
             .ds-sidebar {
                 width: 260px;
                 min-width: 260px;
-                flex-shrink: 0;
                 background-color: var(--theme-surface);
                 border-right: 1px solid var(--theme-border);
-                position: sticky;
+                position: fixed;
                 top: 0;
-                height: 100vh;
+                left: 0;
+                bottom: 0;
                 overflow-y: auto;
-                transition: transform 0.3s ease;
+                overflow-x: hidden;
+                transition: transform 0.3s ease, width 0.3s ease, min-width 0.3s ease;
+                z-index: 100;
+            }
+
+            .ds-sidebar.is-collapsed {
+                width: 60px;
+                min-width: 60px;
+                cursor: pointer;
+            }
+
+            .ds-sidebar.is-collapsed .ds-header,
+            .ds-sidebar.is-collapsed .ds-controls,
+            .ds-sidebar.is-collapsed .ds-nav {
+                opacity: 0;
+                pointer-events: none;
+            }
+
+            .ds-sidebar.is-collapsed .sidebar-collapse-btn {
+                opacity: 1;
+                pointer-events: all;
+            }
+
+            /* Hover area visual hint when collapsed */
+            .ds-sidebar.is-collapsed::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 4px;
+                height: 60px;
+                background: var(--theme-border);
+                border-radius: 0 4px 4px 0;
+                opacity: 0.5;
+                transition: opacity var(--transition-speed);
+            }
+
+            .ds-sidebar.is-collapsed:hover::before {
+                opacity: 1;
+                background: var(--theme-text-secondary);
             }
 
             /* Mobile styles */
@@ -146,14 +188,14 @@
 
                 .ui-layout {
                     padding-top: 60px;
+                    overflow-x: hidden;
                 }
 
                 .ds-sidebar {
-                    position: fixed;
-                    left: 0;
+                    left: auto;
+                    right: 0;
                     top: 60px;
-                    bottom: 0;
-                    transform: translateX(-100%);
+                    transform: translateX(100%);
                     z-index: 999;
                 }
 
@@ -163,7 +205,9 @@
 
                 .ds-main {
                     margin-left: 0;
+                    width: 100%;
                     padding: 1rem;
+                    overflow-x: hidden;
                 }
 
                 .demo-grid {
@@ -173,16 +217,47 @@
                 .component-toggle {
                     flex-wrap: wrap;
                 }
+
+                /* Logo adjustments for mobile */
+                .mobile-header img[alt="Monochrome Edge"] {
+                    max-width: 120px;
+                    height: auto;
+                }
+
+                /* Sidebar logo stays the same on mobile */
+
+                /* Prevent table overflow */
+                .component-preview table {
+                    display: block;
+                    overflow-x: auto;
+                    max-width: 100%;
+                }
+
+                /* Adjust grid layouts for mobile */
+                [style*="grid-template-columns"] {
+                    grid-template-columns: 1fr !important;
+                }
+            }
+
+            @media (min-width: 769px) {
+                .ds-main {
+                    margin-left: 260px;
+                    width: calc(100% - 260px);
+                }
+
+                .ds-sidebar.is-collapsed ~ .ds-main {
+                    margin-left: 60px;
+                    width: calc(100% - 60px);
+                }
             }
 
             .ds-main {
                 flex: 1;
                 padding: 2rem;
-                max-width: 1200px;
-                margin: 0 auto;
-                width: 100%;
                 min-width: 0;
+                min-height: 100vh;
                 overflow-x: auto;
+                transition: margin-left 0.3s ease, width 0.3s ease;
             }
 
             /* Prevent code blocks from causing overflow */
@@ -208,6 +283,87 @@
                 color: var(--theme-text-primary);
             }
 
+            .sidebar-collapse-btn {
+                display: none;
+                background: var(--theme-surface);
+                border: none;
+                border-top: 1px solid var(--theme-border);
+                padding: 1rem;
+                color: var(--theme-text-secondary);
+                cursor: pointer;
+                transition: all var(--transition-speed);
+                width: 100%;
+                margin-top: auto;
+                position: relative;
+            }
+
+            .sidebar-collapse-btn:hover {
+                background-color: var(--theme-bg);
+                color: var(--theme-text-primary);
+            }
+
+            .sidebar-collapse-btn svg {
+                transition: transform var(--transition-speed);
+                transform: rotate(0deg);
+            }
+
+            .ds-sidebar.is-collapsed .sidebar-collapse-btn svg {
+                transform: rotate(180deg);
+            }
+
+            .ds-sidebar.is-collapsed,
+            .ds-sidebar.is-temp-expanded {
+                transition: width 0.3s ease, min-width 0.3s ease;
+            }
+
+            .ds-sidebar .ds-header,
+            .ds-sidebar .ds-controls,
+            .ds-sidebar .ds-nav {
+                transition: opacity 0.3s ease;
+            }
+
+            .ds-sidebar {
+                display: flex;
+                flex-direction: column;
+            }
+
+            .ds-nav {
+                flex: 1;
+            }
+
+            .sidebar-collapse-btn {
+                display: none;
+            }
+
+            @media (min-width: 769px) {
+                .sidebar-collapse-btn {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
+
+            /* Logo Container */
+            .logo-container {
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            /* Logo System */
+            .ds-logo {
+                display: block;
+                margin-bottom: 0.5rem;
+            }
+
+            .logo-primary {
+                display: block;
+            }
+
+            .logo-secondary {
+                display: none;
+            }
+
             .ds-title {
                 font-size: 1.5rem;
                 font-weight: var(--font-weight-h1);
@@ -226,6 +382,38 @@
                 padding: 1rem 1.5rem;
                 border-bottom: 1px solid var(--theme-border);
                 background-color: var(--theme-surface);
+            }
+
+            /* Button Group */
+            .btn-group {
+                display: flex;
+                gap: 0.25rem;
+                width: 100%;
+            }
+
+            .btn-group .btn {
+                flex: 1;
+                font-size: 0.8125rem;
+                padding: 0.5rem 0.75rem;
+            }
+
+            .btn-group .btn.active {
+                background: var(--theme-accent);
+                color: var(--theme-accent-contrast);
+                border-color: var(--theme-accent);
+            }
+
+            /* Header Navigation (Horizontal) */
+            .nav-horizontal {
+                display: flex;
+                flex-direction: row;
+                gap: 0.5rem;
+                align-items: center;
+            }
+
+            .nav-horizontal .nav-item {
+                padding: 0.5rem 1rem;
+                white-space: nowrap;
             }
 
             .ds-nav {
@@ -394,26 +582,57 @@
         </style>
     </head>
     <body>
+        <!-- Common SVG Gradients (shared by all logos) -->
+        <svg width="0" height="0" style="position: absolute;">
+            <defs>
+                <!-- Primary Logo Gradients -->
+                <linearGradient id="gradient-warm-light" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#1c1a18;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#8a8784;stop-opacity:1" />
+                </linearGradient>
+                <linearGradient id="gradient-warm-dark" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#e7e5e4;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#a8a29e;stop-opacity:1" />
+                </linearGradient>
+                <linearGradient id="gradient-cold-light" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#18181b;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#6b7280;stop-opacity:1" />
+                </linearGradient>
+                <linearGradient id="gradient-cold-dark" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#e4e4e7;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#9ca3af;stop-opacity:1" />
+                </linearGradient>
+
+                <!-- Symbol Logo Gradients -->
+                <linearGradient id="symbol-gradient-warm-light" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#1c1a18;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#8a8784;stop-opacity:1" />
+                </linearGradient>
+                <linearGradient id="symbol-gradient-warm-dark" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#e7e5e4;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#a8a29e;stop-opacity:1" />
+                </linearGradient>
+                <linearGradient id="symbol-gradient-cold-light" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#18181b;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#6b7280;stop-opacity:1" />
+                </linearGradient>
+                <linearGradient id="symbol-gradient-cold-dark" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#e4e4e7;stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#9ca3af;stop-opacity:1" />
+                </linearGradient>
+            </defs>
+        </svg>
+
         <!-- Mobile Header -->
         <div class="mobile-header">
+            <svg width="32" height="32" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                <line class="logo-slash-line" x1="10" y1="35" x2="30" y2="5" stroke="#78716c" stroke-width="3" stroke-linecap="square"/>
+                <line class="logo-slash-line" x1="18" y1="35" x2="38" y2="5" stroke="#78716c" stroke-width="3" stroke-linecap="square"/>
+            </svg>
             <div class="hamburger" onclick="toggleSidebar()">
                 <span></span>
                 <span></span>
                 <span></span>
-            </div>
-            <div>
-                <div
-                    class="ds-title"
-                    style="font-size: 1.125rem; margin-bottom: 0"
-                >
-                    Monochrome Edge
-                </div>
-                <div
-                    class="ds-subtitle"
-                    style="font-size: 0.75rem; text-align: right"
-                >
-                    v<!-- VERSION -->1.0.6<!-- /VERSION -->
-                </div>
             </div>
         </div>
 
@@ -421,41 +640,65 @@
             <!-- Sidebar -->
             <aside class="ds-sidebar">
                 <div class="ds-header">
-                    <h1 class="ds-title">Monochrome Edge</h1>
-                    <p
-                        class="ds-subtitle"
-                        style="text-align: right; margin-top: 0.5rem"
-                    >
-                        v<!-- VERSION -->1.0.6<!-- /VERSION -->
-                    </p>
+                    <div class="logo-container">
+                        <svg class="ds-logo logo-primary" width="220" height="40" viewBox="0 0 220 40" xmlns="http://www.w3.org/2000/svg">
+                            <line class="logo-slash-line" x1="2" y1="35" x2="22" y2="5" stroke="#78716c" stroke-width="3" stroke-linecap="square"/>
+                            <line class="logo-slash-line" x1="10" y1="35" x2="30" y2="5" stroke="#78716c" stroke-width="3" stroke-linecap="square"/>
+                            <text x="40" y="25" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" letter-spacing="0.8" fill="#1c1a18">MONOCHROME EDGE</text>
+                        </svg>
+                        <svg class="ds-logo logo-secondary" width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                            <line class="logo-slash-line" x1="10" y1="35" x2="30" y2="5" stroke="#78716c" stroke-width="3" stroke-linecap="square"/>
+                            <line class="logo-slash-line" x1="18" y1="35" x2="38" y2="5" stroke="#78716c" stroke-width="3" stroke-linecap="square"/>
+                        </svg>
+                        <p class="ds-subtitle" style="text-align: right; margin-top: 0.5rem; font-size: 0.75rem;">
+                            v<!-- VERSION -->1.0.6<!-- /VERSION -->
+                        </p>
+                    </div>
                 </div>
 
                 <div class="ds-controls">
                     <div style="flex: 1">
-                        <label for="theme-switcher" class="label-small"
-                            >Theme</label
-                        >
-                        <select
-                            id="theme-switcher"
-                            class="select select-small"
-                            style="width: 100%"
-                        >
-                            <option value="warm" selected>Warm</option>
-                            <option value="cold">Cold</option>
-                        </select>
+                        <label class="label-small" style="margin-bottom: 0.5rem; display: block;">Theme</label>
+                        <div class="icon-btn-group">
+                            <button class="icon-btn theme-btn active" data-theme="warm" title="Warm Theme">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+                                </svg>
+                            </button>
+                            <button class="icon-btn theme-btn" data-theme="cold" title="Cold Theme">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <line x1="2" x2="22" y1="12" y2="12"/>
+                                    <line x1="12" x2="12" y1="2" y2="22"/>
+                                    <path d="m20 16-4-4 4-4"/>
+                                    <path d="m4 8 4 4-4 4"/>
+                                    <path d="m16 4-4 4-4-4"/>
+                                    <path d="m8 20 4-4 4 4"/>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                     <div style="flex: 1">
-                        <label for="mode-switcher" class="label-small"
-                            >Mode</label
-                        >
-                        <select
-                            id="mode-switcher"
-                            class="select select-small"
-                            style="width: 100%"
-                        >
-                            <option value="light">Light</option>
-                            <option value="dark">Dark</option>
-                        </select>
+                        <label class="label-small" style="margin-bottom: 0.5rem; display: block;">Mode</label>
+                        <div class="icon-btn-group">
+                            <button class="icon-btn mode-btn active" data-mode="light" title="Light Mode">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="4"/>
+                                    <path d="M12 2v2"/>
+                                    <path d="M12 20v2"/>
+                                    <path d="m4.93 4.93 1.41 1.41"/>
+                                    <path d="m17.66 17.66 1.41 1.41"/>
+                                    <path d="M2 12h2"/>
+                                    <path d="M20 12h2"/>
+                                    <path d="m6.34 17.66-1.41 1.41"/>
+                                    <path d="m19.07 4.93-1.41 1.41"/>
+                                </svg>
+                            </button>
+                            <button class="icon-btn mode-btn" data-mode="dark" title="Dark Mode">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -469,8 +712,20 @@
                     <a class="nav-item" data-section="typography">
                         <span class="nav-item-label">Typography</span>
                     </a>
+                    <a class="nav-item" data-section="brand-assets">
+                        <span class="nav-item-label">Brand Assets</span>
+                    </a>
+                    <a class="nav-item" data-section="tabs">
+                        <span class="nav-item-label">Tabs</span>
+                    </a>
+                    <a class="nav-item" data-section="landscape">
+                        <span class="nav-item-label">Landscape</span>
+                    </a>
                     <a class="nav-item" data-section="buttons">
                         <span class="nav-item-label">Buttons</span>
+                    </a>
+                    <a class="nav-item" data-section="icon-buttons">
+                        <span class="nav-item-label">Icon Buttons</span>
                     </a>
                     <a class="nav-item" data-section="forms">
                         <span class="nav-item-label">Forms</span>
@@ -493,6 +748,15 @@
                     <a class="nav-item" data-section="layouts">
                         <span class="nav-item-label">Layouts</span>
                     </a>
+                    <a class="nav-item" data-section="timeline">
+                        <span class="nav-item-label">Timeline</span>
+                    </a>
+                    <a class="nav-item" data-section="accordion">
+                        <span class="nav-item-label">Accordion</span>
+                    </a>
+                    <a class="nav-item" data-section="callout">
+                        <span class="nav-item-label">Callout</span>
+                    </a>
                     <a class="nav-item" data-section="examples">
                         <span class="nav-item-label">Examples</span>
                     </a>
@@ -506,6 +770,13 @@
                         <span class="nav-item-label">Changelog</span>
                     </a>
                 </nav>
+
+                <!-- Sidebar Collapse Button -->
+                <button class="sidebar-collapse-btn" onclick="collapseSidebar()" title="Collapse Sidebar">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
             </aside>
 
             <!-- Main Content -->
@@ -740,6 +1011,242 @@
                     </div>
                 </section>
 
+                <!-- Brand Assets Section -->
+                <section class="ds-section" id="brand-assets">
+                    <h2 class="ds-section-title">Brand Assets</h2>
+                    <p class="ds-section-description">
+                        Logo and brand identity elements for the Monochrome Edge design system.
+                    </p>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Logo</h3>
+                            <div class="component-toggle">
+                                <button class="toggle-btn active" data-target="brand-logo">
+                                    Preview
+                                </button>
+                                <button class="toggle-btn" data-target="brand-logo">
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="brand-logo">
+                            <div class="component-preview">
+                                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                                    <div style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                        <div style="padding: 2rem; background: var(--theme-surface); border-radius: var(--border-radius); border: 1px solid var(--theme-border);">
+                                            <svg class="brand-logo-preview-primary" width="220" height="40" viewBox="0 0 220 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <g id="slashes" class="logo-slashes">
+                                                    <line class="logo-slash-line" x1="2" y1="35" x2="22" y2="5" stroke="#78716c" stroke-width="3" stroke-linecap="square"/>
+                                                    <line class="logo-slash-line" x1="10" y1="35" x2="30" y2="5" stroke="#78716c" stroke-width="3" stroke-linecap="square"/>
+                                                </g>
+                                                <g id="wordmark">
+                                                    <text x="40" y="25" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" letter-spacing="0.8" fill="#1c1a18">MONOCHROME EDGE</text>
+                                                </g>
+                                            </svg>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <p style="color: var(--theme-text-primary); font-size: 0.875rem; font-weight: 600;">Primary Logo</p>
+                                            <p style="color: var(--theme-text-secondary); font-size: 0.8125rem;">Full wordmark with symbol</p>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; flex-direction: column; gap: 1rem; align-items: center;">
+                                        <div style="padding: 2rem; background: var(--theme-surface); border-radius: var(--border-radius); border: 1px solid var(--theme-border);">
+                                            <svg class="brand-logo-preview-secondary" width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <g id="symbol-slashes" class="logo-slashes">
+                                                    <line class="logo-slash-line" x1="10" y1="35" x2="30" y2="5" stroke="#78716c" stroke-width="3" stroke-linecap="square"/>
+                                                    <line class="logo-slash-line" x1="18" y1="35" x2="38" y2="5" stroke="#78716c" stroke-width="3" stroke-linecap="square"/>
+                                                </g>
+                                            </svg>
+                                        </div>
+                                        <div style="text-align: center;">
+                                            <p style="color: var(--theme-text-primary); font-size: 0.875rem; font-weight: 600;">Secondary Logo</p>
+                                            <p style="color: var(--theme-text-secondary); font-size: 0.8125rem;">Symbol mark only</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-markup">&lt;!-- Primary Logo --&gt;
+&lt;img src="ui/assets/logo-slash.svg" alt="Monochrome Edge" width="155" height="40"&gt;
+
+&lt;!-- Secondary Logo (Symbol) --&gt;
+&lt;img src="ui/assets/logo-symbol.svg" alt="Monochrome Edge" width="40" height="40"&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Tabs Section -->
+                <section class="ds-section" id="tabs">
+                    <h2 class="ds-section-title">Tabs</h2>
+                    <p class="ds-section-description">
+                        Tab navigation component with multiple styles and orientations.
+                    </p>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Tab Variants</h3>
+                            <div class="component-toggle">
+                                <button class="toggle-btn active" data-target="tab-variants">
+                                    Preview
+                                </button>
+                                <button class="toggle-btn" data-target="tab-variants">
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="tab-variants">
+                            <div class="component-preview">
+                                <div class="tabs">
+                                    <div class="tabs-list">
+                                        <button class="tab active">Home</button>
+                                        <button class="tab">Profile</button>
+                                        <button class="tab">Settings</button>
+                                        <button class="tab">Messages <span class="tab-badge">3</span></button>
+                                    </div>
+                                    <div class="tabs-panels">
+                                        <div class="tab-panel active">
+                                            <p style="color: var(--theme-text-secondary);">Home tab content goes here.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="tabs" style="margin-top: 2rem;">
+                                    <div class="tabs-list tabs-pills">
+                                        <button class="tab active">Dashboard</button>
+                                        <button class="tab">Analytics</button>
+                                        <button class="tab">Reports</button>
+                                    </div>
+                                </div>
+
+                                <div class="tabs" style="margin-top: 2rem;">
+                                    <div class="tabs-list tabs-boxed">
+                                        <button class="tab active">Code</button>
+                                        <button class="tab">Preview</button>
+                                        <button class="tab">Console</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-markup">&lt;!-- Default Tabs --&gt;
+&lt;div class="tabs"&gt;
+    &lt;div class="tabs-list"&gt;
+        &lt;button class="tab active"&gt;Home&lt;/button&gt;
+        &lt;button class="tab"&gt;Profile&lt;/button&gt;
+        &lt;button class="tab"&gt;Settings&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class="tabs-panels"&gt;
+        &lt;div class="tab-panel active"&gt;Content here&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Pills Style --&gt;
+&lt;div class="tabs"&gt;
+    &lt;div class="tabs-list tabs-pills"&gt;
+        &lt;button class="tab active"&gt;Dashboard&lt;/button&gt;
+        &lt;button class="tab"&gt;Analytics&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Boxed Style --&gt;
+&lt;div class="tabs"&gt;
+    &lt;div class="tabs-list tabs-boxed"&gt;
+        &lt;button class="tab active"&gt;Code&lt;/button&gt;
+        &lt;button class="tab"&gt;Preview&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Landscape Background Section -->
+                <section class="ds-section" id="landscape">
+                    <h2 class="ds-section-title">Landscape Background</h2>
+                    <p class="ds-section-description">
+                        Background patterns and textures for creating visual depth.
+                    </p>
+
+                    <div class="component-showcase">
+                        <div class="component-content" id="bg-patterns">
+                            <!-- Preview Area (Full Width) -->
+                            <div class="component-preview" style="margin-bottom: 1rem;">
+                                <div id="landscape-display" style="height: 300px; width: 100%; position: relative; overflow: hidden; background: var(--theme-bg); border-radius: var(--border-radius); border: 1px solid var(--theme-border);">
+                                    <!-- Default: Wave -->
+                                    <div class="b-landscape b-landscape-wave" id="landscape-container" style="position: absolute; height: 100%;"></div>
+                                    <span id="landscape-label" style="position: relative; z-index: 10; color: var(--theme-text-secondary); font-size: 0.875rem; font-weight: 600; display: flex; align-items: center; justify-content: center; height: 100%; text-transform: uppercase; letter-spacing: 2px;">Wave</span>
+                                </div>
+                            </div>
+
+                            <!-- Landscape Selection Buttons -->
+                            <div style="display: flex; gap: 0.75rem; justify-content: center; margin-bottom: 1rem; flex-wrap: wrap;">
+                                <button class="btn btn-small landscape-btn active" data-landscape="wave">Wave</button>
+                                <button class="btn btn-small landscape-btn" data-landscape="mountain">Mountain</button>
+                                <button class="btn btn-small landscape-btn" data-landscape="forest">Forest</button>
+                                <button class="btn btn-small landscape-btn" data-landscape="desert">Desert</button>
+                                <button class="btn btn-small landscape-btn" data-landscape="showcase">Showcase</button>
+                            </div>
+
+                            <!-- Landscape Mode Toggle -->
+                            <div style="display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1.5rem;">
+                                <button class="btn btn-small landscape-mode-btn active" data-mode="monochrome">Monochrome</button>
+                                <button class="btn btn-small landscape-mode-btn" data-mode="colored">Colored</button>
+                            </div>
+
+                            <!-- Toggle Buttons -->
+                            <div style="display: flex; gap: 0.5rem; justify-content: center; margin-bottom: 1rem;">
+                                <button class="toggle-btn active" data-target="bg-patterns">Preview</button>
+                                <button class="toggle-btn" data-target="bg-patterns">Code</button>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-html">&lt;!-- Wave Landscape --&gt;
+&lt;div class="b-landscape b-landscape-wave"&gt;&lt;/div&gt;
+
+&lt;!-- Mountain Landscape --&gt;
+&lt;div class="b-landscape b-landscape-mountain"&gt;&lt;/div&gt;
+
+&lt;!-- Forest Landscape --&gt;
+&lt;div class="b-landscape b-landscape-forest"&gt;&lt;/div&gt;
+
+&lt;!-- Desert Landscape --&gt;
+&lt;div class="b-landscape b-landscape-desert"&gt;&lt;/div&gt;</code></pre>
+
+<pre><code class="language-css">/* Base Landscape */
+.b-landscape {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 320px;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* Wave - Animated flowing waves */
+.b-landscape-wave .wave-layer {
+    animation: wave 8s ease-in-out infinite;
+}
+
+/* Mountain - Parallax mountain ranges */
+.b-landscape-mountain .mountain-layer {
+    animation: parallax-mountain 20s ease-in-out infinite;
+}
+
+/* Forest - Swaying trees */
+.b-landscape-forest .tree {
+    animation: tree-sway 4s ease-in-out infinite;
+}
+
+/* Desert - Shifting sand dunes */
+.b-landscape-desert .dune {
+    animation: dune-shift 30s ease-in-out infinite;
+}</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 <!-- Buttons Section -->
                 <section class="ds-section" id="buttons">
                     <h2 class="ds-section-title">Buttons</h2>
@@ -955,6 +1462,367 @@ document.body.appendChild(btn2);</code></pre>
                                     </h4>
                                     <pre><code>$('.btn').addClass('btn-small');
 $('.btn').addClass('btn-large');</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Icon Buttons Section -->
+                <section class="ds-section" id="icon-buttons">
+                    <h2 class="ds-section-title">Icon Buttons</h2>
+                    <p class="ds-section-description">
+                        Icon-only buttons with multiple variants, sizes, and states for intuitive actions.
+                    </p>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Icon Options</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="icon-options"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="icon-options"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="icon-options">
+                            <div class="component-preview">
+                                <div class="icon-btn-group">
+                                    <button class="icon-btn" title="Warm Theme">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+                                        </svg>
+                                    </button>
+                                    <button class="icon-btn" title="Cold Theme">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <line x1="2" x2="22" y1="12" y2="12"/>
+                                            <line x1="12" x2="12" y1="2" y2="22"/>
+                                            <path d="m20 16-4-4 4-4"/>
+                                            <path d="m4 8 4 4-4 4"/>
+                                            <path d="m16 4-4 4-4-4"/>
+                                            <path d="m8 20 4-4 4 4"/>
+                                        </svg>
+                                    </button>
+                                    <button class="icon-btn active" title="Light Mode">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="4"/>
+                                            <path d="M12 2v2"/><path d="M12 20v2"/>
+                                            <path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/>
+                                            <path d="M2 12h2"/><path d="M20 12h2"/>
+                                            <path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+                                        </svg>
+                                    </button>
+                                    <button class="icon-btn" title="Dark Mode">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-html">&lt;!-- Flame, Snowflake, Sun, Moon icons --&gt;
+&lt;div class="icon-btn-group"&gt;
+  &lt;button class="icon-btn" title="Warm Theme"&gt;
+    &lt;svg&gt;...flame...&lt;/svg&gt;
+  &lt;/button&gt;
+  &lt;button class="icon-btn" title="Cold Theme"&gt;
+    &lt;svg&gt;...snowflake...&lt;/svg&gt;
+  &lt;/button&gt;
+  &lt;button class="icon-btn active" title="Light Mode"&gt;
+    &lt;svg&gt;...sun...&lt;/svg&gt;
+  &lt;/button&gt;
+  &lt;button class="icon-btn" title="Dark Mode"&gt;
+    &lt;svg&gt;...moon...&lt;/svg&gt;
+  &lt;/button&gt;
+&lt;/div&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Variants</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="icon-btn-variants"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="icon-btn-variants"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="icon-btn-variants">
+                            <div class="component-preview">
+                                <button class="icon-btn" title="Default">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="4"/>
+                                        <path d="M12 2v2"/><path d="M12 20v2"/>
+                                        <path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/>
+                                        <path d="M2 12h2"/><path d="M20 12h2"/>
+                                        <path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+                                    </svg>
+                                </button>
+                                <button class="icon-btn icon-btn-primary" title="Primary">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="4"/>
+                                        <path d="M12 2v2"/><path d="M12 20v2"/>
+                                        <path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/>
+                                        <path d="M2 12h2"/><path d="M20 12h2"/>
+                                        <path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+                                    </svg>
+                                </button>
+                                <button class="icon-btn icon-btn-ghost" title="Ghost">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="4"/>
+                                        <path d="M12 2v2"/><path d="M12 20v2"/>
+                                        <path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/>
+                                        <path d="M2 12h2"/><path d="M20 12h2"/>
+                                        <path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+                                    </svg>
+                                </button>
+                                <button class="icon-btn icon-btn-outline" title="Outline">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="4"/>
+                                        <path d="M12 2v2"/><path d="M12 20v2"/>
+                                        <path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/>
+                                        <path d="M2 12h2"/><path d="M20 12h2"/>
+                                        <path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="component-code">
+                                <div style="padding: 2rem">
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">HTML/CSS</h4>
+                                    <pre style="margin-bottom: 2rem"><code>&lt;button class="icon-btn"&gt;...&lt;/button&gt;
+&lt;button class="icon-btn icon-btn-primary"&gt;...&lt;/button&gt;
+&lt;button class="icon-btn icon-btn-ghost"&gt;...&lt;/button&gt;
+&lt;button class="icon-btn icon-btn-outline"&gt;...&lt;/button&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">React</h4>
+                                    <pre style="margin-bottom: 2rem"><code>import { IconButton } from '@monochrome-edge/react';
+
+&lt;IconButton icon="sun" variant="default" /&gt;
+&lt;IconButton icon="sun" variant="primary" /&gt;
+&lt;IconButton icon="sun" variant="ghost" /&gt;
+&lt;IconButton icon="sun" variant="outline" /&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vue.js</h4>
+                                    <pre style="margin-bottom: 2rem"><code>&lt;template&gt;
+  &lt;IconButton icon="sun" variant="default" /&gt;
+  &lt;IconButton icon="sun" variant="primary" /&gt;
+  &lt;IconButton icon="sun" variant="ghost" /&gt;
+  &lt;IconButton icon="sun" variant="outline" /&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { IconButton } from '@monochrome-edge/vue';
+&lt;/script&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Web Components</h4>
+                                    <pre style="margin-bottom: 2rem"><code>&lt;monochrome-icon-button icon="sun" variant="default"&gt;&lt;/monochrome-icon-button&gt;
+&lt;monochrome-icon-button icon="sun" variant="primary"&gt;&lt;/monochrome-icon-button&gt;
+&lt;monochrome-icon-button icon="sun" variant="ghost"&gt;&lt;/monochrome-icon-button&gt;
+&lt;monochrome-icon-button icon="sun" variant="outline"&gt;&lt;/monochrome-icon-button&gt;
+
+&lt;script type="module"&gt;
+  import '@monochrome-edge/web-components';
+&lt;/script&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">jQuery</h4>
+                                    <pre style="margin-bottom: 2rem"><code>const btn1 = $.createIconButton({ icon: 'sun', variant: 'default' });
+const btn2 = $.createIconButton({ icon: 'sun', variant: 'primary' });
+const btn3 = $.createIconButton({ icon: 'sun', variant: 'ghost' });
+const btn4 = $.createIconButton({ icon: 'sun', variant: 'outline' });</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vanilla JavaScript</h4>
+                                    <pre><code>import { createIconButton } from '@monochrome-edge/vanilla-ts';
+
+const btn1 = createIconButton({ icon: 'sun', variant: 'default' });
+const btn2 = createIconButton({ icon: 'sun', variant: 'primary' });
+const btn3 = createIconButton({ icon: 'sun', variant: 'ghost' });
+const btn4 = createIconButton({ icon: 'sun', variant: 'outline' });</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Sizes</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="icon-btn-sizes"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="icon-btn-sizes"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="icon-btn-sizes">
+                            <div class="component-preview">
+                                <button class="icon-btn icon-btn-sm" title="Small">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="4"/>
+                                        <path d="M12 2v2"/><path d="M12 20v2"/>
+                                        <path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/>
+                                        <path d="M2 12h2"/><path d="M20 12h2"/>
+                                        <path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+                                    </svg>
+                                </button>
+                                <button class="icon-btn icon-btn-md" title="Medium">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="4"/>
+                                        <path d="M12 2v2"/><path d="M12 20v2"/>
+                                        <path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/>
+                                        <path d="M2 12h2"/><path d="M20 12h2"/>
+                                        <path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+                                    </svg>
+                                </button>
+                                <button class="icon-btn icon-btn-lg" title="Large">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="4"/>
+                                        <path d="M12 2v2"/><path d="M12 20v2"/>
+                                        <path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/>
+                                        <path d="M2 12h2"/><path d="M20 12h2"/>
+                                        <path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+                                    </svg>
+                                </button>
+                                <button class="icon-btn icon-btn-xl" title="Extra Large">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="4"/>
+                                        <path d="M12 2v2"/><path d="M12 20v2"/>
+                                        <path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/>
+                                        <path d="M2 12h2"/><path d="M20 12h2"/>
+                                        <path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="component-code">
+                                <div style="padding: 2rem">
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">HTML/CSS</h4>
+                                    <pre style="margin-bottom: 2rem"><code>&lt;button class="icon-btn icon-btn-sm"&gt;...&lt;/button&gt;
+&lt;button class="icon-btn icon-btn-md"&gt;...&lt;/button&gt;
+&lt;button class="icon-btn icon-btn-lg"&gt;...&lt;/button&gt;
+&lt;button class="icon-btn icon-btn-xl"&gt;...&lt;/button&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">React</h4>
+                                    <pre style="margin-bottom: 2rem"><code>&lt;IconButton icon="sun" size="sm" /&gt;
+&lt;IconButton icon="sun" size="md" /&gt;
+&lt;IconButton icon="sun" size="lg" /&gt;
+&lt;IconButton icon="sun" size="xl" /&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vue.js</h4>
+                                    <pre style="margin-bottom: 2rem"><code>&lt;IconButton icon="sun" size="sm" /&gt;
+&lt;IconButton icon="sun" size="md" /&gt;
+&lt;IconButton icon="sun" size="lg" /&gt;
+&lt;IconButton icon="sun" size="xl" /&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">jQuery</h4>
+                                    <pre><code>$.createIconButton({ icon: 'sun', size: 'sm' });
+$.createIconButton({ icon: 'sun', size: 'md' });
+$.createIconButton({ icon: 'sun', size: 'lg' });
+$.createIconButton({ icon: 'sun', size: 'xl' });</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">States</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="icon-btn-states"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="icon-btn-states"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="icon-btn-states">
+                            <div class="component-preview">
+                                <button class="icon-btn" title="Default">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="4"/>
+                                        <path d="M12 2v2"/><path d="M12 20v2"/>
+                                        <path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/>
+                                        <path d="M2 12h2"/><path d="M20 12h2"/>
+                                        <path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+                                    </svg>
+                                </button>
+                                <button class="icon-btn active" title="Active">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="4"/>
+                                        <path d="M12 2v2"/><path d="M12 20v2"/>
+                                        <path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/>
+                                        <path d="M2 12h2"/><path d="M20 12h2"/>
+                                        <path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+                                    </svg>
+                                </button>
+                                <button class="icon-btn" disabled title="Disabled">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="4"/>
+                                        <path d="M12 2v2"/><path d="M12 20v2"/>
+                                        <path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/>
+                                        <path d="M2 12h2"/><path d="M20 12h2"/>
+                                        <path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+                                    </svg>
+                                </button>
+                                <button class="icon-btn loading" title="Loading">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="4"/>
+                                        <path d="M12 2v2"/><path d="M12 20v2"/>
+                                        <path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/>
+                                        <path d="M2 12h2"/><path d="M20 12h2"/>
+                                        <path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <div class="component-code">
+                                <div style="padding: 2rem">
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">HTML/CSS</h4>
+                                    <pre style="margin-bottom: 2rem"><code>&lt;button class="icon-btn"&gt;...&lt;/button&gt;
+&lt;button class="icon-btn active"&gt;...&lt;/button&gt;
+&lt;button class="icon-btn" disabled&gt;...&lt;/button&gt;
+&lt;button class="icon-btn loading"&gt;...&lt;/button&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">React</h4>
+                                    <pre style="margin-bottom: 2rem"><code>&lt;IconButton icon="sun" /&gt;
+&lt;IconButton icon="sun" active /&gt;
+&lt;IconButton icon="sun" disabled /&gt;
+&lt;IconButton icon="sun" loading /&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vue.js</h4>
+                                    <pre><code>&lt;IconButton icon="sun" /&gt;
+&lt;IconButton icon="sun" :active="true" /&gt;
+&lt;IconButton icon="sun" :disabled="true" /&gt;
+&lt;IconButton icon="sun" :loading="true" /&gt;</code></pre>
                                 </div>
                             </div>
                         </div>
@@ -1419,130 +2287,264 @@ document.body.appendChild(card);</code></pre>
                         Navigation components for menus and navigation bars.
                     </p>
 
+                    <!-- Header Navigation -->
+                        <div class="component-showcase">
+                            <div class="component-header">
+                                <h3 class="component-title">Header Navigation</h3>
+                                <div class="component-toggle">
+                                    <button class="toggle-btn active" data-target="header-nav">
+                                        Preview
+                                    </button>
+                                    <button class="toggle-btn" data-target="header-nav">
+                                        Code
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="component-content" id="header-nav">
+                                <div class="component-preview" style="align-items: flex-start; overflow-x: auto;">
+                                    <header class="main-header" style="position: relative; border-radius: var(--border-radius); width: 100%;">
+                                        <div class="header-container" style="gap: 2rem; min-width: fit-content;">
+                                            <div class="header-logo">
+                                                <svg width="32" height="32" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                                                    <line class="logo-slash-line" x1="10" y1="35" x2="30" y2="5" stroke="#78716c" stroke-width="3" stroke-linecap="square"/>
+                                                    <line class="logo-slash-line" x1="18" y1="35" x2="38" y2="5" stroke="#78716c" stroke-width="3" stroke-linecap="square"/>
+                                                </svg>
+                                                <span class="header-title">MONOCHROME EDGE</span>
+                                            </div>
+                                            <nav class="header-nav" style="flex: 1;">
+                                                <a href="#" class="header-nav-item">Overview</a>
+                                                <a href="#" class="header-nav-item">Components</a>
+                                                <a href="#" class="header-nav-item">Examples</a>
+                                                <a href="#" class="header-nav-item">GitHub</a>
+                                            </nav>
+                                            <div style="display: flex; gap: 1.5rem; align-items: center;">
+                                                <!-- Theme Buttons -->
+                                                <div class="icon-btn-group">
+                                                    <button class="icon-btn theme-btn active" data-theme="warm" title="Warm Theme">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+                                                        </svg>
+                                                    </button>
+                                                    <button class="icon-btn theme-btn" data-theme="cold" title="Cold Theme">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                            <line x1="2" x2="22" y1="12" y2="12"/>
+                                                            <line x1="12" x2="12" y1="2" y2="22"/>
+                                                            <path d="m20 16-4-4 4-4"/>
+                                                            <path d="m4 8 4 4-4 4"/>
+                                                            <path d="m16 4-4 4-4-4"/>
+                                                            <path d="m8 20 4-4 4 4"/>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                                <!-- Mode Buttons -->
+                                                <div class="icon-btn-group">
+                                                    <button class="icon-btn mode-btn active" data-mode="light" title="Light Mode">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                            <circle cx="12" cy="12" r="4"/>
+                                                            <path d="M12 2v2"/><path d="M12 20v2"/>
+                                                            <path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/>
+                                                            <path d="M2 12h2"/><path d="M20 12h2"/>
+                                                            <path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+                                                        </svg>
+                                                    </button>
+                                                    <button class="icon-btn mode-btn" data-mode="dark" title="Dark Mode">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </header>
+                                </div>
+                                <div class="component-code">
+                                    <pre><code class="language-markup">&lt;header class="main-header"&gt;
+    &lt;div class="header-container"&gt;
+        &lt;!-- Brand Logo --&gt;
+        &lt;div class="header-logo"&gt;
+            &lt;img src="logo-symbol.svg" alt="Logo" width="32" height="32"&gt;
+            &lt;span class="header-title"&gt;MONOCHROME EDGE&lt;/span&gt;
+        &lt;/div&gt;
+
+        &lt;!-- Navigation --&gt;
+        &lt;nav class="header-nav"&gt;
+            &lt;a href="#" class="header-nav-item"&gt;Overview&lt;/a&gt;
+            &lt;a href="#" class="header-nav-item"&gt;Components&lt;/a&gt;
+            &lt;a href="#" class="header-nav-item"&gt;Examples&lt;/a&gt;
+            &lt;a href="#" class="header-nav-item"&gt;GitHub&lt;/a&gt;
+        &lt;/nav&gt;
+
+        &lt;!-- Theme and Mode Controls --&gt;
+        &lt;div class="header-controls"&gt;
+            &lt;!-- Theme Switcher --&gt;
+            &lt;div class="icon-btn-group"&gt;
+                &lt;button class="icon-btn theme-btn active" data-theme="warm"&gt;
+                    &lt;svg&gt;...flame icon...&lt;/svg&gt;
+                &lt;/button&gt;
+                &lt;button class="icon-btn theme-btn" data-theme="cold"&gt;
+                    &lt;svg&gt;...snowflake icon...&lt;/svg&gt;
+                &lt;/button&gt;
+            &lt;/div&gt;
+
+            &lt;!-- Mode Switcher --&gt;
+            &lt;div class="icon-btn-group"&gt;
+                &lt;button class="icon-btn mode-btn active" data-mode="light"&gt;
+                    &lt;svg&gt;...sun icon...&lt;/svg&gt;
+                &lt;/button&gt;
+                &lt;button class="icon-btn mode-btn" data-mode="dark"&gt;
+                    &lt;svg&gt;...moon icon...&lt;/svg&gt;
+                &lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/header&gt;</code></pre>
+                                </div>
+                            </div>
+                        </div>
+
+                    <!-- Sidebar Navigation -->
                     <div class="component-showcase">
-                        <div class="component-header">
-                            <h3 class="component-title">Navigation Items</h3>
-                            <div class="component-toggle">
-                                <button
-                                    class="toggle-btn active"
-                                    data-target="nav-items"
-                                >
-                                    Preview
-                                </button>
-                                <button
-                                    class="toggle-btn"
-                                    data-target="nav-items"
-                                >
-                                    Code
-                                </button>
-                            </div>
-                        </div>
-                        <div class="component-content" id="nav-items">
-                            <div
-                                class="component-preview"
-                                style="align-items: flex-start"
-                            >
-                                <div
-                                    style="
-                                        width: 250px;
-                                        background: var(--theme-bg);
-                                        border-radius: var(--border-radius);
-                                        padding: 0.5rem;
-                                    "
-                                >
-                                    <a class="nav-item demo-nav-item">
-                                        <span class="nav-item-label"
-                                            >Dashboard</span
-                                        >
-                                    </a>
-                                    <a class="nav-item is-active demo-nav-item">
-                                        <span class="nav-item-label"
-                                            >Projects</span
-                                        >
-                                        <span class="nav-item-badge">3</span>
-                                    </a>
-                                    <a class="nav-item demo-nav-item">
-                                        <span class="nav-item-label"
-                                            >Settings</span
-                                        >
-                                    </a>
+                            <div class="component-header">
+                                <h3 class="component-title">Sidebar Navigation</h3>
+                                <div class="component-toggle">
+                                    <button class="toggle-btn active" data-target="sidebar-nav">
+                                        Preview
+                                    </button>
+                                    <button class="toggle-btn" data-target="sidebar-nav">
+                                        Code
+                                    </button>
                                 </div>
                             </div>
-                            <div class="component-code">
-                                <div style="padding: 2rem">
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        HTML/CSS
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>&lt;nav class="nav"&gt;
-    &lt;a class="nav-item"&gt;
-        &lt;span class="nav-item-label"&gt;Dashboard&lt;/span&gt;
-    &lt;/a&gt;
-    &lt;a class="nav-item is-active"&gt;
-        &lt;span class="nav-item-label"&gt;Projects&lt;/span&gt;
-        &lt;span class="nav-item-badge"&gt;3&lt;/span&gt;
-    &lt;/a&gt;
-    &lt;a class="nav-item"&gt;
-        &lt;span class="nav-item-label"&gt;Settings&lt;/span&gt;
-    &lt;/a&gt;
-&lt;/nav&gt;</code></pre>
+                            <div class="component-content" id="sidebar-nav">
+                                <div class="component-preview" style="align-items: flex-start">
+                                    <div style="width: 260px; background: var(--theme-surface); border-radius: var(--border-radius); padding: 1rem; border: 1px solid var(--theme-border); display: flex; flex-direction: column; gap: 1rem;">
+                                        <!-- Brand Logo -->
+                                        <div style="display: flex; align-items: center; gap: 0.75rem; padding-bottom: 1rem; border-bottom: 1px solid var(--theme-border);">
+                                            <svg width="32" height="32" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                                                <line class="logo-slash-line" x1="10" y1="35" x2="30" y2="5" stroke="#78716c" stroke-width="3" stroke-linecap="square"/>
+                                                <line class="logo-slash-line" x1="18" y1="35" x2="38" y2="5" stroke="#78716c" stroke-width="3" stroke-linecap="square"/>
+                                            </svg>
+                                            <span style="font-size: 0.875rem; font-weight: 600; color: var(--theme-text-primary);">MONOCHROME EDGE</span>
+                                        </div>
 
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        React
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>import { Nav, NavItem } from '@monochrome-edge/ui/react';
+                                        <!-- Theme & Mode Controls -->
+                                        <div style="padding-bottom: 1rem; border-bottom: 1px solid var(--theme-border); display: flex; flex-direction: column; gap: 1rem;">
+                                            <!-- Theme Buttons -->
+                                            <div>
+                                                <label style="font-size: 0.75rem; color: var(--theme-text-secondary); display: block; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px;">Theme</label>
+                                                <div class="icon-btn-group">
+                                                    <button class="icon-btn theme-btn active" data-theme="warm" title="Warm Theme">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+                                                        </svg>
+                                                    </button>
+                                                    <button class="icon-btn theme-btn" data-theme="cold" title="Cold Theme">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                            <line x1="2" x2="22" y1="12" y2="12"/>
+                                                            <line x1="12" x2="12" y1="2" y2="22"/>
+                                                            <path d="m20 16-4-4 4-4"/>
+                                                            <path d="m4 8 4 4-4 4"/>
+                                                            <path d="m16 4-4 4-4-4"/>
+                                                            <path d="m8 20 4-4 4 4"/>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <!-- Mode Buttons -->
+                                            <div>
+                                                <label style="font-size: 0.75rem; color: var(--theme-text-secondary); display: block; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.5px;">Mode</label>
+                                                <div class="icon-btn-group">
+                                                    <button class="icon-btn mode-btn active" data-mode="light" title="Light Mode">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                            <circle cx="12" cy="12" r="4"/>
+                                                            <path d="M12 2v2"/>
+                                                            <path d="M12 20v2"/>
+                                                            <path d="m4.93 4.93 1.41 1.41"/>
+                                                            <path d="m17.66 17.66 1.41 1.41"/>
+                                                            <path d="M2 12h2"/>
+                                                            <path d="M20 12h2"/>
+                                                            <path d="m6.34 17.66-1.41 1.41"/>
+                                                            <path d="m19.07 4.93-1.41 1.41"/>
+                                                        </svg>
+                                                    </button>
+                                                    <button class="icon-btn mode-btn" data-mode="dark" title="Dark Mode">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
 
-&lt;Nav&gt;
-    &lt;NavItem label="Dashboard" /&gt;
-    &lt;NavItem label="Projects" active badge={3} /&gt;
-    &lt;NavItem label="Settings" /&gt;
-&lt;/Nav&gt;</code></pre>
+                                        <!-- Navigation Items -->
+                                        <nav style="display: flex; flex-direction: column; gap: 0.25rem;">
+                                            <a class="nav-item">
+                                                <span class="nav-item-label">Dashboard</span>
+                                            </a>
+                                            <a class="nav-item is-active">
+                                                <span class="nav-item-label">Projects</span>
+                                                <span class="nav-item-badge">3</span>
+                                            </a>
+                                            <a class="nav-item">
+                                                <span class="nav-item-label">Settings</span>
+                                            </a>
+                                        </nav>
+                                    </div>
+                                </div>
+                                <div class="component-code">
+                                    <pre><code class="language-markup">&lt;!-- Sidebar Navigation with Brand &amp; Controls --&gt;
+&lt;aside class="sidebar"&gt;
+    &lt;!-- Brand Logo --&gt;
+    &lt;div class="sidebar-brand"&gt;
+        &lt;img src="logo.svg" alt="Brand" width="32" height="32"&gt;
+        &lt;span&gt;BRAND&lt;/span&gt;
+    &lt;/div&gt;
 
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        Vue.js
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>&lt;Nav&gt;
-    &lt;NavItem label="Dashboard" /&gt;
-    &lt;NavItem label="Projects" :active="true" :badge="3" /&gt;
-    &lt;NavItem label="Settings" /&gt;
-&lt;/Nav&gt;</code></pre>
+    &lt;!-- Navigation --&gt;
+    &lt;nav class="sidebar-nav"&gt;
+        &lt;a class="nav-item"&gt;
+            &lt;span class="nav-item-label"&gt;Dashboard&lt;/span&gt;
+        &lt;/a&gt;
+        &lt;a class="nav-item is-active"&gt;
+            &lt;span class="nav-item-label"&gt;Projects&lt;/span&gt;
+            &lt;span class="nav-item-badge"&gt;3&lt;/span&gt;
+        &lt;/a&gt;
+        &lt;a class="nav-item"&gt;
+            &lt;span class="nav-item-label"&gt;Settings&lt;/span&gt;
+        &lt;/a&gt;
+    &lt;/nav&gt;
 
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        jQuery
-                                    </h4>
-                                    <pre><code>$('.nav-item').on('click', function() {
-    $('.nav-item').removeClass('is-active');
-    $(this).addClass('is-active');
-});</code></pre>
+    &lt;!-- Theme &amp; Mode Controls --&gt;
+    &lt;div class="sidebar-controls"&gt;
+        &lt;!-- Theme Buttons --&gt;
+        &lt;div&gt;
+            &lt;label&gt;Theme&lt;/label&gt;
+            &lt;div class="icon-btn-group"&gt;
+                &lt;button class="icon-btn theme-btn active" data-theme="warm"&gt;
+                    &lt;svg&gt;...flame icon...&lt;/svg&gt;
+                &lt;/button&gt;
+                &lt;button class="icon-btn theme-btn" data-theme="cold"&gt;
+                    &lt;svg&gt;...snowflake icon...&lt;/svg&gt;
+                &lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;!-- Mode Buttons --&gt;
+        &lt;div&gt;
+            &lt;label&gt;Mode&lt;/label&gt;
+            &lt;div class="icon-btn-group"&gt;
+                &lt;button class="icon-btn mode-btn active" data-mode="light"&gt;
+                    &lt;svg&gt;...sun icon...&lt;/svg&gt;
+                &lt;/button&gt;
+                &lt;button class="icon-btn mode-btn" data-mode="dark"&gt;
+                    &lt;svg&gt;...moon icon...&lt;/svg&gt;
+                &lt;/button&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/aside&gt;</code></pre>
                                 </div>
                             </div>
                         </div>
-                    </div>
                 </section>
 
                 <!-- Modals Section -->
@@ -2232,6 +3234,304 @@ $(window).on('resize', function() {
     }
 });</code></pre>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Timeline Section -->
+                <section class="ds-section" id="timeline">
+                    <h2 class="ds-section-title">Timeline</h2>
+                    <p class="ds-section-description">
+                        Chronological display of events and milestones with various styles.
+                    </p>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Timeline Variants</h3>
+                            <div class="component-toggle">
+                                <button class="toggle-btn active" data-target="timeline-variants">
+                                    Preview
+                                </button>
+                                <button class="toggle-btn" data-target="timeline-variants">
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="timeline-variants">
+                            <div class="component-preview">
+                                <div class="timeline">
+                                    <div class="timeline-item">
+                                        <div class="timeline-marker timeline-marker-dot">
+                                            <div class="timeline-dot"></div>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <span class="timeline-time">2 hours ago</span>
+                                            <h4 class="timeline-title">Project Created</h4>
+                                            <p class="timeline-description">New project "Monochrome Edge" has been initialized with base configuration.</p>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item timeline-success">
+                                        <div class="timeline-marker timeline-marker-dot">
+                                            <div class="timeline-dot"></div>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <span class="timeline-time">1 hour ago</span>
+                                            <h4 class="timeline-title">Build Successful</h4>
+                                            <p class="timeline-description">Production build completed successfully with no errors.</p>
+                                        </div>
+                                    </div>
+                                    <div class="timeline-item timeline-info">
+                                        <div class="timeline-marker timeline-marker-dot">
+                                            <div class="timeline-dot"></div>
+                                        </div>
+                                        <div class="timeline-content">
+                                            <span class="timeline-time">30 minutes ago</span>
+                                            <h4 class="timeline-title">Deployment Started</h4>
+                                            <p class="timeline-description">Application deployment to production environment initiated.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-markup">&lt;div class="timeline"&gt;
+    &lt;div class="timeline-item"&gt;
+        &lt;div class="timeline-marker timeline-marker-dot"&gt;
+            &lt;div class="timeline-dot"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="timeline-content"&gt;
+            &lt;span class="timeline-time"&gt;2 hours ago&lt;/span&gt;
+            &lt;h4 class="timeline-title"&gt;Project Created&lt;/h4&gt;
+            &lt;p class="timeline-description"&gt;New project initialized.&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div class="timeline-item timeline-success"&gt;
+        &lt;div class="timeline-marker timeline-marker-dot"&gt;
+            &lt;div class="timeline-dot"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="timeline-content"&gt;
+            &lt;span class="timeline-time"&gt;1 hour ago&lt;/span&gt;
+            &lt;h4 class="timeline-title"&gt;Build Successful&lt;/h4&gt;
+            &lt;p class="timeline-description"&gt;Build completed.&lt;/p&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Accordion Section -->
+                <section class="ds-section" id="accordion">
+                    <h2 class="ds-section-title">Accordion</h2>
+                    <p class="ds-section-description">
+                        Expandable content panels for organizing information hierarchically.
+                    </p>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Accordion Types</h3>
+                            <div class="component-toggle">
+                                <button class="toggle-btn active" data-target="accordion-types">
+                                    Preview
+                                </button>
+                                <button class="toggle-btn" data-target="accordion-types">
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="accordion-types">
+                            <div class="component-preview">
+                                <div class="accordion">
+                                    <div class="accordion-item">
+                                        <div class="accordion-header">
+                                            <button class="accordion-button active">
+                                                <span>What is Monochrome Edge?</span>
+                                                <span class="accordion-icon">▼</span>
+                                            </button>
+                                        </div>
+                                        <div class="accordion-collapse show">
+                                            <div class="accordion-body">
+                                                Monochrome Edge is a minimalist UI component library designed for modern web applications with a focus on clean aesthetics and usability.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <div class="accordion-header">
+                                            <button class="accordion-button">
+                                                <span>How do I get started?</span>
+                                                <span class="accordion-icon">▼</span>
+                                            </button>
+                                        </div>
+                                        <div class="accordion-collapse">
+                                            <div class="accordion-body">
+                                                Simply import the CSS file and start using the components in your HTML. Check the documentation for detailed examples.
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion-item">
+                                        <div class="accordion-header">
+                                            <button class="accordion-button">
+                                                <span>Is it responsive?</span>
+                                                <span class="accordion-icon">▼</span>
+                                            </button>
+                                        </div>
+                                        <div class="accordion-collapse">
+                                            <div class="accordion-body">
+                                                Yes, all components are fully responsive and work seamlessly across desktop, tablet, and mobile devices.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-markup">&lt;div class="accordion"&gt;
+    &lt;div class="accordion-item"&gt;
+        &lt;div class="accordion-header"&gt;
+            &lt;button class="accordion-button"&gt;
+                &lt;span&gt;Question Title&lt;/span&gt;
+                &lt;span class="accordion-icon"&gt;▼&lt;/span&gt;
+            &lt;/button&gt;
+        &lt;/div&gt;
+        &lt;div class="accordion-collapse"&gt;
+            &lt;div class="accordion-body"&gt;
+                Answer content goes here.
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+// Toggle accordion
+$('.accordion-button').on('click', function() {
+    $(this).toggleClass('active');
+    $(this).closest('.accordion-item')
+        .find('.accordion-collapse')
+        .toggleClass('show');
+});
+&lt;/script&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Callout Section -->
+                <section class="ds-section" id="callout">
+                    <h2 class="ds-section-title">Callout</h2>
+                    <p class="ds-section-description">
+                        Alert and notification components with semantic color variants.
+                    </p>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Callout Variants</h3>
+                            <div class="component-toggle">
+                                <button class="toggle-btn active" data-target="callout-variants">
+                                    Preview
+                                </button>
+                                <button class="toggle-btn" data-target="callout-variants">
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="callout-variants">
+                            <div class="component-preview">
+                                <div class="callout callout-info">
+                                    <div class="callout-icon">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                            <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M8 4V8M8 10V12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        </svg>
+                                    </div>
+                                    <div class="callout-content">
+                                        <div class="callout-title">Info</div>
+                                        <p>This is an informational callout with important details about the feature.</p>
+                                    </div>
+                                </div>
+
+                                <div class="callout callout-success">
+                                    <div class="callout-icon">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                            <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M5 8L7 10L11 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                        </svg>
+                                    </div>
+                                    <div class="callout-content">
+                                        <div class="callout-title">Success</div>
+                                        <p>Your changes have been saved successfully!</p>
+                                    </div>
+                                </div>
+
+                                <div class="callout callout-warning">
+                                    <div class="callout-icon">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                            <path d="M8 2L14 14H2L8 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                                            <path d="M8 6V9M8 11V11.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        </svg>
+                                    </div>
+                                    <div class="callout-content">
+                                        <div class="callout-title">Warning</div>
+                                        <p>Please review your settings before proceeding.</p>
+                                    </div>
+                                </div>
+
+                                <div class="callout callout-error">
+                                    <div class="callout-icon">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                                            <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="2"/>
+                                            <path d="M6 6L10 10M10 6L6 10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                                        </svg>
+                                    </div>
+                                    <div class="callout-content">
+                                        <div class="callout-title">Error</div>
+                                        <p>An error occurred while processing your request.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-markup">&lt;!-- Info Callout --&gt;
+&lt;div class="callout callout-info"&gt;
+    &lt;div class="callout-icon"&gt;
+        &lt;!-- Icon SVG --&gt;
+    &lt;/div&gt;
+    &lt;div class="callout-content"&gt;
+        &lt;div class="callout-title"&gt;Info&lt;/div&gt;
+        &lt;p&gt;Informational message here.&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Success Callout --&gt;
+&lt;div class="callout callout-success"&gt;
+    &lt;div class="callout-icon"&gt;
+        &lt;!-- Icon SVG --&gt;
+    &lt;/div&gt;
+    &lt;div class="callout-content"&gt;
+        &lt;div class="callout-title"&gt;Success&lt;/div&gt;
+        &lt;p&gt;Success message here.&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Warning Callout --&gt;
+&lt;div class="callout callout-warning"&gt;
+    &lt;div class="callout-icon"&gt;
+        &lt;!-- Icon SVG --&gt;
+    &lt;/div&gt;
+    &lt;div class="callout-content"&gt;
+        &lt;div class="callout-title"&gt;Warning&lt;/div&gt;
+        &lt;p&gt;Warning message here.&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Error Callout --&gt;
+&lt;div class="callout callout-error"&gt;
+    &lt;div class="callout-icon"&gt;
+        &lt;!-- Icon SVG --&gt;
+    &lt;/div&gt;
+    &lt;div class="callout-content"&gt;
+        &lt;div class="callout-title"&gt;Error&lt;/div&gt;
+        &lt;p&gt;Error message here.&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</code></pre>
                             </div>
                         </div>
                     </div>
@@ -5300,45 +6600,61 @@ export function initializeCustomLibrary() {
             </main>
         </div>
 
-        <!-- Sample Modal -->
-        <div class="modal" id="sampleModal">
-            <div class="modal-backdrop" onclick="hideModal()"></div>
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h3 class="modal-title">Sample Modal</h3>
-                    <button class="modal-close" onclick="hideModal()">×</button>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        This is a sample modal dialog. You can add any content
-                        here.
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-ghost" onclick="hideModal()">
-                        Cancel
-                    </button>
-                    <button class="btn btn-primary" onclick="hideModal()">
-                        Confirm
-                    </button>
-                </div>
-            </div>
-        </div>
-
         <script>
             $(document).ready(function () {
                 // Theme and mode switchers
-                $("#theme-switcher").on("change", function () {
-                    const theme = $(this).val();
-                    console.log("Switching theme variant to:", theme);
+                // Update logo colors based on theme and mode
+                function updateLogoColors() {
+                    const theme = $("html").attr("data-theme-variant") || "warm";
+                    const mode = $("html").attr("data-theme") || "light";
+
+                    let slashColor, textColor;
+
+                    if (theme === "warm") {
+                        slashColor = mode === "light" ? "#8a8784" : "#a8a29e"; // Warm Gray gradient end
+                        textColor = mode === "light" ? "#1c1a18" : "#e7e5e4"; // Warm Gray 900 / 100
+                    } else {
+                        slashColor = mode === "light" ? "#6b7280" : "#9ca3af"; // Cool Gray gradient end
+                        textColor = mode === "light" ? "#18181b" : "#e4e4e7"; // Cool Gray 900 / 100
+                    }
+
+                    // Update all slashes (mobile-header, sidebar primary/secondary, brand assets)
+                    $(".logo-slash-line, .mobile-header line, .ds-logo line, .brand-logo-preview-primary line, .brand-logo-preview-secondary line").attr("stroke", slashColor);
+
+                    // Update all text (sidebar primary, brand assets)
+                    $(".ds-logo text, .brand-logo-preview-primary text").attr("fill", textColor);
+                }
+
+                // Theme button group
+                $(".theme-btn").on("click", function () {
+                    const theme = $(this).data("theme");
                     $("html").attr("data-theme-variant", theme);
-                    loadThemeColors(); // Reload color display
+
+                    // Update active state
+                    $(".theme-btn").removeClass("active");
+                    $(this).addClass("active");
+
+                    // Update color display
+                    loadThemeColors();
+
+                    // Update logo colors
+                    updateLogoColors();
                 });
 
-                $("#mode-switcher").on("change", function () {
-                    const mode = $(this).val();
+                // Mode button group
+                $(".mode-btn").on("click", function () {
+                    const mode = $(this).data("mode");
                     $("html").attr("data-theme", mode);
+
+                    // Update active state
+                    $(".mode-btn").removeClass("active");
+                    $(this).addClass("active");
+
+                    // Update logo colors
+                    updateLogoColors();
                 });
+
+
 
                 // Navigation - only for sidebar nav items
                 $(".ds-nav .nav-item").on("click", function (e) {
@@ -5556,36 +6872,72 @@ export function initializeCustomLibrary() {
                 // Load initial colors
                 loadThemeColors();
 
+                // Load initial logo colors
+                updateLogoColors();
+
                 // Colors are already updated in the theme change handler above
             });
 
-            // Modal functions
-            function showModal() {
-                $("#sampleModal").addClass("is-open");
-            }
-
-            function hideModal() {
-                $("#sampleModal").removeClass("is-open");
-            }
-
             // Sidebar toggle for mobile
             function toggleSidebar() {
-                $(".ds-sidebar").toggleClass("is-open");
-                $(".hamburger").toggleClass("is-active");
+                const isMobile = $(window).width() <= 768;
 
-                // Add overlay when sidebar is open
-                if ($(".ds-sidebar").hasClass("is-open")) {
-                    if (!$(".sidebar-overlay").length) {
-                        $("body").append('<div class="sidebar-overlay"></div>');
+                if (isMobile) {
+                    // Mobile: slide in/out from right
+                    $(".ds-sidebar").toggleClass("is-open");
+                    $(".hamburger").toggleClass("is-active");
+
+                    // Add overlay when sidebar is open
+                    if ($(".ds-sidebar").hasClass("is-open")) {
+                        if (!$(".sidebar-overlay").length) {
+                            $("body").append('<div class="sidebar-overlay"></div>');
+                        }
+                        $(".sidebar-overlay").addClass("is-visible");
+                    } else {
+                        $(".sidebar-overlay").removeClass("is-visible");
+                        setTimeout(() => {
+                            $(".sidebar-overlay").remove();
+                        }, 300);
                     }
-                    $(".sidebar-overlay").addClass("is-visible");
-                } else {
-                    $(".sidebar-overlay").removeClass("is-visible");
-                    setTimeout(() => {
-                        $(".sidebar-overlay").remove();
-                    }, 300);
                 }
             }
+
+            // Sidebar collapse for PC
+            function collapseSidebar() {
+                $(".ds-sidebar").toggleClass("is-collapsed");
+            }
+
+            // Expand sidebar on hover when collapsed (PC only)
+            $(document).ready(function() {
+                let hoverTimer;
+
+                $(".ds-sidebar").on("mouseenter", function() {
+                    if ($(window).width() > 768 && $(this).hasClass("is-collapsed")) {
+                        // Immediate expansion on hover
+                        clearTimeout(hoverTimer);
+                        $(this).removeClass("is-collapsed").addClass("is-temp-expanded");
+                    }
+                });
+
+                $(".ds-sidebar").on("mouseleave", function() {
+                    if ($(this).hasClass("is-temp-expanded")) {
+                        // Delay collapse to prevent flickering
+                        hoverTimer = setTimeout(() => {
+                            if ($(".ds-sidebar").hasClass("is-temp-expanded")) {
+                                $(".ds-sidebar").addClass("is-collapsed").removeClass("is-temp-expanded");
+                            }
+                        }, 300);
+                    }
+                });
+
+                // Keep expanded when nav item is clicked
+                $(".ds-nav .nav-item").on("click", function() {
+                    if ($(".ds-sidebar").hasClass("is-temp-expanded")) {
+                        clearTimeout(hoverTimer);
+                        $(".ds-sidebar").removeClass("is-collapsed is-temp-expanded");
+                    }
+                });
+            });
 
             // Close sidebar when clicking overlay
             $(document).on("click", ".sidebar-overlay", function () {
@@ -5624,6 +6976,184 @@ export function initializeCustomLibrary() {
                     $(".dropdown-panel").removeClass("is-open");
                 }
             });
+
+            // Accordion toggle
+            $(document).on("click", ".accordion-button", function () {
+                const $button = $(this);
+                const $item = $button.closest(".accordion-item");
+                const $collapse = $item.find(".accordion-collapse");
+
+                // Toggle active state
+                $button.toggleClass("active");
+                $collapse.toggleClass("show");
+            });
         </script>
+
+        <script>
+            // Tab functionality
+            document.querySelectorAll('.tabs').forEach(tabsContainer => {
+                const tabs = tabsContainer.querySelectorAll('.tab');
+                const panels = tabsContainer.querySelectorAll('.tab-panel');
+
+                tabs.forEach((tab, index) => {
+                    tab.addEventListener('click', () => {
+                        // Remove active class from all tabs and panels in this container
+                        tabs.forEach(t => t.classList.remove('active'));
+                        panels.forEach(p => p.classList.remove('active'));
+
+                        // Add active class to clicked tab and corresponding panel
+                        tab.classList.add('active');
+                        if (panels[index]) {
+                            panels[index].classList.add('active');
+                        }
+                    });
+                });
+            });
+
+            // Sidebar always shows full logo (primary), mobile-header shows symbol only
+
+            // Modal functions
+            function showModal() {
+                document.getElementById('sampleModal').classList.add('is-open');
+            }
+
+            function hideModal() {
+                document.getElementById('sampleModal').classList.remove('is-open');
+            }
+
+            // Landscape switcher
+            const landscapeSVGs = {
+                wave: 'ui/assets/landscape-wave.svg',
+                mountain: 'ui/assets/landscape-mountain.svg',
+                forest: 'ui/assets/landscape-forest.svg',
+                desert: 'ui/assets/landscape-desert.svg'
+            };
+
+            async function loadLandscape(type) {
+                const container = document.getElementById('landscape-container');
+                const label = document.getElementById('landscape-label');
+
+                if (!container) return;
+
+                try {
+                    const response = await fetch(landscapeSVGs[type]);
+                    const svgText = await response.text();
+
+                    // Update container classes
+                    container.className = `b-landscape b-landscape-${type}`;
+                    container.style.position = 'absolute';
+                    container.style.height = '100%';
+
+                    // Clone SVG 3 times for seamless infinite scroll with absolute pixel width
+                    const wrapper1 = `<div style="position: absolute; width: 5760px; height: 100%; left: 0;">${svgText}</div>`;
+                    const wrapper2 = `<div style="position: absolute; width: 5760px; height: 100%; left: 5760px;">${svgText}</div>`;
+                    const wrapper3 = `<div style="position: absolute; width: 5760px; height: 100%; left: 11520px;">${svgText}</div>`;
+
+                    container.innerHTML = wrapper1 + wrapper2 + wrapper3;
+
+                    // Update label
+                    label.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+                } catch (error) {
+                    console.error('Failed to load landscape:', type, error);
+                }
+            }
+
+            // Load default landscape (wave)
+            loadLandscape('wave');
+
+            // Showcase mode variables
+            let showcaseInterval = null;
+            const showcaseOrder = ['wave', 'mountain', 'forest', 'desert'];
+            let showcaseIndex = 0;
+
+            function startShowcase() {
+                // Random starting point
+                showcaseIndex = Math.floor(Math.random() * showcaseOrder.length);
+
+                // Load first landscape
+                loadLandscape(showcaseOrder[showcaseIndex]);
+
+                // Clear any existing interval
+                if (showcaseInterval) {
+                    clearInterval(showcaseInterval);
+                }
+
+                // Cycle through landscapes every 15 seconds
+                showcaseInterval = setInterval(() => {
+                    showcaseIndex = (showcaseIndex + 1) % showcaseOrder.length;
+                    loadLandscape(showcaseOrder[showcaseIndex]);
+
+                    // Update label
+                    const label = document.getElementById('landscape-label');
+                    if (label) {
+                        label.textContent = showcaseOrder[showcaseIndex].charAt(0).toUpperCase() +
+                                          showcaseOrder[showcaseIndex].slice(1);
+                    }
+                }, 15000);
+            }
+
+            function stopShowcase() {
+                if (showcaseInterval) {
+                    clearInterval(showcaseInterval);
+                    showcaseInterval = null;
+                }
+            }
+
+            document.querySelectorAll('.landscape-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const landscape = this.dataset.landscape;
+
+                    // Update active button
+                    document.querySelectorAll('.landscape-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Check if showcase mode
+                    if (landscape === 'showcase') {
+                        startShowcase();
+                    } else {
+                        stopShowcase();
+                        loadLandscape(landscape);
+                    }
+                });
+            });
+
+            // Landscape mode toggle (monochrome/colored)
+            document.querySelectorAll('.landscape-mode-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const mode = this.dataset.mode;
+                    const container = document.getElementById('landscape-container');
+
+                    // Update active button
+                    document.querySelectorAll('.landscape-mode-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+
+                    // Update landscape mode
+                    if (mode === 'colored') {
+                        container.setAttribute('data-landscape-mode', 'colored');
+                    } else {
+                        container.removeAttribute('data-landscape-mode');
+                    }
+                });
+            });
+        </script>
+
+        <!-- Sample Modal (placed at document root for proper z-index) -->
+        <div id="sampleModal" class="modal">
+            <div class="modal-backdrop" onclick="hideModal()"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title">Sample Modal</h3>
+                    <button class="modal-close" onclick="hideModal()">×</button>
+                </div>
+                <div class="modal-body">
+                    <p>This is a sample modal dialog. You can use modals for confirmations, forms, or displaying additional information.</p>
+                    <p style="margin-top: 1rem; color: var(--theme-text-secondary);">Click outside the modal or press the close button to dismiss.</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-ghost" onclick="hideModal()">Cancel</button>
+                    <button class="btn btn-primary" onclick="hideModal()">Confirm</button>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
