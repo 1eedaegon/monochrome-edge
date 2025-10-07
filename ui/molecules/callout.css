@@ -7,13 +7,12 @@
 .callout {
     display: flex;
     gap: 1rem;
-    padding: 1rem;
-    border-radius: var(--border-radius);
-    border: 1px solid var(--theme-border);
-    background: var(--theme-surface);
+    padding: 1rem 1rem 1rem 1.5rem;
+    border-radius: 0;
+    border: none;
+    border-left: 2px solid var(--theme-border);
+    background: transparent;
     position: relative;
-    border-left-width: 3px;
-    border-left-style: solid;
 }
 
 .callout > * {
@@ -24,11 +23,12 @@
 /* Callout Icon */
 .callout-icon {
     flex-shrink: 0;
-    width: 20px;
-    height: 20px;
+    width: 16px;
+    height: 16px;
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 0.125rem;
 }
 
 .callout-icon svg,
@@ -44,13 +44,15 @@
 }
 
 .callout-title {
-    font-weight: 600;
+    font-weight: 500;
+    font-size: 0.875rem;
     color: inherit;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.375rem;
+    letter-spacing: -0.01em;
 }
 
 .callout-content p {
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
     line-height: 1.6;
     margin: 0;
     color: var(--theme-text-secondary);
@@ -61,7 +63,6 @@
 /* Info Callout */
 .callout-info {
     border-left-color: var(--color-info);
-    background: rgba(107, 114, 128, 0.12);
 }
 
 .callout-info .callout-icon {
@@ -69,13 +70,12 @@
 }
 
 .callout-info .callout-title {
-    color: var(--color-info);
+    color: var(--theme-text-primary);
 }
 
 /* Success Callout */
 .callout-success {
     border-left-color: var(--color-success);
-    background: rgba(123, 159, 96, 0.12);
 }
 
 .callout-success .callout-icon {
@@ -83,13 +83,12 @@
 }
 
 .callout-success .callout-title {
-    color: var(--color-success);
+    color: var(--theme-text-primary);
 }
 
 /* Warning Callout */
 .callout-warning {
     border-left-color: var(--color-warning);
-    background: rgba(212, 165, 116, 0.12);
 }
 
 .callout-warning .callout-icon {
@@ -97,13 +96,12 @@
 }
 
 .callout-warning .callout-title {
-    color: var(--color-warning);
+    color: var(--theme-text-primary);
 }
 
 /* Error Callout */
 .callout-error {
     border-left-color: var(--color-error);
-    background: rgba(139, 58, 58, 0.12);
 }
 
 .callout-error .callout-icon {
@@ -111,7 +109,7 @@
 }
 
 .callout-error .callout-title {
-    color: var(--color-error);
+    color: var(--theme-text-primary);
 }
 
 /* Sizes */

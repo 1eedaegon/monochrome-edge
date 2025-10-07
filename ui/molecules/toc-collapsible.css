@@ -69,13 +69,23 @@
 }
 
 .toc-list-link {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     color: var(--theme-text-primary);
     text-decoration: none;
     font-size: 0.8125rem;
     padding: 0.25rem 0.5rem;
     border-radius: 3px;
     transition: all var(--transition-speed);
+}
+
+.toc-list-link::before {
+    content: "—";
+    color: var(--theme-text-secondary);
+    opacity: 0.4;
+    font-weight: 300;
+    flex-shrink: 0;
 }
 
 .toc-list-link:hover {

@@ -43,13 +43,23 @@
 }
 
 .toc-card-link {
-    display: block;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     color: var(--theme-text-primary);
     text-decoration: none;
     font-size: 0.875rem;
     padding: 0.5rem 0.75rem;
     border-left: 3px solid transparent;
     transition: all var(--transition-speed);
+}
+
+.toc-card-link::before {
+    content: "—";
+    color: var(--theme-text-secondary);
+    opacity: 0.5;
+    font-weight: 300;
+    flex-shrink: 0;
 }
 
 .toc-card-link:hover {
