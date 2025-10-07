@@ -1,0 +1,298 @@
+/*
+ * Timeline Component
+ * Vertical timeline with markers, content, and variant styles
+ */
+
+/* Timeline Container */
+.timeline {
+    --timeline-marker-size: 32px;
+    --timeline-dot-size: 8px;
+    --timeline-line-offset: 16px;
+    --timeline-item-padding: 48px;
+    --timeline-icon-size: 16px;
+
+    position: relative;
+    padding: 0;
+    margin: 0;
+}
+
+/* Timeline Item */
+.timeline-item {
+    position: relative;
+    padding-left: var(--timeline-item-padding);
+    padding-bottom: 2rem;
+}
+
+.timeline-item:last-child {
+    padding-bottom: 0;
+}
+
+.timeline-item:last-child::before {
+    display: none;
+}
+
+/* Vertical Line */
+.timeline-item::before {
+    content: "";
+    position: absolute;
+    left: var(--timeline-line-offset);
+    top: var(--timeline-marker-size);
+    bottom: 0;
+    width: 2px;
+    background: var(--theme-border);
+}
+
+/* Timeline Marker */
+.timeline-marker {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: var(--timeline-marker-size);
+    height: var(--timeline-marker-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+}
+
+.timeline-marker-dot {
+    width: var(--timeline-marker-size);
+    height: var(--timeline-marker-size);
+    border-radius: 50%;
+    background: var(--theme-surface);
+    border: 2px solid var(--theme-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timeline-marker-icon {
+    width: var(--timeline-marker-size);
+    height: var(--timeline-marker-size);
+    border-radius: 50%;
+    background: var(--theme-bg);
+    border: 2px solid var(--theme-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.timeline-marker-icon svg,
+.timeline-marker-icon img {
+    width: var(--timeline-icon-size);
+    height: var(--timeline-icon-size);
+    color: var(--theme-accent);
+}
+
+/* Timeline Dot (inside marker) */
+.timeline-dot {
+    width: var(--timeline-dot-size);
+    height: var(--timeline-dot-size);
+    border-radius: 50%;
+    background: var(--theme-text-secondary);
+}
+
+/* Timeline Content */
+.timeline-content {
+    padding-left: 0.5rem;
+}
+
+.timeline-time {
+    font-size: 0.875rem;
+    color: var(--theme-text-tertiary);
+    margin-bottom: 0.25rem;
+    display: block;
+}
+
+.timeline-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--theme-text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.timeline-description {
+    font-size: 0.875rem;
+    color: var(--theme-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+/* Timeline Variants */
+
+/* Alternate Layout */
+.timeline-alternate {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.timeline-alternate .timeline-item {
+    padding-bottom: 3rem;
+}
+
+.timeline-alternate .timeline-item::before {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.timeline-alternate .timeline-marker {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.timeline-alternate .timeline-item:nth-child(odd) .timeline-content {
+    text-align: right;
+    padding-right: calc(50% + var(--timeline-item-padding));
+    padding-left: 0;
+}
+
+.timeline-alternate .timeline-item:nth-child(even) .timeline-content {
+    text-align: left;
+    padding-left: calc(50% + var(--timeline-item-padding));
+    padding-right: 0;
+}
+
+/* Centered Layout */
+.timeline-centered {
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.timeline-centered .timeline-item {
+    padding-left: 0;
+}
+
+.timeline-centered .timeline-item::before {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.timeline-centered .timeline-marker {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.timeline-centered .timeline-content {
+    padding-left: 0;
+    margin-top: calc(var(--timeline-marker-size) + 0.5rem);
+}
+
+/* Color Variants */
+.timeline-success .timeline-marker {
+    border-color: var(--color-success);
+}
+
+.timeline-success .timeline-marker-dot .timeline-dot {
+    background: var(--color-success);
+}
+
+.timeline-success .timeline-marker-icon {
+    border-color: var(--color-success);
+}
+
+.timeline-success .timeline-marker-icon svg,
+.timeline-success .timeline-marker-icon img {
+    color: var(--color-success);
+}
+
+.timeline-warning .timeline-marker {
+    border-color: var(--color-warning);
+}
+
+.timeline-warning .timeline-marker-dot .timeline-dot {
+    background: var(--color-warning);
+}
+
+.timeline-warning .timeline-marker-icon {
+    border-color: var(--color-warning);
+}
+
+.timeline-warning .timeline-marker-icon svg,
+.timeline-warning .timeline-marker-icon img {
+    color: var(--color-warning);
+}
+
+.timeline-error .timeline-marker {
+    border-color: var(--color-error);
+}
+
+.timeline-error .timeline-marker-dot .timeline-dot {
+    background: var(--color-error);
+}
+
+.timeline-error .timeline-marker-icon {
+    border-color: var(--color-error);
+}
+
+.timeline-error .timeline-marker-icon svg,
+.timeline-error .timeline-marker-icon img {
+    color: var(--color-error);
+}
+
+.timeline-info .timeline-marker {
+    border-color: var(--color-info);
+}
+
+.timeline-info .timeline-marker-dot .timeline-dot {
+    background: var(--color-info);
+}
+
+.timeline-info .timeline-marker-icon {
+    border-color: var(--color-info);
+}
+
+.timeline-info .timeline-marker-icon svg,
+.timeline-info .timeline-marker-icon img {
+    color: var(--color-info);
+}
+
+/* Compact Variant */
+.timeline-compact .timeline-item {
+    padding-bottom: 1rem;
+}
+
+.timeline-compact .timeline-content {
+    padding-left: 0.25rem;
+}
+
+.timeline-compact .timeline-title {
+    font-size: 0.875rem;
+}
+
+.timeline-compact .timeline-description {
+    font-size: 0.8125rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .timeline {
+        --timeline-marker-size: 24px;
+        --timeline-dot-size: 6px;
+        --timeline-line-offset: 12px;
+        --timeline-item-padding: 36px;
+        --timeline-icon-size: 12px;
+    }
+
+    /* Alternate layout becomes left-aligned on mobile */
+    .timeline-alternate .timeline-item:nth-child(odd) .timeline-content,
+    .timeline-alternate .timeline-item:nth-child(even) .timeline-content {
+        text-align: left;
+        padding-right: 0;
+        padding-left: var(--timeline-item-padding);
+    }
+
+    .timeline-alternate .timeline-item::before {
+        left: var(--timeline-line-offset);
+        transform: none;
+    }
+
+    .timeline-alternate .timeline-marker {
+        left: 0;
+        transform: none;
+    }
+
+    .timeline-alternate .timeline-item {
+        padding-left: var(--timeline-item-padding);
+    }
+}
