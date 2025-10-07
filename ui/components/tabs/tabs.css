@@ -72,7 +72,7 @@
 
 /* Default Style - Underline */
 .tab::after {
-    content: '';
+    content: "";
     position: absolute;
     bottom: -1px;
     left: 0;
@@ -89,30 +89,45 @@
 
 /* Pills Style */
 .tabs-pills .tab {
-    border-radius: var(--border-radius-sm);
+    border-radius: 999px;
+    padding: 0.5rem 1rem;
 }
 
 .tabs-pills .tab::after {
     display: none;
 }
 
+.tabs-pills .tab:hover {
+    background: rgba(var(--theme-accent-rgb, 128, 128, 128), 0.1);
+}
+
 .tabs-pills .tab.active {
-    background: var(--theme-surface);
-    color: var(--theme-text-primary);
+    background: var(--theme-accent);
+    color: var(--theme-accent-contrast);
 }
 
 /* Boxed Style */
+.tabs-boxed {
+    border-bottom: none;
+}
+
 .tabs-boxed .tab {
     border-radius: var(--border-radius-sm);
+    border: 1px solid transparent;
 }
 
 .tabs-boxed .tab::after {
     display: none;
 }
 
+.tabs-boxed .tab:hover {
+    border-color: var(--theme-border);
+}
+
 .tabs-boxed .tab.active {
     background: var(--theme-surface);
     color: var(--theme-text-primary);
+    border-color: var(--theme-border);
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
@@ -253,7 +268,7 @@
     .tabs-vertical {
         flex-direction: column;
     }
-    
+
     .tabs-vertical .tabs-list {
         flex-direction: row;
         border-right: none;
@@ -264,7 +279,7 @@
         overflow-x: auto;
         overflow-y: visible;
     }
-    
+
     .tabs-vertical .tab::after {
         top: auto;
         bottom: -1px;

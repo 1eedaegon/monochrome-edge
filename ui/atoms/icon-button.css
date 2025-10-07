@@ -1,0 +1,155 @@
+/*
+ * Icon Button Component
+ * Extends base icon.css with interactive button states
+ */
+
+/* Icon Button Base */
+.icon-btn {
+    --icon-btn-size: 2.5rem;
+    --icon-btn-icon-size: 1.25rem;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: var(--icon-btn-size);
+    height: var(--icon-btn-size);
+    padding: 0;
+    background-color: transparent;
+    border: 1px solid var(--theme-border);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: var(--theme-text-secondary);
+    position: relative;
+    overflow: hidden;
+}
+
+.icon-btn svg {
+    width: var(--icon-btn-icon-size);
+    height: var(--icon-btn-icon-size);
+    stroke-width: 2;
+    transition: all 0.2s ease;
+}
+
+/* Hover State */
+.icon-btn:hover {
+    background-color: var(--theme-surface);
+    border-color: var(--theme-text-secondary);
+    color: var(--theme-text-primary);
+    transform: translateY(-1px);
+}
+
+/* Active State */
+.icon-btn.active {
+    background-color: var(--theme-accent);
+    border-color: var(--theme-accent);
+    color: var(--theme-accent-contrast);
+}
+
+.icon-btn.active:hover {
+    opacity: 0.9;
+}
+
+/* Focus State */
+.icon-btn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(var(--theme-accent-rgb), 0.2);
+}
+
+/* Disabled State */
+.icon-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Icon Button Sizes */
+.icon-btn-sm {
+    --icon-btn-size: 2rem;
+    --icon-btn-icon-size: 1rem;
+}
+
+.icon-btn-lg {
+    --icon-btn-size: 3rem;
+    --icon-btn-icon-size: 1.5rem;
+}
+
+.icon-btn-xl {
+    --icon-btn-size: 3.5rem;
+    --icon-btn-icon-size: 1.75rem;
+}
+
+/* Icon Button Group */
+.icon-btn-group {
+    display: inline-flex;
+    gap: 0.5rem;
+    padding: 0.25rem;
+    background-color: transparent;
+    border-radius: calc(var(--border-radius) + 0.25rem);
+}
+
+.icon-btn-group .icon-btn {
+    border-radius: var(--border-radius);
+}
+
+/* Icon Button Variants */
+.icon-btn-primary {
+    background-color: var(--theme-accent);
+    border-color: var(--theme-accent);
+    color: var(--theme-accent-contrast);
+}
+
+.icon-btn-primary:hover {
+    opacity: 0.9;
+}
+
+.icon-btn-ghost {
+    border-color: transparent;
+    background-color: transparent;
+}
+
+.icon-btn-ghost:hover {
+    background-color: var(--theme-surface);
+    border-color: var(--theme-border);
+}
+
+.icon-btn-outline {
+    background-color: transparent;
+    border-color: var(--theme-text-secondary);
+}
+
+.icon-btn-outline:hover {
+    background-color: var(--theme-text-secondary);
+    color: var(--theme-accent-contrast);
+}
+
+/* Loading State */
+.icon-btn.loading {
+    pointer-events: none;
+}
+
+.icon-btn.loading svg {
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .icon-btn {
+        --icon-btn-size: 2.25rem;
+        --icon-btn-icon-size: 1.125rem;
+    }
+
+    .icon-btn-sm {
+        --icon-btn-size: 1.875rem;
+        --icon-btn-icon-size: 0.9375rem;
+    }
+}
