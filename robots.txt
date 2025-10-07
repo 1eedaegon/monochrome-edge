@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://1eedaegon.github.io/monochrome-edge/sitemap.xml
