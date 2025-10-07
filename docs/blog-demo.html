@@ -23,21 +23,21 @@
         />
 
         <!-- Monochrome Edge UI Components -->
+        <link
+            rel="stylesheet"
+            id="monochrome-css"
+            href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css"
+        />
         <script>
+            // Switch to local CSS if running locally
             const isLocal =
                 window.location.hostname === "localhost" ||
                 window.location.hostname === "127.0.0.1" ||
                 window.location.hostname === "";
 
             if (isLocal) {
-                document.write(
-                    '<link rel="stylesheet" href="../ui/monochrome-edge.css">',
-                );
-            } else {
-                // Use CDN
-                document.write(
-                    '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css">',
-                );
+                document.getElementById("monochrome-css").href =
+                    "../ui/monochrome-edge.css";
             }
         </script>
 
