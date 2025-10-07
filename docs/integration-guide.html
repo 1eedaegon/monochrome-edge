@@ -23,6 +23,11 @@
         />
 
         <!-- Monochrome Edge CSS -->
+        <link
+            rel="stylesheet"
+            id="monochrome-css"
+            href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css"
+        />
         <script>
             const isLocal =
                 window.location.hostname === "localhost" ||
@@ -30,14 +35,8 @@
                 window.location.hostname === "";
 
             if (isLocal) {
-                document.write(
-                    '<link rel="stylesheet" href="../ui/monochrome-edge.css">',
-                );
-            } else {
-                // Use CDN
-                document.write(
-                    '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css">',
-                );
+                document.getElementById("monochrome-css").href =
+                    "../ui/monochrome-edge.css";
             }
         </script>
 

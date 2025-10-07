@@ -34,12 +34,21 @@ const MIME_TYPES: MimeTypes = {
   ".otf": "font/otf",
 };
 
+// Route mapping for clean URLs
+const routes: { [key: string]: string } = {
+  "/": "/docs/index.html",
+  "/blog-demo": "/docs/blog-demo.html",
+  "/editor": "/docs/editor.html",
+  "/integration": "/docs/integration-guide.html",
+};
+
 const server = http.createServer(
   (req: http.IncomingMessage, res: http.ServerResponse): void => {
-    // Default to docs/index.html for root path
     // Remove query parameters from URL
     const urlPath = req.url?.split("?")[0] || "";
-    let filePath: string = urlPath === "/" ? "/docs/index.html" : urlPath;
+
+    // Use route mapping if available, otherwise use original path
+    let filePath: string = routes[urlPath] || urlPath;
 
     // Construct full file path
     filePath = path.join(__dirname, filePath);
@@ -81,6 +90,11 @@ server.listen(PORT, (): void => {
 ║                                            ║
 ║   Server running at:                       ║
 ║   http://localhost:${PORT}                    ║
+║                                            ║
+║   Available demos:                         ║
+║   http://localhost:${PORT}/blog-demo          ║
+║   http://localhost:${PORT}/editor             ║
+║   http://localhost:${PORT}/integration        ║
 ║                                            ║
 ║   Press Ctrl+C to stop                     ║
 ║                                            ║

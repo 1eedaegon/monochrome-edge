@@ -93,6 +93,11 @@
         />
 
         <!-- Monochrome Edge UI Components -->
+        <link
+            rel="stylesheet"
+            id="monochrome-css"
+            href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css"
+        />
         <script>
             const isLocal =
                 window.location.hostname === "localhost" ||
@@ -100,14 +105,8 @@
                 window.location.hostname === "";
 
             if (isLocal) {
-                document.write(
-                    '<link rel="stylesheet" href="../ui/monochrome-edge.css">',
-                );
-            } else {
-                // Use CDN
-                document.write(
-                    '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css">',
-                );
+                document.getElementById("monochrome-css").href =
+                    "../ui/monochrome-edge.css";
             }
 
             window.isLocal = isLocal;
@@ -9211,6 +9210,74 @@ new DropdownController(document.getElementById('action-dropdown'));
                     </style>
                     <div class="changelog-container">
                         <!-- CHANGELOG_START -->
+                        <div class="changelog-entry" data-version="1.7.0">
+                            <h3 class="changelog-version">
+                                v1.7.0
+                                <span class="changelog-date">2025-10-07</span>
+                            </h3>
+                            <div class="changelog-content">
+                                <div class="changelog-category">
+                                    <h4 class="changelog-category-title">
+                                        Added
+                                    </h4>
+                                    <ul class="changelog-list">
+                                        <li>
+                                            <span class="changelog-commit"
+                                                >feat: Add TOC Hover Card
+                                                component for standalone
+                                                navigation</span
+                                            >
+                                        </li>
+                                        <li>
+                                            <span class="changelog-commit"
+                                                >feat: Add TOC Collapsible
+                                                component for in-document
+                                                navigation</span
+                                            >
+                                        </li>
+                                        <li>
+                                            <span class="changelog-commit"
+                                                >feat: Add Changelog pagination
+                                                component</span
+                                            >
+                                        </li>
+                                        <li>
+                                            <span class="changelog-commit"
+                                                >feat: Split Typography Markdown
+                                                showcase into individual
+                                                components</span
+                                            >
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="changelog-category">
+                                    <h4 class="changelog-category-title">
+                                        Changed
+                                    </h4>
+                                    <ul class="changelog-list">
+                                        <li>
+                                            <span class="changelog-commit"
+                                                >style: Redesign blockquote with
+                                                modern edge styling</span
+                                            >
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="changelog-category">
+                                    <h4 class="changelog-category-title">
+                                        Fixed
+                                    </h4>
+                                    <ul class="changelog-list">
+                                        <li>
+                                            <span class="changelog-commit"
+                                                >fix: Changelog structure - wrap
+                                                all entries in proper div</span
+                                            >
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                         <div class="changelog-entry" data-version="1.6.1">
                             <h3 class="changelog-version">
                                 v1.6.1
@@ -9226,38 +9293,22 @@ new DropdownController(document.getElementById('action-dropdown'));
                                             <span class="changelog-commit"
                                                 >fix: resolve conflict</span
                                             >
-                                            <a
-                                                href="#"
-                                                class="changelog-hash"
-                                                title="af45ab4b22691a4e95bda0167b21f6a242b04ce1"
-                                                >af45ab4</a
-                                            >
                                         </li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
+                        <div class="changelog-more">
+                            <a
+                                href="https://github.com/1eedaegon/monochrome-edge/blob/main/CHANGELOG.md"
+                                class="btn btn-outline"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
+                                View Full Changelog
+                            </a>
+                        </div>
                         <!-- CHANGELOG_END -->
-                    </div>
-
-                    <div class="changelog-pagination">
-                        <button
-                            class="changelog-pagination-btn"
-                            id="changelog-prev"
-                        >
-                            Previous
-                        </button>
-                        <span
-                            class="changelog-pagination-info"
-                            id="changelog-page-info"
-                            >Page 1</span
-                        >
-                        <button
-                            class="changelog-pagination-btn"
-                            id="changelog-next"
-                        >
-                            Next
-                        </button>
                     </div>
                 </section>
             </main>
@@ -9543,49 +9594,6 @@ new DropdownController(document.getElementById('action-dropdown'));
 
                 // Load initial logo colors
                 updateLogoColors();
-
-                // Changelog pagination
-                const ITEMS_PER_PAGE = 10;
-                let currentPage = 1;
-                const $changelogEntries = $(".changelog-entry");
-                const totalPages = Math.ceil(
-                    $changelogEntries.length / ITEMS_PER_PAGE,
-                );
-
-                function renderChangelogPage(page) {
-                    const start = (page - 1) * ITEMS_PER_PAGE;
-                    const end = start + ITEMS_PER_PAGE;
-
-                    $changelogEntries.hide();
-                    $changelogEntries.slice(start, end).show();
-
-                    $("#changelog-page-info").text(
-                        `Page ${page} of ${totalPages}`,
-                    );
-                    $("#changelog-prev").prop("disabled", page === 1);
-                    $("#changelog-next").prop("disabled", page === totalPages);
-                }
-
-                $("#changelog-prev").on("click", function () {
-                    if (currentPage > 1) {
-                        currentPage--;
-                        renderChangelogPage(currentPage);
-                    }
-                });
-
-                $("#changelog-next").on("click", function () {
-                    if (currentPage < totalPages) {
-                        currentPage++;
-                        renderChangelogPage(currentPage);
-                    }
-                });
-
-                // Initialize pagination
-                if ($changelogEntries.length > 0) {
-                    renderChangelogPage(1);
-                } else {
-                    $(".changelog-pagination").hide();
-                }
 
                 // TOC collapsible toggle
                 $(".toc-collapsible-header").on("click", function () {
