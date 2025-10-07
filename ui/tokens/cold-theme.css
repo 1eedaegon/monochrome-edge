@@ -50,6 +50,12 @@
     --theme-shadow-md: 0 4px 12px var(--theme-shadow-color);
     --theme-shadow-lg: 0 8px 24px var(--theme-shadow-color);
     --theme-shadow-xl: 0 10px 40px var(--theme-shadow-color);
+
+    /* Landscape colored mode - Cold Light */
+    --landscape-wave-color: #6b8fa8;
+    --landscape-mountain-color: #7a8088;
+    --landscape-forest-color: #5d7a68;
+    --landscape-desert-color: #a89a82;
 }
 
 [data-theme-variant="cold"][data-theme="dark"] {
@@ -72,4 +78,10 @@
     --theme-shadow-md: 0 4px 12px var(--theme-shadow-color);
     --theme-shadow-lg: 0 8px 24px var(--theme-shadow-color);
     --theme-shadow-xl: 0 10px 40px var(--theme-shadow-color);
+
+    /* Landscape colored mode - Cold Dark */
+    --landscape-wave-color: #4a6a7a;
+    --landscape-mountain-color: #5a5f68;
+    --landscape-forest-color: #3d5a48;
+    --landscape-desert-color: #7a6a52;
 }

@@ -1,0 +1,11 @@
+<svg width="220" height="40" viewBox="0 0 220 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <title>Monochrome Edge - Primary Logo (Warm Dark)</title>
+  <desc>Primary logo with symbol and wordmark for Monochrome Edge design system - Warm theme, Dark mode</desc>
+  <g id="slashes">
+    <line x1="10" y1="35" x2="30" y2="5" stroke="#a8a29e" stroke-width="3" stroke-linecap="square"/>
+    <line x1="18" y1="35" x2="38" y2="5" stroke="#a8a29e" stroke-width="3" stroke-linecap="square"/>
+  </g>
+  <g id="wordmark">
+    <text x="54" y="25" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="700" letter-spacing="0.8" fill="#e7e5e4">MONOCHROME EDGE</text>
+  </g>
+</svg>

@@ -1,177 +1,107 @@
 /*
- * Header Component
- * Application header with navigation
+ * Main Header Component
+ * Top navigation bar with logo and menu items
+ * Inspired by zenorocha.com and joshwcomeau.com
  */
 
-.header {
-    display: flex;
-    align-items: center;
-    height: 3.5rem;
-    padding: 0 1.5rem;
-    font-family: var(--font-family-sans);
-    background-color: var(--theme-surface);
-    border-bottom: 1px solid var(--theme-border);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.header-compact {
-    height: 3rem;
-    padding: 0 1rem;
-}
-
-.header-tall {
-    height: 4rem;
-    padding: 0 2rem;
-}
-
-/* Header Brand */
-.header-brand {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-right: 2rem;
-    text-decoration: none;
-}
-
-.header-logo {
-    width: 2rem;
-    height: 2rem;
-    flex-shrink: 0;
-}
-
-.header-title {
-    font-size: 1.125rem;
-    font-weight: 600;
-    color: var(--theme-text-primary);
-    white-space: nowrap;
-}
-
-/* Header Nav */
-.header-nav {
-    display: flex;
-    align-items: center;
-    gap: 0.25rem;
-    flex: 1;
-}
-
-.header-nav-item {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 0.75rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--theme-text-secondary);
-    text-decoration: none;
-    border-radius: var(--border-radius);
-    transition: all var(--transition-speed);
-}
-
-.header-nav-item:hover {
-    color: var(--theme-text-primary);
-    background-color: rgba(0, 0, 0, var(--alpha-hover));
-}
-
-.header-nav-item.is-active {
-    color: var(--theme-accent);
-    background-color: rgba(var(--theme-accent), var(--alpha-hover));
-}
-
-/* Header Actions */
-.header-actions {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-left: auto;
-}
-
-.header-search {
-    width: 250px;
-}
-
-.header-divider {
-    width: 1px;
-    height: 1.5rem;
-    background-color: var(--theme-border);
-}
-
-/* Header User */
-.header-user {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.375rem 0.5rem;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: background-color var(--transition-speed);
-}
-
-.header-user:hover {
-    background-color: rgba(0, 0, 0, var(--alpha-hover));
-}
-
-.header-avatar {
-    width: 2rem;
-    height: 2rem;
-    border-radius: 50%;
-    background-color: var(--theme-accent);
-    color: var(--theme-accent-contrast);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.875rem;
-    font-weight: 600;
-}
-
-.header-user-name {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--theme-text-primary);
-}
-
-/* Mobile Header */
-.header-mobile-toggle {
-    display: none;
-    padding: 0.5rem;
-    background: none;
-    border: none;
-    color: var(--theme-text-primary);
-    cursor: pointer;
-}
-
-@media (max-width: 768px) {
-    .header-nav {
-        display: none;
-    }
-
-    .header-mobile-toggle {
-        display: block;
-    }
-
-    .header-search {
-        display: none;
-    }
-}
-
-/* Sticky Header */
-.header-sticky {
+.main-header {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-/* Transparent Header */
-.header-transparent {
-    background-color: transparent;
-    border-bottom: none;
-}
-
-.header-transparent.is-scrolled {
-    background-color: var(--theme-surface);
+    height: 60px;
+    background: var(--theme-bg);
     border-bottom: 1px solid var(--theme-border);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    z-index: 1000;
+    backdrop-filter: blur(8px);
+    background: rgba(var(--theme-bg-rgb, 255, 255, 255), 0.9);
+}
+
+.header-container {
+    max-width: 1200px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.header-logo img {
+    width: 32px;
+    height: 32px;
+}
+
+.header-title {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    color: var(--theme-text-primary);
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.header-nav-item {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--theme-text-secondary);
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: color 0.2s ease;
+    position: relative;
+    padding: 0.5rem 0;
+}
+
+.header-nav-item:hover {
+    color: var(--theme-text-primary);
+}
+
+.header-nav-item::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: var(--theme-accent);
+    transition:
+        width 0.2s ease,
+        left 0.2s ease;
+}
+
+.header-nav-item:hover::after {
+    width: 20px;
+    left: calc(50% - 10px);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header-container {
+        padding: 0 1rem;
+    }
+
+    .header-nav {
+        gap: 1rem;
+    }
+
+    .header-nav-item {
+        font-size: 0.75rem;
+    }
+
+    .header-title {
+        display: none;
+    }
 }

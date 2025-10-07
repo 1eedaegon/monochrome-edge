@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5760 320" preserveAspectRatio="none">
+  <path class="dune" d="M0,180 Q360,140 720,180 Q1080,220 1440,180 Q1800,140 2160,180 Q2520,220 2880,180 Q3240,140 3600,180 Q3960,220 4320,180 Q4680,140 5040,180 Q5400,220 5760,180 L5760,320 L0,320 Z" fill="currentColor" opacity="0.06"/>
+  <path class="dune" d="M0,210 Q400,170 800,210 Q1200,250 1600,210 Q2000,170 2400,210 Q2800,250 3200,210 Q3600,170 4000,210 Q4400,250 4800,210 Q5200,170 5760,210 L5760,320 L0,320 Z" fill="currentColor" opacity="0.1"/>
+  <path class="dune" d="M0,240 Q480,200 960,240 Q1440,280 1920,240 Q2400,200 2880,240 Q3360,280 3840,240 Q4320,200 4800,240 Q5280,280 5760,240 L5760,320 L0,320 Z" fill="currentColor" opacity="0.14"/>
+  <g class="sand-particles" fill="currentColor" opacity="0.04">
+    <circle cx="400" cy="190" r="3"/>
+    <circle cx="900" cy="220" r="2"/>
+    <circle cx="1400" cy="200" r="3"/>
+    <circle cx="1900" cy="230" r="2"/>
+    <circle cx="2400" cy="210" r="3"/>
+    <circle cx="2900" cy="220" r="2"/>
+    <circle cx="3400" cy="200" r="3"/>
+    <circle cx="3900" cy="230" r="2"/>
+    <circle cx="4400" cy="210" r="3"/>
+    <circle cx="4900" cy="220" r="2"/>
+    <circle cx="5400" cy="200" r="3"/>
+  </g>
+</svg>

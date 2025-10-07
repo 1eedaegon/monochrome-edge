@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320" preserveAspectRatio="none">
+  <!-- Sky layer -->
+  <rect width="1440" height="320" fill="currentColor" opacity="0.03"/>
+
+  <!-- Far mountains -->
+  <path class="landscape-layer-far" d="M0,160 Q360,100 720,160 T1440,160 L1440,320 L0,320 Z" fill="currentColor" opacity="0.08"/>
+
+  <!-- Mid mountains -->
+  <path class="landscape-layer-mid" d="M0,200 Q360,140 720,200 T1440,200 L1440,320 L0,320 Z" fill="currentColor" opacity="0.12"/>
+
+  <!-- Near hills -->
+  <path class="landscape-layer-near" d="M0,240 Q360,180 720,240 T1440,240 L1440,320 L0,320 Z" fill="currentColor" opacity="0.16"/>
+</svg>

@@ -1,0 +1,6 @@
+<svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g id="symbol-slashes" class="logo-slashes">
+    <line class="logo-slash-line" x1="10" y1="35" x2="30" y2="5" stroke="url(#symbol-gradient-warm-light)" stroke-width="3" stroke-linecap="square"/>
+    <line class="logo-slash-line" x1="18" y1="35" x2="38" y2="5" stroke="url(#symbol-gradient-warm-light)" stroke-width="3" stroke-linecap="square"/>
+  </g>
+</svg>
