@@ -1066,6 +1066,120 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Markdown Content Showcase -->
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Markdown Content</h3>
+                            <div class="component-toggle">
+                                <button class="toggle-btn active" data-target="markdown-content">Preview</button>
+                                <button class="toggle-btn" data-target="markdown-content">Code</button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="markdown-content">
+                            <div class="component-preview" style="align-items: flex-start; width: 100%; max-width: 100%;">
+                                <div class="blog-content" style="max-width: 100%;">
+                                    <h2>Article Title</h2>
+                                    <p>This is a paragraph with <strong>bold text</strong>, <em>italic text</em>, and <a href="#">a hyperlink</a>. Markdown styling supports all common text formatting.</p>
+
+                                    <h3>Lists</h3>
+                                    <p>Unordered list:</p>
+                                    <ul>
+                                        <li>First item with some content</li>
+                                        <li>Second item with <strong>bold</strong> text</li>
+                                        <li>Third item with <code>inline code</code></li>
+                                    </ul>
+
+                                    <p>Ordered list:</p>
+                                    <ol>
+                                        <li>Step one of the process</li>
+                                        <li>Step two continues here</li>
+                                        <li>Step three completes it</li>
+                                    </ol>
+
+                                    <h3>Blockquote</h3>
+                                    <blockquote>
+                                        <p>This is a blockquote. It's used for quotations or important notes that need to stand out from the main content.</p>
+                                    </blockquote>
+
+                                    <h3>Code Examples</h3>
+                                    <p>Inline code: <code>const example = true;</code></p>
+
+                                    <p>Code block:</p>
+                                    <pre><code>// JavaScript example
+function greet(name) {
+    return `Hello, ${name}!`;
+}
+
+console.log(greet('World'));</code></pre>
+
+                                    <hr />
+
+                                    <h3>Table Example</h3>
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th>Feature</th>
+                                                <th>Description</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>Typography</td>
+                                                <td>Complete type system</td>
+                                                <td>✓ Done</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Components</td>
+                                                <td>UI component library</td>
+                                                <td>✓ Done</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Themes</td>
+                                                <td>Dual-theme support</td>
+                                                <td>✓ Done</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-html">&lt;!-- Wrap content in .blog-content for markdown styling --&gt;
+&lt;div class="blog-content"&gt;
+    &lt;h2&gt;Article Title&lt;/h2&gt;
+    &lt;p&gt;Paragraph with &lt;strong&gt;bold&lt;/strong&gt;, &lt;em&gt;italic&lt;/em&gt;, and &lt;a href="#"&gt;link&lt;/a&gt;.&lt;/p&gt;
+
+    &lt;h3&gt;Lists&lt;/h3&gt;
+    &lt;ul&gt;
+        &lt;li&gt;List item&lt;/li&gt;
+    &lt;/ul&gt;
+
+    &lt;blockquote&gt;
+        &lt;p&gt;Blockquote text&lt;/p&gt;
+    &lt;/blockquote&gt;
+
+    &lt;p&gt;Inline code: &lt;code&gt;const x = 1;&lt;/code&gt;&lt;/p&gt;
+
+    &lt;pre&gt;&lt;code&gt;// Code block
+function example() {
+    return true;
+}&lt;/code&gt;&lt;/pre&gt;
+
+    &lt;hr /&gt;
+
+    &lt;table&gt;
+        &lt;thead&gt;
+            &lt;tr&gt;&lt;th&gt;Header&lt;/th&gt;&lt;/tr&gt;
+        &lt;/thead&gt;
+        &lt;tbody&gt;
+            &lt;tr&gt;&lt;td&gt;Cell&lt;/td&gt;&lt;/tr&gt;
+        &lt;/tbody&gt;
+    &lt;/table&gt;
+&lt;/div&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
                 </section>
 
                 <!-- Brand Assets Section -->
@@ -5636,7 +5750,29 @@ new DropdownController(document.getElementById('action-dropdown'));
                                         </p>
                                     </div>
                                     <hr class="blog-section-divider" />
-                                    <p style="color: var(--theme-text-secondary);">Section content goes here...</p>
+                                    <div class="blog-content">
+                                        <p>This is a blog section component that provides structured content layout with clear hierarchy and spacing. Use it to organize your blog posts, articles, or any content that requires clean sectioning.</p>
+                                        <ul class="article-list article-list-compact">
+                                            <li class="article-list-item">
+                                                <a href="#" class="article-list-link">
+                                                    <span class="article-list-date">Oct 7, 2025</span>
+                                                    <h4 class="article-list-title">Understanding Design Systems</h4>
+                                                </a>
+                                            </li>
+                                            <li class="article-list-item">
+                                                <a href="#" class="article-list-link">
+                                                    <span class="article-list-date">Oct 5, 2025</span>
+                                                    <h4 class="article-list-title">Component Architecture</h4>
+                                                </a>
+                                            </li>
+                                            <li class="article-list-item">
+                                                <a href="#" class="article-list-link">
+                                                    <span class="article-list-date">Oct 1, 2025</span>
+                                                    <h4 class="article-list-title">CSS Best Practices</h4>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </section>
                             </div>
                             <div class="component-code">
@@ -5675,8 +5811,11 @@ new DropdownController(document.getElementById('action-dropdown'));
                             <div class="component-preview">
                                 <div class="article-card-grid" style="max-width: 1000px;">
                                     <article class="article-card">
-                                        <div class="article-card-image article-card-image-grayscale">
-                                            <img src="https://via.placeholder.com/400x180/8a8784/ffffff?text=Article+Image" alt="Article thumbnail" />
+                                        <div class="article-card-image article-card-image-grayscale" style="display: flex; align-items: center; justify-content: center; background: var(--theme-bg);">
+                                            <svg width="120" height="120" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" style="opacity: 0.3;">
+                                                <line x1="10" y1="35" x2="30" y2="5" stroke="currentColor" stroke-width="3" stroke-linecap="square"/>
+                                                <line x1="18" y1="35" x2="38" y2="5" stroke="currentColor" stroke-width="3" stroke-linecap="square"/>
+                                            </svg>
                                         </div>
                                         <div class="article-card-content">
                                             <span class="article-card-category">Design Systems</span>
@@ -5695,8 +5834,11 @@ new DropdownController(document.getElementById('action-dropdown'));
                                     </article>
 
                                     <article class="article-card">
-                                        <div class="article-card-image article-card-image-grayscale">
-                                            <img src="https://via.placeholder.com/400x180/6b7280/ffffff?text=Article+Image" alt="Article thumbnail" />
+                                        <div class="article-card-image article-card-image-grayscale" style="display: flex; align-items: center; justify-content: center; background: var(--theme-bg);">
+                                            <svg width="120" height="120" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" style="opacity: 0.3;">
+                                                <line x1="10" y1="35" x2="30" y2="5" stroke="currentColor" stroke-width="3" stroke-linecap="square"/>
+                                                <line x1="18" y1="35" x2="38" y2="5" stroke="currentColor" stroke-width="3" stroke-linecap="square"/>
+                                            </svg>
                                         </div>
                                         <div class="article-card-content">
                                             <span class="article-card-category">Frontend</span>
@@ -5738,6 +5880,75 @@ new DropdownController(document.getElementById('action-dropdown'));
                         </div>
                     </div>
 
+                    <!-- Article List Component -->
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Article List</h3>
+                            <div class="component-toggle">
+                                <button class="toggle-btn active" data-target="article-list-demo">Preview</button>
+                                <button class="toggle-btn" data-target="article-list-demo">Code</button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="article-list-demo">
+                            <div class="component-preview">
+                                <div style="max-width: 700px;">
+                                    <ul class="article-list">
+                                        <li class="article-list-item">
+                                            <a href="#" class="article-list-link">
+                                                <span class="article-list-date">Oct 7, 2025</span>
+                                                <h4 class="article-list-title">Building a Dual-Theme Design System</h4>
+                                                <p class="article-list-excerpt">Exploring the challenges and solutions in creating a flexible design system that supports multiple themes and contexts.</p>
+                                            </a>
+                                        </li>
+                                        <li class="article-list-item">
+                                            <a href="#" class="article-list-link">
+                                                <span class="article-list-date">Oct 5, 2025</span>
+                                                <h4 class="article-list-title">Component Architecture Patterns</h4>
+                                                <p class="article-list-excerpt">Best practices for organizing and structuring reusable UI components.</p>
+                                            </a>
+                                        </li>
+                                        <li class="article-list-item">
+                                            <a href="#" class="article-list-link">
+                                                <span class="article-list-date">Oct 1, 2025</span>
+                                                <h4 class="article-list-title">CSS Variables for Dynamic Theming</h4>
+                                                <p class="article-list-excerpt">Deep dive into using custom properties for dynamic, flexible design systems.</p>
+                                            </a>
+                                        </li>
+                                        <li class="article-list-item">
+                                            <a href="#" class="article-list-link">
+                                                <span class="article-list-date">Sep 28, 2025</span>
+                                                <h4 class="article-list-title">Minimalist UI Design Principles</h4>
+                                                <p class="article-list-excerpt">How to create clean, functional interfaces that prioritize user experience.</p>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-markup">&lt;ul class="article-list"&gt;
+    &lt;li class="article-list-item"&gt;
+        &lt;a href="#" class="article-list-link"&gt;
+            &lt;span class="article-list-date"&gt;Oct 7, 2025&lt;/span&gt;
+            &lt;h4 class="article-list-title"&gt;Building a Dual-Theme Design System&lt;/h4&gt;
+            &lt;p class="article-list-excerpt"&gt;
+                Exploring the challenges and solutions...
+            &lt;/p&gt;
+        &lt;/a&gt;
+    &lt;/li&gt;
+    &lt;li class="article-list-item"&gt;
+        &lt;a href="#" class="article-list-link"&gt;
+            &lt;span class="article-list-date"&gt;Oct 5, 2025&lt;/span&gt;
+            &lt;h4 class="article-list-title"&gt;Component Architecture Patterns&lt;/h4&gt;
+            &lt;p class="article-list-excerpt"&gt;
+                Best practices for organizing...
+            &lt;/p&gt;
+        &lt;/a&gt;
+    &lt;/li&gt;
+&lt;/ul&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Project Card Component -->
                     <div class="component-showcase">
                         <div class="component-header">
@@ -5751,8 +5962,11 @@ new DropdownController(document.getElementById('action-dropdown'));
                             <div class="component-preview">
                                 <div class="project-card-grid" style="max-width: 1000px;">
                                     <article class="project-card">
-                                        <div class="project-card-image project-card-image-grayscale">
-                                            <img src="https://via.placeholder.com/400x180/8a8784/ffffff?text=Project+Image" alt="Project thumbnail" />
+                                        <div class="project-card-image project-card-image-grayscale" style="display: flex; align-items: center; justify-content: center; background: var(--theme-bg);">
+                                            <svg width="120" height="120" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" style="opacity: 0.3;">
+                                                <line x1="10" y1="35" x2="30" y2="5" stroke="currentColor" stroke-width="3" stroke-linecap="square"/>
+                                                <line x1="18" y1="35" x2="38" y2="5" stroke="currentColor" stroke-width="3" stroke-linecap="square"/>
+                                            </svg>
                                         </div>
                                         <div class="project-card-content">
                                             <div class="project-card-header">
