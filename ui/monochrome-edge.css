@@ -37,6 +37,8 @@
 @import url("./molecules/toast.css");
 @import url("./molecules/tab.css");
 @import url("./molecules/callout.css");
+@import url("./molecules/article-card.css");
+@import url("./molecules/project-card.css");
 
 /* Organisms */
 @import url("./organisms/header.css");
@@ -50,6 +52,7 @@
 /* Templates */
 @import url("./templates/warm-layout.css");
 @import url("./templates/cold-layout.css");
+@import url("./templates/blog-layout.css");
 
 /* Utilities */
 @import url("./utilities/spacing.css");
