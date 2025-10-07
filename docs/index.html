@@ -27,8 +27,17 @@
         <!-- Canonical URL -->
         <link rel="canonical" href="https://1eedaegon.github.io/monochrome-edge/" />
 
-        <!-- Favicon -->
-        <link rel="icon" type="image/svg+xml" href="/docs/assets/favicon.svg" />
+        <!-- Favicon - dynamically loaded based on environment -->
+        <script>
+            // Set favicon path based on environment (needs to run before isLocal is defined below)
+            (function() {
+                const isLocalEnv = window.location.hostname === 'localhost' ||
+                                  window.location.hostname === '127.0.0.1' ||
+                                  window.location.hostname === '';
+                const faviconPath = isLocalEnv ? 'docs/assets/favicon.svg' : 'assets/favicon.svg';
+                document.write('<link rel="icon" type="image/svg+xml" href="' + faviconPath + '" />');
+            })();
+        </script>
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -802,6 +811,9 @@
                     </a>
                     <a class="nav-item" data-section="integration">
                         <span class="nav-item-label">Integration</span>
+                    </a>
+                    <a class="nav-item" href="blog-demo.html">
+                        <span class="nav-item-label">Blog Demo</span>
                     </a>
                     <a class="nav-item" data-section="changelog">
                         <span class="nav-item-label">Changelog</span>
@@ -5753,6 +5765,11 @@ new DropdownController(document.getElementById('action-dropdown'));
 
                 // Navigation - only for sidebar nav items
                 $(".ds-nav .nav-item").on("click", function (e) {
+                    const section = $(this).data("section");
+
+                    // Don't prevent default for external links or regular links without data-section
+                    if (!section) return;
+
                     // Don't prevent default for external links
                     if (
                         $(this).attr("href") &&
@@ -5762,9 +5779,6 @@ new DropdownController(document.getElementById('action-dropdown'));
                     }
 
                     e.preventDefault();
-                    const section = $(this).data("section");
-
-                    if (!section) return; // Skip if no section data
 
                     // Update active nav
                     $(".ds-nav .nav-item").removeClass("is-active");
@@ -6117,11 +6131,14 @@ new DropdownController(document.getElementById('action-dropdown'));
             }
 
             // Landscape switcher
+            // Note: isLocal is already defined at the top for CSS loading
+            const assetPath = isLocal ? '../ui/assets/' : 'assets/';
+
             const landscapeSVGs = {
-                wave: 'ui/assets/landscape-wave.svg',
-                mountain: 'ui/assets/landscape-mountain.svg',
-                forest: 'ui/assets/landscape-forest.svg',
-                desert: 'ui/assets/landscape-desert.svg'
+                wave: assetPath + 'landscape-wave.svg',
+                mountain: assetPath + 'landscape-mountain.svg',
+                forest: assetPath + 'landscape-forest.svg',
+                desert: assetPath + 'landscape-desert.svg'
             };
 
             async function loadLandscape(type) {
@@ -6134,15 +6151,25 @@ new DropdownController(document.getElementById('action-dropdown'));
                     const response = await fetch(landscapeSVGs[type]);
                     const svgText = await response.text();
 
+                    // Parse SVG and remove any meta tags that GitHub might inject
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(svgText, 'image/svg+xml');
+                    const metaTags = doc.querySelectorAll('meta');
+                    metaTags.forEach(meta => meta.remove());
+
+                    // Serialize back to string
+                    const serializer = new XMLSerializer();
+                    const cleanSvgText = serializer.serializeToString(doc.documentElement);
+
                     // Update container classes
                     container.className = `b-landscape b-landscape-${type}`;
                     container.style.position = 'absolute';
                     container.style.height = '100%';
 
                     // Clone SVG 3 times for seamless infinite scroll with absolute pixel width
-                    const wrapper1 = `<div style="position: absolute; width: 5760px; height: 100%; left: 0;">${svgText}</div>`;
-                    const wrapper2 = `<div style="position: absolute; width: 5760px; height: 100%; left: 5760px;">${svgText}</div>`;
-                    const wrapper3 = `<div style="position: absolute; width: 5760px; height: 100%; left: 11520px;">${svgText}</div>`;
+                    const wrapper1 = `<div style="position: absolute; width: 5760px; height: 100%; left: 0;">${cleanSvgText}</div>`;
+                    const wrapper2 = `<div style="position: absolute; width: 5760px; height: 100%; left: 5760px;">${cleanSvgText}</div>`;
+                    const wrapper3 = `<div style="position: absolute; width: 5760px; height: 100%; left: 11520px;">${cleanSvgText}</div>`;
 
                     container.innerHTML = wrapper1 + wrapper2 + wrapper3;
 

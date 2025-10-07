@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="en" data-theme="light" data-theme-variant="warm">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Blog Demo - Monochrome Edge</title>
+
+        <!-- Favicon -->
+        <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+
+        <!-- Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+        <link
+            rel="stylesheet"
+            as="style"
+            crossorigin
+            href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"
+        />
+
+        <!-- Monochrome Edge UI Components -->
+        <script>
+            const isLocal =
+                window.location.hostname === "localhost" ||
+                window.location.hostname === "127.0.0.1" ||
+                window.location.hostname === "";
+
+            if (isLocal) {
+                document.write(
+                    '<link rel="stylesheet" href="../ui/monochrome-edge.css">',
+                );
+            } else {
+                document.write(
+                    '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css">',
+                );
+            }
+        </script>
+
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                transition: all var(--transition-speed);
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Blog Layout -->
+        <div class="blog-layout">
+            <!-- Header -->
+            <header class="blog-header">
+                <div class="blog-header-container">
+                    <a href="#" class="blog-brand">
+                        <svg
+                            width="40"
+                            height="40"
+                            viewBox="0 0 40 40"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <line
+                                x1="10"
+                                y1="35"
+                                x2="30"
+                                y2="5"
+                                stroke="currentColor"
+                                stroke-width="3"
+                                stroke-linecap="square"
+                            />
+                            <line
+                                x1="18"
+                                y1="35"
+                                x2="38"
+                                y2="5"
+                                stroke="currentColor"
+                                stroke-width="3"
+                                stroke-linecap="square"
+                            />
+                        </svg>
+                        <span class="blog-brand-name">Monochrome Edge</span>
+                    </a>
+
+                    <div class="tabs" style="flex: 1; max-width: 500px">
+                        <div class="tabs-list" id="blogNav">
+                            <a href="#about" class="tab active">About</a>
+                            <a href="#articles" class="tab">Articles</a>
+                            <a href="#projects" class="tab">Projects</a>
+                            <a href="index.html" class="tab">Components</a>
+                        </div>
+                    </div>
+
+                    <div class="blog-theme-controls">
+                        <div class="icon-btn-group">
+                            <button
+                                class="icon-btn theme-btn active"
+                                data-theme="warm"
+                                title="Warm Theme"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path
+                                        d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"
+                                    />
+                                </svg>
+                            </button>
+                            <button
+                                class="icon-btn theme-btn"
+                                data-theme="cold"
+                                title="Cold Theme"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <line x1="2" x2="22" y1="12" y2="12" />
+                                    <line x1="12" x2="12" y1="2" y2="22" />
+                                    <path d="m20 16-4-4 4-4" />
+                                    <path d="m4 8 4 4-4 4" />
+                                    <path d="m16 4-4 4-4-4" />
+                                    <path d="m8 20 4-4 4 4" />
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="icon-btn-group">
+                            <button
+                                class="icon-btn mode-btn active"
+                                data-mode="light"
+                                title="Light Mode"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <circle cx="12" cy="12" r="4" />
+                                    <path d="M12 2v2" />
+                                    <path d="M12 20v2" />
+                                    <path d="m4.93 4.93 1.41 1.41" />
+                                    <path d="m17.66 17.66 1.41 1.41" />
+                                    <path d="M2 12h2" />
+                                    <path d="M20 12h2" />
+                                    <path d="m6.34 17.66-1.41 1.41" />
+                                    <path d="m19.07 4.93-1.41 1.41" />
+                                </svg>
+                            </button>
+                            <button
+                                class="icon-btn mode-btn"
+                                data-mode="dark"
+                                title="Dark Mode"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="2"
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                >
+                                    <path
+                                        d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"
+                                    />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button class="blog-menu-toggle" id="menuToggle">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="2"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <line x1="3" y1="12" x2="21" y2="12"></line>
+                            <line x1="3" y1="6" x2="21" y2="6"></line>
+                            <line x1="3" y1="18" x2="21" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <main class="blog-main">
+                <!-- Hero Section -->
+                <section class="blog-hero" id="about">
+                    <img
+                        src="https://via.placeholder.com/120"
+                        alt="Profile"
+                        class="blog-hero-avatar"
+                    />
+                    <h1 class="blog-hero-title">Welcome to My Blog</h1>
+                    <p class="blog-hero-subtitle">
+                        Building elegant UI components with Monochrome Edge
+                        design system
+                    </p>
+                </section>
+
+                <hr class="blog-section-divider" />
+
+                <!-- About Section -->
+                <section class="blog-section">
+                    <div class="blog-section-header">
+                        <h2 class="blog-section-title">About Me</h2>
+                        <p class="blog-section-subtitle">
+                            Designer and developer focused on creating
+                            minimalist, functional interfaces
+                        </p>
+                    </div>
+
+                    <div class="blog-content">
+                        <p>
+                            Hi! I'm a UI/UX designer and frontend developer
+                            passionate about creating beautiful, functional
+                            interfaces. I believe in the power of minimalist
+                            design and thoughtful user experiences.
+                        </p>
+                        <p>
+                            Currently working on Monochrome Edge, a dual-theme
+                            UI component library that adapts to different use
+                            cases - warm themes for content-focused applications
+                            and cold themes for SaaS platforms.
+                        </p>
+                    </div>
+                </section>
+
+                <hr class="blog-section-divider" />
+
+                <!-- Articles Section -->
+                <section class="blog-section" id="articles">
+                    <div class="blog-section-header">
+                        <h2 class="blog-section-title">Recent Articles</h2>
+                        <p class="blog-section-subtitle">
+                            Thoughts on design, development, and everything in
+                            between
+                        </p>
+                    </div>
+
+                    <div class="article-card-grid">
+                        <article class="article-card article-card-featured">
+                            <div
+                                class="article-card-image article-card-image-grayscale"
+                            >
+                                <img
+                                    src="https://via.placeholder.com/400x180"
+                                    alt="Article thumbnail"
+                                />
+                            </div>
+                            <div class="article-card-content">
+                                <span class="article-card-category"
+                                    >Design Systems</span
+                                >
+                                <h3 class="article-card-title">
+                                    Building a Dual-Theme Design System
+                                </h3>
+                                <p class="article-card-description">
+                                    Exploring the challenges and solutions in
+                                    creating a flexible design system that
+                                    supports multiple themes and contexts.
+                                </p>
+                                <div class="article-card-meta">
+                                    <span class="article-card-date"
+                                        >Oct 7, 2025</span
+                                    >
+                                    <div class="article-card-tags">
+                                        <span class="article-card-tag"
+                                            >CSS</span
+                                        >
+                                        <span class="article-card-tag"
+                                            >Design</span
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="article-card">
+                            <div
+                                class="article-card-image article-card-image-grayscale"
+                            >
+                                <img
+                                    src="https://via.placeholder.com/400x180"
+                                    alt="Article thumbnail"
+                                />
+                            </div>
+                            <div class="article-card-content">
+                                <span class="article-card-category"
+                                    >Frontend</span
+                                >
+                                <h3 class="article-card-title">
+                                    CSS Variables for Dynamic Theming
+                                </h3>
+                                <p class="article-card-description">
+                                    A deep dive into using CSS custom properties
+                                    for creating dynamic, theme-aware
+                                    components.
+                                </p>
+                                <div class="article-card-meta">
+                                    <span class="article-card-date"
+                                        >Oct 1, 2025</span
+                                    >
+                                    <div class="article-card-tags">
+                                        <span class="article-card-tag"
+                                            >CSS</span
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="article-card">
+                            <div
+                                class="article-card-image article-card-image-grayscale"
+                            >
+                                <img
+                                    src="https://via.placeholder.com/400x180"
+                                    alt="Article thumbnail"
+                                />
+                            </div>
+                            <div class="article-card-content">
+                                <span class="article-card-category"
+                                    >UI Design</span
+                                >
+                                <h3 class="article-card-title">
+                                    The Power of Minimalist Design
+                                </h3>
+                                <p class="article-card-description">
+                                    Why less is more when it comes to user
+                                    interface design and how to achieve clarity
+                                    through simplicity.
+                                </p>
+                                <div class="article-card-meta">
+                                    <span class="article-card-date"
+                                        >Sep 24, 2025</span
+                                    >
+                                    <div class="article-card-tags">
+                                        <span class="article-card-tag"
+                                            >Design</span
+                                        >
+                                        <span class="article-card-tag">UX</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <hr class="blog-section-divider" />
+
+                <!-- Projects Section -->
+                <section class="blog-section" id="projects">
+                    <div class="blog-section-header">
+                        <h2 class="blog-section-title">Featured Projects</h2>
+                        <p class="blog-section-subtitle">
+                            Open source projects and experiments
+                        </p>
+                    </div>
+
+                    <div class="project-year-section">
+                        <h3 class="project-year-title">2025 — Present</h3>
+                        <div class="project-card-grid">
+                            <article class="project-card project-card-featured">
+                                <div
+                                    class="project-card-image project-card-image-grayscale"
+                                >
+                                    <img
+                                        src="https://via.placeholder.com/400x180"
+                                        alt="Project thumbnail"
+                                    />
+                                </div>
+                                <div class="project-card-content">
+                                    <div class="project-card-header">
+                                        <h3 class="project-card-title">
+                                            Monochrome Edge
+                                        </h3>
+                                        <span
+                                            class="project-card-status project-card-status-active"
+                                            >Active</span
+                                        >
+                                    </div>
+                                    <p class="project-card-description">
+                                        A modern, minimalist UI component
+                                        library with dual-theme system for
+                                        different use cases.
+                                    </p>
+                                    <div class="project-card-stats">
+                                        <div class="project-card-stat">
+                                            <svg
+                                                class="project-card-stat-icon"
+                                                viewBox="0 0 16 16"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"
+                                                />
+                                            </svg>
+                                            <span
+                                                class="project-card-stat-value"
+                                                >1.2k</span
+                                            >
+                                        </div>
+                                        <div class="project-card-stat">
+                                            <svg
+                                                class="project-card-stat-icon"
+                                                viewBox="0 0 16 16"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"
+                                                />
+                                            </svg>
+                                            <span
+                                                class="project-card-stat-value"
+                                                >230</span
+                                            >
+                                        </div>
+                                    </div>
+                                    <div class="project-card-tags">
+                                        <span class="project-card-tag"
+                                            >CSS</span
+                                        >
+                                        <span class="project-card-tag"
+                                            >Design System</span
+                                        >
+                                        <span class="project-card-tag"
+                                            >TypeScript</span
+                                        >
+                                    </div>
+                                    <div class="project-card-footer">
+                                        <span class="project-card-year"
+                                            >2025</span
+                                        >
+                                        <div class="project-card-links">
+                                            <a
+                                                href="#"
+                                                class="project-card-link"
+                                            >
+                                                <svg
+                                                    viewBox="0 0 16 16"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"
+                                                    />
+                                                </svg>
+                                                GitHub
+                                            </a>
+                                            <a
+                                                href="#"
+                                                class="project-card-link"
+                                            >
+                                                <svg
+                                                    viewBox="0 0 16 16"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm7.5-6.923c-.67.204-1.335.82-1.887 1.855-.143.268-.276.56-.395.872.705.157 1.472.257 2.282.287V1.077zM4.249 3.539c.142-.384.304-.744.481-1.078a6.7 6.7 0 0 1 .597-.933A7.01 7.01 0 0 0 3.051 3.05c.362.184.763.349 1.198.49zM3.509 7.5c.036-1.07.188-2.087.436-3.008a9.124 9.124 0 0 1-1.565-.667A6.964 6.964 0 0 0 1.018 7.5h2.49zm1.4-2.741a12.344 12.344 0 0 0-.4 2.741H7.5V5.091c-.91-.03-1.783-.145-2.591-.332zM8.5 5.09V7.5h2.99a12.342 12.342 0 0 0-.399-2.741c-.808.187-1.681.301-2.591.332zM4.51 8.5c.035.987.176 1.914.399 2.741A13.612 13.612 0 0 1 7.5 10.91V8.5H4.51zm3.99 0v2.409c.91.03 1.783.145 2.591.332.223-.827.364-1.754.4-2.741H8.5zm-3.282 3.696c.12.312.252.604.395.872.552 1.035 1.218 1.65 1.887 1.855V11.91c-.81.03-1.577.13-2.282.287zm.11 2.276a6.696 6.696 0 0 1-.598-.933 8.853 8.853 0 0 1-.481-1.079 8.38 8.38 0 0 0-1.198.49 7.01 7.01 0 0 0 2.276 1.522zm-1.383-2.964A13.36 13.36 0 0 1 3.508 8.5h-2.49a6.963 6.963 0 0 0 1.362 3.675c.47-.258.995-.482 1.565-.667zm6.728 2.964a7.009 7.009 0 0 0 2.275-1.521 8.376 8.376 0 0 0-1.197-.49 8.853 8.853 0 0 1-.481 1.078 6.688 6.688 0 0 1-.597.933zM8.5 11.909v3.014c.67-.204 1.335-.82 1.887-1.855.143-.268.276-.56.395-.872A12.63 12.63 0 0 0 8.5 11.91zm3.555-.401c.57.185 1.095.409 1.565.667A6.963 6.963 0 0 0 14.982 8.5h-2.49a13.36 13.36 0 0 1-.437 3.008zM14.982 7.5a6.963 6.963 0 0 0-1.362-3.675c-.47.258-.995.482-1.565.667.248.92.4 1.938.437 3.008h2.49zM11.27 2.461c.177.334.339.694.482 1.078a8.368 8.368 0 0 0 1.196-.49 7.01 7.01 0 0 0-2.275-1.52c.218.283.418.597.597.932zm-.488 1.343a7.765 7.765 0 0 0-.395-.872C9.835 1.897 9.17 1.282 8.5 1.077V4.09c.81-.03 1.577-.13 2.282-.287z"
+                                                    />
+                                                </svg>
+                                                Demo
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+
+                            <article class="project-card">
+                                <div
+                                    class="project-card-image project-card-image-grayscale"
+                                >
+                                    <img
+                                        src="https://via.placeholder.com/400x180"
+                                        alt="Project thumbnail"
+                                    />
+                                </div>
+                                <div class="project-card-content">
+                                    <div class="project-card-header">
+                                        <h3 class="project-card-title">
+                                            CSS Theme Generator
+                                        </h3>
+                                        <span
+                                            class="project-card-status project-card-status-wip"
+                                            >WIP</span
+                                        >
+                                    </div>
+                                    <p class="project-card-description">
+                                        A tool for generating CSS custom
+                                        property themes from design tokens.
+                                    </p>
+                                    <div class="project-card-stats">
+                                        <div class="project-card-stat">
+                                            <svg
+                                                class="project-card-stat-icon"
+                                                viewBox="0 0 16 16"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"
+                                                />
+                                            </svg>
+                                            <span
+                                                class="project-card-stat-value"
+                                                >45</span
+                                            >
+                                        </div>
+                                    </div>
+                                    <div class="project-card-tags">
+                                        <span class="project-card-tag"
+                                            >TypeScript</span
+                                        >
+                                        <span class="project-card-tag"
+                                            >Node.js</span
+                                        >
+                                    </div>
+                                    <div class="project-card-footer">
+                                        <span class="project-card-year"
+                                            >2025</span
+                                        >
+                                        <div class="project-card-links">
+                                            <a
+                                                href="#"
+                                                class="project-card-link"
+                                            >
+                                                <svg
+                                                    viewBox="0 0 16 16"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"
+                                                    />
+                                                </svg>
+                                                GitHub
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <!-- Footer -->
+            <footer class="blog-footer">
+                <div class="blog-footer-container">
+                    <div class="blog-footer-links">
+                        <a href="#" class="blog-footer-link">GitHub</a>
+                        <a href="#" class="blog-footer-link">Twitter</a>
+                        <a href="#" class="blog-footer-link">LinkedIn</a>
+                        <a
+                            href="mailto:hello@example.com"
+                            class="blog-footer-link"
+                            >Email</a
+                        >
+                    </div>
+                    <p class="blog-footer-text">
+                        Built with Monochrome Edge · © 2025
+                    </p>
+                </div>
+            </footer>
+        </div>
+
+        <script>
+            // Theme switching
+            document.querySelectorAll(".theme-btn").forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const theme = btn.dataset.theme;
+                    document.documentElement.setAttribute(
+                        "data-theme-variant",
+                        theme,
+                    );
+
+                    document
+                        .querySelectorAll(".theme-btn")
+                        .forEach((b) => b.classList.remove("active"));
+                    btn.classList.add("active");
+                });
+            });
+
+            // Mode switching
+            document.querySelectorAll(".mode-btn").forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const mode = btn.dataset.mode;
+                    document.documentElement.setAttribute("data-theme", mode);
+
+                    document
+                        .querySelectorAll(".mode-btn")
+                        .forEach((b) => b.classList.remove("active"));
+                    btn.classList.add("active");
+                });
+            });
+
+            // Mobile menu toggle
+            const menuToggle = document.getElementById("menuToggle");
+            const blogNav = document.getElementById("blogNav");
+
+            menuToggle.addEventListener("click", () => {
+                blogNav.classList.toggle("is-open");
+            });
+
+            // Navigation active state
+            document.querySelectorAll("#blogNav .tab").forEach((link) => {
+                link.addEventListener("click", (e) => {
+                    if (link.getAttribute("href").startsWith("#")) {
+                        document
+                            .querySelectorAll("#blogNav .tab")
+                            .forEach((l) => l.classList.remove("active"));
+                        link.classList.add("active");
+
+                        // Close mobile menu
+                        blogNav.classList.remove("is-open");
+                    }
+                });
+            });
+
+            // Smooth scroll for anchor links
+            document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+                anchor.addEventListener("click", function (e) {
+                    const href = this.getAttribute("href");
+                    if (href !== "#" && document.querySelector(href)) {
+                        e.preventDefault();
+                        document.querySelector(href).scrollIntoView({
+                            behavior: "smooth",
+                        });
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

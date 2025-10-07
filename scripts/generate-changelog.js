@@ -195,7 +195,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 // Update HTML documentation with changelog
 function updateHTMLChangelog(html) {
-  const indexPath = path.join(__dirname, "..", "index.html");
+  const indexPath = path.join(__dirname, "../docs", "index.html");
   let indexContent = fs.readFileSync(indexPath, "utf8");
 
   // Check if changelog section exists
