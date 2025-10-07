@@ -2,9 +2,10 @@
 
 A modern, minimalist UI component library with dual-theme system for web applications.
 
-[![Live Demo](https://img.shields.io/badge/Demo-GitHub%20Pages-blue?style=for-the-badge)](https://1eedaegon.github.io/monochrome-edge/)
-[![NPM Version](https://img.shields.io/npm/v/@monochrome-edge/ui?style=for-the-badge)](https://www.npmjs.com/package/@monochrome-edge/ui)
-[![GitHub Package](https://img.shields.io/badge/GitHub-Package-green?style=for-the-badge)](https://github.com/1eedaegon/monochrome-edge/packages)
+[![Live Demo](https://img.shields.io/badge/demo-live-brightgreen)](https://1eedaegon.github.io/monochrome-edge/)
+[![NPM Version](https://img.shields.io/npm/v/@monochrome-edge/ui)](https://www.npmjs.com/package/@monochrome-edge/ui)
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
+[![jsDelivr](https://img.shields.io/jsdelivr/npm/hm/@monochrome-edge/ui)](https://www.jsdelivr.com/package/npm/@monochrome-edge/ui)
 
 ![Theme Demo](docs/theme-demo.gif)
 
@@ -14,7 +15,7 @@ Check out demo : **[Monochrome Edge](https://1eedaegon.github.io/monochrome-edge
 
 ## Overview
 
-Monochrome Edge provides a comprehensive set of UI components built with pure CSS and optional JavaScript enhancements. The library features a sophisticated dual-theme system (Warm/Cold) with automatic light/dark mode support.
+Monochrome Edge provides a comprehensive set of UI components built with pure CSS. The library features a sophisticated dual-theme system (Warm/Cold) with automatic light/dark mode support and animated landscape backgrounds.
 
 ## Installation
 
@@ -27,9 +28,8 @@ npm install @monochrome-edge/ui
 ### CDN (jsDelivr)
 
 ```html
-<!-- Latest version -->
+<!-- CSS only -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css">
-<script src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/index.js"></script>
 ```
 
 
@@ -42,52 +42,33 @@ npm install @monochrome-edge/ui
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css">
 
 <!-- Or use specific version -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@1.0.6/dist/monochrome.min.css">
 ```
 
-### JavaScript Import
-
-```javascript
-// ES6 Modules from CDN
-import { Button, Modal, Toast } from 'https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/index.esm.js'
-
-// Or from npm package
-import { Button, Modal, Toast } from '@monochrome-edge/ui'
-```
-
-### Framework Support
-
-```javascript
-// React
-import { Button, Card } from '@monochrome-edge/ui/react'
-
-// Vue
-import { Button, Card } from '@monochrome-edge/ui/vue'
-
-// jQuery
-import '@monochrome-edge/ui/jquery'
-```
-
-### CDN Usage
+### Basic Usage
 
 ```html
 <!DOCTYPE html>
-<html data-theme-variant="warm">
+<html data-theme-variant="warm" data-theme="light">
 <head>
-  <!-- Monochrome Edge from jsDelivr -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css">
 </head>
 <body>
-  <button class="btn btn-primary">Click me</button>
-
-  <!-- Optional: JavaScript components -->
-  <script src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/index.js"></script>
-  <script>
-    // Components are available globally
-    const modal = new MonochromeEdge.Modal({
-      title: 'Hello World'
-    })
-  </script>
+  <!-- Button -->
+  <button class="btn btn-primary">Primary Button</button>
+  
+  <!-- Card -->
+  <div class="card">
+    <div class="card-header">
+      <h3 class="card-title">Card Title</h3>
+    </div>
+    <div class="card-body">
+      Card content
+    </div>
+  </div>
+  
+  <!-- Landscape Background -->
+  <div class="b-landscape b-landscape-wave"></div>
 </body>
 </html>
 ```
@@ -146,17 +127,42 @@ templates/      Page layouts
 └── app         Application shells
 ```
 
-## Usage Examples
+## Key Features
 
-### Button
+### Landscape Backgrounds
+
+Animated background components for visual depth:
+
+```html
+<!-- Wave Pattern -->
+<div class="b-landscape b-landscape-wave"></div>
+
+<!-- Mountain Pattern -->
+<div class="b-landscape b-landscape-mountain"></div>
+
+<!-- Forest Pattern -->
+<div class="b-landscape b-landscape-forest"></div>
+
+<!-- Desert Pattern -->
+<div class="b-landscape b-landscape-desert"></div>
+```
+
+**Colored Mode:**
+```html
+<!-- Enable colored mode -->
+<div class="b-landscape b-landscape-wave" data-landscape-mode="colored"></div>
+```
+
+### Buttons
 
 ```html
 <button class="btn btn-primary">Primary</button>
 <button class="btn btn-secondary">Secondary</button>
-<button class="btn btn-outline">Outline</button>
+<button class="btn btn-ghost">Ghost</button>
+<button class="btn btn-danger">Danger</button>
 ```
 
-### Card
+### Cards
 
 ```html
 <div class="card">
@@ -169,16 +175,16 @@ templates/      Page layouts
 </div>
 ```
 
-### Modal
+### Tabs
 
-```javascript
-const modal = new Modal({
-  title: 'Confirm Action',
-  content: 'Are you sure?',
-  onConfirm: () => console.log('Confirmed')
-})
-
-modal.show()
+```html
+<div class="tabs">
+  <div class="tabs-list">
+    <button class="tab active">Tab 1</button>
+    <button class="tab">Tab 2</button>
+    <button class="tab">Tab 3</button>
+  </div>
+</div>
 ```
 
 ## CSS Variables
@@ -233,80 +239,30 @@ npm run dev
 npm run build
 ```
 
-## API Reference
+## Component Classes
 
-### Button Component
+### Button Variants
 
-| Property | Type | Default | Description |
-|----------|------|---------|-------------|
-| variant | `string` | `primary` | Button style variant |
-| size | `string` | `md` | Button size |
-| disabled | `boolean` | `false` | Disable state |
-| loading | `boolean` | `false` | Loading state |
+- `.btn-primary` - Primary action button
+- `.btn-secondary` - Secondary action button
+- `.btn-ghost` - Subtle ghost button
+- `.btn-danger` - Destructive action button
 
-### Modal Component
+### Button Sizes
 
-| Method | Parameters | Returns | Description |
-|--------|------------|---------|-------------|
-| show() | - | `void` | Display modal |
-| hide() | - | `void` | Hide modal |
-| destroy() | - | `void` | Remove from DOM |
-| setContent() | `string\|HTMLElement` | `void` | Update content |
+- `.btn-small` - Small button
+- `.btn-large` - Large button
 
-### Toast Component
+### Landscape Backgrounds
 
-| Method | Parameters | Returns | Description |
-|--------|------------|---------|-------------|
-| success() | `message, options` | `Toast` | Success notification |
-| error() | `message, options` | `Toast` | Error notification |
-| info() | `message, options` | `Toast` | Info notification |
-| warning() | `message, options` | `Toast` | Warning notification |
+- `.b-landscape-wave` - Animated wave pattern
+- `.b-landscape-mountain` - Mountain silhouette
+- `.b-landscape-forest` - Forest scene
+- `.b-landscape-desert` - Desert dunes
 
-## Configuration
-
-### Global Options
-
-```javascript
-import { configure } from '@monochrome-edge/ui'
-
-configure({
-  theme: 'warm',
-  darkMode: 'auto',
-  animations: true,
-  rtl: false
-})
-```
-
-### Component Options
-
-```javascript
-// Set defaults for all modals
-Modal.defaults = {
-  backdrop: true,
-  keyboard: true,
-  focus: true
-}
-
-// Set defaults for all toasts
-Toast.defaults = {
-  duration: 3000,
-  position: 'top-right'
-}
-```
-
-## TypeScript
-
-Full TypeScript support with type definitions included.
-
-```typescript
-import { Button, ButtonProps } from '@monochrome-edge/ui'
-
-const props: ButtonProps = {
-  variant: 'primary',
-  size: 'lg',
-  onClick: () => console.log('clicked')
-}
-```
+**Attributes:**
+- `data-landscape-mode="colored"` - Enable colored theme-aware mode
+- Default: monochrome (grayscale)
 
 ## License
 
