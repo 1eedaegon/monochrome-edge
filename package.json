@@ -55,7 +55,7 @@
     "serve:demo": "http-server . -p 8080 -c-1 -o demo.html",
     "version:update": "node scripts/update-version.js",
     "changelog": "node scripts/generate-changelog.js",
-    "version": "npm run version:update && npm run changelog && git add index.html CHANGELOG.md",
+    "version": "npm run version:update && npm run changelog && git add docs/index.html CHANGELOG.md",
     "resolve:conflict": "node scripts/resolve-version-conflict.js",
     "postmerge": "npm run version:update"
   },

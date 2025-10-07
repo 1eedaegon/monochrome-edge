@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 
 /*
  * Demo Server
- * It is a simple HTTP server that serves static files from `ui/docs/index.html`
+ * It is a simple HTTP server that serves static files from `docs/index.html`
  * 데모니까 Pure html/css/typescript
  */
 const __filename = fileURLToPath(import.meta.url);
@@ -36,10 +36,10 @@ const MIME_TYPES: MimeTypes = {
 
 const server = http.createServer(
   (req: http.IncomingMessage, res: http.ServerResponse): void => {
-    // Default to index.html for root path
+    // Default to docs/index.html for root path
     // Remove query parameters from URL
     const urlPath = req.url?.split("?")[0] || "";
-    let filePath: string = urlPath === "/" ? "/index.html" : urlPath;
+    let filePath: string = urlPath === "/" ? "/docs/index.html" : urlPath;
 
     // Construct full file path
     filePath = path.join(__dirname, filePath);
