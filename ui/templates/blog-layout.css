@@ -342,13 +342,33 @@
 
 /* Blockquote */
 .blog-content blockquote {
-    border-left: 4px solid var(--theme-accent);
-    padding: 1rem 1.5rem;
+    position: relative;
+    padding: 1.5rem 1.5rem 1.5rem 3rem;
     margin: 2rem 0;
-    background-color: var(--theme-surface);
+    background: linear-gradient(
+        135deg,
+        var(--theme-surface) 0%,
+        var(--theme-bg) 100%
+    );
+    border: 1px solid var(--theme-border);
+    border-left: 3px solid var(--theme-text-primary);
+    color: var(--theme-text-primary);
+    font-style: normal;
+    font-weight: 500;
+    border-radius: 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.blog-content blockquote::before {
+    content: "//";
+    position: absolute;
+    left: 1rem;
+    top: 1.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
     color: var(--theme-text-secondary);
-    font-style: italic;
-    border-radius: var(--border-radius);
+    opacity: 0.3;
+    line-height: 1;
 }
 
 .blog-content blockquote p:last-child {
