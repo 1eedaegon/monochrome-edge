@@ -7,7 +7,7 @@ A modern, minimalist UI component library with dual-theme system for web applica
 [![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 [![jsDelivr](https://img.shields.io/jsdelivr/npm/hm/@monochrome-edge/ui)](https://www.jsdelivr.com/package/npm/@monochrome-edge/ui)
 
-![Theme Demo](docs/theme-demo.gif)
+![Theme Demo](docs/assets/theme-demo.gif)
 
 ## Demo
 
