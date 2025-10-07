@@ -1,0 +1,302 @@
+/*
+ * Landscape Background Component
+ * Dynamic animated backgrounds inspired by alistairshepherd.uk
+ */
+
+.b-landscape {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 320px;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+/* When inside a demo container */
+.component-preview .b-landscape {
+    position: absolute;
+}
+
+.b-landscape svg {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: var(--theme-text-primary);
+}
+
+/* Colored mode */
+.b-landscape[data-landscape-mode="colored"].b-landscape-wave svg {
+    color: var(--landscape-wave-color);
+}
+
+.b-landscape[data-landscape-mode="colored"].b-landscape-mountain svg {
+    color: var(--landscape-mountain-color);
+}
+
+.b-landscape[data-landscape-mode="colored"].b-landscape-forest svg {
+    color: var(--landscape-forest-color);
+}
+
+.b-landscape[data-landscape-mode="colored"].b-landscape-desert svg {
+    color: var(--landscape-desert-color);
+}
+
+/* Wave Landscape */
+.b-landscape-wave {
+    background: linear-gradient(
+        180deg,
+        transparent 0%,
+        rgba(var(--theme-accent-rgb, 100, 100, 100), 0.03) 100%
+    );
+}
+
+.b-landscape-wave .wave-layer {
+    animation: wave 20s linear infinite;
+}
+
+.b-landscape-wave .wave-layer:nth-child(1) {
+    animation-delay: 0s;
+    opacity: 0.1;
+    animation-duration: 80s;
+}
+
+.b-landscape-wave .wave-layer:nth-child(2) {
+    animation-delay: 0s;
+    opacity: 0.15;
+    animation-duration: 60s;
+}
+
+.b-landscape-wave .wave-layer:nth-child(3) {
+    animation-delay: 0s;
+    opacity: 0.2;
+    animation-duration: 40s;
+}
+
+@keyframes wave {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-11520px);
+    }
+}
+
+/* Mountain Landscape */
+.b-landscape-mountain {
+    background: linear-gradient(
+        180deg,
+        transparent 0%,
+        rgba(var(--theme-accent-rgb, 100, 100, 100), 0.05) 100%
+    );
+}
+
+.b-landscape-mountain .mountain-layer {
+    animation: parallax-mountain 30s linear infinite;
+}
+
+.b-landscape-mountain .mountain-far {
+    animation-duration: 120s;
+    opacity: 0.08;
+}
+
+.b-landscape-mountain .mountain-mid {
+    animation-duration: 90s;
+    opacity: 0.12;
+}
+
+.b-landscape-mountain .mountain-near {
+    animation-duration: 60s;
+    opacity: 0.16;
+}
+
+@keyframes parallax-mountain {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-11520px);
+    }
+}
+
+/* Forest Landscape */
+.b-landscape-forest {
+    background: linear-gradient(
+        180deg,
+        transparent 0%,
+        rgba(var(--theme-accent-rgb, 100, 100, 100), 0.04) 100%
+    );
+}
+
+.b-landscape-forest polygon {
+    /* Remove tree sway animation */
+}
+
+.b-landscape-forest .forest-layer-ultra-far {
+    opacity: 0.02;
+    animation: forest-parallax 360s linear infinite;
+}
+
+.b-landscape-forest .forest-layer-extreme-far {
+    opacity: 0.03;
+    animation: forest-parallax 320s linear infinite;
+}
+
+.b-landscape-forest .forest-layer-far-far {
+    opacity: 0.04;
+    animation: forest-parallax 280s linear infinite;
+}
+
+.b-landscape-forest .forest-layer-far {
+    opacity: 0.06;
+    animation: forest-parallax 240s linear infinite;
+}
+
+.b-landscape-forest .forest-layer-mid {
+    opacity: 0.09;
+    animation: forest-parallax 200s linear infinite;
+}
+
+.b-landscape-forest .forest-layer-near {
+    opacity: 0.11;
+    animation: forest-parallax 160s linear infinite;
+}
+
+@keyframes tree-sway {
+    0%,
+    100% {
+        transform: rotate(0deg) scaleY(1);
+    }
+    50% {
+        transform: rotate(1deg) scaleY(1.02);
+    }
+}
+
+@keyframes forest-parallax {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-11520px);
+    }
+}
+
+/* Desert Landscape */
+.b-landscape-desert {
+    background: linear-gradient(
+        180deg,
+        rgba(var(--theme-accent-rgb, 100, 100, 100), 0.02) 0%,
+        rgba(var(--theme-accent-rgb, 100, 100, 100), 0.08) 100%
+    );
+}
+
+.b-landscape-desert .dune {
+    animation: dune-shift 40s linear infinite;
+}
+
+.b-landscape-desert .dune:nth-child(1) {
+    animation-delay: 0s;
+    opacity: 0.06;
+    animation-duration: 150s;
+}
+
+.b-landscape-desert .dune:nth-child(2) {
+    animation-delay: 0s;
+    opacity: 0.1;
+    animation-duration: 120s;
+}
+
+.b-landscape-desert .dune:nth-child(3) {
+    animation-delay: 0s;
+    opacity: 0.14;
+    animation-duration: 90s;
+}
+
+.b-landscape-desert .sand-particle {
+    animation: sand-blow 8s linear infinite;
+}
+
+@keyframes dune-shift {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-11520px);
+    }
+}
+
+@keyframes sand-blow {
+    0% {
+        transform: translateX(0) translateY(0) scale(1);
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.3;
+    }
+    100% {
+        transform: translateX(100px) translateY(-50px) scale(0.5);
+        opacity: 0;
+    }
+}
+
+/* Parallax effect on scroll */
+@supports (animation-timeline: scroll()) {
+    .landscape-layer {
+        animation: parallax-scroll linear;
+        animation-timeline: scroll();
+    }
+
+    .landscape-layer-far {
+        animation-duration: 1s;
+    }
+
+    .landscape-layer-mid {
+        animation-duration: 0.8s;
+    }
+
+    .landscape-layer-near {
+        animation-duration: 0.6s;
+    }
+
+    @keyframes parallax-scroll {
+        from {
+            transform: translateY(0);
+        }
+        to {
+            transform: translateY(-60px);
+        }
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .b-landscape {
+        height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .b-landscape {
+        height: 150px;
+    }
+
+    /* Reduce animation intensity on mobile */
+    .b-landscape-wave .wave-layer {
+        animation-duration: 12s;
+    }
+
+    .b-landscape-mountain .mountain-layer {
+        animation-duration: 30s;
+    }
+
+    .b-landscape-forest .tree {
+        animation-duration: 6s;
+    }
+
+    .b-landscape-desert .dune {
+        animation-duration: 40s;
+    }
+}
