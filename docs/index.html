@@ -9397,7 +9397,18 @@ new DropdownController(document.getElementById('action-dropdown'));
 
                     // Show section
                     $(".ds-section").removeClass("active");
-                    $(`#${section}`).addClass("active");
+                    const $targetSection = $(`#${section}`);
+                    $targetSection.addClass("active");
+
+                    // Scroll to section
+                    if ($targetSection.length) {
+                        $("html, body").animate(
+                            {
+                                scrollTop: $targetSection.offset().top - 100,
+                            },
+                            300,
+                        );
+                    }
 
                     // Close mobile sidebar after selection
                     if ($(window).width() <= 768) {
