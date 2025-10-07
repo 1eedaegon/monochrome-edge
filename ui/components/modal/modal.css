@@ -1,26 +1,16 @@
 /* Modal Component Styles */
 
 .modal-backdrop {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom: 0;
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(4px);
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    animation: fadeIn 0.2s ease forwards;
 }
 
-.modal-backdrop.closing {
-    animation: fadeOut 0.2s ease forwards;
-}
-
-.modal {
+.modal-content {
     background: var(--theme-surface);
     border-radius: var(--border-radius-lg);
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -30,7 +20,11 @@
     flex-direction: column;
     position: relative;
     transform: scale(0.9);
-    animation: slideUp 0.3s ease forwards;
+    transition: transform 0.3s ease;
+}
+
+.modal.is-open .modal-content {
+    transform: scale(1);
 }
 
 .modal.closing {
@@ -157,11 +151,11 @@
         width: calc(100vw - 2rem) !important;
         max-height: calc(100vh - 2rem);
     }
-    
+
     .modal-header {
         padding: 1rem;
     }
-    
+
     .modal-body {
         padding: 1rem;
     }

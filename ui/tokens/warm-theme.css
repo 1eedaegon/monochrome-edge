@@ -54,6 +54,12 @@
     --theme-shadow-md: 0 4px 12px var(--theme-shadow-color);
     --theme-shadow-lg: 0 8px 24px var(--theme-shadow-color);
     --theme-shadow-xl: 0 10px 40px var(--theme-shadow-color);
+
+    /* Landscape colored mode - Warm Light */
+    --landscape-wave-color: #7ba3b8;
+    --landscape-mountain-color: #8a8175;
+    --landscape-forest-color: #6b7d5c;
+    --landscape-desert-color: #b89a7a;
 }
 
 [data-theme-variant="warm"][data-theme="dark"] {
@@ -76,4 +82,10 @@
     --theme-shadow-md: 0 4px 12px var(--theme-shadow-color);
     --theme-shadow-lg: 0 8px 24px var(--theme-shadow-color);
     --theme-shadow-xl: 0 10px 40px var(--theme-shadow-color);
+
+    /* Landscape colored mode - Warm Dark */
+    --landscape-wave-color: #5a7a8a;
+    --landscape-mountain-color: #6a6058;
+    --landscape-forest-color: #4a5a3c;
+    --landscape-desert-color: #8a724a;
 }
