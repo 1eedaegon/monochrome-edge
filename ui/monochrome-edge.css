@@ -40,6 +40,9 @@
 @import url("./molecules/article-card.css");
 @import url("./molecules/article-list.css");
 @import url("./molecules/project-card.css");
+@import url("./molecules/toc-hover-card.css");
+@import url("./molecules/toc-collapsible.css");
+@import url("./molecules/changelog.css");
 
 /* Organisms */
 @import url("./organisms/header.css");

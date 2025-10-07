@@ -1,0 +1,89 @@
+/*
+ * TOC Collapsible Component
+ * Thin style for in-document navigation
+ * Minimal design that fits within content flow
+ */
+
+.toc-collapsible {
+    background: transparent;
+    border: none;
+    border-left: 2px solid var(--theme-border);
+    padding-left: 1rem;
+}
+
+.toc-collapsible-header {
+    padding: 0.5rem 0;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all var(--transition-speed);
+    border-bottom: 1px solid transparent;
+}
+
+.toc-collapsible-header:hover {
+    border-bottom-color: var(--theme-border);
+}
+
+.toc-collapsible-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--theme-text-secondary);
+    margin: 0;
+}
+
+.toc-collapsible-icon {
+    font-size: 0.75rem;
+    color: var(--theme-text-secondary);
+    transition: transform var(--transition-speed);
+}
+
+.toc-collapsible.is-open .toc-collapsible-icon {
+    transform: rotate(180deg);
+}
+
+.toc-collapsible-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.toc-collapsible.is-open .toc-collapsible-content {
+    max-height: 500px;
+}
+
+.toc-list {
+    list-style: none;
+    padding: 0.5rem 0 0 0;
+    margin: 0;
+}
+
+.toc-list-item {
+    margin-bottom: 0.25rem;
+}
+
+.toc-list-item:last-child {
+    margin-bottom: 0;
+}
+
+.toc-list-link {
+    display: block;
+    color: var(--theme-text-primary);
+    text-decoration: none;
+    font-size: 0.8125rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 3px;
+    transition: all var(--transition-speed);
+}
+
+.toc-list-link:hover {
+    background: var(--theme-bg);
+    padding-left: 0.75rem;
+}
+
+.toc-list-link.is-active {
+    background: var(--theme-bg);
+    font-weight: 600;
+}

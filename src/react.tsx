@@ -2,87 +2,94 @@
  * @monochrome-edge/ui - React components
  */
 
-import React, { useState, useContext, createContext, ReactNode, CSSProperties } from 'react';
+import React, {
+  useState,
+  useContext,
+  createContext,
+  ReactNode,
+  CSSProperties,
+} from "react";
 
 // Theme Context
 interface ThemeContextType {
-  theme: 'warm' | 'cold';
-  mode: 'light' | 'dark';
-  setTheme: (theme: 'warm' | 'cold') => void;
-  setMode: (mode: 'light' | 'dark') => void;
+  theme: "warm" | "cold";
+  mode: "light" | "dark";
+  setTheme: (theme: "warm" | "cold") => void;
+  setMode: (mode: "light" | "dark") => void;
   toggleMode: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType>({
-  theme: 'warm',
-  mode: 'light',
+  theme: "warm",
+  mode: "light",
   setTheme: () => {},
   setMode: () => {},
-  toggleMode: () => {}
+  toggleMode: () => {},
 });
 
 export const useTheme = () => useContext(ThemeContext);
 
 export interface ThemeProviderProps {
   children: ReactNode;
-  defaultTheme?: 'warm' | 'cold';
-  defaultMode?: 'light' | 'dark';
+  defaultTheme?: "warm" | "cold";
+  defaultMode?: "light" | "dark";
 }
 
-export function ThemeProvider({ 
-  children, 
-  defaultTheme = 'warm', 
-  defaultMode = 'light' 
+export function ThemeProvider({
+  children,
+  defaultTheme = "warm",
+  defaultMode = "light",
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<'warm' | 'cold'>(defaultTheme);
-  const [mode, setMode] = useState<'light' | 'dark'>(defaultMode);
+  const [theme, setTheme] = useState<"warm" | "cold">(defaultTheme);
+  const [mode, setMode] = useState<"light" | "dark">(defaultMode);
 
   const toggleMode = () => {
-    setMode(prev => prev === 'light' ? 'dark' : 'light');
+    setMode((prev) => (prev === "light" ? "dark" : "light"));
   };
 
   React.useEffect(() => {
-    document.documentElement.setAttribute('data-theme', mode);
-    document.documentElement.setAttribute('data-theme-variant', theme);
+    document.documentElement.setAttribute("data-theme", mode);
+    document.documentElement.setAttribute("data-theme-variant", theme);
   }, [mode, theme]);
 
   return (
-    <ThemeContext.Provider value={{ theme, mode, setTheme, setMode, toggleMode }}>
+    <ThemeContext.Provider
+      value={{ theme, mode, setTheme, setMode, toggleMode }}
+    >
       {children}
     </ThemeContext.Provider>
   );
 }
 
 // Button Component
-export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'ghost' | 'danger';
-  size?: 'small' | 'medium' | 'large';
+export interface ButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+  variant?: "primary" | "secondary" | "ghost" | "danger";
+  size?: "small" | "medium" | "large";
   loading?: boolean;
 }
 
-export function Button({ 
-  variant = 'primary', 
-  size = 'medium', 
+export function Button({
+  variant = "primary",
+  size = "medium",
   loading = false,
-  className = '',
+  className = "",
   disabled,
   children,
-  ...props 
+  ...props
 }: ButtonProps) {
   const btnClass = [
-    'btn',
+    "btn",
     `btn-${variant}`,
-    size !== 'medium' && `btn-${size}`,
-    loading && 'loading',
-    className
-  ].filter(Boolean).join(' ');
+    size !== "medium" && `btn-${size}`,
+    loading && "loading",
+    className,
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
-    <button 
-      className={btnClass} 
-      disabled={disabled || loading}
-      {...props}
-    >
+    <button className={btnClass} disabled={disabled || loading} {...props}>
       {children}
     </button>
   );
@@ -96,17 +103,11 @@ export interface CardProps {
   style?: CSSProperties;
 }
 
-export function Card({ title, children, className = '', style }: CardProps) {
+export function Card({ title, children, className = "", style }: CardProps) {
   return (
     <div className={`card ${className}`} style={style}>
-      {title && (
-        <div className="card-header">
-          {title}
-        </div>
-      )}
-      <div className="card-body">
-        {children}
-      </div>
+      {title && <div className="card-header">{title}</div>}
+      <div className="card-body">{children}</div>
     </div>
   );
 }
@@ -119,39 +120,38 @@ export interface LayoutProps {
   className?: string;
 }
 
-export function Layout({ children, sidebar, header, className = '' }: LayoutProps) {
+export function Layout({
+  children,
+  sidebar,
+  header,
+  className = "",
+}: LayoutProps) {
   return (
     <div className={`ui-layout ${className}`}>
-      {sidebar && (
-        <aside className="sidebar">
-          {sidebar}
-        </aside>
-      )}
+      {sidebar && <aside className="sidebar">{sidebar}</aside>}
       <div className="main-container">
-        {header && (
-          <header className="header">
-            {header}
-          </header>
-        )}
-        <main className="main-content">
-          {children}
-        </main>
+        {header && <header className="header">{header}</header>}
+        <main className="main-content">{children}</main>
       </div>
     </div>
   );
 }
 
 // Form Components
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
 }
 
-export function Input({ label, error, className = '', ...props }: InputProps) {
+export function Input({ label, error, className = "", ...props }: InputProps) {
   return (
     <div className="form-group">
       {label && <label className="label">{label}</label>}
-      <input className={`input ${error ? 'input-error' : ''} ${className}`} {...props} />
+      <input
+        className={`input ${error ? "input-error" : ""} ${className}`}
+        {...props}
+      />
       {error && <span className="error-message">{error}</span>}
     </div>
   );
@@ -163,10 +163,16 @@ export interface ModalProps {
   onClose: () => void;
   title?: string;
   children: ReactNode;
-  size?: 'small' | 'medium' | 'large';
+  size?: "small" | "medium" | "large";
 }
 
-export function Modal({ isOpen, onClose, title, children, size = 'medium' }: ModalProps) {
+export function Modal({
+  isOpen,
+  onClose,
+  title,
+  children,
+  size = "medium",
+}: ModalProps) {
   if (!isOpen) return null;
 
   return (
@@ -176,12 +182,12 @@ export function Modal({ isOpen, onClose, title, children, size = 'medium' }: Mod
         {title && (
           <div className="modal-header">
             <h3 className="modal-title">{title}</h3>
-            <button className="modal-close" onClick={onClose}>×</button>
+            <button className="modal-close" onClick={onClose}>
+              ×
+            </button>
           </div>
         )}
-        <div className="modal-body">
-          {children}
-        </div>
+        <div className="modal-body">{children}</div>
       </div>
     </div>
   );
@@ -193,12 +199,8 @@ export interface TableProps {
   className?: string;
 }
 
-export function Table({ children, className = '' }: TableProps) {
-  return (
-    <table className={`table ${className}`}>
-      {children}
-    </table>
-  );
+export function Table({ children, className = "" }: TableProps) {
+  return <table className={`table ${className}`}>{children}</table>;
 }
 
 export interface TableHeaderProps {
@@ -228,8 +230,12 @@ export interface TableCellProps {
   className?: string;
 }
 
-export function TableCell({ children, header = false, className = '' }: TableCellProps) {
-  const Tag = header ? 'th' : 'td';
+export function TableCell({
+  children,
+  header = false,
+  className = "",
+}: TableCellProps) {
+  const Tag = header ? "th" : "td";
   return <Tag className={className}>{children}</Tag>;
 }
 
@@ -239,12 +245,8 @@ export interface NavProps {
   className?: string;
 }
 
-export function Nav({ children, className = '' }: NavProps) {
-  return (
-    <nav className={`nav ${className}`}>
-      {children}
-    </nav>
-  );
+export function Nav({ children, className = "" }: NavProps) {
+  return <nav className={`nav ${className}`}>{children}</nav>;
 }
 
 export interface NavGroupProps {
@@ -256,9 +258,7 @@ export function NavGroup({ title, children }: NavGroupProps) {
   return (
     <div className="nav-group">
       {title && <div className="nav-group-title">{title}</div>}
-      <div className="nav-group-items">
-        {children}
-      </div>
+      <div className="nav-group-items">{children}</div>
     </div>
   );
 }
@@ -270,11 +270,16 @@ export interface NavItemProps {
   href?: string;
 }
 
-export function NavItem({ children, active = false, onClick, href = '#' }: NavItemProps) {
+export function NavItem({
+  children,
+  active = false,
+  onClick,
+  href = "#",
+}: NavItemProps) {
   return (
-    <a 
+    <a
       href={href}
-      className={`nav-item ${active ? 'is-active' : ''}`}
+      className={`nav-item ${active ? "is-active" : ""}`}
       onClick={(e) => {
         e.preventDefault();
         onClick?.();
@@ -286,16 +291,26 @@ export function NavItem({ children, active = false, onClick, href = '#' }: NavIt
 }
 
 // Select Component
-export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+export interface SelectProps
+  extends React.SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
   error?: string;
 }
 
-export function Select({ label, error, className = '', children, ...props }: SelectProps) {
+export function Select({
+  label,
+  error,
+  className = "",
+  children,
+  ...props
+}: SelectProps) {
   return (
     <div className="form-group">
       {label && <label className="label">{label}</label>}
-      <select className={`select ${error ? 'select-error' : ''} ${className}`} {...props}>
+      <select
+        className={`select ${error ? "select-error" : ""} ${className}`}
+        {...props}
+      >
         {children}
       </select>
       {error && <span className="error-message">{error}</span>}
@@ -306,40 +321,52 @@ export function Select({ label, error, className = '', children, ...props }: Sel
 // Badge Component
 export interface BadgeProps {
   children: ReactNode;
-  variant?: 'default' | 'primary' | 'success' | 'warning' | 'danger';
+  variant?: "default" | "primary" | "success" | "warning" | "danger";
   className?: string;
 }
 
-export function Badge({ children, variant = 'default', className = '' }: BadgeProps) {
+export function Badge({
+  children,
+  variant = "default",
+  className = "",
+}: BadgeProps) {
   return (
-    <span className={`badge badge-${variant} ${className}`}>
-      {children}
-    </span>
+    <span className={`badge badge-${variant} ${className}`}>{children}</span>
   );
 }
 
 // Textarea Component
-export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface TextareaProps
+  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   error?: string;
 }
 
-export function Textarea({ label, error, className = '', ...props }: TextareaProps) {
+export function Textarea({
+  label,
+  error,
+  className = "",
+  ...props
+}: TextareaProps) {
   return (
     <div className="form-group">
       {label && <label className="label">{label}</label>}
-      <textarea className={`textarea ${error ? 'textarea-error' : ''} ${className}`} {...props} />
+      <textarea
+        className={`textarea ${error ? "textarea-error" : ""} ${className}`}
+        {...props}
+      />
       {error && <span className="error-message">{error}</span>}
     </div>
   );
 }
 
 // Checkbox Component
-export interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface CheckboxProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
 }
 
-export function Checkbox({ label, className = '', ...props }: CheckboxProps) {
+export function Checkbox({ label, className = "", ...props }: CheckboxProps) {
   return (
     <label className={`checkbox ${className}`}>
       <input type="checkbox" {...props} />
@@ -350,11 +377,12 @@ export function Checkbox({ label, className = '', ...props }: CheckboxProps) {
 }
 
 // Radio Component
-export interface RadioProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface RadioProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
 }
 
-export function Radio({ label, className = '', ...props }: RadioProps) {
+export function Radio({ label, className = "", ...props }: RadioProps) {
   return (
     <label className={`radio ${className}`}>
       <input type="radio" {...props} />
@@ -370,20 +398,22 @@ export interface FormGroupProps {
   className?: string;
 }
 
-export function FormGroup({ children, className = '' }: FormGroupProps) {
-  return (
-    <div className={`form-group ${className}`}>
-      {children}
-    </div>
-  );
+export function FormGroup({ children, className = "" }: FormGroupProps) {
+  return <div className={`form-group ${className}`}>{children}</div>;
 }
 
 // Label Component
-export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
+export interface LabelProps
+  extends React.LabelHTMLAttributes<HTMLLabelElement> {
   required?: boolean;
 }
 
-export function Label({ children, required = false, className = '', ...props }: LabelProps) {
+export function Label({
+  children,
+  required = false,
+  className = "",
+  ...props
+}: LabelProps) {
   return (
     <label className={`label ${className}`} {...props}>
       {children}
@@ -394,29 +424,202 @@ export function Label({ children, required = false, className = '', ...props }: 
 
 // Toast Hook
 export function useToast() {
-  const show = (message: string, type: 'success' | 'error' | 'info' = 'info') => {
-    const toast = document.createElement('div');
+  const show = (
+    message: string,
+    type: "success" | "error" | "info" = "info",
+  ) => {
+    const toast = document.createElement("div");
     toast.className = `toast toast-${type}`;
     toast.textContent = message;
-    
-    let container = document.querySelector('.toast-container');
+
+    let container = document.querySelector(".toast-container");
     if (!container) {
-      container = document.createElement('div');
-      container.className = 'toast-container';
+      container = document.createElement("div");
+      container.className = "toast-container";
       document.body.appendChild(container);
     }
-    
+
     container.appendChild(toast);
-    
+
     setTimeout(() => {
-      toast.style.opacity = '0';
+      toast.style.opacity = "0";
       setTimeout(() => toast.remove(), 300);
     }, 3000);
   };
 
   return {
-    success: (message: string) => show(message, 'success'),
-    error: (message: string) => show(message, 'error'),
-    info: (message: string) => show(message, 'info')
+    success: (message: string) => show(message, "success"),
+    error: (message: string) => show(message, "error"),
+    info: (message: string) => show(message, "info"),
   };
+}
+
+// TOC Components
+export interface TocItem {
+  href: string;
+  text: string;
+  isActive?: boolean;
+}
+
+export interface TocHoverCardProps {
+  items: TocItem[];
+  title?: string;
+  className?: string;
+}
+
+export function TocHoverCard({
+  items,
+  title = "Contents",
+  className = "",
+}: TocHoverCardProps) {
+  return (
+    <div className={`toc-hover-card ${className}`}>
+      <div className="toc-card">
+        <h4 className="toc-card-title">{title}</h4>
+        <ul className="toc-card-list">
+          {items.map((item, index) => (
+            <li key={index} className="toc-card-item">
+              <a
+                href={item.href}
+                className={`toc-card-link ${item.isActive ? "is-active" : ""}`}
+              >
+                {item.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+export interface TocCollapsibleProps {
+  items: TocItem[];
+  title?: string;
+  defaultOpen?: boolean;
+  className?: string;
+}
+
+export function TocCollapsible({
+  items,
+  title = "Table of Contents",
+  defaultOpen = true,
+  className = "",
+}: TocCollapsibleProps) {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+
+  return (
+    <div className={`toc-collapsible ${isOpen ? "is-open" : ""} ${className}`}>
+      <div
+        className="toc-collapsible-header"
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <h4 className="toc-collapsible-title">{title}</h4>
+        <span className="toc-collapsible-icon">▼</span>
+      </div>
+      <div className="toc-collapsible-content">
+        <ul className="toc-list">
+          {items.map((item, index) => (
+            <li key={index} className="toc-list-item">
+              <a
+                href={item.href}
+                className={`toc-list-link ${item.isActive ? "is-active" : ""}`}
+              >
+                {item.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+// Changelog Components
+export interface ChangelogEntry {
+  version: string;
+  date: string;
+  categories: {
+    title: string;
+    items: { commit: string; hash: string; url?: string }[];
+  }[];
+}
+
+export interface ChangelogProps {
+  entries: ChangelogEntry[];
+  itemsPerPage?: number;
+  className?: string;
+}
+
+export function Changelog({
+  entries,
+  itemsPerPage = 10,
+  className = "",
+}: ChangelogProps) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = Math.ceil(entries.length / itemsPerPage);
+
+  const start = (currentPage - 1) * itemsPerPage;
+  const end = start + itemsPerPage;
+  const visibleEntries = entries.slice(start, end);
+
+  return (
+    <div className={`changelog-container ${className}`}>
+      {visibleEntries.map((entry, index) => (
+        <div
+          key={index}
+          className="changelog-entry"
+          data-version={entry.version}
+        >
+          <h3 className="changelog-version">
+            v{entry.version}{" "}
+            <span className="changelog-date">{entry.date}</span>
+          </h3>
+          <div className="changelog-content">
+            {entry.categories.map((category, catIndex) => (
+              <div key={catIndex} className="changelog-category">
+                <h4 className="changelog-category-title">{category.title}</h4>
+                <ul className="changelog-list">
+                  {category.items.map((item, itemIndex) => (
+                    <li key={itemIndex}>
+                      <span className="changelog-commit">{item.commit}</span>
+                      <a
+                        href={item.url || "#"}
+                        className="changelog-hash"
+                        title={item.hash}
+                      >
+                        {item.hash.substring(0, 7)}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      {totalPages > 1 && (
+        <div className="changelog-pagination">
+          <button
+            className="changelog-pagination-btn"
+            onClick={() => setCurrentPage((p) => p - 1)}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </button>
+          <span className="changelog-pagination-info">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            className="changelog-pagination-btn"
+            onClick={() => setCurrentPage((p) => p + 1)}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      )}
+    </div>
+  );
 }
