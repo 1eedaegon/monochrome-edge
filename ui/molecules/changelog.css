@@ -127,3 +127,15 @@
     color: var(--theme-text-secondary);
     margin: 0 1rem;
 }
+
+/* More link */
+.changelog-more {
+    text-align: center;
+    padding: 2rem 0;
+    margin-top: 1rem;
+    border-top: 1px solid var(--theme-border);
+}
+
+.changelog-more .btn {
+    min-width: 200px;
+}

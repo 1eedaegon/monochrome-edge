@@ -193,6 +193,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   fs.writeFileSync(changelogPath, newChangelog, "utf8");
 }
 
+// Parse existing changelog entries from HTML
+function parseExistingEntries(content, start, end) {
+  const changelogSection = content.substring(start, end);
+  const entryRegex =
+    /<div class="changelog-entry"[^>]*>[\s\S]*?<\/div>\s*<\/div>/g;
+  const entries = [];
+  let match;
+
+  while ((match = entryRegex.exec(changelogSection)) !== null) {
+    entries.push(match[0].trim());
+  }
+
+  return entries;
+}
+
 // Update HTML documentation with changelog
 function updateHTMLChangelog(html) {
   const indexPath = path.join(__dirname, "../docs", "index.html");
@@ -213,6 +228,31 @@ function updateHTMLChangelog(html) {
     return;
   }
 
+  // Parse existing entries
+  const existingEntries = parseExistingEntries(
+    indexContent,
+    changelogStart,
+    changelogEnd,
+  );
+
+  // Combine new and existing entries, keep only 3 most recent
+  const allEntries = [html, ...existingEntries];
+  const recentEntries = allEntries.slice(0, 3);
+
+  // Add "View Full Changelog" link
+  const changelogMore = `
+                        <div class="changelog-more">
+                            <a href="https://github.com/1eedaegon/monochrome-edge/blob/main/CHANGELOG.md"
+                               class="btn btn-outline"
+                               target="_blank"
+                               rel="noopener noreferrer">
+                                View Full Changelog
+                            </a>
+                        </div>`;
+
+  const newContent =
+    recentEntries.join("\n                        ") + changelogMore;
+
   // Replace changelog content
   const before = indexContent.substring(
     0,
@@ -220,7 +260,12 @@ function updateHTMLChangelog(html) {
   );
   const after = indexContent.substring(changelogEnd);
 
-  indexContent = before + "\n" + html + "\n                    " + after;
+  indexContent =
+    before +
+    "\n                        " +
+    newContent +
+    "\n                    " +
+    after;
   fs.writeFileSync(indexPath, indexContent, "utf8");
 }
 
