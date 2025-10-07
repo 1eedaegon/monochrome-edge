@@ -84,19 +84,14 @@
     height: 16px;
 }
 
-/* Default Chevron Icon */
+/* Default Chevron Icon - Disabled, using text arrow instead */
 .accordion-icon::before {
-    content: '';
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 6px solid currentColor;
+    content: none;
 }
 
 /* Plus/Minus Icon Variant */
 .accordion.accordion-plus .accordion-icon::before {
-    content: '+';
+    content: "+";
     border: none;
     font-size: 1.25rem;
     font-weight: 400;
@@ -104,7 +99,7 @@
 }
 
 .accordion.accordion-plus .accordion-button.active .accordion-icon::before {
-    content: '−';
+    content: "−";
 }
 
 .accordion.accordion-plus .accordion-button.active .accordion-icon {
@@ -214,7 +209,7 @@
 }
 
 .accordion-button.loading::after {
-    content: '';
+    content: "";
     width: 16px;
     height: 16px;
     margin-left: 0.5rem;
@@ -236,7 +231,7 @@
         padding: 0.875rem 1rem;
         font-size: 0.95rem;
     }
-    
+
     .accordion-body {
         padding: 0.875rem 1rem;
     }
