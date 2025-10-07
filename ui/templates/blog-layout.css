@@ -494,7 +494,8 @@
         padding: 0 1rem;
     }
 
-    .blog-nav {
+    .blog-nav,
+    .tabs-list {
         position: fixed;
         top: 73px;
         left: 0;
@@ -513,7 +514,8 @@
         z-index: 99;
     }
 
-    .blog-nav.is-open {
+    .blog-nav.is-open,
+    .tabs-list.is-open {
         transform: translateY(0);
         opacity: 1;
         pointer-events: all;
