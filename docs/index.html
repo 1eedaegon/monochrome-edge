@@ -29,13 +29,16 @@
 
         <!-- Favicon - dynamically loaded based on environment -->
         <script>
-            // Set favicon path based on environment (needs to run before isLocal is defined below)
             (function() {
                 const isLocalEnv = window.location.hostname === 'localhost' ||
                                   window.location.hostname === '127.0.0.1' ||
                                   window.location.hostname === '';
                 const faviconPath = isLocalEnv ? 'docs/assets/favicon.svg' : 'assets/favicon.svg';
-                document.write('<link rel="icon" type="image/svg+xml" href="' + faviconPath + '" />');
+                const link = document.createElement('link');
+                link.rel = 'icon';
+                link.type = 'image/svg+xml';
+                link.href = faviconPath;
+                document.head.appendChild(link);
             })();
         </script>
 
@@ -54,19 +57,18 @@
         />
 
         <!-- Monochrome Edge UI Components -->
-        <!-- Environment-based CSS loading -->
         <script>
             const isLocal = window.location.hostname === 'localhost' ||
                            window.location.hostname === '127.0.0.1' ||
                            window.location.hostname === '';
 
             if (isLocal) {
-                // Local development - use source files from parent directory
                 document.write('<link rel="stylesheet" href="../ui/monochrome-edge.css">');
             } else {
-                // Production - use CDN
                 document.write('<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css">');
             }
+
+            window.isLocal = isLocal;
         </script>
 
         <!-- jQuery -->
@@ -811,6 +813,12 @@
                     </a>
                     <a class="nav-item" data-section="integration">
                         <span class="nav-item-label">Integration</span>
+                    </a>
+                    <a class="nav-item" data-section="section">
+                        <span class="nav-item-label">Section</span>
+                    </a>
+                    <a class="nav-item" data-section="article">
+                        <span class="nav-item-label">Article</span>
                     </a>
                     <a class="nav-item" href="blog-demo.html">
                         <span class="nav-item-label">Blog Demo</span>
@@ -1911,10 +1919,12 @@ $.createIconButton({ icon: 'sun', size: 'xl' });</code></pre>
                             >
                                 <div class="demo-form" style="width: 100%">
                                     <div class="form-group">
-                                        <label class="label"
+                                        <label class="label" for="demo-email"
                                             >Email Address</label
                                         >
                                         <input
+                                            id="demo-email"
+                                            name="email"
                                             type="email"
                                             class="input"
                                             placeholder="you@example.com"
@@ -1924,15 +1934,17 @@ $.createIconButton({ icon: 'sun', size: 'xl' });</code></pre>
                                         >
                                     </div>
                                     <div class="form-group">
-                                        <label class="label">Message</label>
+                                        <label class="label" for="demo-message">Message</label>
                                         <textarea
+                                            id="demo-message"
+                                            name="message"
                                             class="textarea"
                                             placeholder="Enter your message..."
                                         ></textarea>
                                     </div>
                                     <div class="form-group">
-                                        <label class="label">Country</label>
-                                        <select class="select">
+                                        <label class="label" for="demo-country">Country</label>
+                                        <select id="demo-country" name="country" class="select">
                                             <option>United States</option>
                                             <option>Canada</option>
                                             <option>Mexico</option>
@@ -1940,7 +1952,7 @@ $.createIconButton({ icon: 'sun', size: 'xl' });</code></pre>
                                     </div>
                                     <div class="form-group">
                                         <label class="checkbox">
-                                            <input type="checkbox" />
+                                            <input id="demo-terms" name="terms" type="checkbox" />
                                             <span class="checkbox-mark"></span>
                                             I agree to the terms
                                         </label>
@@ -2958,207 +2970,373 @@ $('th').on('click', function() {
                         applications.
                     </p>
 
+
+                    <!-- Doc Layout (Sidebar Layout) -->
                     <div class="component-showcase">
                         <div class="component-header">
-                            <h3 class="component-title">Layout Structure</h3>
-                            <div class="component-toggle">
-                                <button
-                                    class="toggle-btn active"
-                                    data-target="cms-layout"
-                                >
-                                    Preview
-                                </button>
-                                <button
-                                    class="toggle-btn"
-                                    data-target="cms-layout"
-                                >
-                                    Code
-                                </button>
-                            </div>
+                            <h3 class="component-title">Doc Layout</h3>
                         </div>
-                        <div class="component-content" id="cms-layout">
+                        <div class="component-content">
                             <div class="component-preview">
-                                <div
-                                    class="demo-grid"
-                                    style="width: 100%; gap: 2rem"
-                                >
-                                    <!-- Desktop Layout -->
-                                    <div style="flex: 1">
-                                        <h4
-                                            style="
-                                                margin-bottom: 1rem;
-                                                color: var(
-                                                    --theme-text-secondary
-                                                );
-                                                font-size: 0.875rem;
-                                            "
-                                        >
-                                            Desktop Layout
+                                <div class="demo-grid" style="width: 100%; gap: 2rem; align-items: flex-start;">
+                                    <!-- PC View -->
+                                    <div style="flex: 1; min-width: 400px;">
+                                        <h4 style="margin-bottom: 1rem; color: var(--theme-text-secondary); font-size: 0.875rem;">
+                                            PC View
                                         </h4>
                                         <div
                                             style="
                                                 width: 100%;
-                                                height: 250px;
-                                                border: 1px solid
-                                                    var(--theme-border);
-                                                border-radius: var(
-                                                    --border-radius
-                                                );
-                                                display: grid;
-                                                grid-template-areas: &quot;sidebar header&quot; &quot;sidebar main&quot;;
-                                                grid-template-columns: 200px 1fr;
-                                                grid-template-rows: 60px 1fr;
+                                                height: 350px;
+                                                border: 1px solid var(--theme-border);
+                                                border-radius: var(--border-radius);
                                                 overflow: hidden;
+                                                background: var(--theme-bg);
                                             "
                                         >
-                                            <div
-                                                style="
-                                                    grid-area: sidebar;
-                                                    background: var(
-                                                        --theme-surface
-                                                    );
-                                                    border-right: 1px solid
-                                                        var(--theme-border);
-                                                    padding: 1rem;
-                                                    font-size: 0.75rem;
-                                                    color: var(
-                                                        --theme-text-secondary
-                                                    );
-                                                "
-                                            >
-                                                Sidebar
-                                            </div>
-                                            <div
-                                                style="
-                                                    grid-area: header;
-                                                    background: var(
-                                                        --theme-surface
-                                                    );
-                                                    border-bottom: 1px solid
-                                                        var(--theme-border);
-                                                    padding: 1rem;
-                                                    font-size: 0.75rem;
-                                                    color: var(
-                                                        --theme-text-secondary
-                                                    );
-                                                "
-                                            >
-                                                Header
-                                            </div>
-                                            <div
-                                                style="
-                                                    grid-area: main;
-                                                    background: var(--theme-bg);
-                                                    padding: 1rem;
-                                                    font-size: 0.875rem;
-                                                    color: var(
-                                                        --theme-text-primary
-                                                    );
-                                                "
-                                            >
-                                                Main Content
+                                            <div style="display: flex; height: 100%;">
+                                                <!-- Sidebar -->
+                                                <div
+                                                    style="
+                                                        width: 180px;
+                                                        background: var(--theme-surface);
+                                                        border-right: 1px solid var(--theme-border);
+                                                        padding: 1rem;
+                                                        display: flex;
+                                                        flex-direction: column;
+                                                        gap: 0.5rem;
+                                                    "
+                                                >
+                                                    <div style="font-size: 0.75rem; font-weight: 600; color: var(--theme-accent); margin-bottom: 0.5rem;">
+                                                        Navigation
+                                                    </div>
+                                                    <div style="padding: 0.5rem 0.75rem; background: var(--theme-accent-alpha); color: var(--theme-accent); border-radius: 4px; font-size: 0.75rem;">
+                                                        Dashboard
+                                                    </div>
+                                                    <div style="padding: 0.5rem 0.75rem; color: var(--theme-text-secondary); font-size: 0.75rem;">
+                                                        Content
+                                                    </div>
+                                                    <div style="padding: 0.5rem 0.75rem; color: var(--theme-text-secondary); font-size: 0.75rem;">
+                                                        Media
+                                                    </div>
+                                                    <div style="padding: 0.5rem 0.75rem; color: var(--theme-text-secondary); font-size: 0.75rem;">
+                                                        Settings
+                                                    </div>
+                                                </div>
+                                                <!-- Main Content -->
+                                                <div style="flex: 1; display: flex; flex-direction: column;">
+                                                    <!-- Header -->
+                                                    <div
+                                                        style="
+                                                            padding: 1rem;
+                                                            border-bottom: 1px solid var(--theme-border);
+                                                            display: flex;
+                                                            justify-content: space-between;
+                                                            align-items: center;
+                                                        "
+                                                    >
+                                                        <div style="font-size: 0.875rem; font-weight: 600; color: var(--theme-text-primary);">
+                                                            Page Title
+                                                        </div>
+                                                        <div style="padding: 0.375rem 0.75rem; background: var(--theme-accent); color: white; border-radius: 4px; font-size: 0.75rem;">
+                                                            Action
+                                                        </div>
+                                                    </div>
+                                                    <!-- Content Area -->
+                                                    <div
+                                                        style="
+                                                            flex: 1;
+                                                            padding: 1rem;
+                                                            color: var(--theme-text-secondary);
+                                                            font-size: 0.75rem;
+                                                        "
+                                                    >
+                                                        <div style="margin-bottom: 0.75rem; color: var(--theme-text-primary);">Content Area</div>
+                                                        <div style="height: 4px; background: var(--theme-border); border-radius: 2px; margin-bottom: 0.5rem;"></div>
+                                                        <div style="height: 4px; background: var(--theme-border); border-radius: 2px; width: 80%; margin-bottom: 0.5rem;"></div>
+                                                        <div style="height: 4px; background: var(--theme-border); border-radius: 2px; width: 90%; margin-bottom: 1rem;"></div>
+                                                        <div style="height: 4px; background: var(--theme-border); border-radius: 2px; margin-bottom: 0.5rem;"></div>
+                                                        <div style="height: 4px; background: var(--theme-border); border-radius: 2px; width: 70%;"></div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <!-- Mobile Layout -->
-                                    <div style="width: 150px">
-                                        <h4
-                                            style="
-                                                margin-bottom: 1rem;
-                                                color: var(
-                                                    --theme-text-secondary
-                                                );
-                                                font-size: 0.875rem;
-                                            "
-                                        >
-                                            Mobile Layout
+
+                                    <!-- Mobile View -->
+                                    <div style="width: 200px;">
+                                        <h4 style="margin-bottom: 1rem; color: var(--theme-text-secondary); font-size: 0.875rem;">
+                                            Mobile View
                                         </h4>
                                         <div
                                             style="
-                                                width: 150px;
-                                                height: 250px;
-                                                border: 1px solid
-                                                    var(--theme-border);
-                                                border-radius: var(
-                                                    --border-radius
-                                                );
-                                                display: flex;
-                                                flex-direction: column;
+                                                width: 200px;
+                                                height: 350px;
+                                                border: 1px solid var(--theme-border);
+                                                border-radius: var(--border-radius);
                                                 overflow: hidden;
+                                                background: var(--theme-bg);
                                             "
                                         >
-                                            <div
-                                                style="
-                                                    height: 40px;
-                                                    background: var(
-                                                        --theme-surface
-                                                    );
-                                                    border-bottom: 1px solid
-                                                        var(--theme-border);
-                                                    display: flex;
-                                                    align-items: center;
-                                                    padding: 0 0.5rem;
-                                                    gap: 0.5rem;
-                                                "
-                                            >
+                                            <div style="display: flex; flex-direction: column; height: 100%;">
+                                                <!-- Mobile Header with Menu -->
                                                 <div
                                                     style="
+                                                        padding: 0.75rem 1rem;
+                                                        border-bottom: 1px solid var(--theme-border);
                                                         display: flex;
-                                                        flex-direction: column;
-                                                        gap: 2px;
+                                                        align-items: center;
+                                                        justify-content: space-between;
+                                                        background: var(--theme-surface);
                                                     "
                                                 >
-                                                    <span
+                                                    <div style="font-size: 0.875rem; font-weight: 600; color: var(--theme-text-primary);">
+                                                        Page Title
+                                                    </div>
+                                                    <!-- Hamburger Menu -->
+                                                    <div
                                                         style="
-                                                            width: 12px;
-                                                            height: 1.5px;
-                                                            background: var(
-                                                                --theme-text-primary
-                                                            );
+                                                            display: flex;
+                                                            flex-direction: column;
+                                                            gap: 3px;
                                                         "
-                                                    ></span>
-                                                    <span
-                                                        style="
-                                                            width: 12px;
-                                                            height: 1.5px;
-                                                            background: var(
-                                                                --theme-text-primary
-                                                            );
-                                                        "
-                                                    ></span>
-                                                    <span
-                                                        style="
-                                                            width: 12px;
-                                                            height: 1.5px;
-                                                            background: var(
-                                                                --theme-text-primary
-                                                            );
-                                                        "
-                                                    ></span>
+                                                    >
+                                                        <span style="width: 16px; height: 2px; background: var(--theme-text-primary);"></span>
+                                                        <span style="width: 16px; height: 2px; background: var(--theme-text-primary);"></span>
+                                                        <span style="width: 16px; height: 2px; background: var(--theme-text-primary);"></span>
+                                                    </div>
                                                 </div>
-                                                <div
-                                                    style="
-                                                        font-size: 0.625rem;
-                                                        color: var(
-                                                            --theme-text-primary
-                                                        );
-                                                    "
-                                                >
-                                                    Menu
+                                                <!-- Mobile Content -->
+                                                <div style="flex: 1; padding: 1rem;">
+                                                    <div style="margin-bottom: 0.75rem; color: var(--theme-text-primary); font-size: 0.75rem;">
+                                                        Content Area
+                                                    </div>
+                                                    <div style="height: 4px; background: var(--theme-border); border-radius: 2px; margin-bottom: 0.5rem;"></div>
+                                                    <div style="height: 4px; background: var(--theme-border); border-radius: 2px; width: 90%; margin-bottom: 0.5rem;"></div>
+                                                    <div style="height: 4px; background: var(--theme-border); border-radius: 2px; width: 70%; margin-bottom: 1rem;"></div>
+                                                    <div style="height: 4px; background: var(--theme-border); border-radius: 2px; margin-bottom: 0.5rem;"></div>
+                                                    <div style="height: 4px; background: var(--theme-border); border-radius: 2px; width: 85%; margin-bottom: 0.5rem;"></div>
+                                                    <div style="height: 4px; background: var(--theme-border); border-radius: 2px; width: 60%;"></div>
                                                 </div>
                                             </div>
-                                            <div
-                                                style="
-                                                    flex: 1;
-                                                    background: var(--theme-bg);
-                                                    padding: 1rem;
-                                                    font-size: 0.75rem;
-                                                    color: var(
-                                                        --theme-text-primary
-                                                    );
-                                                "
-                                            >
-                                                Content
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Blog Layout -->
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Blog Layout</h3>
+                        </div>
+                        <div class="component-content">
+                            <div class="component-preview">
+                                <div class="demo-grid" style="width: 100%; gap: 2rem; align-items: flex-start;">
+                                    <!-- PC View -->
+                                    <div style="flex: 1; min-width: 400px;">
+                                        <h4 style="margin-bottom: 1rem; color: var(--theme-text-secondary); font-size: 0.875rem;">
+                                            PC View
+                                        </h4>
+                                        <div
+                                            style="
+                                                width: 100%;
+                                                height: 350px;
+                                                border: 1px solid var(--theme-border);
+                                                border-radius: var(--border-radius);
+                                                overflow: hidden;
+                                                background: var(--theme-bg);
+                                            "
+                                        >
+                                            <div style="display: flex; flex-direction: column; height: 100%;">
+                                                <!-- Header -->
+                                                <div
+                                                    style="
+                                                        padding: 1rem 1.5rem;
+                                                        border-bottom: 1px solid var(--theme-border);
+                                                        display: flex;
+                                                        justify-content: space-between;
+                                                        align-items: center;
+                                                        background: var(--theme-surface);
+                                                    "
+                                                >
+                                                    <div style="font-size: 0.875rem; font-weight: 600; color: var(--theme-text-primary);">
+                                                        My Blog
+                                                    </div>
+                                                    <div style="display: flex; gap: 0.75rem; font-size: 0.75rem;">
+                                                        <span style="color: var(--theme-accent); font-weight: 500;">About</span>
+                                                        <span style="color: var(--theme-text-secondary);">Articles</span>
+                                                        <span style="color: var(--theme-text-secondary);">Projects</span>
+                                                    </div>
+                                                </div>
+                                                <!-- Hero Section -->
+                                                <div
+                                                    style="
+                                                        padding: 1.5rem;
+                                                        text-align: center;
+                                                        border-bottom: 1px solid var(--theme-border);
+                                                    "
+                                                >
+                                                    <div
+                                                        style="
+                                                            width: 40px;
+                                                            height: 40px;
+                                                            border-radius: 50%;
+                                                            background: var(--theme-accent-alpha);
+                                                            margin: 0 auto 0.5rem;
+                                                        "
+                                                    ></div>
+                                                    <div style="font-size: 0.875rem; font-weight: 600; color: var(--theme-text-primary); margin-bottom: 0.25rem;">
+                                                        Welcome to My Blog
+                                                    </div>
+                                                    <div style="font-size: 0.75rem; color: var(--theme-text-secondary);">
+                                                        Building elegant UI components
+                                                    </div>
+                                                </div>
+                                                <!-- Content Section -->
+                                                <div style="flex: 1; padding: 1rem; overflow: auto;">
+                                                    <div style="font-size: 0.75rem; font-weight: 600; color: var(--theme-text-primary); margin-bottom: 0.75rem;">
+                                                        Recent Articles
+                                                    </div>
+                                                    <!-- Article Cards -->
+                                                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                                        <!-- Article 1 -->
+                                                        <div
+                                                            style="
+                                                                padding: 0.75rem;
+                                                                border: 1px solid var(--theme-border);
+                                                                border-radius: 6px;
+                                                                background: var(--theme-surface);
+                                                            "
+                                                        >
+                                                            <div style="font-size: 0.75rem; color: var(--theme-text-primary); font-weight: 500; margin-bottom: 0.25rem;">
+                                                                Building a Dual-Theme Design System
+                                                            </div>
+                                                            <div style="font-size: 0.625rem; color: var(--theme-text-secondary);">
+                                                                Oct 7, 2025 · 5 min read
+                                                            </div>
+                                                        </div>
+                                                        <!-- Article 2 -->
+                                                        <div
+                                                            style="
+                                                                padding: 0.75rem;
+                                                                border: 1px solid var(--theme-border);
+                                                                border-radius: 6px;
+                                                            "
+                                                        >
+                                                            <div style="font-size: 0.75rem; color: var(--theme-text-primary); font-weight: 500; margin-bottom: 0.25rem;">
+                                                                Component Architecture Patterns
+                                                            </div>
+                                                            <div style="font-size: 0.625rem; color: var(--theme-text-secondary);">
+                                                                Oct 5, 2025 · 8 min read
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Mobile View -->
+                                    <div style="width: 200px;">
+                                        <h4 style="margin-bottom: 1rem; color: var(--theme-text-secondary); font-size: 0.875rem;">
+                                            Mobile View
+                                        </h4>
+                                        <div
+                                            style="
+                                                width: 200px;
+                                                height: 350px;
+                                                border: 1px solid var(--theme-border);
+                                                border-radius: var(--border-radius);
+                                                overflow: hidden;
+                                                background: var(--theme-bg);
+                                            "
+                                        >
+                                            <div style="display: flex; flex-direction: column; height: 100%;">
+                                                <!-- Mobile Header -->
+                                                <div
+                                                    style="
+                                                        padding: 0.75rem 1rem;
+                                                        border-bottom: 1px solid var(--theme-border);
+                                                        display: flex;
+                                                        justify-content: space-between;
+                                                        align-items: center;
+                                                        background: var(--theme-surface);
+                                                    "
+                                                >
+                                                    <div style="font-size: 0.875rem; font-weight: 600; color: var(--theme-text-primary);">
+                                                        My Blog
+                                                    </div>
+                                                    <!-- Hamburger Menu -->
+                                                    <div
+                                                        style="
+                                                            display: flex;
+                                                            flex-direction: column;
+                                                            gap: 3px;
+                                                        "
+                                                    >
+                                                        <span style="width: 16px; height: 2px; background: var(--theme-text-primary);"></span>
+                                                        <span style="width: 16px; height: 2px; background: var(--theme-text-primary);"></span>
+                                                        <span style="width: 16px; height: 2px; background: var(--theme-text-primary);"></span>
+                                                    </div>
+                                                </div>
+                                                <!-- Mobile Hero -->
+                                                <div style="padding: 1.5rem 1rem; text-align: center; border-bottom: 1px solid var(--theme-border);">
+                                                    <div
+                                                        style="
+                                                            width: 40px;
+                                                            height: 40px;
+                                                            border-radius: 50%;
+                                                            background: var(--theme-accent-alpha);
+                                                            margin: 0 auto 0.5rem;
+                                                        "
+                                                    ></div>
+                                                    <div style="font-size: 0.875rem; font-weight: 600; color: var(--theme-text-primary); margin-bottom: 0.25rem;">
+                                                        Welcome
+                                                    </div>
+                                                    <div style="font-size: 0.625rem; color: var(--theme-text-secondary);">
+                                                        Building elegant UI
+                                                    </div>
+                                                </div>
+                                                <!-- Mobile Content -->
+                                                <div style="flex: 1; padding: 1rem; overflow: auto;">
+                                                    <div style="font-size: 0.75rem; font-weight: 600; color: var(--theme-text-primary); margin-bottom: 0.75rem;">
+                                                        Recent Articles
+                                                    </div>
+                                                    <!-- Mobile Article Cards -->
+                                                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+                                                        <div
+                                                            style="
+                                                                padding: 0.75rem;
+                                                                border: 1px solid var(--theme-border);
+                                                                border-radius: 6px;
+                                                                background: var(--theme-surface);
+                                                            "
+                                                        >
+                                                            <div style="font-size: 0.75rem; color: var(--theme-text-primary); font-weight: 500; margin-bottom: 0.25rem;">
+                                                                Dual-Theme System
+                                                            </div>
+                                                            <div style="font-size: 0.625rem; color: var(--theme-text-secondary);">
+                                                                Oct 7 · 5 min
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            style="
+                                                                padding: 0.75rem;
+                                                                border: 1px solid var(--theme-border);
+                                                                border-radius: 6px;
+                                                            "
+                                                        >
+                                                            <div style="font-size: 0.75rem; color: var(--theme-text-primary); font-weight: 500; margin-bottom: 0.25rem;">
+                                                                Architecture Patterns
+                                                            </div>
+                                                            <div style="font-size: 0.625rem; color: var(--theme-text-secondary);">
+                                                                Oct 5 · 8 min
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -3166,122 +3344,13 @@ $('th').on('click', function() {
                             </div>
                             <div class="component-code">
                                 <div style="padding: 2rem">
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        HTML/CSS
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>&lt;div class="layout-container"&gt;
-    &lt;aside class="layout-sidebar"&gt;
-        &lt;nav class="sidebar-nav"&gt;
-            &lt;a class="nav-item is-active"&gt;Dashboard&lt;/a&gt;
-            &lt;a class="nav-item"&gt;Content&lt;/a&gt;
-            &lt;a class="nav-item"&gt;Media&lt;/a&gt;
-            &lt;a class="nav-item"&gt;Settings&lt;/a&gt;
-        &lt;/nav&gt;
-    &lt;/aside&gt;
-    &lt;div class="layout-main"&gt;
-        &lt;header class="layout-header"&gt;
-            &lt;h1&gt;Page Title&lt;/h1&gt;
-            &lt;div class="header-actions"&gt;
-                &lt;button class="btn btn-primary"&gt;New Post&lt;/button&gt;
-            &lt;/div&gt;
-        &lt;/header&gt;
-        &lt;main class="layout-content"&gt;
-            &lt;!-- Your content here --&gt;
-        &lt;/main&gt;
-    &lt;/div&gt;
-&lt;/div&gt;</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        React
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>import { Layout } from '@monochrome-edge/ui/react';
-
-&lt;Layout&gt;
-    &lt;Layout.Sidebar&gt;
-        &lt;Nav&gt;
-            &lt;NavItem active&gt;Dashboard&lt;/NavItem&gt;
-            &lt;NavItem&gt;Content&lt;/NavItem&gt;
-            &lt;NavItem&gt;Media&lt;/NavItem&gt;
-            &lt;NavItem&gt;Settings&lt;/NavItem&gt;
-        &lt;/Nav&gt;
-    &lt;/Layout.Sidebar&gt;
-    &lt;Layout.Main&gt;
-        &lt;Layout.Header&gt;
-            &lt;h1&gt;Page Title&lt;/h1&gt;
-            &lt;Button variant="primary"&gt;New Post&lt;/Button&gt;
-        &lt;/Layout.Header&gt;
-        &lt;Layout.Content&gt;
-            {children}
-        &lt;/Layout.Content&gt;
-    &lt;/Layout.Main&gt;
-&lt;/Layout&gt;</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        Vue.js
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>&lt;Layout&gt;
-    &lt;LayoutSidebar&gt;
-        &lt;Nav&gt;
-            &lt;NavItem :active="true"&gt;Dashboard&lt;/NavItem&gt;
-            &lt;NavItem&gt;Content&lt;/NavItem&gt;
-            &lt;NavItem&gt;Media&lt;/NavItem&gt;
-            &lt;NavItem&gt;Settings&lt;/NavItem&gt;
-        &lt;/Nav&gt;
-    &lt;/LayoutSidebar&gt;
-    &lt;LayoutMain&gt;
-        &lt;LayoutHeader&gt;
-            &lt;h1&gt;Page Title&lt;/h1&gt;
-            &lt;Button variant="primary"&gt;New Post&lt;/Button&gt;
-        &lt;/LayoutHeader&gt;
-        &lt;LayoutContent&gt;
-            &lt;slot /&gt;
-        &lt;/LayoutContent&gt;
-    &lt;/LayoutMain&gt;
-&lt;/Layout&gt;</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        jQuery
-                                    </h4>
-                                    <pre><code>// Toggle sidebar
-$('#sidebarToggle').on('click', function() {
-    $('.layout-sidebar').toggleClass('collapsed');
-    $('.layout-main').toggleClass('expanded');
-});
-
-// Handle responsive layout
-$(window).on('resize', function() {
-    if ($(window).width() < 768) {
-        $('.layout-sidebar').addClass('mobile');
-    } else {
-        $('.layout-sidebar').removeClass('mobile');
-    }
-});</code></pre>
+                                    <p style="color: var(--theme-text-secondary); margin-bottom: 1.5rem;">
+                                        A complete blog layout template with header, navigation, hero section, and article cards.
+                                        Includes Section & Article components for structured content.
+                                    </p>
+                                    <a href="blog-demo.html" class="btn btn-primary" target="_blank">
+                                        View Full Demo →
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -5541,6 +5610,215 @@ new DropdownController(document.getElementById('action-dropdown'));
                     </div>
                 </section>
 
+                <!-- Section Component -->
+                <section class="ds-section" id="section">
+                    <h2 class="ds-section-title">Section</h2>
+                    <p class="ds-section-description">
+                        Blog and portfolio section containers for organizing content with headings, subtitles, and dividers.
+                    </p>
+
+                    <!-- Section Example -->
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Blog Section</h3>
+                            <div class="component-toggle">
+                                <button class="toggle-btn active" data-target="blog-section-demo">Preview</button>
+                                <button class="toggle-btn" data-target="blog-section-demo">Code</button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="blog-section-demo">
+                            <div class="component-preview" style="flex-direction: column; align-items: flex-start; width: 100%;">
+                                <section class="blog-section">
+                                    <div class="blog-section-header">
+                                        <h2 class="blog-section-title">Recent Articles</h2>
+                                        <p class="blog-section-subtitle">
+                                            Thoughts on design, development, and everything in between
+                                        </p>
+                                    </div>
+                                    <hr class="blog-section-divider" />
+                                    <p style="color: var(--theme-text-secondary);">Section content goes here...</p>
+                                </section>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-markup">&lt;section class="blog-section"&gt;
+    &lt;div class="blog-section-header"&gt;
+        &lt;h2 class="blog-section-title"&gt;Recent Articles&lt;/h2&gt;
+        &lt;p class="blog-section-subtitle"&gt;
+            Thoughts on design, development, and everything in between
+        &lt;/p&gt;
+    &lt;/div&gt;
+    &lt;hr class="blog-section-divider" /&gt;
+    &lt;!-- Section content --&gt;
+&lt;/section&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Article Component -->
+                <section class="ds-section" id="article">
+                    <h2 class="ds-section-title">Article</h2>
+                    <p class="ds-section-description">
+                        Article and project card components for showcasing blog posts, portfolio items, and case studies.
+                    </p>
+
+                    <!-- Article Card Component -->
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Article Card</h3>
+                            <div class="component-toggle">
+                                <button class="toggle-btn active" data-target="article-card-demo">Preview</button>
+                                <button class="toggle-btn" data-target="article-card-demo">Code</button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="article-card-demo">
+                            <div class="component-preview">
+                                <div class="article-card-grid" style="max-width: 1000px;">
+                                    <article class="article-card">
+                                        <div class="article-card-image article-card-image-grayscale">
+                                            <img src="https://via.placeholder.com/400x180/8a8784/ffffff?text=Article+Image" alt="Article thumbnail" />
+                                        </div>
+                                        <div class="article-card-content">
+                                            <span class="article-card-category">Design Systems</span>
+                                            <h3 class="article-card-title">Building Modern UI Components</h3>
+                                            <p class="article-card-description">
+                                                A comprehensive guide to creating reusable, theme-aware components with CSS variables.
+                                            </p>
+                                            <div class="article-card-meta">
+                                                <span class="article-card-date">Oct 7, 2025</span>
+                                                <div class="article-card-tags">
+                                                    <span class="article-card-tag">CSS</span>
+                                                    <span class="article-card-tag">Design</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </article>
+
+                                    <article class="article-card">
+                                        <div class="article-card-image article-card-image-grayscale">
+                                            <img src="https://via.placeholder.com/400x180/6b7280/ffffff?text=Article+Image" alt="Article thumbnail" />
+                                        </div>
+                                        <div class="article-card-content">
+                                            <span class="article-card-category">Frontend</span>
+                                            <h3 class="article-card-title">CSS Variables for Theming</h3>
+                                            <p class="article-card-description">
+                                                Deep dive into using custom properties for dynamic, flexible design systems.
+                                            </p>
+                                            <div class="article-card-meta">
+                                                <span class="article-card-date">Oct 1, 2025</span>
+                                                <div class="article-card-tags">
+                                                    <span class="article-card-tag">CSS</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-markup">&lt;article class="article-card"&gt;
+    &lt;div class="article-card-image article-card-image-grayscale"&gt;
+        &lt;img src="..." alt="Article thumbnail" /&gt;
+    &lt;/div&gt;
+    &lt;div class="article-card-content"&gt;
+        &lt;span class="article-card-category"&gt;Design Systems&lt;/span&gt;
+        &lt;h3 class="article-card-title"&gt;Building Modern UI Components&lt;/h3&gt;
+        &lt;p class="article-card-description"&gt;
+            A comprehensive guide to creating reusable components...
+        &lt;/p&gt;
+        &lt;div class="article-card-meta"&gt;
+            &lt;span class="article-card-date"&gt;Oct 7, 2025&lt;/span&gt;
+            &lt;div class="article-card-tags"&gt;
+                &lt;span class="article-card-tag"&gt;CSS&lt;/span&gt;
+                &lt;span class="article-card-tag"&gt;Design&lt;/span&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/article&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Project Card Component -->
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Project Card</h3>
+                            <div class="component-toggle">
+                                <button class="toggle-btn active" data-target="project-card-demo">Preview</button>
+                                <button class="toggle-btn" data-target="project-card-demo">Code</button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="project-card-demo">
+                            <div class="component-preview">
+                                <div class="project-card-grid" style="max-width: 1000px;">
+                                    <article class="project-card">
+                                        <div class="project-card-image project-card-image-grayscale">
+                                            <img src="https://via.placeholder.com/400x180/8a8784/ffffff?text=Project+Image" alt="Project thumbnail" />
+                                        </div>
+                                        <div class="project-card-content">
+                                            <div class="project-card-header">
+                                                <h3 class="project-card-title">Monochrome Edge</h3>
+                                                <span class="project-card-status project-card-status-active">Active</span>
+                                            </div>
+                                            <p class="project-card-description">
+                                                Modern minimalist UI component library with dual-theme system.
+                                            </p>
+                                            <div class="project-card-stats">
+                                                <div class="project-card-stat">
+                                                    <svg class="project-card-stat-icon" viewBox="0 0 16 16" fill="currentColor">
+                                                        <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"/>
+                                                    </svg>
+                                                    <span class="project-card-stat-value">1.2k</span>
+                                                </div>
+                                                <div class="project-card-stat">
+                                                    <svg class="project-card-stat-icon" viewBox="0 0 16 16" fill="currentColor">
+                                                        <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"/>
+                                                    </svg>
+                                                    <span class="project-card-stat-value">230</span>
+                                                </div>
+                                            </div>
+                                            <div class="project-card-tags">
+                                                <span class="project-card-tag">CSS</span>
+                                                <span class="project-card-tag">Design System</span>
+                                                <span class="project-card-tag">TypeScript</span>
+                                            </div>
+                                            <div class="project-card-footer">
+                                                <span class="project-card-year">2025</span>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-markup">&lt;article class="project-card"&gt;
+    &lt;div class="project-card-image project-card-image-grayscale"&gt;
+        &lt;img src="..." alt="Project thumbnail" /&gt;
+    &lt;/div&gt;
+    &lt;div class="project-card-content"&gt;
+        &lt;div class="project-card-header"&gt;
+            &lt;h3 class="project-card-title"&gt;Monochrome Edge&lt;/h3&gt;
+            &lt;span class="project-card-status project-card-status-active"&gt;Active&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;p class="project-card-description"&gt;
+            Modern minimalist UI component library...
+        &lt;/p&gt;
+        &lt;div class="project-card-stats"&gt;
+            &lt;div class="project-card-stat"&gt;
+                &lt;svg class="project-card-stat-icon"&gt;...&lt;/svg&gt;
+                &lt;span class="project-card-stat-value"&gt;1.2k&lt;/span&gt;
+            &lt;/div&gt;
+        &lt;/div&gt;
+        &lt;div class="project-card-tags"&gt;
+            &lt;span class="project-card-tag"&gt;CSS&lt;/span&gt;
+            &lt;span class="project-card-tag"&gt;TypeScript&lt;/span&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+&lt;/article&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
                 <!-- Changelog Section -->
                 <section class="ds-section" id="changelog">
                     <h2 class="ds-section-title">Changelog</h2>
@@ -6171,8 +6449,15 @@ new DropdownController(document.getElementById('action-dropdown'));
                 }
             }
 
-            // Load default landscape (wave)
-            loadLandscape('wave');
+            // Load default landscape (wave) after CSS is loaded
+            if (window.monochromeEdgeCSSLoaded) {
+                window.monochromeEdgeCSSLoaded.then(() => {
+                    loadLandscape('wave');
+                });
+            } else {
+                // Fallback if CSS loading promise is not available
+                loadLandscape('wave');
+            }
 
             // Showcase mode variables
             let showcaseInterval = null;
