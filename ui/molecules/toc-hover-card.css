@@ -35,11 +35,22 @@
 }
 
 .toc-card-item {
-    margin-bottom: 0.75rem;
+    position: relative;
 }
 
-.toc-card-item:last-child {
-    margin-bottom: 0;
+.toc-card-item::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background-color: var(--theme-border);
+    opacity: 0.5;
+}
+
+.toc-card-item:last-child::after {
+    display: none;
 }
 
 .toc-card-link {
@@ -52,14 +63,6 @@
     padding: 0.5rem 0.75rem;
     border-left: 3px solid transparent;
     transition: all var(--transition-speed);
-}
-
-.toc-card-link::before {
-    content: "—";
-    color: var(--theme-text-secondary);
-    opacity: 0.5;
-    font-weight: 300;
-    flex-shrink: 0;
 }
 
 .toc-card-link:hover {

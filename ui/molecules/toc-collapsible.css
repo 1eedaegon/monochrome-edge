@@ -81,10 +81,10 @@
 }
 
 .toc-list-link::before {
-    content: "—";
+    content: "•";
     color: var(--theme-text-secondary);
-    opacity: 0.4;
-    font-weight: 300;
+    opacity: 0.6;
+    font-size: 0.875rem;
     flex-shrink: 0;
 }
 
