@@ -148,13 +148,15 @@
                 ? "../dist/index.esm.js"
                 : "https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/index.esm.js";
 
-            // Load SearchToolbar module
+            // Load Monochrome Edge UI modules
             import(modulePath)
                 .then((module) => {
+                    // Expose all components to window
                     window.SearchToolbar = module.SearchToolbar;
+                    window.TreeView = module.TreeView;
+                    window.GraphView = module.GraphView;
                     console.log(
-                        "SearchToolbar loaded successfully",
-                        module.SearchToolbar,
+                        "Monochrome Edge UI modules loaded successfully",
                     );
 
                     // Initialize SearchToolbar after module is loaded
@@ -163,7 +165,7 @@
                     }
                 })
                 .catch((err) => {
-                    console.error("SearchToolbar not loaded:", err);
+                    console.error("Failed to load UI modules:", err);
                 });
         </script>
 
@@ -587,6 +589,48 @@
                 font-weight: var(--font-weight-h1);
                 margin-bottom: 1rem;
                 color: var(--theme-text-primary);
+                display: flex;
+                align-items: center;
+                gap: 0.75rem;
+            }
+
+            .component-tags {
+                display: inline-flex;
+                gap: 0.375rem;
+                align-items: center;
+            }
+
+            .component-tag {
+                display: inline-block;
+                padding: 0.125rem 0.5rem;
+                font-size: 0.625rem;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                border-radius: calc(var(--border-radius) / 2);
+                border: 1px solid var(--theme-border);
+            }
+
+            .component-tag-css {
+                background-color: var(--theme-bg);
+                color: var(--theme-text-secondary);
+            }
+
+            .component-tag-js {
+                background-color: var(--theme-accent);
+                color: var(--theme-accent-contrast);
+            }
+
+            .component-tag-svg {
+                background-color: var(--theme-surface);
+                color: var(--theme-text-primary);
+                border-color: var(--theme-accent);
+            }
+
+            .component-tag-canvas {
+                background-color: var(--theme-accent);
+                color: var(--theme-accent-contrast);
+                opacity: 0.9;
             }
 
             .ds-section-description {
@@ -11818,13 +11862,18 @@ new DropdownController(document.getElementById('action-dropdown'));
                             '<p style="color: var(--theme-text-secondary); font-size: 0.875rem; text-align: center">💡 Try searching: "Button", "Theme", "Form", "Table", "Graph"</p>';
                     });
                 },
-            )();
+            );
         </script>
 
         <!-- Initialize Tree View -->
-        <script type="module">
+        <script>
             // Initialize Tree View
             (function initTreeView() {
+                if (!window.TreeView) {
+                    console.warn("TreeView component not loaded yet");
+                    return;
+                }
+
                 const treeData = [
                     {
                         id: "src",
@@ -11906,57 +11955,47 @@ new DropdownController(document.getElementById('action-dropdown'));
                 );
                 if (!container) return;
 
-                // Dynamically import and initialize
-                const isLocalDev =
-                    window.location.hostname === "localhost" ||
-                    window.location.hostname === "127.0.0.1";
-                const modulePath = isLocalDev
-                    ? "/dist/index.esm.js"
-                    : "https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/index.esm.js";
+                // Create TreeView instance
+                const treeView = new window.TreeView({
+                    container: container,
+                    data: treeData,
+                    expandedByDefault: false,
+                    onNodeClick: (node) => {
+                        console.log("Tree node clicked:", node.label);
+                    },
+                });
 
-                import(modulePath)
-                    .then(({ TreeView }) => {
-                        const treeView = new TreeView({
-                            container: container,
-                            data: treeData,
-                            expandedByDefault: false,
-                            onNodeClick: (node) => {
-                                console.log("Tree node clicked:", node.label);
-                            },
-                        });
+                // Button handlers
+                document
+                    .getElementById("tree-expand-all-btn")
+                    ?.addEventListener("click", () => {
+                        treeView.expandAll();
+                    });
 
-                        // Button handlers
-                        document
-                            .getElementById("tree-expand-all-btn")
-                            ?.addEventListener("click", () => {
-                                treeView.expandAll();
-                            });
-
-                        document
-                            .getElementById("tree-collapse-all-btn")
-                            ?.addEventListener("click", () => {
-                                treeView.collapseAll();
-                            });
-                    })
-                    .catch((err) => {
-                        console.error("Failed to load Tree View:", err);
-                        container.innerHTML =
-                            '<p style="color: var(--theme-text-secondary); text-align: center; padding: 2rem;">Failed to load Tree View</p>';
+                document
+                    .getElementById("tree-collapse-all-btn")
+                    ?.addEventListener("click", () => {
+                        treeView.collapseAll();
                     });
             })();
         </script>
 
         <!-- Initialize Graph View -->
         <script>
-            // Simple Graph View Demo (inline implementation for demo)
+            // Canvas-based Graph View Demo using GraphView component
             (function initGraphView() {
+                if (!window.GraphView) {
+                    console.warn("GraphView component not loaded yet");
+                    return;
+                }
+
                 const container = document.getElementById(
                     "graph-view-container",
                 );
                 if (!container) return;
 
-                // Mock data with comprehensive metadata
-                const nodes = [
+                // Mock data transformed to DocumentMetadata format
+                const documents = [
                     {
                         id: "intro",
                         title: "Introduction",
@@ -12118,181 +12157,128 @@ new DropdownController(document.getElementById('action-dropdown'));
                     },
                 ];
 
-                const edges = [
-                    { from: "intro", to: "setup" },
-                    { from: "intro", to: "concepts" },
-                    { from: "setup", to: "config" },
-                    { from: "config", to: "api" },
-                    { from: "concepts", to: "api" },
-                    { from: "concepts", to: "examples" },
-                    { from: "api", to: "examples" },
-                    { from: "examples", to: "advanced" },
-                    { from: "advanced", to: "api" },
-                    { from: "deploy", to: "config" },
-                    { from: "troubleshoot", to: "api" },
-                    { from: "faq", to: "intro" },
-                    { from: "faq", to: "troubleshoot" },
-                ];
-
-                // Create SVG
-                const svg = document.createElementNS(
-                    "http://www.w3.org/2000/svg",
-                    "svg",
-                );
-                svg.setAttribute("width", "100%");
-                svg.setAttribute("height", "100%");
-                svg.setAttribute("viewBox", "0 0 700 500");
-                svg.style.cssText =
-                    "display: block; width: 100%; height: 100%;";
-
-                // Draw edges
-                edges.forEach((edge) => {
-                    const fromNode = nodes.find((n) => n.id === edge.from);
-                    const toNode = nodes.find((n) => n.id === edge.to);
-                    if (!fromNode || !toNode) return;
-
-                    const line = document.createElementNS(
-                        "http://www.w3.org/2000/svg",
-                        "line",
-                    );
-                    line.setAttribute("x1", fromNode.x);
-                    line.setAttribute("y1", fromNode.y);
-                    line.setAttribute("x2", toNode.x);
-                    line.setAttribute("y2", toNode.y);
-                    line.setAttribute("stroke", "var(--theme-border)");
-                    line.setAttribute("stroke-width", "1");
-                    svg.appendChild(line);
+                // Transform to format expected by GraphView
+                documents.forEach((doc) => {
+                    doc.links = doc.innerLinks.map((target) => ({
+                        target: target,
+                        type: "inner",
+                    }));
                 });
 
-                // Draw nodes
-                nodes.forEach((node, idx) => {
-                    const g = document.createElementNS(
-                        "http://www.w3.org/2000/svg",
-                        "g",
-                    );
-                    g.style.cursor = "pointer";
-
-                    const circle = document.createElementNS(
-                        "http://www.w3.org/2000/svg",
-                        "circle",
-                    );
-                    circle.setAttribute("cx", node.x);
-                    circle.setAttribute("cy", node.y);
-                    circle.setAttribute("r", "8");
-                    circle.setAttribute("fill", "var(--theme-accent)");
-                    circle.setAttribute("stroke", "var(--theme-border)");
-                    circle.setAttribute("stroke-width", "2");
-
-                    const text = document.createElementNS(
-                        "http://www.w3.org/2000/svg",
-                        "text",
-                    );
-                    text.setAttribute("x", node.x);
-                    text.setAttribute("y", node.y - 15);
-                    text.setAttribute("text-anchor", "middle");
-                    text.setAttribute("font-size", "11");
-                    text.setAttribute("fill", "var(--theme-text-primary)");
-                    text.textContent = node.title;
-
-                    g.appendChild(circle);
-                    g.appendChild(text);
-
-                    g.addEventListener("click", () => {
+                // Create GraphView instance
+                const graphView = new window.GraphView({
+                    container: container,
+                    documents: documents,
+                    width: container.clientWidth,
+                    height: 500,
+                    nodeRadius: 8,
+                    showLabels: true,
+                    iterations: 0, // No force simulation, use static positions
+                    onNodeClick: (node) => {
                         console.log("Node clicked:", node.title);
-                    });
-
-                    g.addEventListener("mouseenter", (e) => {
-                        circle.setAttribute("r", "10");
-                        circle.setAttribute("fill", "var(--theme-accent)");
-
-                        // Show tooltip with comprehensive metadata
-                        const tooltip =
-                            document.getElementById("graph-node-tooltip");
-
-                        // Generate TOC from markdown
-                        const tocMatches =
-                            node.content.match(/^##?\s+(.+)$/gm) || [];
-                        const toc = tocMatches
-                            .map((h) => h.replace(/^##?\s+/, ""))
-                            .join(", ");
-
-                        tooltip.innerHTML = `
-                            <div class="graph-node-tooltip-title">${node.title}</div>
-
-                            <div class="graph-node-tooltip-section">
-                                <div class="graph-node-tooltip-label">Metadata</div>
-                                <div class="graph-node-tooltip-value">ID: ${node.id}</div>
-                                <div class="graph-node-tooltip-value">Created: ${node.created}</div>
-                                <div class="graph-node-tooltip-value">Modified: ${node.modified}</div>
-                                <div class="graph-node-tooltip-value">Author: ${node.author}</div>
-                            </div>
-
-                            <div class="graph-node-tooltip-section">
-                                <div class="graph-node-tooltip-label">Tags</div>
-                                <div class="graph-node-tooltip-tags">
-                                    ${node.tags.map((tag) => `<span class="graph-node-tooltip-tag">${tag}</span>`).join("")}
-                                </div>
-                            </div>
-
-                            <div class="graph-node-tooltip-section">
-                                <div class="graph-node-tooltip-label">Relationships</div>
-                                <div class="graph-node-tooltip-links">
-                                    Inner Links: ${node.innerLinks.length > 0 ? node.innerLinks.join(", ") : "None"}
-                                </div>
-                                <div class="graph-node-tooltip-links">
-                                    External: ${node.externalLinks.length}
-                                </div>
-                                <div class="graph-node-tooltip-links">
-                                    Backlinks: ${node.backlinks.length > 0 ? node.backlinks.join(", ") : "None"}
-                                </div>
-                            </div>
-
-                            <div class="graph-node-tooltip-section">
-                                <div class="graph-node-tooltip-label">Content (TOC)</div>
-                                <div class="graph-node-tooltip-content">${toc || "No headings"}</div>
-                            </div>
-                        `;
-
-                        // Position tooltip below node
-                        const containerRect = container.getBoundingClientRect();
-                        const svgRect = svg.getBoundingClientRect();
-                        const scale = svgRect.width / 700; // viewBox width
-
-                        tooltip.style.display = "block";
-                        tooltip.style.left = node.x * scale + "px";
-                        tooltip.style.top = node.y * scale + 20 + "px";
-                    });
-
-                    g.addEventListener("mouseleave", () => {
-                        circle.setAttribute("r", "8");
-                        document.getElementById(
-                            "graph-node-tooltip",
-                        ).style.display = "none";
-                    });
-
-                    svg.appendChild(g);
+                    },
                 });
 
-                container.appendChild(svg);
+                // Setup custom hover tooltip
+                const tooltip = document.getElementById("graph-node-tooltip");
+                const canvas = container.querySelector(".graph-view-canvas");
 
-                // Update stats
-                document.getElementById("graph-node-count").textContent =
-                    nodes.length;
-                document.getElementById("graph-edge-count").textContent =
-                    edges.length;
+                if (canvas && tooltip) {
+                    canvas.addEventListener("mousemove", (e) => {
+                        const rect = canvas.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+
+                        // Get graph instance to find hovered node
+                        const graphInstance = graphView.renderer;
+                        if (graphInstance && graphInstance.hoveredNode) {
+                            const node = graphInstance.hoveredNode;
+                            const doc = documents.find(
+                                (d) => d.id === node.originalId,
+                            );
+
+                            if (doc) {
+                                // Generate TOC from markdown
+                                const tocMatches =
+                                    doc.content.match(/^##?\s+(.+)$/gm) || [];
+                                const toc = tocMatches
+                                    .map((h) => h.replace(/^##?\s+/, ""))
+                                    .join(", ");
+
+                                tooltip.innerHTML = `
+                                    <div class="graph-node-tooltip-title">${doc.title}</div>
+
+                                    <div class="graph-node-tooltip-section">
+                                        <div class="graph-node-tooltip-label">Metadata</div>
+                                        <div class="graph-node-tooltip-value">ID: ${doc.id}</div>
+                                        <div class="graph-node-tooltip-value">Created: ${doc.created}</div>
+                                        <div class="graph-node-tooltip-value">Modified: ${doc.modified}</div>
+                                        <div class="graph-node-tooltip-value">Author: ${doc.author}</div>
+                                    </div>
+
+                                    <div class="graph-node-tooltip-section">
+                                        <div class="graph-node-tooltip-label">Tags</div>
+                                        <div class="graph-node-tooltip-tags">
+                                            ${doc.tags.map((tag) => `<span class="graph-node-tooltip-tag">${tag}</span>`).join("")}
+                                        </div>
+                                    </div>
+
+                                    <div class="graph-node-tooltip-section">
+                                        <div class="graph-node-tooltip-label">Relationships</div>
+                                        <div class="graph-node-tooltip-links">
+                                            Inner Links: ${doc.innerLinks.length > 0 ? doc.innerLinks.join(", ") : "None"}
+                                        </div>
+                                        <div class="graph-node-tooltip-links">
+                                            External: ${doc.externalLinks.length}
+                                        </div>
+                                        <div class="graph-node-tooltip-links">
+                                            Backlinks: ${doc.backlinks.length > 0 ? doc.backlinks.join(", ") : "None"}
+                                        </div>
+                                    </div>
+
+                                    <div class="graph-node-tooltip-section">
+                                        <div class="graph-node-tooltip-label">Content (TOC)</div>
+                                        <div class="graph-node-tooltip-content">${toc || "No headings"}</div>
+                                    </div>
+                                `;
+
+                                tooltip.style.display = "block";
+                                tooltip.style.left = x + 10 + "px";
+                                tooltip.style.top = y + 10 + "px";
+                            }
+                        } else {
+                            tooltip.style.display = "none";
+                        }
+                    });
+
+                    canvas.addEventListener("mouseleave", () => {
+                        tooltip.style.display = "none";
+                    });
+                }
+
+                // Update stats (if elements exist)
+                const stats = graphView.getStats();
+                const nodeCountEl = document.getElementById("graph-node-count");
+                const edgeCountEl = document.getElementById("graph-edge-count");
+                if (nodeCountEl) nodeCountEl.textContent = stats.nodeCount;
+                if (edgeCountEl) edgeCountEl.textContent = stats.edgeCount;
 
                 // Button handlers
                 document
                     .getElementById("graph-reset-btn")
                     ?.addEventListener("click", () => {
-                        location.reload();
+                        graphView.resetLayout();
+                        graphView.runLayout();
                     });
 
                 document
                     .getElementById("graph-fit-btn")
                     ?.addEventListener("click", () => {
-                        svg.setAttribute("viewBox", "0 0 700 500");
+                        graphView.renderer.resetView();
                     });
+
+                // Initial render
+                graphView.renderer.render();
             })();
         </script>
 
