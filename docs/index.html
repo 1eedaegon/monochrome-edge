@@ -115,6 +115,34 @@
         <!-- jQuery -->
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
+        <!-- Monochrome Edge Components -->
+        <script type="module">
+            const isLocalDev =
+                window.location.hostname === "localhost" ||
+                window.location.hostname === "127.0.0.1";
+            const modulePath = isLocalDev
+                ? "../dist/index.esm.js"
+                : "https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/index.esm.js";
+
+            // Load SearchToolbar module
+            import(modulePath)
+                .then((module) => {
+                    window.SearchToolbar = module.SearchToolbar;
+                    console.log(
+                        "SearchToolbar loaded successfully",
+                        module.SearchToolbar,
+                    );
+
+                    // Initialize SearchToolbar after module is loaded
+                    if (typeof window.initSearchToolbar === "function") {
+                        window.initSearchToolbar();
+                    }
+                })
+                .catch((err) => {
+                    console.error("SearchToolbar not loaded:", err);
+                });
+        </script>
+
         <!-- Prism.js for code highlighting -->
         <link
             href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css"
@@ -1083,6 +1111,9 @@
                     </a>
                     <a class="nav-item" data-section="dropdowns">
                         <span class="nav-item-label">Dropdowns</span>
+                    </a>
+                    <a class="nav-item" data-section="search-toolbar">
+                        <span class="nav-item-label">Search</span>
                     </a>
                     <a class="nav-item" data-section="cards">
                         <span class="nav-item-label">Cards</span>
@@ -3937,6 +3968,252 @@ $('.dropdown-option').on('click', function() {
     $(this).closest('.dropdown-panel').removeClass('is-open');
 });</code></pre>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Search Bar Section -->
+                <section class="ds-section" id="search-toolbar">
+                    <h2 class="ds-section-title">Search</h2>
+                    <p class="ds-section-description">
+                        Search bar with fuzzy autocomplete and tag selection.
+                    </p>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Search Bar</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="search-toolbar-demo"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="search-toolbar-demo"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+
+                        <div
+                            class="component-preview active"
+                            data-id="search-toolbar-demo"
+                            style="min-height: 600px"
+                        >
+                            <div style="max-width: 100%">
+                                <div
+                                    id="search-tags"
+                                    style="
+                                        margin-bottom: 1rem;
+                                        min-height: 30px;
+                                    "
+                                ></div>
+                                <div
+                                    id="search-toolbar-container"
+                                    style="max-width: 600px; margin: 0 auto"
+                                ></div>
+                                <div
+                                    id="search-results"
+                                    style="margin-top: 1.5rem"
+                                >
+                                    <div class="card" style="padding: 1rem">
+                                        <p
+                                            style="
+                                                color: var(
+                                                    --theme-text-secondary
+                                                );
+                                                font-size: 0.875rem;
+                                            "
+                                        >
+                                            💡 Try searching for: React, Vue,
+                                            Angular, TypeScript, JavaScript
+                                            <br /><br />
+                                            ✨ Click on a suggestion to add it
+                                            as a tag. Click the × to remove it.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div
+                            class="component-code"
+                            data-id="search-toolbar-demo"
+                        >
+                            <div class="code-tabs">
+                                <button
+                                    class="code-tab active"
+                                    data-framework="vanilla"
+                                >
+                                    Vanilla JS
+                                </button>
+                                <button class="code-tab" data-framework="react">
+                                    React
+                                </button>
+                                <button class="code-tab" data-framework="vue">
+                                    Vue
+                                </button>
+                            </div>
+
+                            <div
+                                class="component-code active"
+                                data-framework="vanilla"
+                            >
+                                <pre><code class="language-javascript">import { SearchToolbar } from '@monochrome-edge/ui';
+
+const toolbar = new SearchToolbar('#search-toolbar-container', {
+  placeholder: 'Search components...',
+  autocomplete: async (query) => {
+    // Simulate API call
+    const items = [
+      'React Hooks',
+      'React Context',
+      'Vue Composition API',
+      'Vue Directives',
+      'Angular Services',
+      'Angular Pipes',
+      'TypeScript Types',
+      'TypeScript Interfaces',
+      'JavaScript ES6',
+      'JavaScript Promises'
+    ];
+    return items.filter(item =>
+      item.toLowerCase().includes(query.toLowerCase())
+    );
+  },
+  filters: [
+    {
+      id: 'category',
+      label: 'Category',
+      values: [
+        { value: 'all', label: 'All' },
+        { value: 'components', label: 'Components' },
+        { value: 'utilities', label: 'Utilities' },
+        { value: 'hooks', label: 'Hooks' }
+      ],
+      default: 'all'
+    },
+    {
+      id: 'status',
+      label: 'Status',
+      values: [
+        { value: 'all', label: 'All' },
+        { value: 'stable', label: 'Stable' },
+        { value: 'beta', label: 'Beta' }
+      ],
+      default: 'all'
+    }
+  ],
+  sortOptions: [
+    { value: 'relevance', label: 'Relevance' },
+    { value: 'name', label: 'Name' },
+    { value: 'date', label: 'Date' }
+  ],
+  onSearch: (query, filters, sort) => {
+    console.log('Search:', { query, filters, sort });
+    // Perform search and update results
+    toolbar.setResultsCount(42);
+  }
+});</code></pre>
+                            </div>
+
+                            <div class="component-code" data-framework="react">
+                                <pre><code class="language-jsx">import { SearchToolbar } from '@monochrome-edge/ui/react';
+import { useState } from 'react';
+
+function SearchExample() {
+  const [results, setResults] = useState([]);
+
+  const autocompleteItems = async (query) => {
+    // API call
+    const response = await fetch(\`/api/search?q=\${query}\`);
+    return response.json();
+  };
+
+  const handleSearch = (query, filters, sort) => {
+    console.log('Search:', { query, filters, sort });
+    // Update results
+    setResults(searchResults);
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;SearchToolbar
+        placeholder="Search components..."
+        autocomplete={autocompleteItems}
+        filters={[
+          {
+            id: 'category',
+            label: 'Category',
+            values: [
+              { value: 'all', label: 'All' },
+              { value: 'components', label: 'Components' }
+            ]
+          }
+        ]}
+        sortOptions={[
+          { value: 'relevance', label: 'Relevance' },
+          { value: 'name', label: 'Name' }
+        ]}
+        onSearch={handleSearch}
+      /&gt;
+      &lt;div&gt;{results.map(r => &lt;div key={r.id}&gt;{r.name}&lt;/div&gt;)}&lt;/div&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+                            </div>
+
+                            <div class="component-code" data-framework="vue">
+                                <pre><code class="language-html">&lt;template&gt;
+  &lt;div&gt;
+    &lt;SearchToolbar
+      placeholder="Search components..."
+      :autocomplete="autocompleteItems"
+      :filters="filters"
+      :sort-options="sortOptions"
+      @search="handleSearch"
+    /&gt;
+    &lt;div v-for="result in results" :key="result.id"&gt;
+      {{ result.name }}
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { ref } from 'vue';
+import { SearchToolbar } from '@monochrome-edge/ui/vue';
+
+const results = ref([]);
+
+const autocompleteItems = async (query) => {
+  const response = await fetch(\`/api/search?q=\${query}\`);
+  return response.json();
+};
+
+const filters = [
+  {
+    id: 'category',
+    label: 'Category',
+    values: [
+      { value: 'all', label: 'All' },
+      { value: 'components', label: 'Components' }
+    ]
+  }
+];
+
+const sortOptions = [
+  { value: 'relevance', label: 'Relevance' },
+  { value: 'name', label: 'Name' }
+];
+
+const handleSearch = (query, filters, sort) => {
+  console.log('Search:', { query, filters, sort });
+};
+&lt;/script&gt;</code></pre>
                             </div>
                         </div>
                     </div>
@@ -9771,6 +10048,151 @@ new DropdownController(document.getElementById('action-dropdown'));
                 document
                     .getElementById("sampleModal")
                     .classList.remove("is-open");
+            }
+
+            // Initialize Search Toolbar
+            window.initSearchToolbar = function () {
+                if (
+                    !window.SearchToolbar ||
+                    !document.getElementById("search-toolbar-container")
+                ) {
+                    console.warn(
+                        "SearchToolbar not available or container not found",
+                    );
+                    return;
+                }
+                const mockData = [
+                    {
+                        text: "React Hooks",
+                        category: "React",
+                        meta: "Component",
+                    },
+                    { text: "React Context", category: "React", meta: "API" },
+                    {
+                        text: "React Router",
+                        category: "React",
+                        meta: "Library",
+                    },
+                    {
+                        text: "Vue Composition API",
+                        category: "Vue",
+                        meta: "API",
+                    },
+                    {
+                        text: "Vue Directives",
+                        category: "Vue",
+                        meta: "Feature",
+                    },
+                    { text: "Vue Router", category: "Vue", meta: "Library" },
+                    {
+                        text: "Angular Services",
+                        category: "Angular",
+                        meta: "Feature",
+                    },
+                    {
+                        text: "Angular Pipes",
+                        category: "Angular",
+                        meta: "Feature",
+                    },
+                    {
+                        text: "Angular Router",
+                        category: "Angular",
+                        meta: "Library",
+                    },
+                    {
+                        text: "TypeScript Types",
+                        category: "TypeScript",
+                        meta: "Feature",
+                    },
+                    {
+                        text: "TypeScript Interfaces",
+                        category: "TypeScript",
+                        meta: "Feature",
+                    },
+                    {
+                        text: "TypeScript Generics",
+                        category: "TypeScript",
+                        meta: "Feature",
+                    },
+                    {
+                        text: "JavaScript ES6",
+                        category: "JavaScript",
+                        meta: "Version",
+                    },
+                    {
+                        text: "JavaScript Promises",
+                        category: "JavaScript",
+                        meta: "Feature",
+                    },
+                    {
+                        text: "JavaScript Async/Await",
+                        category: "JavaScript",
+                        meta: "Feature",
+                    },
+                ];
+
+                const searchToolbar = new window.SearchToolbar(
+                    "#search-toolbar-container",
+                    {
+                        placeholder: "Search...",
+                        autocomplete: async (query) => {
+                            if (!query) return [];
+                            // Fuzzy search - immediate autocomplete
+                            return mockData.filter((item) =>
+                                item.text
+                                    .toLowerCase()
+                                    .includes(query.toLowerCase()),
+                            );
+                        },
+                        onSearch: (query) => {
+                            // Display selected tags results
+                            const resultsContainer =
+                                document.getElementById("search-results");
+
+                            const selectedTags = Array.from(
+                                searchToolbar.selectedTags || [],
+                            );
+
+                            if (selectedTags.length > 0) {
+                                const results = mockData.filter((item) =>
+                                    selectedTags.includes(item.text),
+                                );
+
+                                resultsContainer.innerHTML = results
+                                    .map(
+                                        (item) => `
+                                <div class="card" style="padding: 0.75rem; margin-bottom: 0.5rem;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <div>
+                                            <strong style="color: var(--theme-text-primary);">${item.text}</strong>
+                                            <span style="color: var(--theme-text-secondary); font-size: 0.75rem; margin-left: 0.5rem;">${item.category}</span>
+                                        </div>
+                                        <span style="font-size: 0.75rem; color: var(--theme-text-secondary);">${item.meta}</span>
+                                    </div>
+                                </div>
+                            `,
+                                    )
+                                    .join("");
+                            } else {
+                                resultsContainer.innerHTML = `
+                                <div class="card" style="padding: 1rem;">
+                                    <p style="color: var(--theme-text-secondary); font-size: 0.875rem;">
+                                        💡 Try searching for: React, Vue, Angular, TypeScript, JavaScript
+                                        <br><br>
+                                        ✨ Click on a suggestion to add it as a tag. Click the × to remove it.
+                                    </p>
+                                </div>
+                            `;
+                            }
+                        },
+                        debounceMs: 150,
+                    },
+                );
+            };
+
+            // Try to initialize immediately if module already loaded
+            if (window.SearchToolbar) {
+                window.initSearchToolbar();
             }
 
             // Landscape switcher
