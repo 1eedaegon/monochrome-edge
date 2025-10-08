@@ -1,0 +1,43 @@
+/**
+ * Component Type Tags
+ * Small badges to indicate component requirements (CSS and/or JS)
+ */
+
+.component-tags {
+    display: inline-flex;
+    gap: 0.25rem;
+    margin-left: 0.5rem;
+    align-items: center;
+}
+
+.component-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.125rem 0.5rem;
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-radius: calc(var(--border-radius) / 2);
+    line-height: 1;
+    vertical-align: middle;
+    white-space: nowrap;
+    transition: all var(--transition-speed);
+}
+
+.component-tag-css {
+    background-color: var(--theme-bg);
+    color: var(--theme-text-secondary);
+    border: 1px solid var(--theme-border);
+}
+
+.component-tag-js {
+    background-color: var(--theme-accent);
+    color: var(--theme-accent-contrast);
+    border: 1px solid var(--theme-accent);
+}
+
+/* Optional hover effect */
+.component-tag:hover {
+    opacity: 0.8;
+}
