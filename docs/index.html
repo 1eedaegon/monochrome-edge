@@ -4809,15 +4809,22 @@ $('.dropdown-option').on('click', function() {
                         <div
                             class="component-preview active"
                             data-id="search-toolbar-demo"
-                            style="min-height: 600px"
+                            style="
+                                min-height: 600px;
+                                display: flex;
+                                flex-direction: column;
+                                gap: 1rem;
+                                align-items: center;
+                            "
                         >
-                            <div style="max-width: 600px; margin: 0 auto">
-                                <div id="search-toolbar-container"></div>
-                                <div
-                                    id="search-results"
-                                    style="margin-top: 1.5rem"
-                                ></div>
-                            </div>
+                            <div
+                                id="search-toolbar-container"
+                                style="max-width: 600px; width: 100%"
+                            ></div>
+                            <div
+                                id="search-tags"
+                                style="max-width: 600px; width: 100%"
+                            ></div>
                         </div>
 
                         <div
@@ -11261,37 +11268,7 @@ new DropdownController(document.getElementById('action-dropdown'));
                             return results.slice(0, 10);
                         },
                         onSearch: (query) => {
-                            // Display selected tags results
-                            const resultsContainer =
-                                document.getElementById("search-results");
-
-                            const selectedTags = Array.from(
-                                searchToolbar.selectedTags || [],
-                            );
-
-                            if (selectedTags.length > 0) {
-                                const results = pageDocuments.filter((item) =>
-                                    selectedTags.includes(item.text),
-                                );
-
-                                resultsContainer.innerHTML = results
-                                    .map(
-                                        (item) => `
-                                <div class="card" style="padding: 0.75rem; margin-bottom: 0.5rem; cursor: pointer;" onclick="window.location.hash='${item.url}'">
-                                    <div style="display: flex; justify-content: space-between; align-items: center;">
-                                        <div>
-                                            <span style="color: var(--theme-text-primary); font-weight: 500;">${item.text}</span>
-                                            <span style="color: var(--theme-text-secondary); font-size: 0.75rem; margin-left: 0.5rem;">${item.category}</span>
-                                        </div>
-                                        <span style="font-size: 0.75rem; color: var(--theme-text-secondary); opacity: 0.8;">${item.meta}</span>
-                                    </div>
-                                </div>
-                            `,
-                                    )
-                                    .join("");
-                            } else {
-                                resultsContainer.innerHTML = "";
-                            }
+                            // Tags are displayed automatically by SearchToolbar component
                         },
                         debounceMs: 150,
                     },

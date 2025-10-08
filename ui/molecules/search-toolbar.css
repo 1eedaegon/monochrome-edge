@@ -18,20 +18,19 @@
 .search-toolbar-main {
     display: flex;
     align-items: stretch;
-    border-bottom: 1px solid var(--theme-border);
 }
 
-/* Selected Tags - Fixed height to prevent size changes */
+/* Selected Tags - External container (independent from search-toolbar) */
 .search-toolbar-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.375rem;
-    padding: 0.5rem 0.75rem;
-    border-bottom: 1px solid var(--theme-border);
-    background-color: var(--theme-bg);
-    order: -1;
-    min-height: 2.5rem;
-    max-height: 2.5rem;
+    padding: 0.75rem;
+    border: 1px solid var(--theme-border);
+    border-radius: var(--border-radius);
+    background-color: var(--theme-surface);
+    min-height: 3rem;
+    max-height: 6rem;
     overflow-y: auto;
     overflow-x: hidden;
     scrollbar-width: thin;
@@ -42,7 +41,7 @@
 }
 
 .search-toolbar-tags::-webkit-scrollbar-track {
-    background: var(--theme-bg);
+    background: var(--theme-surface);
 }
 
 .search-toolbar-tags::-webkit-scrollbar-thumb {

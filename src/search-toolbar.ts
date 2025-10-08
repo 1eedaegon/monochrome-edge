@@ -103,7 +103,6 @@ export class SearchToolbar {
 
     this.container.innerHTML = `
       <div class="search-toolbar">
-        <div class="search-toolbar-tags"></div>
         <div class="search-toolbar-main">
           <div class="search-toolbar-input-wrapper">
             <input
