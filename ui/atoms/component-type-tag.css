@@ -32,9 +32,21 @@
 }
 
 .component-tag-js {
-    background-color: var(--theme-accent);
-    color: var(--theme-accent-contrast);
-    border: 1px solid var(--theme-accent);
+    background-color: var(--theme-bg);
+    color: var(--theme-text-secondary);
+    border: 1px solid var(--theme-border);
+}
+
+.component-tag-svg {
+    background-color: var(--theme-bg);
+    color: var(--theme-text-secondary);
+    border: 1px solid var(--theme-border);
+}
+
+.component-tag-canvas {
+    background-color: var(--theme-bg);
+    color: var(--theme-text-secondary);
+    border: 1px solid var(--theme-border);
 }
 
 /* Optional hover effect */

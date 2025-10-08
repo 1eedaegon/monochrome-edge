@@ -15,6 +15,30 @@ export type {
   AutocompleteItem,
 } from "./search-toolbar";
 
+// Export SearchBar
+export { SearchBar } from "./search-bar";
+export type { SearchDocument, SearchBarOptions } from "./search-bar";
+
+// Export Graph View
+export { GraphView } from "./graph-view";
+export type { GraphViewOptions } from "./graph-view";
+export { DocumentGraph } from "./graph-builder";
+export type { DocumentMetadata, GraphNode, GraphEdge } from "./graph-builder";
+export { BarnesHutLayout } from "./barnes-hut-layout";
+export type { LayoutOptions } from "./barnes-hut-layout";
+export { CanvasRenderer } from "./canvas-renderer";
+export type { RenderOptions } from "./canvas-renderer";
+export { QuadTree } from "./quad-tree";
+export type { QuadTreeNode } from "./quad-tree";
+
+// Export Tree View
+export { TreeView } from "./tree-view";
+export type { TreeNode, TreeViewOptions } from "./tree-view";
+
+// Export Math Renderer
+export { MathRenderer, renderAllMath } from "./math-renderer";
+export type { MathRendererOptions } from "./math-renderer";
+
 // Theme management
 export class ThemeManager {
   private currentTheme: "warm" | "cold" = "warm";

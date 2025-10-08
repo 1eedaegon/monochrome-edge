@@ -91,11 +91,6 @@ server.listen(PORT, (): void => {
 ║   Server running at:                       ║
 ║   http://localhost:${PORT}                    ║
 ║                                            ║
-║   Available demos:                         ║
-║   http://localhost:${PORT}/blog-demo          ║
-║   http://localhost:${PORT}/editor             ║
-║   http://localhost:${PORT}/integration        ║
-║                                            ║
 ║   Press Ctrl+C to stop                     ║
 ║                                            ║
 ╚════════════════════════════════════════════╝
