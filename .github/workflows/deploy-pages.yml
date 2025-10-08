@@ -36,3 +36,15 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+      - name: Purge GitHub Pages cache
+        run: |
+          # Trigger cache invalidation by fetching with cache-busting parameter
+          PAGE_URL="${{ steps.deployment.outputs.page_url }}"
+          TIMESTAMP=$(date +%s)
+
+          echo "Attempting to bust cache for: ${PAGE_URL}"
+          curl -I "${PAGE_URL}?v=${TIMESTAMP}" || echo "Cache bust request completed"
+
+          echo "GitHub Pages deployed successfully"
+        continue-on-error: true

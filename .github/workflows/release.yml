@@ -208,16 +208,28 @@ jobs:
       - name: Purge jsDelivr cache
         if: steps.update_version.outputs.skip_release != 'true' && success()
         run: |
-          # Wait for npm to propagate
-          sleep 30
+          # Wait for npm to propagate (increased to 60s for better CDN propagation)
+          sleep 60
 
-          # Purge jsDelivr cache for the new version
-          curl "https://purge.jsdelivr.net/npm/@monochrome-edge/ui@${{ steps.version.outputs.new_version }}/dist/monochrome.min.css" \
-            || echo "jsDelivr version purge failed (non-critical)"
+          VERSION="${{ steps.version.outputs.new_version }}"
 
-          # Also purge latest tag
-          curl "https://purge.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css" \
-            || echo "jsDelivr latest purge failed (non-critical)"
+          # Purge all critical files for the new version
+          echo "Purging jsDelivr cache for version $VERSION..."
+          curl "https://purge.jsdelivr.net/npm/@monochrome-edge/ui@${VERSION}/dist/monochrome.min.css" || true
+          curl "https://purge.jsdelivr.net/npm/@monochrome-edge/ui@${VERSION}/dist/warm-theme.min.css" || true
+          curl "https://purge.jsdelivr.net/npm/@monochrome-edge/ui@${VERSION}/dist/cold-theme.min.css" || true
+          curl "https://purge.jsdelivr.net/npm/@monochrome-edge/ui@${VERSION}/dist/index.esm.js" || true
+          curl "https://purge.jsdelivr.net/npm/@monochrome-edge/ui@${VERSION}/dist/index.js" || true
+
+          # Purge latest tag for all files
+          echo "Purging jsDelivr cache for @latest..."
+          curl "https://purge.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css" || true
+          curl "https://purge.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/warm-theme.min.css" || true
+          curl "https://purge.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/cold-theme.min.css" || true
+          curl "https://purge.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/index.esm.js" || true
+          curl "https://purge.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/index.js" || true
+
+          echo "jsDelivr cache purge completed"
         continue-on-error: true
 
       - name: Comment on PR (if triggered by PR merge)
