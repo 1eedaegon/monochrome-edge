@@ -1,0 +1,61 @@
+/**
+ * Math Renderer Component
+ * Minimal styling for LaTeX equations
+ */
+
+/* Inline Math */
+.math-inline {
+  display: inline;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+/* Display Math (Block) */
+.math-display {
+  display: block;
+  margin: 1rem 0;
+  padding: 1rem;
+  background-color: var(--theme-bg);
+  border: 1px solid var(--theme-border);
+  border-left: 2px solid var(--theme-accent);
+  overflow-x: auto;
+  text-align: center;
+}
+
+/* Math Container */
+.math-container {
+  margin: 1.5rem 0;
+}
+
+.math-container-title {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--theme-text-primary);
+  margin-bottom: 0.5rem;
+}
+
+/* Scrollbar for long equations */
+.math-display::-webkit-scrollbar {
+  height: 4px;
+}
+
+.math-display::-webkit-scrollbar-track {
+  background: var(--theme-bg);
+}
+
+.math-display::-webkit-scrollbar-thumb {
+  background: var(--theme-border);
+  border-radius: 2px;
+}
+
+.math-display::-webkit-scrollbar-thumb:hover {
+  background: var(--theme-text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .math-display {
+    padding: 0.75rem;
+    font-size: 0.875rem;
+  }
+}
