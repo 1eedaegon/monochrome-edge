@@ -1,0 +1,371 @@
+/**
+ * Graph View Component
+ * Interactive document graph visualization with force-directed layout
+ */
+
+.graph-view {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background-color: var(--theme-bg);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--theme-border);
+    overflow: hidden;
+}
+
+.graph-view-canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+}
+
+.graph-view-canvas:active {
+    cursor: grabbing;
+}
+
+/* Graph View Controls */
+.graph-view-controls {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    z-index: 10;
+}
+
+.graph-view-controls .btn {
+    min-width: auto;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8125rem;
+    background-color: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.graph-view-controls .btn:hover {
+    background-color: var(--theme-bg);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+/* Graph View Info Panel */
+.graph-view-info {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    padding: 0.75rem 1rem;
+    background-color: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    font-size: 0.8125rem;
+    color: var(--theme-text-secondary);
+}
+
+.graph-view-info-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 0.25rem;
+}
+
+.graph-view-info-item:last-child {
+    margin-bottom: 0;
+}
+
+.graph-view-info-label {
+    font-weight: 600;
+    color: var(--theme-text-primary);
+}
+
+.graph-view-info-value {
+    font-family: "SF Mono", Monaco, "Cascadia Code", monospace;
+    color: var(--theme-accent);
+}
+
+/* Node Detail Panel */
+.graph-view-detail {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    max-width: 300px;
+    padding: 1rem;
+    background-color: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 20;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-0.5rem);
+    transition: all var(--transition-speed);
+}
+
+.graph-view-detail.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.graph-view-detail-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--theme-text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.graph-view-detail-tags {
+    display: flex;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+}
+
+.graph-view-detail-tag {
+    padding: 0.125rem 0.5rem;
+    font-size: 0.625rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--theme-text-secondary);
+    background-color: var(--theme-bg);
+    border-radius: calc(var(--border-radius) / 2);
+    border: 1px solid var(--theme-border);
+}
+
+.graph-view-detail-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    padding: 0.25rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--theme-text-secondary);
+    transition: color var(--transition-speed);
+}
+
+.graph-view-detail-close:hover {
+    color: var(--theme-text-primary);
+}
+
+/* Loading State */
+.graph-view-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 1rem 1.5rem;
+    background-color: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.875rem;
+    color: var(--theme-text-primary);
+}
+
+.graph-view-loading-spinner {
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid var(--theme-border);
+    border-top-color: var(--theme-accent);
+    border-radius: 50%;
+    animation: graph-view-spin 0.8s linear infinite;
+}
+
+@keyframes graph-view-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Progress Bar */
+.graph-view-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background-color: var(--theme-border);
+    z-index: 30;
+}
+
+.graph-view-progress-bar {
+    height: 100%;
+    background-color: var(--theme-accent);
+    transition: width 0.1s ease-out;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .graph-view-controls {
+        top: 0.5rem;
+        right: 0.5rem;
+        flex-direction: column;
+    }
+
+    .graph-view-info {
+        bottom: 0.5rem;
+        left: 0.5rem;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.75rem;
+    }
+
+    .graph-view-detail {
+        top: 0.5rem;
+        left: 0.5rem;
+        right: 0.5rem;
+        max-width: none;
+    }
+}
+
+/* Hover Tooltip - Monochrome Edge Style (Sharp, Minimal, Edgy) */
+.graph-node-tooltip {
+    position: absolute;
+    background: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    border-left: 2px solid var(--theme-accent);
+    padding: 0.75rem;
+    max-width: 320px;
+    z-index: 1000;
+    pointer-events: none;
+    /* Sharp edges - no rounded corners */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    font-size: 0.75rem;
+    line-height: 1.4;
+}
+
+.graph-node-tooltip-title {
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--theme-text-primary);
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid var(--theme-border);
+    padding-bottom: 0.375rem;
+    letter-spacing: -0.01em;
+}
+
+.graph-node-tooltip-section {
+    margin-bottom: 0.5rem;
+    padding-left: 0.5rem;
+    border-left: 1px solid var(--theme-border);
+}
+
+.graph-node-tooltip-section:last-child {
+    margin-bottom: 0;
+}
+
+.graph-node-tooltip-label {
+    font-size: 0.625rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--theme-text-secondary);
+    margin-bottom: 0.25rem;
+    opacity: 0.8;
+}
+
+.graph-node-tooltip-value {
+    color: var(--theme-text-primary);
+    font-size: 0.6875rem;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+.graph-node-tooltip-tags {
+    display: flex;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+    margin-top: 0.25rem;
+}
+
+.graph-node-tooltip-tag {
+    padding: 0.125rem 0.375rem;
+    font-size: 0.625rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--theme-text-secondary);
+    background-color: var(--theme-bg);
+    /* Sharp edges */
+    border: 1px solid var(--theme-border);
+}
+
+.graph-node-tooltip-links {
+    font-size: 0.6875rem;
+    color: var(--theme-text-primary);
+    margin-top: 0.25rem;
+    font-weight: 500;
+}
+
+.graph-node-tooltip-link {
+    display: block;
+    color: var(--theme-accent);
+    text-decoration: none;
+    padding: 0.125rem 0;
+    font-weight: 500;
+}
+
+.graph-node-tooltip-content {
+    max-height: 80px;
+    overflow-y: auto;
+    margin-top: 0.25rem;
+    padding: 0.375rem 0.5rem;
+    background-color: var(--theme-bg);
+    /* Sharp edges */
+    border: 1px solid var(--theme-border);
+    font-size: 0.625rem;
+    line-height: 1.6;
+    color: var(--theme-text-secondary);
+    font-weight: 400;
+    scrollbar-width: thin;
+}
+
+.graph-node-tooltip-content::-webkit-scrollbar {
+    width: 3px;
+}
+
+.graph-node-tooltip-content::-webkit-scrollbar-track {
+    background: var(--theme-bg);
+}
+
+.graph-node-tooltip-content::-webkit-scrollbar-thumb {
+    background: var(--theme-border);
+}
+
+/* Empty State */
+.graph-view-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--theme-text-secondary);
+    text-align: center;
+    padding: 2rem;
+}
+
+.graph-view-empty-icon {
+    width: 3rem;
+    height: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+.graph-view-empty-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--theme-text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.graph-view-empty-description {
+    font-size: 0.875rem;
+    max-width: 400px;
+}
