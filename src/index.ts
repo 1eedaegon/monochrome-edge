@@ -6,6 +6,15 @@
 // Core utilities
 export const VERSION = "1.0.0";
 
+// Export SearchToolbar
+export { SearchToolbar } from "./search-toolbar";
+export type {
+  SearchToolbarOptions,
+  FilterOption,
+  SortOption,
+  AutocompleteItem,
+} from "./search-toolbar";
+
 // Theme management
 export class ThemeManager {
   private currentTheme: "warm" | "cold" = "warm";
