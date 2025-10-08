@@ -98,6 +98,30 @@
             id="monochrome-css"
             href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css"
         />
+
+        <!-- Custom styles for theme examples -->
+        <style>
+            .theme-example-layout {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            @media (min-width: 768px) {
+                .theme-example-layout {
+                    grid-template-columns: 1fr 1fr;
+                    align-items: start;
+                }
+
+                .theme-example-text {
+                    order: 1;
+                }
+
+                .theme-example-card {
+                    order: 2;
+                }
+            }
+        </style>
         <script>
             const isLocal =
                 window.location.hostname === "localhost" ||
@@ -1224,7 +1248,14 @@
 
                 <!-- Colors Section -->
                 <section class="ds-section" id="colors">
-                    <h2 class="ds-section-title">Colors</h2>
+                    <h2 class="ds-section-title">
+                        Colors
+                        <span class="component-tags">
+                            <span class="component-tag component-tag-css"
+                                >CSS</span
+                            >
+                        </span>
+                    </h2>
                     <p class="ds-section-description">
                         Our color system is built on Pantone colors with
                         semantic variations for different use cases.
@@ -1355,11 +1386,421 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Theme Usage Examples -->
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Dual Theme System</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="dual-theme"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="dual-theme"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="dual-theme">
+                            <div class="component-preview">
+                                <div class="theme-example-layout">
+                                    <div class="theme-example-text">
+                                        <p>
+                                            Switch between Warm and Cold themes
+                                            dynamically with a single CSS file.
+                                        </p>
+                                        <div
+                                            style="
+                                                display: flex;
+                                                gap: 0.5rem;
+                                                flex-wrap: wrap;
+                                                margin-top: 1rem;
+                                            "
+                                        >
+                                            <button
+                                                class="btn btn-secondary"
+                                                onclick="document.documentElement.setAttribute('data-theme-variant', 'warm')"
+                                            >
+                                                Switch to Warm
+                                            </button>
+                                            <button
+                                                class="btn btn-secondary"
+                                                onclick="document.documentElement.setAttribute('data-theme-variant', 'cold')"
+                                            >
+                                                Switch to Cold
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="theme-example-card">
+                                        <div
+                                            class="card"
+                                            style="padding: 1.5rem"
+                                        >
+                                            <h4 style="margin-bottom: 1rem">
+                                                Current Theme:
+                                                <span id="current-theme-display"
+                                                    >-</span
+                                                >
+                                            </h4>
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Variable</th>
+                                                        <th>Preview</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Background</td>
+                                                        <td>
+                                                            <span
+                                                                style="
+                                                                    padding: 0.25rem
+                                                                        0.5rem;
+                                                                    background-color: var(
+                                                                        --theme-bg
+                                                                    );
+                                                                    border: 1px
+                                                                        solid
+                                                                        var(
+                                                                            --theme-border
+                                                                        );
+                                                                "
+                                                                >var(--theme-bg)</span
+                                                            >
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Accent</td>
+                                                        <td>
+                                                            <span
+                                                                style="
+                                                                    padding: 0.25rem
+                                                                        0.5rem;
+                                                                    background-color: var(
+                                                                        --theme-accent
+                                                                    );
+                                                                    color: var(
+                                                                        --theme-accent-contrast
+                                                                    );
+                                                                "
+                                                                >var(--theme-accent)</span
+                                                            >
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-html">&lt;!-- Load single CSS file with both themes --&gt;
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css"&gt;
+
+&lt;!-- Set initial theme --&gt;
+&lt;html data-theme="light" data-theme-variant="warm"&gt;
+
+&lt;script&gt;
+// Switch theme dynamically
+function switchTheme(variant) {
+    document.documentElement.setAttribute('data-theme-variant', variant);
+}
+&lt;/script&gt;
+
+&lt;button onclick="switchTheme('warm')"&gt;Warm Theme&lt;/button&gt;
+&lt;button onclick="switchTheme('cold')"&gt;Cold Theme&lt;/button&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">
+                                Mono Theme: Warm Only
+                            </h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="warm-only"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="warm-only"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="warm-only">
+                            <div class="component-preview">
+                                <div class="theme-example-layout">
+                                    <div class="theme-example-text">
+                                        <p>
+                                            Use Warm theme exclusively for
+                                            content-focused sites (blogs,
+                                            documentation).
+                                        </p>
+                                    </div>
+                                    <div class="theme-example-card">
+                                        <div
+                                            class="card"
+                                            style="
+                                                padding: 1.5rem;
+                                                background-color: #f8f7f6;
+                                            "
+                                        >
+                                            <h4
+                                                style="
+                                                    margin-bottom: 1rem;
+                                                    color: #4c4844;
+                                                "
+                                            >
+                                                Warm Theme Features
+                                            </h4>
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Feature</th>
+                                                        <th>Value</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td
+                                                            style="
+                                                                color: #706c68;
+                                                            "
+                                                        >
+                                                            Font Size
+                                                        </td>
+                                                        <td
+                                                            style="
+                                                                color: #706c68;
+                                                            "
+                                                        >
+                                                            16px (body)
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            style="
+                                                                color: #706c68;
+                                                            "
+                                                        >
+                                                            Color Palette
+                                                        </td>
+                                                        <td
+                                                            style="
+                                                                color: #706c68;
+                                                            "
+                                                        >
+                                                            Warm Gray
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            style="
+                                                                color: #706c68;
+                                                            "
+                                                        >
+                                                            Border Radius
+                                                        </td>
+                                                        <td
+                                                            style="
+                                                                color: #706c68;
+                                                            "
+                                                        >
+                                                            8px
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            style="
+                                                                color: #706c68;
+                                                            "
+                                                        >
+                                                            Best For
+                                                        </td>
+                                                        <td
+                                                            style="
+                                                                color: #706c68;
+                                                            "
+                                                        >
+                                                            Blogs, Documentation
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-html">&lt;!-- Load main CSS and warm theme only --&gt;
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css"&gt;
+
+&lt;!-- Set warm theme variant --&gt;
+&lt;html data-theme="light" data-theme-variant="warm"&gt;
+
+&lt;!-- No JavaScript needed - static theme --&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">
+                                Mono Theme: Cold Only
+                            </h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="cold-only"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="cold-only"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="cold-only">
+                            <div class="component-preview">
+                                <div class="theme-example-layout">
+                                    <div class="theme-example-text">
+                                        <p>
+                                            Use Cold theme exclusively for SaaS
+                                            and dashboard applications.
+                                        </p>
+                                    </div>
+                                    <div class="theme-example-card">
+                                        <div
+                                            class="card"
+                                            style="
+                                                padding: 1.5rem;
+                                                background-color: #f7f8f9;
+                                            "
+                                        >
+                                            <h4
+                                                style="
+                                                    margin-bottom: 1rem;
+                                                    color: #374151;
+                                                "
+                                            >
+                                                Cold Theme Features
+                                            </h4>
+                                            <table class="table">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Feature</th>
+                                                        <th>Value</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td
+                                                            style="
+                                                                color: #4b5563;
+                                                            "
+                                                        >
+                                                            Font Size
+                                                        </td>
+                                                        <td
+                                                            style="
+                                                                color: #4b5563;
+                                                            "
+                                                        >
+                                                            15px (body)
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            style="
+                                                                color: #4b5563;
+                                                            "
+                                                        >
+                                                            Color Palette
+                                                        </td>
+                                                        <td
+                                                            style="
+                                                                color: #4b5563;
+                                                            "
+                                                        >
+                                                            Cool Gray
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            style="
+                                                                color: #4b5563;
+                                                            "
+                                                        >
+                                                            Border Radius
+                                                        </td>
+                                                        <td
+                                                            style="
+                                                                color: #4b5563;
+                                                            "
+                                                        >
+                                                            6px
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td
+                                                            style="
+                                                                color: #4b5563;
+                                                            "
+                                                        >
+                                                            Best For
+                                                        </td>
+                                                        <td
+                                                            style="
+                                                                color: #4b5563;
+                                                            "
+                                                        >
+                                                            SaaS, Dashboards
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-html">&lt;!-- Load main CSS and cold theme only --&gt;
+&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css"&gt;
+
+&lt;!-- Set cold theme variant --&gt;
+&lt;html data-theme="light" data-theme-variant="cold"&gt;
+
+&lt;!-- No JavaScript needed - static theme --&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
                 </section>
 
                 <!-- Typography Section -->
                 <section class="ds-section" id="typography">
-                    <h2 class="ds-section-title">Typography</h2>
+                    <h2 class="ds-section-title">
+                        Typography
+                        <span class="component-tags">
+                            <span class="component-tag component-tag-css"
+                                >CSS</span
+                            >
+                        </span>
+                    </h2>
                     <p class="ds-section-description">
                         Clean, readable typography system based on Inter font
                         family.
@@ -1814,7 +2255,14 @@ function example() {
 
                 <!-- Brand Assets Section -->
                 <section class="ds-section" id="brand-assets">
-                    <h2 class="ds-section-title">Brand Assets</h2>
+                    <h2 class="ds-section-title">
+                        Brand Assets
+                        <span class="component-tags">
+                            <span class="component-tag component-tag-css"
+                                >CSS</span
+                            >
+                        </span>
+                    </h2>
                     <p class="ds-section-description">
                         Logo and brand identity elements for the Monochrome Edge
                         design system.
@@ -2035,7 +2483,16 @@ function example() {
 
                 <!-- Table of Contents Section -->
                 <section class="ds-section" id="toc">
-                    <h2 class="ds-section-title">Table of Contents</h2>
+                    <h2 class="ds-section-title">
+                        Table of Contents
+                        <span class="component-tags">
+                            <span class="component-tag component-tag-css"
+                                >CSS</span
+                            ><span class="component-tag component-tag-js"
+                                >JS</span
+                            >
+                        </span>
+                    </h2>
                     <p class="ds-section-description">
                         Navigation components for article content with hover
                         card and collapsible list styles.
@@ -2406,7 +2863,16 @@ $('.toc-collapsible-header').on('click', function() {
 
                 <!-- Tabs Section -->
                 <section class="ds-section" id="tabs">
-                    <h2 class="ds-section-title">Tabs</h2>
+                    <h2 class="ds-section-title">
+                        Tabs
+                        <span class="component-tags">
+                            <span class="component-tag component-tag-css"
+                                >CSS</span
+                            ><span class="component-tag component-tag-js"
+                                >JS</span
+                            >
+                        </span>
+                    </h2>
                     <p class="ds-section-description">
                         Tab navigation component with multiple styles and
                         orientations.
@@ -2510,7 +2976,16 @@ $('.toc-collapsible-header').on('click', function() {
 
                 <!-- Landscape Background Section -->
                 <section class="ds-section" id="landscape">
-                    <h2 class="ds-section-title">Landscape Background</h2>
+                    <h2 class="ds-section-title">
+                        Landscape Background
+                        <span class="component-tags">
+                            <span class="component-tag component-tag-css"
+                                >CSS</span
+                            ><span class="component-tag component-tag-js"
+                                >JS</span
+                            >
+                        </span>
+                    </h2>
                     <p class="ds-section-description">
                         Background patterns and textures for creating visual
                         depth.
@@ -2698,7 +3173,14 @@ $('.toc-collapsible-header').on('click', function() {
 
                 <!-- Buttons Section -->
                 <section class="ds-section" id="buttons">
-                    <h2 class="ds-section-title">Buttons</h2>
+                    <h2 class="ds-section-title">
+                        Buttons
+                        <span class="component-tags">
+                            <span class="component-tag component-tag-css"
+                                >CSS</span
+                            >
+                        </span>
+                    </h2>
                     <p class="ds-section-description">
                         Flexible button system with multiple variants and sizes.
                     </p>
@@ -2919,7 +3401,14 @@ $('.btn').addClass('btn-large');</code></pre>
 
                 <!-- Icon Buttons Section -->
                 <section class="ds-section" id="icon-buttons">
-                    <h2 class="ds-section-title">Icon Buttons</h2>
+                    <h2 class="ds-section-title">
+                        Icon Buttons
+                        <span class="component-tags">
+                            <span class="component-tag component-tag-css"
+                                >CSS</span
+                            >
+                        </span>
+                    </h2>
                     <p class="ds-section-description">
                         Icon-only buttons with multiple variants, sizes, and
                         states for intuitive actions.
@@ -3649,7 +4138,14 @@ $.createIconButton({ icon: 'sun', size: 'xl' });</code></pre>
 
                 <!-- Forms Section -->
                 <section class="ds-section" id="forms">
-                    <h2 class="ds-section-title">Forms</h2>
+                    <h2 class="ds-section-title">
+                        Forms
+                        <span class="component-tags">
+                            <span class="component-tag component-tag-css"
+                                >CSS</span
+                            >
+                        </span>
+                    </h2>
                     <p class="ds-section-description">
                         Comprehensive form components for data input and
                         validation.
@@ -3805,7 +4301,16 @@ $('#email-input').after('&lt;span class="helper-text"&gt;We\'ll never share your
 
                 <!-- Dropdown Section -->
                 <section class="ds-section" id="dropdowns">
-                    <h2 class="ds-section-title">Dropdowns</h2>
+                    <h2 class="ds-section-title">
+                        Dropdowns
+                        <span class="component-tags">
+                            <span class="component-tag component-tag-css"
+                                >CSS</span
+                            ><span class="component-tag component-tag-js"
+                                >JS</span
+                            >
+                        </span>
+                    </h2>
                     <p class="ds-section-description">
                         Flexible dropdown menus and select components with theme
                         support.
@@ -3975,7 +4480,16 @@ $('.dropdown-option').on('click', function() {
 
                 <!-- Search Bar Section -->
                 <section class="ds-section" id="search-toolbar">
-                    <h2 class="ds-section-title">Search</h2>
+                    <h2 class="ds-section-title">
+                        Search
+                        <span class="component-tags">
+                            <span class="component-tag component-tag-css"
+                                >CSS</span
+                            ><span class="component-tag component-tag-js"
+                                >JS</span
+                            >
+                        </span>
+                    </h2>
                     <p class="ds-section-description">
                         Search bar with fuzzy autocomplete and tag selection.
                     </p>
@@ -4221,7 +4735,14 @@ const handleSearch = (query, filters, sort) => {
 
                 <!-- Cards Section -->
                 <section class="ds-section" id="cards">
-                    <h2 class="ds-section-title">Cards</h2>
+                    <h2 class="ds-section-title">
+                        Cards
+                        <span class="component-tags">
+                            <span class="component-tag component-tag-css"
+                                >CSS</span
+                            >
+                        </span>
+                    </h2>
                     <p class="ds-section-description">
                         Versatile card components for displaying grouped
                         content.
@@ -4362,7 +4883,16 @@ document.body.appendChild(card);</code></pre>
 
                 <!-- Navigation Section -->
                 <section class="ds-section" id="navigation">
-                    <h2 class="ds-section-title">Navigation</h2>
+                    <h2 class="ds-section-title">
+                        Navigation
+                        <span class="component-tags">
+                            <span class="component-tag component-tag-css"
+                                >CSS</span
+                            ><span class="component-tag component-tag-js"
+                                >JS</span
+                            >
+                        </span>
+                    </h2>
                     <p class="ds-section-description">
                         Navigation components for menus and navigation bars.
                     </p>
@@ -4985,7 +5515,16 @@ document.body.appendChild(card);</code></pre>
 
                 <!-- Modals Section -->
                 <section class="ds-section" id="modals">
-                    <h2 class="ds-section-title">Modals</h2>
+                    <h2 class="ds-section-title">
+                        Modals
+                        <span class="component-tags">
+                            <span class="component-tag component-tag-css"
+                                >CSS</span
+                            ><span class="component-tag component-tag-js"
+                                >JS</span
+                            >
+                        </span>
+                    </h2>
                     <p class="ds-section-description">
                         Modal dialogs for user interactions and confirmations.
                     </p>
@@ -5117,7 +5656,14 @@ $('.modal-backdrop, .modal-close').on('click', function() {
 
                 <!-- Tables Section -->
                 <section class="ds-section" id="tables">
-                    <h2 class="ds-section-title">Tables</h2>
+                    <h2 class="ds-section-title">
+                        Tables
+                        <span class="component-tags">
+                            <span class="component-tag component-tag-css"
+                                >CSS</span
+                            >
+                        </span>
+                    </h2>
                     <p class="ds-section-description">
                         Data tables for displaying structured information.
                     </p>
@@ -5339,7 +5885,14 @@ $('th').on('click', function() {
 
                 <!-- Layouts Section -->
                 <section class="ds-section" id="layouts">
-                    <h2 class="ds-section-title">Layouts</h2>
+                    <h2 class="ds-section-title">
+                        Layouts
+                        <span class="component-tags">
+                            <span class="component-tag component-tag-css"
+                                >CSS</span
+                            >
+                        </span>
+                    </h2>
                     <p class="ds-section-description">
                         Pre-built layout templates for CMS and SaaS
                         applications.
@@ -6325,7 +6878,14 @@ $('th').on('click', function() {
 
                 <!-- Timeline Section -->
                 <section class="ds-section" id="timeline">
-                    <h2 class="ds-section-title">Timeline</h2>
+                    <h2 class="ds-section-title">
+                        Timeline
+                        <span class="component-tags">
+                            <span class="component-tag component-tag-css"
+                                >CSS</span
+                            >
+                        </span>
+                    </h2>
                     <p class="ds-section-description">
                         Chronological display of events and milestones with
                         various styles.
@@ -6443,7 +7003,16 @@ $('th').on('click', function() {
 
                 <!-- Accordion Section -->
                 <section class="ds-section" id="accordion">
-                    <h2 class="ds-section-title">Accordion</h2>
+                    <h2 class="ds-section-title">
+                        Accordion
+                        <span class="component-tags">
+                            <span class="component-tag component-tag-css"
+                                >CSS</span
+                            ><span class="component-tag component-tag-js"
+                                >JS</span
+                            >
+                        </span>
+                    </h2>
                     <p class="ds-section-description">
                         Expandable content panels for organizing information
                         hierarchically.
@@ -6568,7 +7137,14 @@ $('.accordion-button').on('click', function() {
 
                 <!-- Callout Section -->
                 <section class="ds-section" id="callout">
-                    <h2 class="ds-section-title">Callout</h2>
+                    <h2 class="ds-section-title">
+                        Callout
+                        <span class="component-tags">
+                            <span class="component-tag component-tag-css"
+                                >CSS</span
+                            >
+                        </span>
+                    </h2>
                     <p class="ds-section-description">
                         Alert and notification components with semantic color
                         variants.
@@ -8693,7 +9269,16 @@ new DropdownController(document.getElementById('action-dropdown'));
 
                 <!-- Editor Section -->
                 <section class="ds-section" id="editor">
-                    <h2 class="ds-section-title">Editor</h2>
+                    <h2 class="ds-section-title">
+                        Editor
+                        <span class="component-tags">
+                            <span class="component-tag component-tag-css"
+                                >CSS</span
+                            ><span class="component-tag component-tag-js"
+                                >JS</span
+                            >
+                        </span>
+                    </h2>
                     <p class="ds-section-description">
                         Interactive code editor with live preview and theme
                         customization.
@@ -10387,5 +10972,31 @@ new DropdownController(document.getElementById('action-dropdown'));
                 </div>
             </div>
         </div>
+
+        <!-- Update current theme display -->
+        <script>
+            function updateCurrentThemeDisplay() {
+                const display = document.getElementById(
+                    "current-theme-display",
+                );
+                if (display) {
+                    const variant =
+                        document.documentElement.getAttribute(
+                            "data-theme-variant",
+                        );
+                    display.textContent = variant === "warm" ? "Warm" : "Cold";
+                }
+            }
+
+            // Update on load
+            updateCurrentThemeDisplay();
+
+            // Update when theme changes
+            const observer = new MutationObserver(updateCurrentThemeDisplay);
+            observer.observe(document.documentElement, {
+                attributes: true,
+                attributeFilter: ["data-theme-variant"],
+            });
+        </script>
     </body>
 </html>
