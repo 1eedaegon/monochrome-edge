@@ -34,6 +34,7 @@
 @import url("./molecules/form-group.css");
 @import url("./molecules/dropdown.css");
 @import url("./molecules/search-bar.css");
+@import url("./molecules/search-bar-flex.css");
 @import url("./molecules/search-toolbar.css");
 @import url("./molecules/nav-item.css");
 @import url("./molecules/toast.css");
@@ -45,6 +46,8 @@
 @import url("./molecules/toc-hover-card.css");
 @import url("./molecules/toc-collapsible.css");
 @import url("./molecules/changelog.css");
+@import url("./molecules/tree-view.css");
+@import url("./molecules/math-renderer.css");
 
 /* Organisms */
 @import url("./organisms/header.css");
@@ -54,6 +57,7 @@
 @import url("./organisms/toolbar.css");
 @import url("./organisms/footer.css");
 @import url("./organisms/timeline.css");
+@import url("./organisms/graph-view.css");
 
 /* Templates */
 @import url("./templates/warm-layout.css");
