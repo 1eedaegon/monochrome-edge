@@ -21,7 +21,7 @@
     border-bottom: 1px solid var(--theme-border);
 }
 
-/* Selected Tags */
+/* Selected Tags - Fixed height to prevent size changes */
 .search-toolbar-tags {
     display: flex;
     flex-wrap: wrap;
@@ -30,6 +30,24 @@
     border-bottom: 1px solid var(--theme-border);
     background-color: var(--theme-bg);
     order: -1;
+    min-height: 2.5rem;
+    max-height: 2.5rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+}
+
+.search-toolbar-tags::-webkit-scrollbar {
+    width: 4px;
+}
+
+.search-toolbar-tags::-webkit-scrollbar-track {
+    background: var(--theme-bg);
+}
+
+.search-toolbar-tags::-webkit-scrollbar-thumb {
+    background: var(--theme-border);
+    border-radius: 2px;
 }
 
 .search-toolbar-tags:empty {
@@ -158,20 +176,20 @@
     background-color: var(--theme-bg);
 }
 
-/* Autocomplete Dropdown */
+/* Autocomplete Dropdown - TOC Style (Sharp & Minimal) */
 .search-toolbar-autocomplete {
     position: fixed;
     z-index: 1000;
-    max-height: 500px;
+    max-height: 400px;
     overflow-y: auto;
     background-color: var(--theme-surface);
     border: 1px solid var(--theme-border);
-    border-radius: var(--border-radius);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    /* Sharp edges - no border radius */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     opacity: 0;
     visibility: hidden;
-    transform: translateY(-0.5rem);
-    transition: all var(--transition-speed);
+    transform: translateY(-0.25rem);
+    transition: all 0.15s ease;
 }
 
 .search-toolbar-autocomplete.is-visible {
@@ -184,13 +202,14 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 1rem;
-    padding: 0.625rem 0.875rem;
-    font-size: 0.875rem;
+    gap: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8125rem;
     color: var(--theme-text-primary);
     cursor: pointer;
     border-left: 2px solid transparent;
-    transition: all var(--transition-speed);
+    transition: all 0.1s ease;
+    line-height: 1.4;
 }
 
 .search-toolbar-autocomplete-item:not(:last-child) {
@@ -199,13 +218,13 @@
 
 .search-toolbar-autocomplete-item:hover {
     background-color: var(--theme-bg);
-    border-left-color: var(--theme-text-secondary);
+    border-left-color: var(--theme-accent);
 }
 
 .search-toolbar-autocomplete-item.is-active {
     background-color: var(--theme-bg);
     border-left-color: var(--theme-accent);
-    font-weight: 500;
+    font-weight: 600;
 }
 
 .search-toolbar-autocomplete-text {
@@ -214,6 +233,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-weight: 500;
 }
 
 .search-toolbar-autocomplete-highlight {
@@ -222,24 +242,18 @@
 }
 
 .search-toolbar-autocomplete-meta {
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     color: var(--theme-text-secondary);
     flex-shrink: 0;
+    opacity: 0.7;
 }
 
+/* Category headers removed - not needed */
 .search-toolbar-autocomplete-category {
-    padding: 0.25rem 0.875rem;
-    font-size: 0.625rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--theme-text-secondary);
-    background-color: var(--theme-bg);
-    border-bottom: 1px solid var(--theme-border);
-    opacity: 0.8;
+    display: none;
 }
 
 /* Filter & Sort Controls */
