@@ -352,6 +352,12 @@
 
     /* Standalone icon - hidden when collapsed, shown when expanded */
     .search-bar.mobile-search .search-bar-icon {
+        position: absolute;
+        left: 0.75rem;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 18px;
+        height: 18px;
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.2s;

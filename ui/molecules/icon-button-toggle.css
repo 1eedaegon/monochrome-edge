@@ -1,0 +1,313 @@
+/*
+ * Icon Button Toggle Component
+ * Theme and Mode toggles with icon swap animations
+ */
+
+/* Global color transition for all elements when theme/mode changes */
+:root {
+    transition:
+        background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    transition:
+        background-color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+        color 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+        border-color 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Toggle container */
+.icon-btn-toggle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition:
+        background 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+        border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.icon-btn-toggle:hover {
+    background-color: var(--theme-bg);
+    border-color: var(--theme-text-secondary);
+}
+
+.icon-btn-toggle:active {
+    transform: scale(0.95);
+}
+
+/* Icon wrapper for animation */
+.icon-btn-toggle-icon {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    color: var(--theme-text-secondary);
+}
+
+.icon-btn-toggle:hover .icon-btn-toggle-icon {
+    color: var(--theme-text-primary);
+}
+
+/* Dual icon container - both icons stacked */
+.icon-btn-toggle-icon svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Default state - first icon at center, second hidden off-screen */
+.icon-btn-toggle-icon svg:first-child {
+    opacity: 1;
+    transform: translate(0, 0);
+}
+
+.icon-btn-toggle-icon svg:last-child {
+    opacity: 0;
+    transform: translate(-100%, 0);
+}
+
+/* Animation overlay - no longer used, background transitions directly */
+.icon-btn-toggle-overlay {
+    display: none;
+}
+
+/* ========================================
+   THEME TOGGLE - Vertical Pass-through
+   Icons pass through center: top → |center| → bottom
+   ======================================== */
+
+/* Warm state: flame at center, snowflake hidden on top */
+.icon-btn-toggle-theme[data-state="warm"]
+    .icon-btn-toggle-icon
+    svg:first-child {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.icon-btn-toggle-theme[data-state="warm"] .icon-btn-toggle-icon svg:last-child {
+    opacity: 0;
+    transform: translateY(-150%);
+}
+
+/* Cold state: snowflake at center, flame hidden on top */
+.icon-btn-toggle-theme[data-state="cold"]
+    .icon-btn-toggle-icon
+    svg:first-child {
+    opacity: 0;
+    transform: translateY(-150%);
+}
+
+.icon-btn-toggle-theme[data-state="cold"] .icon-btn-toggle-icon svg:last-child {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Warm to Cold: flame moves top→bottom (exit), snowflake moves top→center (enter) */
+.icon-btn-toggle-theme[data-transitioning="warm-to-cold"]
+    .icon-btn-toggle-icon
+    svg:first-child {
+    opacity: 0;
+    transform: translateY(150%);
+}
+
+.icon-btn-toggle-theme[data-transitioning="warm-to-cold"]
+    .icon-btn-toggle-icon
+    svg:last-child {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Cold to Warm: snowflake moves top→bottom (exit), flame moves top→center (enter) */
+.icon-btn-toggle-theme[data-transitioning="cold-to-warm"]
+    .icon-btn-toggle-icon
+    svg:first-child {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.icon-btn-toggle-theme[data-transitioning="cold-to-warm"]
+    .icon-btn-toggle-icon
+    svg:last-child {
+    opacity: 0;
+    transform: translateY(150%);
+}
+
+/* ========================================
+   MODE TOGGLE - Horizontal Pass-through
+   Icons pass through center: left → |center| → right
+   ======================================== */
+
+/* Light state: sun at center, moon hidden on left */
+.icon-btn-toggle-mode[data-state="light"]
+    .icon-btn-toggle-icon
+    svg:first-child {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.icon-btn-toggle-mode[data-state="light"] .icon-btn-toggle-icon svg:last-child {
+    opacity: 0;
+    transform: translateX(-150%);
+}
+
+/* Dark state: moon at center, sun hidden on left */
+.icon-btn-toggle-mode[data-state="dark"] .icon-btn-toggle-icon svg:first-child {
+    opacity: 0;
+    transform: translateX(-150%);
+}
+
+.icon-btn-toggle-mode[data-state="dark"] .icon-btn-toggle-icon svg:last-child {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Light to Dark: sun moves left→right (exit), moon moves left→center (enter) */
+.icon-btn-toggle-mode[data-transitioning="light-to-dark"]
+    .icon-btn-toggle-icon
+    svg:first-child {
+    opacity: 0;
+    transform: translateX(150%);
+}
+
+.icon-btn-toggle-mode[data-transitioning="light-to-dark"]
+    .icon-btn-toggle-icon
+    svg:last-child {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Dark to Light: moon moves left→right (exit), sun moves left→center (enter) */
+.icon-btn-toggle-mode[data-transitioning="dark-to-light"]
+    .icon-btn-toggle-icon
+    svg:first-child {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.icon-btn-toggle-mode[data-transitioning="dark-to-light"]
+    .icon-btn-toggle-icon
+    svg:last-child {
+    opacity: 0;
+    transform: translateX(150%);
+}
+
+/* ========================================
+   COLOR TOGGLE - Instant State Change
+   ======================================== */
+
+.icon-btn-toggle-colored .icon-btn-toggle-icon {
+    color: var(--theme-accent);
+}
+
+.icon-btn-toggle-colored:hover .icon-btn-toggle-icon {
+    color: var(--color-success);
+}
+
+.icon-btn-toggle-colored[data-state="colored"] {
+    background: linear-gradient(
+        135deg,
+        var(--color-success) 0%,
+        var(--theme-accent) 50%,
+        var(--color-info) 100%
+    );
+    border-color: var(--theme-accent);
+}
+
+.icon-btn-toggle-colored[data-state="colored"] .icon-btn-toggle-icon {
+    color: white;
+}
+
+.icon-btn-toggle-colored[data-state="monochrome"] {
+    background: var(--theme-surface);
+}
+
+.icon-btn-toggle-colored[data-state="monochrome"] .icon-btn-toggle-icon {
+    color: var(--theme-text-secondary);
+}
+
+/* ========================================
+   KEYFRAME ANIMATIONS
+   ======================================== */
+
+/* No keyframe animations needed - using CSS transitions on background */
+
+/* ========================================
+   STATE INDICATORS
+   ======================================== */
+
+.icon-btn-toggle[data-state]::after {
+    content: "";
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--theme-accent);
+    opacity: 0.6;
+    transition: all 0.2s;
+}
+
+.icon-btn-toggle-theme[data-state="warm"]::after {
+    background-color: #b89a7a;
+}
+
+.icon-btn-toggle-theme[data-state="cold"]::after {
+    background-color: #6b8fa8;
+}
+
+.icon-btn-toggle-mode[data-state="light"]::after {
+    background-color: #f5f2ed;
+    border: 1px solid var(--theme-border);
+}
+
+.icon-btn-toggle-mode[data-state="dark"]::after {
+    background-color: #2c2620;
+}
+
+/* ========================================
+   THEME VARIANTS
+   ======================================== */
+
+[data-theme-variant="cold"] .icon-btn-toggle {
+    background-color: var(--theme-surface);
+}
+
+[data-theme-variant="cold"] .icon-btn-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}
+
+[data-theme="dark"] .icon-btn-toggle {
+    background-color: var(--theme-surface);
+    border-color: var(--theme-border);
+}
+
+[data-theme="dark"] .icon-btn-toggle:hover {
+    background-color: var(--theme-bg);
+}
+
+/* ========================================
+   STATES
+   ======================================== */
+
+.icon-btn-toggle:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.icon-btn-toggle:focus-visible {
+    outline: 2px solid var(--theme-accent);
+    outline-offset: 2px;
+}
