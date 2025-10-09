@@ -45,6 +45,17 @@
     transform: scale(0.95);
 }
 
+/* Ghost variant - transparent background */
+.icon-btn-toggle-ghost {
+    border-color: transparent;
+    background-color: transparent;
+}
+
+.icon-btn-toggle-ghost:hover {
+    background-color: var(--theme-surface);
+    border-color: var(--theme-border);
+}
+
 /* Icon wrapper for animation */
 .icon-btn-toggle-icon {
     position: relative;
