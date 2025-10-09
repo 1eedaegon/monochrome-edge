@@ -8,7 +8,11 @@ export interface SearchToolbarOptions {
   autocomplete?: string[] | ((query: string) => Promise<string[]>);
   filters?: FilterOption[];
   sortOptions?: SortOption[];
-  onSearch?: (query: string, filters: Record<string, string>, sort: string) => void;
+  onSearch?: (
+    query: string,
+    filters: Record<string, string>,
+    sort: string,
+  ) => void;
   debounceMs?: number;
 }
 
@@ -43,10 +47,14 @@ export class SearchToolbar {
   private autocompleteItems: AutocompleteItem[] = [];
   private activeItemIndex: number = -1;
 
-  constructor(container: string | HTMLElement, options: SearchToolbarOptions = {}) {
-    this.container = typeof container === "string"
-      ? document.querySelector(container)!
-      : container;
+  constructor(
+    container: string | HTMLElement,
+    options: SearchToolbarOptions = {},
+  ) {
+    this.container =
+      typeof container === "string"
+        ? document.querySelector(container)!
+        : container;
 
     if (!this.container) {
       throw new Error("Container element not found");
@@ -64,7 +72,8 @@ export class SearchToolbar {
 
     // Initialize default filter values
     this.options.filters.forEach((filter) => {
-      this.activeFilters[filter.id] = filter.default || filter.values[0]?.value || "";
+      this.activeFilters[filter.id] =
+        filter.default || filter.values[0]?.value || "";
     });
 
     if (this.options.sortOptions.length > 0) {
@@ -73,13 +82,16 @@ export class SearchToolbar {
 
     this.render();
     this.inputElement = this.container.querySelector(".search-toolbar-input")!;
-    this.autocompleteElement = this.container.querySelector(".search-toolbar-autocomplete")!;
+    this.autocompleteElement = this.container.querySelector(
+      ".search-toolbar-autocomplete",
+    )!;
     this.clearButton = this.container.querySelector(".search-toolbar-clear")!;
     this.attachEventListeners();
   }
 
-  private render(): void {
-    const hasControls = this.options.filters.length > 0 || this.options.sortOptions.length > 0;
+  private async render(): Promise<void> {
+    const hasControls =
+      this.options.filters.length > 0 || this.options.sortOptions.length > 0;
 
     this.container.innerHTML = `
       <div class="search-toolbar">
@@ -91,59 +103,97 @@ export class SearchToolbar {
               placeholder="${this.options.placeholder}"
               aria-label="Search"
             />
-            <svg class="search-toolbar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
+            <span class="search-toolbar-icon" data-icon="search"></span>
             <button class="search-toolbar-clear" aria-label="Clear search" type="button">
-              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <span data-icon="close"></span>
             </button>
             <div class="search-toolbar-autocomplete"></div>
           </div>
         </div>
-        ${hasControls ? `
+        ${
+          hasControls
+            ? `
           <div class="search-toolbar-controls">
             ${this.renderFilters()}
-            ${this.options.filters.length > 0 && this.options.sortOptions.length > 0
-              ? '<div class="search-toolbar-divider"></div>'
-              : ''}
+            ${
+              this.options.filters.length > 0 &&
+              this.options.sortOptions.length > 0
+                ? '<div class="search-toolbar-divider"></div>'
+                : ""
+            }
             ${this.renderSortOptions()}
             <div class="search-toolbar-results"></div>
           </div>
-        ` : ''}
+        `
+            : ""
+        }
       </div>
     `;
+
+    // Load icons dynamically
+    await this.loadIcons();
+  }
+
+  private async loadIcons(): Promise<void> {
+    try {
+      const { iconLoader } = await import("@utils/iconLoader.js");
+
+      const searchIcon = this.container.querySelector('[data-icon="search"]');
+      if (searchIcon) {
+        const svg = await iconLoader.load("search", { width: 20, height: 20 });
+        searchIcon.innerHTML = svg;
+      }
+
+      const closeIcon = this.container.querySelector('[data-icon="close"]');
+      if (closeIcon) {
+        const svg = await iconLoader.load("close", { width: 16, height: 16 });
+        closeIcon.innerHTML = svg;
+      }
+    } catch (error) {
+      console.error("Failed to load icons:", error);
+    }
   }
 
   private renderFilters(): string {
-    return this.options.filters.map((filter) => `
+    return this.options.filters
+      .map(
+        (filter) => `
       <div class="search-toolbar-filter-group" data-filter-id="${filter.id}">
-        ${filter.values.map((value) => `
+        ${filter.values
+          .map(
+            (value) => `
           <button
-            class="search-toolbar-filter-btn ${this.activeFilters[filter.id] === value.value ? 'is-active' : ''}"
+            class="search-toolbar-filter-btn ${this.activeFilters[filter.id] === value.value ? "is-active" : ""}"
             data-filter-value="${value.value}"
           >
             ${value.label}
           </button>
-        `).join('')}
+        `,
+          )
+          .join("")}
       </div>
-    `).join('');
+    `,
+      )
+      .join("");
   }
 
   private renderSortOptions(): string {
-    if (this.options.sortOptions.length === 0) return '';
+    if (this.options.sortOptions.length === 0) return "";
 
     return `
       <div class="search-toolbar-filter-group" data-sort-group>
-        ${this.options.sortOptions.map((option) => `
+        ${this.options.sortOptions
+          .map(
+            (option) => `
           <button
-            class="search-toolbar-filter-btn ${this.activeSort === option.value ? 'is-active' : ''}"
+            class="search-toolbar-filter-btn ${this.activeSort === option.value ? "is-active" : ""}"
             data-sort-value="${option.value}"
           >
             ${option.label}
           </button>
-        `).join('')}
+        `,
+          )
+          .join("")}
       </div>
     `;
   }
@@ -172,12 +222,14 @@ export class SearchToolbar {
     });
 
     // Sort buttons
-    this.container.querySelectorAll("[data-sort-group] .search-toolbar-filter-btn").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const value = btn.getAttribute("data-sort-value")!;
-        this.setSort(value);
+    this.container
+      .querySelectorAll("[data-sort-group] .search-toolbar-filter-btn")
+      .forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const value = btn.getAttribute("data-sort-value")!;
+          this.setSort(value);
+        });
       });
-    });
   }
 
   private handleInput(): void {
@@ -207,13 +259,13 @@ export class SearchToolbar {
       items = await this.options.autocomplete(query);
     } else {
       items = this.options.autocomplete.filter((item) =>
-        item.toLowerCase().includes(query.toLowerCase())
+        item.toLowerCase().includes(query.toLowerCase()),
       );
     }
 
     // Convert strings to AutocompleteItem
     this.autocompleteItems = items.map((item) =>
-      typeof item === "string" ? { text: item } : item
+      typeof item === "string" ? { text: item } : item,
     );
 
     if (this.autocompleteItems.length > 0) {
@@ -238,7 +290,7 @@ export class SearchToolbar {
         html += `
           <div class="search-toolbar-autocomplete-item" data-index="${index}">
             <div class="search-toolbar-autocomplete-text">${highlightedText}</div>
-            ${item.meta ? `<div class="search-toolbar-autocomplete-meta">${item.meta}</div>` : ''}
+            ${item.meta ? `<div class="search-toolbar-autocomplete-meta">${item.meta}</div>` : ""}
           </div>
         `;
       });
@@ -247,15 +299,19 @@ export class SearchToolbar {
     this.autocompleteElement.innerHTML = html;
 
     // Attach click handlers
-    this.autocompleteElement.querySelectorAll(".search-toolbar-autocomplete-item").forEach((item) => {
-      item.addEventListener("click", () => {
-        const index = parseInt(item.getAttribute("data-index")!);
-        this.selectItem(index);
+    this.autocompleteElement
+      .querySelectorAll(".search-toolbar-autocomplete-item")
+      .forEach((item) => {
+        item.addEventListener("click", () => {
+          const index = parseInt(item.getAttribute("data-index")!);
+          this.selectItem(index);
+        });
       });
-    });
   }
 
-  private groupItemsByCategory(items: AutocompleteItem[]): Record<string, AutocompleteItem[]> {
+  private groupItemsByCategory(
+    items: AutocompleteItem[],
+  ): Record<string, AutocompleteItem[]> {
     const grouped: Record<string, AutocompleteItem[]> = {};
     items.forEach((item) => {
       const category = item.category || "";
@@ -279,14 +335,19 @@ export class SearchToolbar {
   }
 
   private handleKeyDown(e: KeyboardEvent): void {
-    const items = this.autocompleteElement.querySelectorAll(".search-toolbar-autocomplete-item");
+    const items = this.autocompleteElement.querySelectorAll(
+      ".search-toolbar-autocomplete-item",
+    );
 
     if (items.length === 0) return;
 
     switch (e.key) {
       case "ArrowDown":
         e.preventDefault();
-        this.activeItemIndex = Math.min(this.activeItemIndex + 1, items.length - 1);
+        this.activeItemIndex = Math.min(
+          this.activeItemIndex + 1,
+          items.length - 1,
+        );
         this.updateActiveItem(items);
         break;
       case "ArrowUp":
@@ -343,10 +404,15 @@ export class SearchToolbar {
     this.activeFilters[filterId] = value;
 
     // Update button states
-    const group = this.container.querySelector(`[data-filter-id="${filterId}"]`);
+    const group = this.container.querySelector(
+      `[data-filter-id="${filterId}"]`,
+    );
     if (group) {
       group.querySelectorAll(".search-toolbar-filter-btn").forEach((btn) => {
-        btn.classList.toggle("is-active", btn.getAttribute("data-filter-value") === value);
+        btn.classList.toggle(
+          "is-active",
+          btn.getAttribute("data-filter-value") === value,
+        );
       });
     }
 
@@ -357,15 +423,24 @@ export class SearchToolbar {
     this.activeSort = value;
 
     // Update button states
-    this.container.querySelectorAll("[data-sort-group] .search-toolbar-filter-btn").forEach((btn) => {
-      btn.classList.toggle("is-active", btn.getAttribute("data-sort-value") === value);
-    });
+    this.container
+      .querySelectorAll("[data-sort-group] .search-toolbar-filter-btn")
+      .forEach((btn) => {
+        btn.classList.toggle(
+          "is-active",
+          btn.getAttribute("data-sort-value") === value,
+        );
+      });
 
     this.triggerSearch();
   }
 
   private triggerSearch(): void {
-    this.options.onSearch(this.currentQuery, this.activeFilters, this.activeSort);
+    this.options.onSearch(
+      this.currentQuery,
+      this.activeFilters,
+      this.activeSort,
+    );
   }
 
   public clear(): void {
@@ -390,7 +465,7 @@ export class SearchToolbar {
   public setResultsCount(count: number): void {
     const resultsEl = this.container.querySelector(".search-toolbar-results");
     if (resultsEl) {
-      resultsEl.textContent = `${count} result${count !== 1 ? 's' : ''}`;
+      resultsEl.textContent = `${count} result${count !== 1 ? "s" : ""}`;
     }
   }
 

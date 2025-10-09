@@ -100,7 +100,7 @@ export class SearchToolbar {
     this.attachEventListeners();
   }
 
-  private render(): void {
+  private async render(): Promise<void> {
     const hasControls =
       this.options.filters.length > 0 || this.options.sortOptions.length > 0;
 
@@ -108,9 +108,7 @@ export class SearchToolbar {
       <div class="search-toolbar">
         <div class="search-toolbar-main">
           <div class="search-toolbar-input-wrapper">
-            <svg class="search-toolbar-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
+            <span class="search-toolbar-icon" data-icon="search"></span>
             <input
               type="text"
               class="search-toolbar-input"
@@ -118,9 +116,7 @@ export class SearchToolbar {
               aria-label="Search"
             />
             <button class="search-toolbar-clear" aria-label="Clear search" type="button">
-              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-              </svg>
+              <span data-icon="close"></span>
             </button>
           </div>
         </div>
@@ -144,6 +140,29 @@ export class SearchToolbar {
       </div>
       <div class="search-toolbar-autocomplete"></div>
     `;
+
+    // Load icons dynamically
+    await this.loadIcons();
+  }
+
+  private async loadIcons(): Promise<void> {
+    try {
+      const { iconLoader } = await import("@utils/iconLoader.js");
+
+      const searchIcon = this.container.querySelector('[data-icon="search"]');
+      if (searchIcon) {
+        const svg = await iconLoader.load("search", { width: 20, height: 20 });
+        searchIcon.innerHTML = svg;
+      }
+
+      const closeIcon = this.container.querySelector('[data-icon="close"]');
+      if (closeIcon) {
+        const svg = await iconLoader.load("close", { width: 16, height: 16 });
+        closeIcon.innerHTML = svg;
+      }
+    } catch (error) {
+      console.error("Failed to load icons:", error);
+    }
   }
 
   private renderFilters(): string {
