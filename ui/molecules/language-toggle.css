@@ -1,0 +1,267 @@
+/*
+ * Language Toggle Component
+ * Multi-language toggle with country flag icons
+ * Supports cycling through multiple languages
+ */
+
+/* ========================================
+   BASE COMPONENT
+   ======================================== */
+
+.language-toggle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition:
+        background 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+        border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+}
+
+.language-toggle:hover {
+    background-color: var(--theme-bg);
+    border-color: var(--theme-text-secondary);
+}
+
+.language-toggle:active {
+    transform: scale(0.95);
+}
+
+/* Icon container - holds all language flag icons */
+.language-toggle-icon {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    color: var(--theme-text-secondary);
+}
+
+.language-toggle:hover .language-toggle-icon {
+    color: var(--theme-text-primary);
+}
+
+/* Individual flag icons - stacked on top of each other */
+.language-toggle-icon svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========================================
+   FLAG ICON DEFINITIONS
+   ======================================== */
+
+/* Korean Flag - Taegukgi (태극기) */
+.flag-icon-kr circle {
+    fill: none;
+    stroke: currentColor;
+}
+
+.flag-icon-kr .yin-yang {
+    fill: #c70000;
+}
+
+.flag-icon-kr .yang {
+    fill: #003478;
+}
+
+/* US/English Flag - Stars and Stripes */
+.flag-icon-us .stripes {
+    stroke: currentColor;
+}
+
+.flag-icon-us .stars {
+    fill: currentColor;
+}
+
+/* Japanese Flag - Hinomaru (日の丸) */
+.flag-icon-jp circle {
+    fill: #bc002d;
+}
+
+/* Chinese Flag - Five Stars */
+.flag-icon-cn .big-star {
+    fill: #ffde00;
+}
+
+.flag-icon-cn .small-star {
+    fill: #ffde00;
+}
+
+/* French Flag - Tricolor */
+.flag-icon-fr rect {
+    fill: currentColor;
+}
+
+/* German Flag - Tricolor */
+.flag-icon-de rect {
+    fill: currentColor;
+}
+
+/* Spanish Flag - Coat of Arms */
+.flag-icon-es rect {
+    fill: currentColor;
+}
+
+/* Default Globe Icon (fallback) */
+.flag-icon-globe {
+    stroke: currentColor;
+    fill: none;
+}
+
+/* ========================================
+   ANIMATION STATES
+   ======================================== */
+
+/* Hide all icons by default (positioned off-screen left) */
+.language-toggle-icon svg {
+    opacity: 0;
+    transform: translateX(-150%);
+}
+
+/* Active language icon - centered and visible */
+.language-toggle[data-lang="ko"] .flag-icon-kr,
+.language-toggle[data-lang="en"] .flag-icon-us,
+.language-toggle[data-lang="ja"] .flag-icon-jp,
+.language-toggle[data-lang="zh"] .flag-icon-cn,
+.language-toggle[data-lang="fr"] .flag-icon-fr,
+.language-toggle[data-lang="de"] .flag-icon-de,
+.language-toggle[data-lang="es"] .flag-icon-es {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Animation: Current icon exits right, next icon enters from left */
+.language-toggle.is-animating .flag-icon-current {
+    opacity: 0;
+    transform: translateX(150%);
+}
+
+.language-toggle.is-animating .flag-icon-next {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ========================================
+   STATE INDICATOR
+   ======================================== */
+
+.language-toggle::after {
+    content: "";
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    opacity: 0.7;
+    transition: background-color 0.3s;
+}
+
+/* Country-specific indicator colors */
+.language-toggle[data-lang="ko"]::after {
+    background-color: #003478; /* Korean blue */
+}
+
+.language-toggle[data-lang="en"]::after {
+    background-color: #b22234; /* US red */
+}
+
+.language-toggle[data-lang="ja"]::after {
+    background-color: #bc002d; /* Japanese red */
+}
+
+.language-toggle[data-lang="zh"]::after {
+    background-color: #de2910; /* Chinese red */
+}
+
+.language-toggle[data-lang="fr"]::after {
+    background-color: #002395; /* French blue */
+}
+
+.language-toggle[data-lang="de"]::after {
+    background-color: #000000; /* German black */
+}
+
+.language-toggle[data-lang="es"]::after {
+    background-color: #c60b1e; /* Spanish red */
+}
+
+/* ========================================
+   LANGUAGE CODE DISPLAY (Optional)
+   ======================================== */
+
+.language-toggle-label {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.625rem;
+    font-weight: 600;
+    color: var(--theme-text-tertiary);
+    background: var(--theme-surface);
+    padding: 0 4px;
+    border-radius: 2px;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.language-toggle:hover .language-toggle-label {
+    opacity: 1;
+}
+
+/* ========================================
+   SIZE VARIANTS
+   ======================================== */
+
+.language-toggle-sm {
+    width: 36px;
+    height: 36px;
+}
+
+.language-toggle-sm .language-toggle-icon {
+    width: 18px;
+    height: 18px;
+}
+
+.language-toggle-lg {
+    width: 52px;
+    height: 52px;
+}
+
+.language-toggle-lg .language-toggle-icon {
+    width: 28px;
+    height: 28px;
+}
+
+/* ========================================
+   THEME VARIANTS
+   ======================================== */
+
+[data-theme="dark"] .language-toggle {
+    background-color: var(--theme-surface);
+    border-color: var(--theme-border);
+}
+
+[data-theme="dark"] .language-toggle:hover {
+    background-color: var(--theme-bg);
+}
+
+[data-theme-variant="cold"] .language-toggle {
+    background-color: var(--theme-surface);
+}
+
+[data-theme-variant="cold"] .language-toggle:hover {
+    background-color: rgba(0, 0, 0, 0.02);
+}

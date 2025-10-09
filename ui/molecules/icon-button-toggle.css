@@ -239,6 +239,72 @@
 }
 
 /* ========================================
+   LANGUAGE TOGGLE - Horizontal Animation
+   Current icon: always exits RIGHT (translateX +150%)
+   Next icon: always enters from LEFT (translateX -150% → 0)
+   ======================================== */
+
+/* Korean state: first globe icon at center, second grid icon hidden on left */
+.icon-btn-toggle-language[data-state="ko"]
+    .icon-btn-toggle-icon
+    svg:first-child {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.icon-btn-toggle-language[data-state="ko"]
+    .icon-btn-toggle-icon
+    svg:last-child {
+    opacity: 0;
+    transform: translateX(-150%);
+}
+
+/* English state: grid icon at center, globe icon hidden on left */
+.icon-btn-toggle-language[data-state="en"]
+    .icon-btn-toggle-icon
+    svg:first-child {
+    opacity: 0;
+    transform: translateX(-150%);
+}
+
+.icon-btn-toggle-language[data-state="en"]
+    .icon-btn-toggle-icon
+    svg:last-child {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Korean → English animation: globe exits right, grid enters from left */
+.icon-btn-toggle-language[data-state="ko"].is-animating
+    .icon-btn-toggle-icon
+    svg:first-child {
+    opacity: 0;
+    transform: translateX(150%);
+}
+
+.icon-btn-toggle-language[data-state="ko"].is-animating
+    .icon-btn-toggle-icon
+    svg:last-child {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* English → Korean animation: grid exits right, globe enters from left */
+.icon-btn-toggle-language[data-state="en"].is-animating
+    .icon-btn-toggle-icon
+    svg:first-child {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.icon-btn-toggle-language[data-state="en"].is-animating
+    .icon-btn-toggle-icon
+    svg:last-child {
+    opacity: 0;
+    transform: translateX(150%);
+}
+
+/* ========================================
    KEYFRAME ANIMATIONS
    ======================================== */
 

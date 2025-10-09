@@ -766,6 +766,120 @@
                 height: 100%;
             }
 
+            /* ========================================
+               LANGUAGE TOGGLE COMPONENT
+               Diagonal flip animation: Lang1 ↖ / ↘ Lang2
+               ======================================== */
+
+            .language-toggle {
+                position: relative;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 50px;
+                height: 44px;
+                padding: 0;
+                background: var(--theme-surface);
+                border: 1px solid var(--theme-border);
+                border-radius: var(--border-radius);
+                cursor: pointer;
+                transition:
+                    background 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                    border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                    transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
+                overflow: hidden;
+            }
+
+            .language-toggle:hover {
+                background-color: var(--theme-bg);
+                border-color: var(--theme-text-secondary);
+            }
+
+            .language-toggle:active {
+                transform: scale(0.95);
+            }
+
+            /* Container for diagonal layout */
+            .language-toggle-text {
+                position: relative;
+                width: 100%;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.625rem;
+                font-weight: 600;
+                letter-spacing: 0.02em;
+                color: var(--theme-text-secondary);
+            }
+
+            .language-toggle:hover .language-toggle-text {
+                color: var(--theme-text-primary);
+            }
+
+            /* First language - top-left */
+            .lang-first {
+                position: absolute;
+                top: 6px;
+                left: 6px;
+                transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            /* Second language - bottom-right */
+            .lang-second {
+                position: absolute;
+                bottom: 6px;
+                right: 6px;
+                transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            /* Diagonal slash separator (top-right to bottom-left: \ direction) */
+            .lang-slash {
+                position: absolute;
+                width: 1px;
+                height: 32px;
+                background: currentColor;
+                opacity: 0.3;
+                transform: rotate(45deg);
+                transform-origin: center;
+            }
+
+            /* Default state (not toggled) */
+            .language-toggle[data-toggled="false"] .lang-first {
+                top: 6px;
+                left: 6px;
+                opacity: 1;
+            }
+
+            .language-toggle[data-toggled="false"] .lang-second {
+                bottom: 6px;
+                right: 6px;
+                opacity: 1;
+            }
+
+            /* Toggled state - positions swap */
+            .language-toggle[data-toggled="true"] .lang-first {
+                top: auto;
+                bottom: 6px;
+                left: auto;
+                right: 6px;
+                opacity: 1;
+            }
+
+            .language-toggle[data-toggled="true"] .lang-second {
+                bottom: auto;
+                top: 6px;
+                right: auto;
+                left: 6px;
+                opacity: 1;
+            }
+
+            /* Animation state - fade during transition */
+            .language-toggle.is-animating .lang-first,
+            .language-toggle.is-animating .lang-second {
+                opacity: 0.4;
+            }
+
             .ds-title {
                 font-size: 1.5rem;
                 font-weight: var(--font-weight-h1);
@@ -6508,13 +6622,27 @@ const btnXl = createIconButton({ icon: 'sun', size: 'xl' });</code></pre>
                                         <p style="margin-top: 0.5rem; font-size: 0.75rem; font-weight: 500; color: var(--theme-text-secondary);">Color</p>
                                         <p style="font-size: 0.625rem; color: var(--theme-text-tertiary);">Mono ↔ Color</p>
                                     </div>
+
+                                    <!-- Language Toggle -->
+                                    <div style="text-align: center;">
+                                        <button class="language-toggle" id="demo-language-toggle" data-toggled="false" title="Korean ↔ English">
+                                            <div class="language-toggle-text">
+                                                <span class="lang-first">KO</span>
+                                                <span class="lang-slash"></span>
+                                                <span class="lang-second">EN</span>
+                                            </div>
+                                        </button>
+                                        <p style="margin-top: 0.5rem; font-size: 0.75rem; font-weight: 500; color: var(--theme-text-secondary);">Language</p>
+                                        <p style="font-size: 0.625rem; color: var(--theme-text-tertiary);">KO ↔ EN</p>
+                                    </div>
                                 </div>
                                 <div style="margin-top: 1rem; padding: 1rem; background: var(--theme-bg); border-radius: var(--border-radius); text-align: center;">
                                     <p style="font-size: 0.75rem; color: var(--theme-text-secondary); line-height: 1.6;">
                                         <strong>Click toggles to see animations:</strong><br/>
                                         Theme: Vertical slide with warm/cold gradient transition<br/>
                                         Mode: Horizontal slide with light→dark gradient<br/>
-                                        Color: Instant toggle with gradient background
+                                        Color: Instant toggle with gradient background<br/>
+                                        Language: Diagonal flip with separator line (top-left ↔ bottom-right)
                                     </p>
                                 </div>
                             </div>
@@ -15909,63 +16037,71 @@ new DropdownController(document.getElementById('action-dropdown'));
                 let themeAnimationLocked = false;
                 let modeAnimationLocked = false;
 
-                // Helper function to sync all theme toggles
+                // Cache DOM elements to avoid repeated queries
+                const themeBtns = document.querySelectorAll('.theme-btn');
+                const modeBtns = document.querySelectorAll('.mode-btn');
+
+                // Helper function to sync all theme toggles (optimized)
                 function syncThemeToggles(currentToggle, nextState) {
-                    // Sync animation state to all other theme toggles
-                    [themeToggle, demoThemeToggle].forEach(toggle => {
-                        if (toggle && toggle !== currentToggle) {
-                            // Skip if already animating or already in target state
-                            if (toggle.classList.contains('is-animating')) return;
-                            if (toggle.dataset.state === nextState) return;
-
-                            // Start animation
-                            toggle.classList.add('is-animating');
-
-                            // Clean up after animation
-                            setTimeout(() => {
-                                toggle.dataset.state = nextState;
-                                toggle.classList.remove('is-animating');
-                            }, 800);
+                    // Use requestAnimationFrame to batch DOM updates
+                    requestAnimationFrame(() => {
+                        // Sync animation state to all other theme toggles
+                        if (themeToggle && themeToggle !== currentToggle && themeToggle.dataset.state !== nextState) {
+                            if (!themeToggle.classList.contains('is-animating')) {
+                                themeToggle.classList.add('is-animating');
+                                setTimeout(() => {
+                                    themeToggle.dataset.state = nextState;
+                                    themeToggle.classList.remove('is-animating');
+                                }, 800);
+                            }
                         }
-                    });
 
-                    // Update theme-btn active state
-                    document.querySelectorAll('.theme-btn').forEach(btn => {
-                        if (btn.dataset.theme === nextState) {
-                            btn.classList.add('active');
-                        } else {
-                            btn.classList.remove('active');
+                        if (demoThemeToggle && demoThemeToggle !== currentToggle && demoThemeToggle.dataset.state !== nextState) {
+                            if (!demoThemeToggle.classList.contains('is-animating')) {
+                                demoThemeToggle.classList.add('is-animating');
+                                setTimeout(() => {
+                                    demoThemeToggle.dataset.state = nextState;
+                                    demoThemeToggle.classList.remove('is-animating');
+                                }, 800);
+                            }
                         }
+
+                        // Batch update theme buttons
+                        themeBtns.forEach(btn => {
+                            btn.classList.toggle('active', btn.dataset.theme === nextState);
+                        });
                     });
                 }
 
-                // Helper function to sync all mode toggles
+                // Helper function to sync all mode toggles (optimized)
                 function syncModeToggles(currentToggle, nextState) {
-                    // Sync animation state to all other mode toggles
-                    [modeToggle, demoModeToggle].forEach(toggle => {
-                        if (toggle && toggle !== currentToggle) {
-                            // Skip if already animating or already in target state
-                            if (toggle.classList.contains('is-animating')) return;
-                            if (toggle.dataset.state === nextState) return;
-
-                            // Start animation
-                            toggle.classList.add('is-animating');
-
-                            // Clean up after animation
-                            setTimeout(() => {
-                                toggle.dataset.state = nextState;
-                                toggle.classList.remove('is-animating');
-                            }, 800);
+                    // Use requestAnimationFrame to batch DOM updates
+                    requestAnimationFrame(() => {
+                        // Sync animation state to all other mode toggles
+                        if (modeToggle && modeToggle !== currentToggle && modeToggle.dataset.state !== nextState) {
+                            if (!modeToggle.classList.contains('is-animating')) {
+                                modeToggle.classList.add('is-animating');
+                                setTimeout(() => {
+                                    modeToggle.dataset.state = nextState;
+                                    modeToggle.classList.remove('is-animating');
+                                }, 800);
+                            }
                         }
-                    });
 
-                    // Update mode-btn active state
-                    document.querySelectorAll('.mode-btn').forEach(btn => {
-                        if (btn.dataset.mode === nextState) {
-                            btn.classList.add('active');
-                        } else {
-                            btn.classList.remove('active');
+                        if (demoModeToggle && demoModeToggle !== currentToggle && demoModeToggle.dataset.state !== nextState) {
+                            if (!demoModeToggle.classList.contains('is-animating')) {
+                                demoModeToggle.classList.add('is-animating');
+                                setTimeout(() => {
+                                    demoModeToggle.dataset.state = nextState;
+                                    demoModeToggle.classList.remove('is-animating');
+                                }, 800);
+                            }
                         }
+
+                        // Batch update mode buttons
+                        modeBtns.forEach(btn => {
+                            btn.classList.toggle('active', btn.dataset.mode === nextState);
+                        });
                     });
                 }
 
@@ -16112,6 +16248,63 @@ new DropdownController(document.getElementById('action-dropdown'));
                         this.dataset.state = next;
                     });
                 }
+
+                // Multi-language toggle with diagonal flip animation
+                function initLanguageToggle(element) {
+                    // Get language array from data attribute or default to 2 languages
+                    const languagesAttr = element.getAttribute('data-languages');
+                    const languages = languagesAttr ? languagesAttr.split(',') : ['KO', 'EN'];
+
+                    let currentIndex = 0;
+                    let isAnimating = false;
+
+                    const langFirst = element.querySelector('.lang-first');
+                    const langSecond = element.querySelector('.lang-second');
+
+                    element.addEventListener('click', function() {
+                        if (isAnimating) return;
+
+                        // Lock animation
+                        isAnimating = true;
+
+                        // Get current toggled state
+                        const isToggled = element.getAttribute('data-toggled') === 'true';
+
+                        // Start animation
+                        element.classList.add('is-animating');
+
+                        // Toggle the state
+                        element.setAttribute('data-toggled', !isToggled);
+
+                        // After animation completes
+                        setTimeout(() => {
+                            element.classList.remove('is-animating');
+
+                            // If we just toggled to true, advance to next language pair
+                            if (!isToggled) {
+                                // After diagonal flip completes, update to next language pair
+                                currentIndex = (currentIndex + 1) % languages.length;
+                                const nextIndex = (currentIndex + 1) % languages.length;
+
+                                // Update text content for next cycle
+                                langFirst.textContent = languages[currentIndex];
+                                langSecond.textContent = languages[nextIndex];
+
+                                // Reset toggle state for next click
+                                element.setAttribute('data-toggled', 'false');
+                            }
+
+                            // Unlock after extra delay
+                            setTimeout(() => {
+                                isAnimating = false;
+                            }, 200);
+                        }, 500);
+                    });
+                }
+
+                // Initialize language toggle
+                const languageToggle = document.getElementById('demo-language-toggle');
+                if (languageToggle) initLanguageToggle(languageToggle);
             });
         </script>
     </body>
