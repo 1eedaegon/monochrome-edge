@@ -698,6 +698,74 @@
                 display: none;
             }
 
+            .logo-text {
+                fill: var(--theme-text-primary);
+                transition: fill 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            /* Brand Logo Components */
+            .brand-logo-primary {
+                display: inline-block;
+            }
+
+            .brand-logo-primary .logo-slash-line {
+                stroke: #78716c;
+                transition: stroke 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .brand-logo-primary .logo-text {
+                fill: var(--theme-text-primary);
+                transition: fill 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .brand-logo-secondary {
+                display: inline-block;
+            }
+
+            .brand-logo-secondary .logo-slash-line {
+                stroke: #78716c;
+                transition: stroke 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            /* Icon Components - Reusable SVG Icons */
+            .icon {
+                display: inline-block;
+                width: 24px;
+                height: 24px;
+                stroke: currentColor;
+                fill: none;
+                stroke-width: 2;
+                stroke-linecap: round;
+                stroke-linejoin: round;
+            }
+
+            .icon-sm {
+                width: 18px;
+                height: 18px;
+            }
+
+            .icon-md {
+                width: 24px;
+                height: 24px;
+            }
+
+            .icon-lg {
+                width: 32px;
+                height: 32px;
+            }
+
+            /* Icon with fill */
+            .icon-filled {
+                fill: currentColor;
+                stroke: none;
+            }
+
+            /* Icon inside toggle buttons - inherit parent size */
+            .icon-btn-toggle-icon .icon {
+                width: 100%;
+                height: 100%;
+            }
+
             .ds-title {
                 font-size: 1.5rem;
                 font-weight: var(--font-weight-h1);
@@ -1459,7 +1527,7 @@
                                 font-size="14"
                                 font-weight="700"
                                 letter-spacing="0.8"
-                                fill="#1c1a18"
+                                class="logo-text"
                             >
                                 MONOCHROME EDGE
                             </text>
@@ -3235,51 +3303,41 @@ renderAllMath({
                                             "
                                         >
                                             <svg
-                                                class="brand-logo-preview-primary"
+                                                class="brand-logo-primary"
                                                 width="220"
                                                 height="40"
                                                 viewBox="0 0 220 40"
-                                                fill="none"
                                                 xmlns="http://www.w3.org/2000/svg"
                                             >
-                                                <g
-                                                    id="slashes"
-                                                    class="logo-slashes"
+                                                <line
+                                                    class="logo-slash-line"
+                                                    x1="2"
+                                                    y1="35"
+                                                    x2="22"
+                                                    y2="5"
+                                                    stroke-width="3"
+                                                    stroke-linecap="square"
+                                                />
+                                                <line
+                                                    class="logo-slash-line"
+                                                    x1="10"
+                                                    y1="35"
+                                                    x2="30"
+                                                    y2="5"
+                                                    stroke-width="3"
+                                                    stroke-linecap="square"
+                                                />
+                                                <text
+                                                    class="logo-text"
+                                                    x="40"
+                                                    y="25"
+                                                    font-family="system-ui, -apple-system, sans-serif"
+                                                    font-size="14"
+                                                    font-weight="700"
+                                                    letter-spacing="0.8"
                                                 >
-                                                    <line
-                                                        class="logo-slash-line"
-                                                        x1="2"
-                                                        y1="35"
-                                                        x2="22"
-                                                        y2="5"
-                                                        stroke="#78716c"
-                                                        stroke-width="3"
-                                                        stroke-linecap="square"
-                                                    />
-                                                    <line
-                                                        class="logo-slash-line"
-                                                        x1="10"
-                                                        y1="35"
-                                                        x2="30"
-                                                        y2="5"
-                                                        stroke="#78716c"
-                                                        stroke-width="3"
-                                                        stroke-linecap="square"
-                                                    />
-                                                </g>
-                                                <g id="wordmark">
-                                                    <text
-                                                        x="40"
-                                                        y="25"
-                                                        font-family="system-ui, -apple-system, sans-serif"
-                                                        font-size="14"
-                                                        font-weight="700"
-                                                        letter-spacing="0.8"
-                                                        fill="#1c1a18"
-                                                    >
-                                                        MONOCHROME EDGE
-                                                    </text>
-                                                </g>
+                                                    MONOCHROME EDGE
+                                                </text>
                                             </svg>
                                         </div>
                                         <div style="text-align: center">
@@ -3328,38 +3386,30 @@ renderAllMath({
                                             "
                                         >
                                             <svg
-                                                class="brand-logo-preview-secondary"
+                                                class="brand-logo-secondary"
                                                 width="40"
                                                 height="40"
                                                 viewBox="0 0 40 40"
-                                                fill="none"
                                                 xmlns="http://www.w3.org/2000/svg"
                                             >
-                                                <g
-                                                    id="symbol-slashes"
-                                                    class="logo-slashes"
-                                                >
-                                                    <line
-                                                        class="logo-slash-line"
-                                                        x1="10"
-                                                        y1="35"
-                                                        x2="30"
-                                                        y2="5"
-                                                        stroke="#78716c"
-                                                        stroke-width="3"
-                                                        stroke-linecap="square"
-                                                    />
-                                                    <line
-                                                        class="logo-slash-line"
-                                                        x1="18"
-                                                        y1="35"
-                                                        x2="38"
-                                                        y2="5"
-                                                        stroke="#78716c"
-                                                        stroke-width="3"
-                                                        stroke-linecap="square"
-                                                    />
-                                                </g>
+                                                <line
+                                                    class="logo-slash-line"
+                                                    x1="10"
+                                                    y1="35"
+                                                    x2="30"
+                                                    y2="5"
+                                                    stroke-width="3"
+                                                    stroke-linecap="square"
+                                                />
+                                                <line
+                                                    class="logo-slash-line"
+                                                    x1="18"
+                                                    y1="35"
+                                                    x2="38"
+                                                    y2="5"
+                                                    stroke-width="3"
+                                                    stroke-linecap="square"
+                                                />
                                             </svg>
                                         </div>
                                         <div style="text-align: center">
@@ -3389,11 +3439,105 @@ renderAllMath({
                                 </div>
                             </div>
                             <div class="component-code">
-                                <pre><code class="language-markup">&lt;!-- Primary Logo --&gt;
-&lt;img src="ui/assets/logo-slash.svg" alt="Monochrome Edge" width="155" height="40"&gt;
+                                <pre><code class="language-markup">&lt;!-- Primary Logo (Full wordmark) --&gt;
+&lt;svg class="brand-logo-primary" width="220" height="40" viewBox="0 0 220 40" xmlns="http://www.w3.org/2000/svg"&gt;
+    &lt;line class="logo-slash-line" x1="2" y1="35" x2="22" y2="5" stroke-width="3" stroke-linecap="square"/&gt;
+    &lt;line class="logo-slash-line" x1="10" y1="35" x2="30" y2="5" stroke-width="3" stroke-linecap="square"/&gt;
+    &lt;text class="logo-text" x="40" y="25" font-family="system-ui, -apple-system, sans-serif"
+          font-size="14" font-weight="700" letter-spacing="0.8"&gt;MONOCHROME EDGE&lt;/text&gt;
+&lt;/svg&gt;
 
-&lt;!-- Secondary Logo (Symbol) --&gt;
-&lt;img src="ui/assets/logo-symbol.svg" alt="Monochrome Edge" width="40" height="40"&gt;</code></pre>
+&lt;!-- Secondary Logo (Symbol only) --&gt;
+&lt;svg class="brand-logo-secondary" width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"&gt;
+    &lt;line class="logo-slash-line" x1="10" y1="35" x2="30" y2="5" stroke-width="3" stroke-linecap="square"/&gt;
+    &lt;line class="logo-slash-line" x1="18" y1="35" x2="38" y2="5" stroke-width="3" stroke-linecap="square"/&gt;
+&lt;/svg&gt;
+
+&lt;!-- CSS automatically applies theme colors --&gt;
+&lt;style&gt;
+.brand-logo-primary .logo-text {
+    fill: var(--theme-text-primary);
+}
+.brand-logo-primary .logo-slash-line,
+.brand-logo-secondary .logo-slash-line {
+    stroke: #78716c; /* Stone color */
+}
+&lt;/style&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Icon Components -->
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Icon Components</h3>
+                            <div class="component-toggle">
+                                <button class="toggle-btn active" data-target="icon-components">Preview</button>
+                                <button class="toggle-btn" data-target="icon-components">Code</button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="icon-components">
+                            <div class="component-preview">
+                                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 1.5rem; padding: 2rem;">
+                                    <!-- Flame Icon -->
+                                    <div style="text-align: center;">
+                                        <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+                                        <p style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--theme-text-secondary);">Flame</p>
+                                    </div>
+                                    <!-- Snowflake Icon -->
+                                    <div style="text-align: center;">
+                                        <svg class="icon icon-lg" viewBox="0 0 24 24"><line x1="2" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="22"/><path d="m20 16-4-4 4-4"/><path d="m4 8 4 4-4 4"/><path d="m16 4-4 4-4-4"/><path d="m8 20 4-4 4 4"/></svg>
+                                        <p style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--theme-text-secondary);">Snowflake</p>
+                                    </div>
+                                    <!-- Sun Icon -->
+                                    <div style="text-align: center;">
+                                        <svg class="icon icon-lg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+                                        <p style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--theme-text-secondary);">Sun</p>
+                                    </div>
+                                    <!-- Moon Icon -->
+                                    <div style="text-align: center;">
+                                        <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                                        <p style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--theme-text-secondary);">Moon</p>
+                                    </div>
+                                    <!-- Palette Icon -->
+                                    <div style="text-align: center;">
+                                        <svg class="icon icon-lg" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5" class="icon-filled"/><circle cx="17.5" cy="10.5" r=".5" class="icon-filled"/><circle cx="8.5" cy="7.5" r=".5" class="icon-filled"/><circle cx="6.5" cy="12.5" r=".5" class="icon-filled"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+                                        <p style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--theme-text-secondary);">Palette</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-markup">&lt;!-- Icon with default size (24px) --&gt;
+&lt;svg class="icon" viewBox="0 0 24 24"&gt;
+    &lt;path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/&gt;
+&lt;/svg&gt;
+
+&lt;!-- Icon sizes --&gt;
+&lt;svg class="icon icon-sm" viewBox="0 0 24 24"&gt;...&lt;/svg&gt;  &lt;!-- 18px --&gt;
+&lt;svg class="icon icon-md" viewBox="0 0 24 24"&gt;...&lt;/svg&gt;  &lt;!-- 24px --&gt;
+&lt;svg class="icon icon-lg" viewBox="0 0 24 24"&gt;...&lt;/svg&gt;  &lt;!-- 32px --&gt;
+
+&lt;!-- Icon with custom size and color --&gt;
+&lt;svg class="icon" style="width: 48px; height: 48px; color: #ff6b6b;" viewBox="0 0 24 24"&gt;
+    &lt;path d="..."/&gt;
+&lt;/svg&gt;
+
+&lt;!-- CSS --&gt;
+&lt;style&gt;
+.icon {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Icon automatically inherits text color */
+.icon { color: var(--theme-text-primary); }
+&lt;/style&gt;</code></pre>
                             </div>
                         </div>
                     </div>
@@ -4977,7 +5121,7 @@ const handleChange = (tabId) => {
                         </span>
                     </h2>
                     <p class="ds-section-description">
-                        Progress indicators for loading states, file uploads, and multi-step processes. Supports linear bars, circular indicators, and step-based progress.
+                        Progress indicators for loading states, file uploads, and multi-step processes. Supports linear bars and step-based progress.
                     </p>
 
                     <!-- Linear Progress -->
@@ -5231,75 +5375,6 @@ $('.progress-bar').addClass('progress-success');
 $('.progress-bar').addClass('progress-striped progress-animated');</code></pre>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Circular Progress -->
-                    <div class="component-showcase">
-                        <div class="component-header">
-                            <h3 class="component-title">Circular Progress</h3>
-                            <div class="component-toggle">
-                                <button class="toggle-btn active" data-target="circular-progress">Preview</button>
-                                <button class="toggle-btn" data-target="circular-progress">Code</button>
-                            </div>
-                        </div>
-                        <div class="component-content" id="circular-progress">
-                            <div class="component-preview">
-                                <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
-                                    <!-- Small -->
-                                    <div class="progress-circle progress-circle-sm">
-                                        <svg viewBox="0 0 120 120">
-                                            <circle class="progress-circle-track" cx="60" cy="60" r="54"/>
-                                            <circle class="progress-circle-bar" cx="60" cy="60" r="54"
-                                                style="stroke-dasharray: 339.292; stroke-dashoffset: 101.788"/>
-                                        </svg>
-                                        <span class="progress-circle-text">70%</span>
-                                    </div>
-
-                                    <!-- Default -->
-                                    <div class="progress-circle">
-                                        <svg viewBox="0 0 120 120">
-                                            <circle class="progress-circle-track" cx="60" cy="60" r="54"/>
-                                            <circle class="progress-circle-bar" cx="60" cy="60" r="54"
-                                                style="stroke-dasharray: 339.292; stroke-dashoffset: 101.788"/>
-                                        </svg>
-                                        <span class="progress-circle-text">70%</span>
-                                    </div>
-
-                                    <!-- Large -->
-                                    <div class="progress-circle progress-circle-lg">
-                                        <svg viewBox="0 0 120 120">
-                                            <circle class="progress-circle-track" cx="60" cy="60" r="54"/>
-                                            <circle class="progress-circle-bar" cx="60" cy="60" r="54"
-                                                style="stroke-dasharray: 339.292; stroke-dashoffset: 101.788"/>
-                                        </svg>
-                                        <span class="progress-circle-text">70%</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="component-code">
-                                <pre><code class="language-html">&lt;div class="progress-circle"&gt;
-  &lt;svg viewBox="0 0 120 120"&gt;
-    &lt;circle class="progress-circle-track" cx="60" cy="60" r="54"/&gt;
-    &lt;circle class="progress-circle-bar" cx="60" cy="60" r="54"
-        style="stroke-dasharray: 339.292; stroke-dashoffset: 101.788"/&gt;
-  &lt;/svg&gt;
-  &lt;span class="progress-circle-text"&gt;70%&lt;/span&gt;
-&lt;/div&gt;
-
-&lt;!-- Sizes --&gt;
-&lt;div class="progress-circle progress-circle-sm"&gt;...&lt;/div&gt;
-&lt;div class="progress-circle"&gt;...&lt;/div&gt;
-&lt;div class="progress-circle progress-circle-lg"&gt;...&lt;/div&gt;
-
-&lt;script&gt;
-// Calculate stroke-dashoffset for percentage
-const radius = 54;
-const circumference = 2 * Math.PI * radius; // 339.292
-const percentage = 70;
-const offset = circumference - (percentage / 100) * circumference; // 101.788
-&lt;/script&gt;</code></pre>
                             </div>
                         </div>
                     </div>
@@ -5728,93 +5803,36 @@ document.body.appendChild(btnLarge);</code></pre>
                             <div class="component-preview">
                                 <div class="icon-btn-group">
                                     <button class="icon-btn" title="Warm Theme">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="24"
-                                            height="24"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                        >
-                                            <path
-                                                d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"
-                                            />
+                                        <svg class="icon" viewBox="0 0 24 24">
+                                            <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
                                         </svg>
                                     </button>
                                     <button class="icon-btn" title="Cold Theme">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="24"
-                                            height="24"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                        >
-                                            <line
-                                                x1="2"
-                                                x2="22"
-                                                y1="12"
-                                                y2="12"
-                                            />
-                                            <line
-                                                x1="12"
-                                                x2="12"
-                                                y1="2"
-                                                y2="22"
-                                            />
-                                            <path d="m20 16-4-4 4-4" />
-                                            <path d="m4 8 4 4-4 4" />
-                                            <path d="m16 4-4 4-4-4" />
-                                            <path d="m8 20 4-4 4 4" />
+                                        <svg class="icon" viewBox="0 0 24 24">
+                                            <line x1="2" x2="22" y1="12" y2="12"/>
+                                            <line x1="12" x2="12" y1="2" y2="22"/>
+                                            <path d="m20 16-4-4 4-4"/>
+                                            <path d="m4 8 4 4-4 4"/>
+                                            <path d="m16 4-4 4-4-4"/>
+                                            <path d="m8 20 4-4 4 4"/>
                                         </svg>
                                     </button>
-                                    <button
-                                        class="icon-btn active"
-                                        title="Light Mode"
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="24"
-                                            height="24"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                        >
-                                            <circle cx="12" cy="12" r="4" />
-                                            <path d="M12 2v2" />
-                                            <path d="M12 20v2" />
-                                            <path d="m4.93 4.93 1.41 1.41" />
-                                            <path d="m17.66 17.66 1.41 1.41" />
-                                            <path d="M2 12h2" />
-                                            <path d="M20 12h2" />
-                                            <path d="m6.34 17.66-1.41 1.41" />
-                                            <path d="m19.07 4.93-1.41 1.41" />
+                                    <button class="icon-btn active" title="Light Mode">
+                                        <svg class="icon" viewBox="0 0 24 24">
+                                            <circle cx="12" cy="12" r="4"/>
+                                            <path d="M12 2v2"/>
+                                            <path d="M12 20v2"/>
+                                            <path d="m4.93 4.93 1.41 1.41"/>
+                                            <path d="m17.66 17.66 1.41 1.41"/>
+                                            <path d="M2 12h2"/>
+                                            <path d="M20 12h2"/>
+                                            <path d="m6.34 17.66-1.41 1.41"/>
+                                            <path d="m19.07 4.93-1.41 1.41"/>
                                         </svg>
                                     </button>
                                     <button class="icon-btn" title="Dark Mode">
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            width="24"
-                                            height="24"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            stroke="currentColor"
-                                            stroke-width="2"
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                        >
-                                            <path
-                                                d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"
-                                            />
+                                        <svg class="icon" viewBox="0 0 24 24">
+                                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
                                         </svg>
                                     </button>
                                 </div>
@@ -5860,104 +5878,55 @@ document.body.appendChild(btnLarge);</code></pre>
                         <div class="component-content" id="icon-btn-variants">
                             <div class="component-preview">
                                 <button class="icon-btn" title="Default">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    >
-                                        <circle cx="12" cy="12" r="4" />
-                                        <path d="M12 2v2" />
-                                        <path d="M12 20v2" />
-                                        <path d="m4.93 4.93 1.41 1.41" />
-                                        <path d="m17.66 17.66 1.41 1.41" />
-                                        <path d="M2 12h2" />
-                                        <path d="M20 12h2" />
-                                        <path d="m6.34 17.66-1.41 1.41" />
-                                        <path d="m19.07 4.93-1.41 1.41" />
+                                    <svg class="icon" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="4"/>
+                                        <path d="M12 2v2"/>
+                                        <path d="M12 20v2"/>
+                                        <path d="m4.93 4.93 1.41 1.41"/>
+                                        <path d="m17.66 17.66 1.41 1.41"/>
+                                        <path d="M2 12h2"/>
+                                        <path d="M20 12h2"/>
+                                        <path d="m6.34 17.66-1.41 1.41"/>
+                                        <path d="m19.07 4.93-1.41 1.41"/>
                                     </svg>
                                 </button>
-                                <button
-                                    class="icon-btn icon-btn-primary"
-                                    title="Primary"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    >
-                                        <circle cx="12" cy="12" r="4" />
-                                        <path d="M12 2v2" />
-                                        <path d="M12 20v2" />
-                                        <path d="m4.93 4.93 1.41 1.41" />
-                                        <path d="m17.66 17.66 1.41 1.41" />
-                                        <path d="M2 12h2" />
-                                        <path d="M20 12h2" />
-                                        <path d="m6.34 17.66-1.41 1.41" />
-                                        <path d="m19.07 4.93-1.41 1.41" />
+                                <button class="icon-btn icon-btn-primary" title="Primary">
+                                    <svg class="icon" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="4"/>
+                                        <path d="M12 2v2"/>
+                                        <path d="M12 20v2"/>
+                                        <path d="m4.93 4.93 1.41 1.41"/>
+                                        <path d="m17.66 17.66 1.41 1.41"/>
+                                        <path d="M2 12h2"/>
+                                        <path d="M20 12h2"/>
+                                        <path d="m6.34 17.66-1.41 1.41"/>
+                                        <path d="m19.07 4.93-1.41 1.41"/>
                                     </svg>
                                 </button>
-                                <button
-                                    class="icon-btn icon-btn-ghost"
-                                    title="Ghost"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    >
-                                        <circle cx="12" cy="12" r="4" />
-                                        <path d="M12 2v2" />
-                                        <path d="M12 20v2" />
-                                        <path d="m4.93 4.93 1.41 1.41" />
-                                        <path d="m17.66 17.66 1.41 1.41" />
-                                        <path d="M2 12h2" />
-                                        <path d="M20 12h2" />
-                                        <path d="m6.34 17.66-1.41 1.41" />
-                                        <path d="m19.07 4.93-1.41 1.41" />
+                                <button class="icon-btn icon-btn-ghost" title="Ghost">
+                                    <svg class="icon" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="4"/>
+                                        <path d="M12 2v2"/>
+                                        <path d="M12 20v2"/>
+                                        <path d="m4.93 4.93 1.41 1.41"/>
+                                        <path d="m17.66 17.66 1.41 1.41"/>
+                                        <path d="M2 12h2"/>
+                                        <path d="M20 12h2"/>
+                                        <path d="m6.34 17.66-1.41 1.41"/>
+                                        <path d="m19.07 4.93-1.41 1.41"/>
                                     </svg>
                                 </button>
-                                <button
-                                    class="icon-btn icon-btn-outline"
-                                    title="Outline"
-                                >
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="2"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                    >
-                                        <circle cx="12" cy="12" r="4" />
-                                        <path d="M12 2v2" />
-                                        <path d="M12 20v2" />
-                                        <path d="m4.93 4.93 1.41 1.41" />
-                                        <path d="m17.66 17.66 1.41 1.41" />
-                                        <path d="M2 12h2" />
-                                        <path d="M20 12h2" />
-                                        <path d="m6.34 17.66-1.41 1.41" />
-                                        <path d="m19.07 4.93-1.41 1.41" />
+                                <button class="icon-btn icon-btn-outline" title="Outline">
+                                    <svg class="icon" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="12" r="4"/>
+                                        <path d="M12 2v2"/>
+                                        <path d="M12 20v2"/>
+                                        <path d="m4.93 4.93 1.41 1.41"/>
+                                        <path d="m17.66 17.66 1.41 1.41"/>
+                                        <path d="M2 12h2"/>
+                                        <path d="M20 12h2"/>
+                                        <path d="m6.34 17.66-1.41 1.41"/>
+                                        <path d="m19.07 4.93-1.41 1.41"/>
                                     </svg>
                                 </button>
                             </div>
@@ -6462,6 +6431,181 @@ const btnXl = createIconButton({ icon: 'sun', size: 'xl' });</code></pre>
                             </div>
                         </div>
                     </div>
+
+                    <!-- Toggle Showcase -->
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Toggle</h3>
+                            <div class="component-toggle">
+                                <button class="toggle-btn active" data-target="icon-toggle-demo">Preview</button>
+                                <button class="toggle-btn" data-target="icon-toggle-demo">Code</button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="icon-toggle-demo">
+                            <div class="component-preview">
+                                <div style="display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; padding: 2rem;">
+                                    <!-- Theme Toggle -->
+                                    <div style="text-align: center;">
+                                        <button class="icon-btn-toggle icon-btn-toggle-theme" id="demo-theme-toggle" data-state="warm" title="Toggle Theme (Warm/Cold)">
+                                            <div class="icon-btn-toggle-overlay"></div>
+                                            <div class="icon-btn-toggle-icon">
+                                                <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                                    <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+                                                </svg>
+                                                <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                                    <line x1="2" x2="22" y1="12" y2="12"/>
+                                                    <line x1="12" x2="12" y1="2" y2="22"/>
+                                                    <path d="m20 16-4-4 4-4"/>
+                                                    <path d="m4 8 4 4-4 4"/>
+                                                    <path d="m16 4-4 4-4-4"/>
+                                                    <path d="m8 20 4-4 4 4"/>
+                                                </svg>
+                                            </div>
+                                        </button>
+                                        <p style="margin-top: 0.5rem; font-size: 0.75rem; font-weight: 500; color: var(--theme-text-secondary);">Theme</p>
+                                        <p style="font-size: 0.625rem; color: var(--theme-text-tertiary);">Warm ↔ Cold</p>
+                                    </div>
+
+                                    <!-- Mode Toggle -->
+                                    <div style="text-align: center;">
+                                        <button class="icon-btn-toggle icon-btn-toggle-mode" id="demo-mode-toggle" data-state="light" title="Toggle Mode (Light/Dark)">
+                                            <div class="icon-btn-toggle-overlay"></div>
+                                            <div class="icon-btn-toggle-icon">
+                                                <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                                    <circle cx="12" cy="12" r="4"/>
+                                                    <path d="M12 2v2"/>
+                                                    <path d="M12 20v2"/>
+                                                    <path d="m4.93 4.93 1.41 1.41"/>
+                                                    <path d="m17.66 17.66 1.41 1.41"/>
+                                                    <path d="M2 12h2"/>
+                                                    <path d="M20 12h2"/>
+                                                    <path d="m6.34 17.66-1.41 1.41"/>
+                                                    <path d="m19.07 4.93-1.41 1.41"/>
+                                                </svg>
+                                                <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                                    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+                                                </svg>
+                                            </div>
+                                        </button>
+                                        <p style="margin-top: 0.5rem; font-size: 0.75rem; font-weight: 500; color: var(--theme-text-secondary);">Mode</p>
+                                        <p style="font-size: 0.625rem; color: var(--theme-text-tertiary);">Light ↔ Dark</p>
+                                    </div>
+
+                                    <!-- Colored/Monochrome Toggle -->
+                                    <div style="text-align: center;">
+                                        <button class="icon-btn-toggle icon-btn-toggle-colored" id="demo-color-toggle" data-state="monochrome" title="Toggle Color Mode">
+                                            <div class="icon-btn-toggle-overlay"></div>
+                                            <div class="icon-btn-toggle-icon">
+                                                <svg class="icon icon-sm" viewBox="0 0 24 24" stroke-width="2">
+                                                    <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/>
+                                                    <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/>
+                                                    <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>
+                                                    <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/>
+                                                    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+                                                </svg>
+                                            </div>
+                                        </button>
+                                        <p style="margin-top: 0.5rem; font-size: 0.75rem; font-weight: 500; color: var(--theme-text-secondary);">Color</p>
+                                        <p style="font-size: 0.625rem; color: var(--theme-text-tertiary);">Mono ↔ Color</p>
+                                    </div>
+                                </div>
+                                <div style="margin-top: 1rem; padding: 1rem; background: var(--theme-bg); border-radius: var(--border-radius); text-align: center;">
+                                    <p style="font-size: 0.75rem; color: var(--theme-text-secondary); line-height: 1.6;">
+                                        <strong>Click toggles to see animations:</strong><br/>
+                                        Theme: Vertical slide with warm/cold gradient transition<br/>
+                                        Mode: Horizontal slide with light→dark gradient<br/>
+                                        Color: Instant toggle with gradient background
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <div style="padding: 2rem; display: grid; gap: 2rem">
+                                    <div>
+                                        <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">HTML</h4>
+                                        <pre style="margin-bottom: 2rem"><code class="language-html">&lt;!-- Theme Toggle (Warm ↔ Cold) --&gt;
+&lt;button class="icon-btn-toggle icon-btn-toggle-theme" data-state="warm"&gt;
+    &lt;div class="icon-btn-toggle-overlay"&gt;&lt;/div&gt;
+    &lt;div class="icon-btn-toggle-icon"&gt;
+        &lt;svg&gt;...flame icon...&lt;/svg&gt;
+        &lt;svg&gt;...snowflake icon...&lt;/svg&gt;
+    &lt;/div&gt;
+&lt;/button&gt;
+
+&lt;!-- Mode Toggle (Light ↔ Dark) --&gt;
+&lt;button class="icon-btn-toggle icon-btn-toggle-mode" data-state="light"&gt;
+    &lt;div class="icon-btn-toggle-overlay"&gt;&lt;/div&gt;
+    &lt;div class="icon-btn-toggle-icon"&gt;
+        &lt;svg&gt;...sun icon...&lt;/svg&gt;
+        &lt;svg&gt;...moon icon...&lt;/svg&gt;
+    &lt;/div&gt;
+&lt;/button&gt;
+
+&lt;!-- Color Toggle (Monochrome ↔ Colored) --&gt;
+&lt;button class="icon-btn-toggle icon-btn-toggle-colored" data-state="monochrome"&gt;
+    &lt;div class="icon-btn-toggle-overlay"&gt;&lt;/div&gt;
+    &lt;div class="icon-btn-toggle-icon"&gt;
+        &lt;svg&gt;...palette icon...&lt;/svg&gt;
+    &lt;/div&gt;
+&lt;/button&gt;</code></pre>
+                                    </div>
+                                    <div>
+                                        <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">JavaScript</h4>
+                                        <pre style="margin-bottom: 2rem"><code class="language-javascript">// Theme toggle with vertical animation
+const themeToggle = document.querySelector('.icon-btn-toggle-theme');
+themeToggle.addEventListener('click', function() {
+    const current = this.dataset.state;
+    const next = current === 'warm' ? 'cold' : 'warm';
+
+    this.dataset.transitioning = `${current}-to-${next}`;
+    this.classList.add('is-animating');
+
+    setTimeout(() => {
+        this.dataset.state = next;
+        this.removeAttribute('data-transitioning');
+        this.classList.remove('is-animating');
+        document.documentElement.setAttribute('data-theme-variant', next);
+    }, 600);
+});
+
+// Mode toggle with horizontal animation
+const modeToggle = document.querySelector('.icon-btn-toggle-mode');
+modeToggle.addEventListener('click', function() {
+    const current = this.dataset.state;
+    const next = current === 'light' ? 'dark' : 'light';
+
+    this.dataset.transitioning = `${current}-to-${next}`;
+    this.classList.add('is-animating');
+
+    setTimeout(() => {
+        this.dataset.state = next;
+        this.removeAttribute('data-transitioning');
+        this.classList.remove('is-animating');
+        document.documentElement.setAttribute('data-theme', next);
+    }, 700);
+});
+
+// Color toggle (instant)
+const colorToggle = document.querySelector('.icon-btn-toggle-colored');
+colorToggle.addEventListener('click', function() {
+    const current = this.dataset.state;
+    const next = current === 'colored' ? 'monochrome' : 'colored';
+    this.dataset.state = next;
+});</code></pre>
+                                    </div>
+                                    <div>
+                                        <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Features</h4>
+                                        <ul style="list-style: disc; margin-left: 1.5rem; color: var(--theme-text-secondary); font-size: 0.875rem; line-height: 1.8;">
+                                            <li><strong>Gradient animations</strong>: Uses landscape theme colors for authentic transitions</li>
+                                            <li><strong>State indicators</strong>: Small colored dots show current state</li>
+                                            <li><strong>Smooth transitions</strong>: Icon slides combined with color gradients</li>
+                                            <li><strong>Data attributes</strong>: data-state and data-transitioning for styling</li>
+                                            <li><strong>Accessibility</strong>: Proper focus states and ARIA labels</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </section>
 
                 <!-- Forms Section -->
@@ -6851,6 +6995,197 @@ $('.dropdown-option').on('click', function() {
                     </div>
                 </section>
 
+                <!-- Icon Button Toggle Section -->
+                <section class="ds-section" id="icon-button-toggle">
+                    <h2 class="ds-section-title">
+                        Icon Button Toggle
+                        <span class="component-tags">
+                            <span class="component-tag component-tag-css">CSS</span>
+                            <span class="component-tag component-tag-js">JS</span>
+                        </span>
+                    </h2>
+                    <p class="ds-section-description">
+                        Animated toggle buttons for theme (warm/cold), mode (light/dark), and color options with smooth gradient transitions.
+                    </p>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Theme & Mode Toggles</h3>
+                            <div class="component-toggle">
+                                <button class="toggle-btn active" data-target="toggle-demo">Preview</button>
+                                <button class="toggle-btn" data-target="toggle-demo">Code</button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="toggle-demo">
+                            <div class="component-preview">
+                                <div style="display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; padding: 2rem;">
+                                    <!-- Theme Toggle -->
+                                    <div style="text-align: center;">
+                                        <button class="icon-btn-toggle icon-btn-toggle-theme" id="theme-toggle" data-state="warm" title="Toggle Theme">
+                                            <div class="icon-btn-toggle-overlay"></div>
+                                            <div class="icon-btn-toggle-icon">
+                                                <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                                    <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
+                                                </svg>
+                                                <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                                    <line x1="2" x2="22" y1="12" y2="12"/>
+                                                    <line x1="12" x2="12" y1="2" y2="22"/>
+                                                    <path d="m20 16-4-4 4-4"/>
+                                                    <path d="m4 8 4 4-4 4"/>
+                                                    <path d="m16 4-4 4-4-4"/>
+                                                    <path d="m8 20 4-4 4 4"/>
+                                                </svg>
+                                            </div>
+                                        </button>
+                                        <p style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--theme-text-secondary);">Theme</p>
+                                    </div>
+
+                                    <!-- Mode Toggle -->
+                                    <div style="text-align: center;">
+                                        <button class="icon-btn-toggle icon-btn-toggle-mode" id="mode-toggle" data-state="light" title="Toggle Mode">
+                                            <div class="icon-btn-toggle-overlay"></div>
+                                            <div class="icon-btn-toggle-icon">
+                                                <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                                    <circle cx="12" cy="12" r="4"/>
+                                                    <path d="M12 2v2"/>
+                                                    <path d="M12 20v2"/>
+                                                    <path d="m4.93 4.93 1.41 1.41"/>
+                                                    <path d="m17.66 17.66 1.41 1.41"/>
+                                                    <path d="M2 12h2"/>
+                                                    <path d="M20 12h2"/>
+                                                    <path d="m6.34 17.66-1.41 1.41"/>
+                                                    <path d="m19.07 4.93-1.41 1.41"/>
+                                                </svg>
+                                                <svg class="icon icon-sm" viewBox="0 0 24 24">
+                                                    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+                                                </svg>
+                                            </div>
+                                        </button>
+                                        <p style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--theme-text-secondary);">Mode</p>
+                                    </div>
+
+                                    <!-- Colored/Monochrome Toggle -->
+                                    <div style="text-align: center;">
+                                        <button class="icon-btn-toggle icon-btn-toggle-colored" id="color-toggle" data-state="monochrome" title="Toggle Color Mode">
+                                            <div class="icon-btn-toggle-overlay"></div>
+                                            <div class="icon-btn-toggle-icon">
+                                                <svg class="icon icon-sm" viewBox="0 0 24 24" stroke-width="2">
+                                                    <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/>
+                                                    <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/>
+                                                    <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>
+                                                    <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/>
+                                                    <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+                                                </svg>
+                                            </div>
+                                        </button>
+                                        <p style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--theme-text-secondary);">Color</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <div style="padding: 2rem; display: grid; gap: 2rem">
+                                    <div>
+                                        <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">HTML</h4>
+                                        <pre style="margin-bottom: 2rem"><code class="language-html">&lt;!-- Theme Toggle --&gt;
+&lt;button class="icon-btn-toggle icon-btn-toggle-theme" data-state="warm"&gt;
+    &lt;div class="icon-btn-toggle-overlay"&gt;&lt;/div&gt;
+    &lt;div class="icon-btn-toggle-icon"&gt;
+        &lt;svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"&gt;
+            &lt;path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/&gt;
+        &lt;/svg&gt;
+        &lt;svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"&gt;
+            &lt;path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M6.34 6.34L4.93 4.93m12.73 14.14l1.41 1.41"/&gt;
+            &lt;path d="M12 7c-2.8 0-5 2.2-5 5s2.2 5 5 5 5-2.2 5-5-2.2-5-5-5z"/&gt;
+        &lt;/svg&gt;
+    &lt;/div&gt;
+&lt;/button&gt;
+
+&lt;!-- Mode Toggle --&gt;
+&lt;button class="icon-btn-toggle icon-btn-toggle-mode" data-state="light"&gt;
+    &lt;div class="icon-btn-toggle-overlay"&gt;&lt;/div&gt;
+    &lt;div class="icon-btn-toggle-icon"&gt;
+        &lt;svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"&gt;
+            &lt;circle cx="12" cy="12" r="4"/&gt;
+            &lt;!-- sun rays --&gt;
+        &lt;/svg&gt;
+        &lt;svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"&gt;
+            &lt;path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/&gt;
+        &lt;/svg&gt;
+    &lt;/div&gt;
+&lt;/button&gt;
+
+&lt;!-- Colored/Monochrome Toggle --&gt;
+&lt;button class="icon-btn-toggle icon-btn-toggle-colored" data-state="monochrome"&gt;
+    &lt;div class="icon-btn-toggle-overlay"&gt;&lt;/div&gt;
+    &lt;div class="icon-btn-toggle-icon"&gt;
+        &lt;svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"&gt;
+            &lt;!-- palette icon --&gt;
+        &lt;/svg&gt;
+    &lt;/div&gt;
+&lt;/button&gt;</code></pre>
+                                    </div>
+                                    <div>
+                                        <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">JavaScript</h4>
+                                        <pre style="margin-bottom: 2rem"><code class="language-javascript">// Theme toggle with animation
+const themeToggle = document.querySelector('.icon-btn-toggle-theme');
+themeToggle.addEventListener('click', function() {
+    const current = this.dataset.state;
+    const next = current === 'warm' ? 'cold' : 'warm';
+
+    // Set transition direction
+    this.dataset.transitioning = `${current}-to-${next}`;
+
+    // Update state after animation
+    setTimeout(() => {
+        this.dataset.state = next;
+        this.removeAttribute('data-transitioning');
+
+        // Apply theme to document
+        document.documentElement.setAttribute('data-theme-variant', next);
+    }, 500);
+});
+
+// Mode toggle with animation
+const modeToggle = document.querySelector('.icon-btn-toggle-mode');
+modeToggle.addEventListener('click', function() {
+    const current = this.dataset.state;
+    const next = current === 'light' ? 'dark' : 'light';
+
+    this.dataset.transitioning = `${current}-to-${next}`;
+
+    setTimeout(() => {
+        this.dataset.state = next;
+        this.removeAttribute('data-transitioning');
+
+        // Apply mode to document
+        document.documentElement.setAttribute('data-theme', next);
+    }, 700);
+});
+
+// Color mode toggle
+const colorToggle = document.querySelector('.icon-btn-toggle-colored');
+colorToggle.addEventListener('click', function() {
+    const current = this.dataset.state;
+    const next = current === 'colored' ? 'monochrome' : 'colored';
+    this.dataset.state = next;
+});</code></pre>
+                                    </div>
+                                    <div>
+                                        <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Animation Details</h4>
+                                        <ul style="list-style: disc; margin-left: 1.5rem; color: var(--theme-text-secondary); font-size: 0.875rem; line-height: 1.8;">
+                                            <li><strong>Theme (Warm ↔ Cold)</strong>: Vertical slide animation with blue-to-red gradient transition</li>
+                                            <li><strong>Mode (Light ↔ Dark)</strong>: Horizontal slide animation with light→warm→cool→dark gradient</li>
+                                            <li><strong>Color Toggle</strong>: Instant state change with gradient background when colored</li>
+                                            <li><strong>State Indicators</strong>: Small colored dots at bottom-right show current state</li>
+                                            <li><strong>Landscape Colors</strong>: Uses theme landscape colors for authentic gradients</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
                 <!-- Search Bar Section -->
                 <section class="ds-section" id="search-toolbar">
                     <h2 class="ds-section-title">
@@ -7179,50 +7514,44 @@ const handleSearch = (query, filters, sort) => {
                         </div>
                     </div>
 
-                    <!-- Mobile Search Showcase -->
+                    <!-- Search Input Showcase -->
                     <div class="component-showcase">
                         <div class="component-header">
-                            <h3 class="component-title">Mobile Search</h3>
+                            <h3 class="component-title">Search Input</h3>
                             <div class="component-toggle">
                                 <button
                                     class="toggle-btn active"
-                                    data-target="mobile-search-demo"
+                                    data-target="search-input-demo"
                                 >
                                     Preview
                                 </button>
                                 <button
                                     class="toggle-btn"
-                                    data-target="mobile-search-demo"
+                                    data-target="search-input-demo"
                                 >
                                     Code
                                 </button>
                             </div>
                         </div>
-                        <div class="component-content" id="mobile-search-demo">
+                        <div class="component-content" id="search-input-demo">
                             <div class="component-preview">
-                                <div style="max-width: 400px; margin: 0 auto;">
-                                    <p style="margin-bottom: 1rem; font-size: 0.875rem; color: var(--theme-text-secondary);">
-                                        On mobile devices (≤768px), only the search icon is shown. Tapping it opens the keyboard and enables autocomplete.
+                                <div style="max-width: 500px; margin: 0 auto; padding: 2rem;">
+                                    <p style="margin-bottom: 2rem; font-size: 0.875rem; color: var(--theme-text-secondary);">
+                                        Expandable search input with underbar animation. Hover to preview, click to expand with autocomplete.
                                     </p>
-                                    <div class="search-bar mobile-search" id="mobile-search-example">
-                                        <button class="search-bar-icon-btn" type="button" aria-label="Search">
-                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <circle cx="11" cy="11" r="8"></circle>
-                                                <path d="m21 21-4.35-4.35"></path>
-                                            </svg>
-                                        </button>
-                                        <svg class="search-bar-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <div class="search-input" id="search-input-example">
+                                        <svg class="search-input-icon icon icon-sm" viewBox="0 0 24 24">
                                             <circle cx="11" cy="11" r="8"></circle>
                                             <path d="m21 21-4.35-4.35"></path>
                                         </svg>
                                         <input
                                             type="text"
-                                            class="search-bar-input"
-                                            placeholder="Search..."
-                                            id="mobile-search-input"
-                                            name="mobile-search"
+                                            class="search-input-field"
+                                            placeholder="Search documentation..."
+                                            id="search-input-field"
                                         />
-                                        <button class="search-bar-clear" type="button" aria-label="Clear">×</button>
+                                        <button class="search-input-cancel" type="button" aria-label="Cancel">×</button>
+                                        <div class="search-input-suggestions" id="search-input-suggestions"></div>
                                     </div>
                                 </div>
                             </div>
@@ -7230,126 +7559,119 @@ const handleSearch = (query, filters, sort) => {
                                 <div style="padding: 2rem; display: grid; gap: 2rem">
                                     <div>
                                         <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">HTML/CSS</h4>
-                                        <pre style="margin-bottom: 2rem"><code class="language-html">&lt;!-- Mobile-responsive search bar --&gt;
-&lt;div class="search-bar" id="mobile-search"&gt;
-    &lt;input
-        type="text"
-        class="search-bar-input"
-        placeholder="Search..."
-    /&gt;
-    &lt;svg class="search-bar-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"&gt;
+                                        <pre style="margin-bottom: 2rem"><code class="language-html">&lt;!-- Expandable search input with underbar animation --&gt;
+&lt;div class="search-input" id="search-input"&gt;
+    &lt;svg class="search-input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"&gt;
         &lt;circle cx="11" cy="11" r="8"&gt;&lt;/circle&gt;
         &lt;path d="m21 21-4.35-4.35"&gt;&lt;/path&gt;
     &lt;/svg&gt;
-    &lt;button class="search-bar-clear"&gt;×&lt;/button&gt;
+    &lt;input
+        type="text"
+        class="search-input-field"
+        placeholder="Search documentation..."
+    /&gt;
+    &lt;button class="search-input-cancel" type="button"&gt;×&lt;/button&gt;
+    &lt;div class="search-input-suggestions"&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;script&gt;
-// Mobile search toggle
-const searchBar = document.getElementById('mobile-search');
-const searchInput = searchBar.querySelector('.search-bar-input');
-const searchIcon = searchBar.querySelector('.search-bar-icon');
+const searchInput = document.getElementById('search-input');
+const searchField = searchInput.querySelector('.search-input-field');
+const searchCancel = searchInput.querySelector('.search-input-cancel');
+const suggestions = searchInput.querySelector('.search-input-suggestions');
 
-// Click icon to expand
-searchIcon.addEventListener('click', () => {
-    if (!searchBar.classList.contains('is-expanded')) {
-        searchBar.classList.add('is-expanded');
-        setTimeout(() => searchInput.focus(), 100);
-    }
+// Expand on click
+searchInput.addEventListener('click', () => {
+    searchInput.classList.add('is-expanded');
+    searchField.focus();
 });
 
-// Collapse on blur if empty
-searchInput.addEventListener('blur', () => {
-    setTimeout(() => {
-        if (!searchInput.value) {
-            searchBar.classList.remove('is-expanded');
-        }
-    }, 200);
+// Cancel button
+searchCancel.addEventListener('click', (e) => {
+    e.stopPropagation();
+    searchField.value = '';
+    searchInput.classList.remove('is-expanded');
+    suggestions.classList.remove('is-visible');
+});
+
+// Collapse on outside click
+document.addEventListener('click', (e) => {
+    if (!searchInput.contains(e.target)) {
+        searchInput.classList.remove('is-expanded');
+        suggestions.classList.remove('is-visible');
+    }
 });
 &lt;/script&gt;</code></pre>
                                     </div>
                                     <div>
                                         <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">React</h4>
-                                        <pre style="margin-bottom: 2rem"><code class="language-jsx">import { useState } from 'react';
+                                        <pre style="margin-bottom: 2rem"><code class="language-jsx">import { useState, useRef, useEffect } from 'react';
 
-function MobileSearchBar() {
+function SearchInput({ onSearch, suggestions = [] }) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [value, setValue] = useState('');
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
+        setIsExpanded(false);
+        setShowSuggestions(false);
+      }
+    };
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, []);
 
   return (
-    &lt;div className={`search-bar ${isExpanded ? 'is-expanded' : ''}`}&gt;
-      &lt;input
-        type="text"
-        className="search-bar-input"
-        placeholder="Search..."
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        onClick={() => setIsExpanded(true)}
-        onBlur={() => !value && setIsExpanded(false)}
-      /&gt;
-      &lt;svg className="search-bar-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"&gt;
+    &lt;div
+      ref={containerRef}
+      className={`search-input ${isExpanded ? 'is-expanded' : ''}`}
+      onClick={() => setIsExpanded(true)}
+    &gt;
+      &lt;svg className="search-input-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"&gt;
         &lt;circle cx="11" cy="11" r="8" /&gt;
         &lt;path d="m21 21-4.35-4.35" /&gt;
       &lt;/svg&gt;
+      &lt;input
+        type="text"
+        className="search-input-field"
+        placeholder="Search documentation..."
+        value={value}
+        onChange={(e) => {
+          setValue(e.target.value);
+          setShowSuggestions(e.target.value.length > 0);
+        }}
+      /&gt;
       &lt;button
-        className="search-bar-clear"
-        onClick={() => setValue('')}
+        className="search-input-cancel"
+        onClick={(e) => {
+          e.stopPropagation();
+          setValue('');
+          setIsExpanded(false);
+          setShowSuggestions(false);
+        }}
       &gt;×&lt;/button&gt;
+      &lt;div className={`search-input-suggestions ${showSuggestions ? 'is-visible' : ''}`}&gt;
+        {/* Suggestion items */}
+      &lt;/div&gt;
     &lt;/div&gt;
   );
 }</code></pre>
                                     </div>
                                     <div>
-                                        <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Vue.js</h4>
-                                        <pre style="margin-bottom: 2rem"><code class="language-vue">&lt;template&gt;
-  &lt;div :class="['search-bar', { 'is-expanded': isExpanded }]"&gt;
-    &lt;input
-      type="text"
-      class="search-bar-input"
-      placeholder="Search..."
-      v-model="searchValue"
-      @click="isExpanded = true"
-      @blur="!searchValue && (isExpanded = false)"
-    /&gt;
-    &lt;svg class="search-bar-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"&gt;
-      &lt;circle cx="11" cy="11" r="8" /&gt;
-      &lt;path d="m21 21-4.35-4.35" /&gt;
-    &lt;/svg&gt;
-    &lt;button
-      class="search-bar-clear"
-      @click="searchValue = ''"
-    &gt;×&lt;/button&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
-
-&lt;script&gt;
-export default {
-  data() {
-    return {
-      isExpanded: false,
-      searchValue: ''
-    };
-  }
-};
-&lt;/script&gt;</code></pre>
-                                    </div>
-                                    <div>
-                                        <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">jQuery</h4>
-                                        <pre style="margin-bottom: 2rem"><code class="language-javascript">$('#mobile-search .search-bar-input')
-  .on('click', function() {
-    $(this).closest('.search-bar').addClass('is-expanded');
-    $(this).focus();
-  })
-  .on('blur', function() {
-    const $searchBar = $(this).closest('.search-bar');
-    if (!$(this).val()) {
-      $searchBar.removeClass('is-expanded');
-    }
-  });
-
-$('#mobile-search .search-bar-clear').on('click', function() {
-  $(this).siblings('.search-bar-input').val('');
-});</code></pre>
+                                        <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Features</h4>
+                                        <ul style="list-style: disc; margin-left: 1.5rem; color: var(--theme-text-secondary); font-size: 0.875rem; line-height: 1.8;">
+                                            <li><strong>Icon-only collapsed state</strong>: Shows only search icon initially</li>
+                                            <li><strong>Hover preview</strong>: Underbar appears on hover showing input preview</li>
+                                            <li><strong>Click expansion</strong>: Clicking icon or container expands with underbar animation</li>
+                                            <li><strong>Icon slide</strong>: Search icon slides to the left on expansion</li>
+                                            <li><strong>Cancel button</strong>: Appears on the right when expanded</li>
+                                            <li><strong>Autocomplete</strong>: Shows suggestions based on current document sections</li>
+                                            <li><strong>Keyboard navigation</strong>: Arrow keys and Enter for suggestion selection</li>
+                                            <li><strong>Responsive</strong>: Full-width on mobile devices</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -13748,11 +14070,11 @@ new DropdownController(document.getElementById('action-dropdown'));
 
                     // Update all slashes (mobile-header, sidebar primary/secondary, brand assets)
                     $(
-                        ".logo-slash-line, .mobile-header line, .ds-logo line, .brand-logo-preview-primary line, .brand-logo-preview-secondary line",
+                        ".logo-slash-line, .mobile-header line, .ds-logo line, .brand-logo-primary line, .brand-logo-secondary line",
                     ).attr("stroke", slashColor);
 
                     // Update all text (sidebar primary, brand assets)
-                    $(".ds-logo text, .brand-logo-preview-primary text").attr(
+                    $(".ds-logo text, .brand-logo-primary text").attr(
                         "fill",
                         textColor,
                     );
@@ -13772,6 +14094,15 @@ new DropdownController(document.getElementById('action-dropdown'));
 
                     // Update logo colors
                     updateLogoColors();
+
+                    // Sync toggle buttons
+                    const themeToggle = document.getElementById('theme-toggle');
+                    const demoThemeToggle = document.getElementById('demo-theme-toggle');
+                    [themeToggle, demoThemeToggle].forEach(toggle => {
+                        if (toggle) {
+                            toggle.dataset.state = theme;
+                        }
+                    });
                 });
 
                 // Mode button group
@@ -13785,6 +14116,15 @@ new DropdownController(document.getElementById('action-dropdown'));
 
                     // Update logo colors
                     updateLogoColors();
+
+                    // Sync toggle buttons
+                    const modeToggle = document.getElementById('mode-toggle');
+                    const demoModeToggle = document.getElementById('demo-mode-toggle');
+                    [modeToggle, demoModeToggle].forEach(toggle => {
+                        if (toggle) {
+                            toggle.dataset.state = mode;
+                        }
+                    });
                 });
 
                 // Navigation - only for sidebar nav items
@@ -15410,6 +15750,299 @@ new DropdownController(document.getElementById('action-dropdown'));
                         if (!mobileSearchBar.contains(e.target)) {
                             suggestionsContainer.classList.remove('is-visible');
                         }
+                    });
+                }
+
+                // Initialize search input component
+                const searchInputExample = document.getElementById('search-input-example');
+                if (searchInputExample) {
+                    const searchField = searchInputExample.querySelector('.search-input-field');
+                    const searchCancel = searchInputExample.querySelector('.search-input-cancel');
+                    const suggestionsContainer = searchInputExample.querySelector('.search-input-suggestions');
+
+                    // Document sections for autocomplete
+                    const documentSections = [
+                        'Introduction', 'Getting Started', 'Installation',
+                        'Colors', 'Typography', 'Buttons', 'Icon Buttons',
+                        'Forms', 'Cards', 'Tables', 'Navigation', 'Modals',
+                        'Badges', 'Search Bar', 'Search Input', 'Tooltips',
+                        'Progress Bars', 'Alerts', 'Callouts'
+                    ];
+
+                    let activeIndex = -1;
+
+                    // Expand on click
+                    searchInputExample.addEventListener('click', (e) => {
+                        if (!searchInputExample.classList.contains('is-expanded')) {
+                            searchInputExample.classList.add('is-expanded');
+                            setTimeout(() => searchField.focus(), 100);
+                        }
+                    });
+
+                    // Cancel button
+                    searchCancel.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        searchField.value = '';
+                        searchInputExample.classList.remove('is-expanded');
+                        suggestionsContainer.classList.remove('is-visible');
+                        activeIndex = -1;
+                    });
+
+                    // Input handling with autocomplete
+                    searchField.addEventListener('input', (e) => {
+                        const query = e.target.value.toLowerCase().trim();
+                        activeIndex = -1;
+
+                        if (!query) {
+                            suggestionsContainer.classList.remove('is-visible');
+                            return;
+                        }
+
+                        const filtered = documentSections.filter(section =>
+                            section.toLowerCase().includes(query)
+                        );
+
+                        if (filtered.length === 0) {
+                            suggestionsContainer.classList.remove('is-visible');
+                            return;
+                        }
+
+                        suggestionsContainer.innerHTML = filtered.map(section => {
+                            const regex = new RegExp(`(${query})`, 'gi');
+                            const highlighted = section.replace(regex, '<span class="search-input-suggestion-highlight">$1</span>');
+                            return `<div class="search-input-suggestion-item" data-value="${section}">${highlighted}</div>`;
+                        }).join('');
+
+                        suggestionsContainer.classList.add('is-visible');
+                    });
+
+                    // Keyboard navigation
+                    searchField.addEventListener('keydown', (e) => {
+                        const items = suggestionsContainer.querySelectorAll('.search-input-suggestion-item');
+
+                        if (e.key === 'ArrowDown') {
+                            e.preventDefault();
+                            activeIndex = Math.min(activeIndex + 1, items.length - 1);
+                            updateActiveItem(items);
+                        } else if (e.key === 'ArrowUp') {
+                            e.preventDefault();
+                            activeIndex = Math.max(activeIndex - 1, -1);
+                            updateActiveItem(items);
+                        } else if (e.key === 'Enter' && activeIndex >= 0) {
+                            e.preventDefault();
+                            items[activeIndex].click();
+                        } else if (e.key === 'Escape') {
+                            suggestionsContainer.classList.remove('is-visible');
+                            searchInputExample.classList.remove('is-expanded');
+                            searchField.value = '';
+                            activeIndex = -1;
+                        }
+                    });
+
+                    function updateActiveItem(items) {
+                        items.forEach((item, idx) => {
+                            if (idx === activeIndex) {
+                                item.classList.add('is-active');
+                            } else {
+                                item.classList.remove('is-active');
+                            }
+                        });
+                    }
+
+                    // Click on suggestion
+                    suggestionsContainer.addEventListener('click', (e) => {
+                        const item = e.target.closest('.search-input-suggestion-item');
+                        if (item) {
+                            const sectionId = item.dataset.value.toLowerCase().replace(/\s+/g, '-');
+                            searchField.value = item.dataset.value;
+                            suggestionsContainer.classList.remove('is-visible');
+
+                            // Navigate to section if it exists
+                            const section = document.getElementById(sectionId);
+                            if (section) {
+                                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            }
+                        }
+                    });
+
+                    // Collapse on outside click
+                    document.addEventListener('click', (e) => {
+                        if (!searchInputExample.contains(e.target)) {
+                            searchInputExample.classList.remove('is-expanded');
+                            suggestionsContainer.classList.remove('is-visible');
+                        }
+                    });
+                }
+
+                // Initialize icon button toggles (Icon Button Toggle section)
+                const themeToggle = document.getElementById('theme-toggle');
+                const modeToggle = document.getElementById('mode-toggle');
+                const colorToggle = document.getElementById('color-toggle');
+
+                // Initialize demo toggles (Icon Buttons section)
+                const demoThemeToggle = document.getElementById('demo-theme-toggle');
+                const demoModeToggle = document.getElementById('demo-mode-toggle');
+                const demoColorToggle = document.getElementById('demo-color-toggle');
+
+                // Helper function to sync all theme toggles
+                function syncThemeToggles(newState) {
+                    [themeToggle, demoThemeToggle].forEach(toggle => {
+                        if (toggle && toggle.dataset.state !== newState) {
+                            toggle.dataset.state = newState;
+                        }
+                    });
+
+                    // Update theme-btn active state
+                    document.querySelectorAll('.theme-btn').forEach(btn => {
+                        if (btn.dataset.theme === newState) {
+                            btn.classList.add('active');
+                        } else {
+                            btn.classList.remove('active');
+                        }
+                    });
+                }
+
+                // Helper function to sync all mode toggles
+                function syncModeToggles(newState) {
+                    [modeToggle, demoModeToggle].forEach(toggle => {
+                        if (toggle && toggle.dataset.state !== newState) {
+                            toggle.dataset.state = newState;
+                        }
+                    });
+
+                    // Update mode-btn active state
+                    document.querySelectorAll('.mode-btn').forEach(btn => {
+                        if (btn.dataset.mode === newState) {
+                            btn.classList.add('active');
+                        } else {
+                            btn.classList.remove('active');
+                        }
+                    });
+                }
+
+                if (themeToggle) {
+                    themeToggle.addEventListener('click', function() {
+                        // Prevent multiple clicks during animation
+                        if (this.classList.contains('is-animating')) return;
+
+                        const current = this.dataset.state;
+                        const next = current === 'warm' ? 'cold' : 'warm';
+
+                        // Set transition direction for animation
+                        this.dataset.transitioning = `${current}-to-${next}`;
+                        this.classList.add('is-animating');
+
+                        // Apply theme variant to document root IMMEDIATELY (color transition starts now)
+                        document.documentElement.setAttribute('data-theme-variant', next);
+
+                        // Sync all theme toggles and buttons IMMEDIATELY
+                        syncThemeToggles(next);
+
+                        // Clean up animation state after animation completes
+                        setTimeout(() => {
+                            this.dataset.state = next;
+                            this.removeAttribute('data-transitioning');
+                            this.classList.remove('is-animating');
+                        }, 600);
+                    });
+                }
+
+                if (modeToggle) {
+                    modeToggle.addEventListener('click', function() {
+                        // Prevent multiple clicks during animation
+                        if (this.classList.contains('is-animating')) return;
+
+                        const current = this.dataset.state;
+                        const next = current === 'light' ? 'dark' : 'light';
+
+                        // Set transition direction for animation
+                        this.dataset.transitioning = `${current}-to-${next}`;
+                        this.classList.add('is-animating');
+
+                        // Apply theme mode to document root IMMEDIATELY (color transition starts now)
+                        document.documentElement.setAttribute('data-theme', next);
+
+                        // Sync all mode toggles and buttons IMMEDIATELY
+                        syncModeToggles(next);
+
+                        // Clean up animation state after animation completes
+                        setTimeout(() => {
+                            this.dataset.state = next;
+                            this.removeAttribute('data-transitioning');
+                            this.classList.remove('is-animating');
+                        }, 700);
+                    });
+                }
+
+                if (colorToggle) {
+                    colorToggle.addEventListener('click', function() {
+                        const current = this.dataset.state;
+                        const next = current === 'colored' ? 'monochrome' : 'colored';
+
+                        // Instant toggle for color mode
+                        this.dataset.state = next;
+
+                        // Optional: Apply some visual effect to document
+                        if (next === 'colored') {
+                            console.log('Switched to colored mode');
+                        } else {
+                            console.log('Switched to monochrome mode');
+                        }
+                    });
+                }
+
+                // Demo toggles - same functionality
+                if (demoThemeToggle) {
+                    demoThemeToggle.addEventListener('click', function() {
+                        // Prevent multiple clicks during animation
+                        if (this.classList.contains('is-animating')) return;
+
+                        const current = this.dataset.state;
+                        const next = current === 'warm' ? 'cold' : 'warm';
+
+                        this.dataset.transitioning = `${current}-to-${next}`;
+                        this.classList.add('is-animating');
+
+                        // Apply changes IMMEDIATELY
+                        document.documentElement.setAttribute('data-theme-variant', next);
+                        syncThemeToggles(next);
+
+                        setTimeout(() => {
+                            this.dataset.state = next;
+                            this.removeAttribute('data-transitioning');
+                            this.classList.remove('is-animating');
+                        }, 600);
+                    });
+                }
+
+                if (demoModeToggle) {
+                    demoModeToggle.addEventListener('click', function() {
+                        // Prevent multiple clicks during animation
+                        if (this.classList.contains('is-animating')) return;
+
+                        const current = this.dataset.state;
+                        const next = current === 'light' ? 'dark' : 'light';
+
+                        this.dataset.transitioning = `${current}-to-${next}`;
+                        this.classList.add('is-animating');
+
+                        // Apply changes IMMEDIATELY
+                        document.documentElement.setAttribute('data-theme', next);
+                        syncModeToggles(next);
+
+                        setTimeout(() => {
+                            this.dataset.state = next;
+                            this.removeAttribute('data-transitioning');
+                            this.classList.remove('is-animating');
+                        }, 700);
+                    });
+                }
+
+                if (demoColorToggle) {
+                    demoColorToggle.addEventListener('click', function() {
+                        const current = this.dataset.state;
+                        const next = current === 'colored' ? 'monochrome' : 'colored';
+                        this.dataset.state = next;
                     });
                 }
             });
