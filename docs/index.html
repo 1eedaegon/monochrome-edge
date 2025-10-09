@@ -3584,7 +3584,7 @@ renderAllMath({
                     <!-- Icon Components -->
                     <div class="component-showcase">
                         <div class="component-header">
-                            <h3 class="component-title">Icon Components</h3>
+                            <h3 class="component-title">Icon System</h3>
                             <div class="component-toggle">
                                 <button class="toggle-btn active" data-target="icon-components">Preview</button>
                                 <button class="toggle-btn" data-target="icon-components">Code</button>
@@ -3592,66 +3592,77 @@ renderAllMath({
                         </div>
                         <div class="component-content" id="icon-components">
                             <div class="component-preview">
-                                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 1.5rem; padding: 2rem;">
-                                    <!-- Flame Icon -->
-                                    <div style="text-align: center;">
-                                        <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
-                                        <p style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--theme-text-secondary);">Flame</p>
-                                    </div>
-                                    <!-- Snowflake Icon -->
-                                    <div style="text-align: center;">
-                                        <svg class="icon icon-lg" viewBox="0 0 24 24"><line x1="2" x2="22" y1="12" y2="12"/><line x1="12" x2="12" y1="2" y2="22"/><path d="m20 16-4-4 4-4"/><path d="m4 8 4 4-4 4"/><path d="m16 4-4 4-4-4"/><path d="m8 20 4-4 4 4"/></svg>
-                                        <p style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--theme-text-secondary);">Snowflake</p>
-                                    </div>
-                                    <!-- Sun Icon -->
-                                    <div style="text-align: center;">
-                                        <svg class="icon icon-lg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-                                        <p style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--theme-text-secondary);">Sun</p>
-                                    </div>
-                                    <!-- Moon Icon -->
-                                    <div style="text-align: center;">
-                                        <svg class="icon icon-lg" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-                                        <p style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--theme-text-secondary);">Moon</p>
-                                    </div>
-                                    <!-- Palette Icon -->
-                                    <div style="text-align: center;">
-                                        <svg class="icon icon-lg" viewBox="0 0 24 24"><circle cx="13.5" cy="6.5" r=".5" class="icon-filled"/><circle cx="17.5" cy="10.5" r=".5" class="icon-filled"/><circle cx="8.5" cy="7.5" r=".5" class="icon-filled"/><circle cx="6.5" cy="12.5" r=".5" class="icon-filled"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
-                                        <p style="margin-top: 0.5rem; font-size: 0.75rem; color: var(--theme-text-secondary);">Palette</p>
-                                    </div>
+                                <p style="margin-bottom: 1.5rem; color: var(--theme-text-secondary);">
+                                    45 SVG icons available via <code>iconLoader</code> utility. All icons use <code>currentColor</code> for easy theming.
+                                </p>
+
+                                <h4 style="margin-top: 2rem; margin-bottom: 1rem;">Editor Icons</h4>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 1rem; padding: 1rem; background: var(--theme-surface); border-radius: 8px;">
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="bold"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">bold</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="italic"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">italic</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="strikethrough"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">strikethrough</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="code"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">code</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="code-block"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">code-block</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="list-ul"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">list-ul</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="list-ol"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">list-ol</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="checkbox"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">checkbox</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="quote"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">quote</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="link"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">link</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="image"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">image</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="table"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">table</p></div>
+                                </div>
+
+                                <h4 style="margin-top: 2rem; margin-bottom: 1rem;">UI Icons</h4>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 1rem; padding: 1rem; background: var(--theme-surface); border-radius: 8px;">
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="sun"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">sun</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="moon"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">moon</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="flame"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">flame</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="snowflake"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">snowflake</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="palette"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">palette</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="globe"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">globe</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="search"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">search</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="menu"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">menu</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="close"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">close</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="plus"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">plus</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="check"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">check</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="circle"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">circle</p></div>
+                                </div>
+
+                                <h4 style="margin-top: 2rem; margin-bottom: 1rem;">File Icons</h4>
+                                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 1rem; padding: 1rem; background: var(--theme-surface); border-radius: 8px;">
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="file"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">file</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="folder"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">folder</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="file-plus"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">file-plus</p></div>
+                                    <div style="text-align: center; padding: 0.5rem;"><span data-icon="folder-plus"></span><p style="margin-top: 0.25rem; font-size: 0.7rem;">folder-plus</p></div>
                                 </div>
                             </div>
                             <div class="component-code">
-                                <pre><code class="language-markup">&lt;!-- Icon with default size (24px) --&gt;
-&lt;svg class="icon" viewBox="0 0 24 24"&gt;
-    &lt;path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/&gt;
-&lt;/svg&gt;
+                                <pre><code class="language-javascript">// JavaScript - Using iconLoader
+import { iconLoader } from '@utils/iconLoader.js';
 
-&lt;!-- Icon sizes --&gt;
-&lt;svg class="icon icon-sm" viewBox="0 0 24 24"&gt;...&lt;/svg&gt;  &lt;!-- 18px --&gt;
-&lt;svg class="icon icon-md" viewBox="0 0 24 24"&gt;...&lt;/svg&gt;  &lt;!-- 24px --&gt;
-&lt;svg class="icon icon-lg" viewBox="0 0 24 24"&gt;...&lt;/svg&gt;  &lt;!-- 32px --&gt;
+// Async loading
+const svg = await iconLoader.load('search', { width: 20, height: 20 });
+element.innerHTML = svg;
 
-&lt;!-- Icon with custom size and color --&gt;
-&lt;svg class="icon" style="width: 48px; height: 48px; color: #ff6b6b;" viewBox="0 0 24 24"&gt;
-    &lt;path d="..."/&gt;
-&lt;/svg&gt;
+// Sync loading (cached or placeholder)
+const svg = iconLoader.loadSync('search', { width: 20, height: 20 });
 
-&lt;!-- CSS --&gt;
-&lt;style&gt;
-.icon {
-    display: inline-block;
-    width: 24px;
-    height: 24px;
-    stroke: currentColor;
-    fill: none;
-    stroke-width: 2;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-}
+// Using helper utilities
+import { createIcon, setIcon, createIconButton } from '@utils/icon.js';
 
-/* Icon automatically inherits text color */
-.icon { color: var(--theme-text-primary); }
-&lt;/style&gt;</code></pre>
+// Create icon element
+const iconEl = await createIcon('search', { width: 20, height: 20 });
+
+// Set icon on existing element
+await setIcon(buttonElement, 'search', { width: 16, height: 16 });
+
+// Create icon button
+const btn = await createIconButton('close', {
+  width: 16,
+  height: 16,
+  title: 'Close',
+  onClick: () => console.log('clicked')
+});</code></pre>
                             </div>
                         </div>
                     </div>
@@ -16297,6 +16308,37 @@ new DropdownController(document.getElementById('action-dropdown'));
                 // Initialize language toggle
                 const languageToggle = document.getElementById('demo-language-toggle');
                 if (languageToggle) initLanguageToggle(languageToggle);
+            });
+        </script>
+
+        <!-- Icon Loader for Icon System showcase -->
+        <script type="module">
+            // Simple icon loader for docs page
+            async function loadIcon(name, width = 16, height = 16) {
+                try {
+                    const response = await fetch(`../ui/assets/icons/${name}.svg`);
+                    if (!response.ok) throw new Error('Icon not found');
+                    let svg = await response.text();
+                    svg = svg.replace(/width="[^"]*"/, `width="${width}"`);
+                    svg = svg.replace(/height="[^"]*"/, `height="${height}"`);
+                    return svg;
+                } catch (error) {
+                    console.warn(`Failed to load icon: ${name}`, error);
+                    return `<svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}"><rect width="${width}" height="${height}" fill="currentColor" opacity="0.1"/></svg>`;
+                }
+            }
+
+            // Load all icons in the Icon System section
+            document.addEventListener('DOMContentLoaded', async () => {
+                const iconElements = document.querySelectorAll('#icon-components [data-icon]');
+                for (const el of iconElements) {
+                    const iconName = el.getAttribute('data-icon');
+                    if (iconName) {
+                        const svg = await loadIcon(iconName, 24, 24);
+                        el.innerHTML = svg;
+                        el.style.cssText = 'display: inline-block; color: var(--theme-text-primary);';
+                    }
+                }
             });
         </script>
     </body>

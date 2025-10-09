@@ -1,149 +1,172 @@
 /**
  * Language Toggle Component
- * Multi-language toggle with country flag icons
- * Supports cycling through multiple languages
+ * Text-based language toggle using icon-btn-toggle CSS structure
+ *
+ * Usage:
+ * <button class="icon-btn-toggle icon-btn-toggle-language"
+ *         data-lang-first="korean"
+ *         data-lang-second="english">
+ * </button>
+ *
+ * The component extracts first 2 characters from language names:
+ * "korean" -> "KO", "english" -> "EN", "japanese" -> "JA"
  */
 
-/**
- * Initialize a language toggle button
- * @param {HTMLElement} element - The button element
- * @param {Object} options - Configuration options
- * @param {string[]} options.languages - Array of language codes (e.g., ['ko', 'en', 'ja'])
- * @param {string} options.initial - Initial language code (default: first in array)
- * @param {Function} options.onChange - Callback when language changes
- * @returns {Object} - API object with methods
- */
-export function initLanguageToggle(element, options = {}) {
-    const {
-        languages = ['ko', 'en'],
-        initial = languages[0],
-        onChange = null
-    } = options;
+class LanguageToggle {
+  constructor(element) {
+    this.element = element;
+    this.langFirst = element.getAttribute("data-lang-first") || "korean";
+    this.langSecond = element.getAttribute("data-lang-second") || "english";
+    this.currentLang = this.langFirst;
 
-    let currentIndex = languages.indexOf(initial);
-    if (currentIndex === -1) currentIndex = 0;
+    this.init();
+  }
 
-    let isAnimating = false;
+  init() {
+    // Create toggle icon structure
+    const toggleIcon = document.createElement("div");
+    toggleIcon.className = "icon-btn-toggle-icon";
 
-    // Set initial state
-    element.setAttribute('data-lang', languages[currentIndex]);
+    const firstCode = document.createElement("span");
+    firstCode.className = "lang-code lang-code-first";
+    firstCode.textContent = this.getLangCode(this.langFirst);
+
+    const separator = document.createElement("span");
+    separator.className = "lang-separator";
+    separator.textContent = "/";
+
+    const secondCode = document.createElement("span");
+    secondCode.className = "lang-code lang-code-second";
+    secondCode.textContent = this.getLangCode(this.langSecond);
+
+    toggleIcon.appendChild(firstCode);
+    toggleIcon.appendChild(separator);
+    toggleIcon.appendChild(secondCode);
+
+    this.element.innerHTML = "";
+    this.element.appendChild(toggleIcon);
 
     // Add click handler
-    element.addEventListener('click', function() {
-        if (isAnimating) return;
+    this.element.addEventListener("click", () => this.toggle());
 
-        // Calculate next language
-        const currentLang = languages[currentIndex];
-        currentIndex = (currentIndex + 1) % languages.length;
-        const nextLang = languages[currentIndex];
+    // Set initial state
+    this.updateState();
+  }
 
-        // Lock animation
-        isAnimating = true;
+  /**
+   * Extracts language code (first 2 characters, uppercase)
+   * @param {string} langName - Language name
+   * @returns {string} Language code (e.g., "KO", "EN")
+   */
+  getLangCode(langName) {
+    return langName.substring(0, 2).toUpperCase();
+  }
 
-        // Find current and next icons
-        const icons = element.querySelectorAll('.language-toggle-icon svg');
-        const currentIcon = element.querySelector(`.flag-icon-${getFlagClass(currentLang)}`);
-        const nextIcon = element.querySelector(`.flag-icon-${getFlagClass(nextLang)}`);
-
-        // Mark icons for animation
-        if (currentIcon) currentIcon.classList.add('flag-icon-current');
-        if (nextIcon) nextIcon.classList.add('flag-icon-next');
-
-        // Start animation
-        element.classList.add('is-animating');
-
-        // Update data attribute immediately
-        element.setAttribute('data-lang', nextLang);
-
-        // Clean up after animation
-        setTimeout(() => {
-            element.classList.remove('is-animating');
-
-            // Remove animation classes
-            icons.forEach(icon => {
-                icon.classList.remove('flag-icon-current', 'flag-icon-next');
-            });
-
-            // Unlock
-            setTimeout(() => {
-                isAnimating = false;
-            }, 200);
-        }, 500);
-
-        // Trigger callback
-        if (onChange) {
-            onChange(nextLang, currentLang);
-        }
-    });
-
-    // API
-    return {
-        getCurrentLanguage: () => languages[currentIndex],
-        setLanguage: (lang) => {
-            const index = languages.indexOf(lang);
-            if (index !== -1) {
-                currentIndex = index;
-                element.setAttribute('data-lang', lang);
-            }
-        },
-        getLanguages: () => [...languages],
-        destroy: () => {
-            element.removeEventListener('click', arguments.callee);
-        }
-    };
-}
-
-/**
- * Get flag class name for language code
- * Maps language codes to flag icon classes
- */
-function getFlagClass(lang) {
-    const mapping = {
-        'ko': 'kr',  // Korean → South Korea
-        'en': 'us',  // English → United States
-        'ja': 'jp',  // Japanese → Japan
-        'zh': 'cn',  // Chinese → China
-        'fr': 'fr',  // French → France
-        'de': 'de',  // German → Germany
-        'es': 'es',  // Spanish → Spain
-        'pt': 'br',  // Portuguese → Brazil
-        'ru': 'ru',  // Russian → Russia
-        'ar': 'sa',  // Arabic → Saudi Arabia
-        'hi': 'in',  // Hindi → India
-        'it': 'it',  // Italian → Italy
-    };
-
-    return mapping[lang] || 'globe';
-}
-
-/**
- * Auto-initialize all language toggles with data-language-toggle attribute
- */
-export function autoInit() {
-    document.querySelectorAll('[data-language-toggle]').forEach(element => {
-        const languagesAttr = element.getAttribute('data-languages');
-        const languages = languagesAttr ? languagesAttr.split(',').map(l => l.trim()) : ['ko', 'en'];
-        const initial = element.getAttribute('data-initial-lang') || languages[0];
-
-        initLanguageToggle(element, {
-            languages,
-            initial,
-            onChange: (next, prev) => {
-                // Emit custom event
-                element.dispatchEvent(new CustomEvent('languagechange', {
-                    detail: { from: prev, to: next },
-                    bubbles: true
-                }));
-            }
-        });
-    });
-}
-
-// Auto-initialize on DOMContentLoaded
-if (typeof window !== 'undefined') {
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', autoInit);
+  toggle() {
+    if (this.currentLang === this.langFirst) {
+      this.currentLang = this.langSecond;
     } else {
-        autoInit();
+      this.currentLang = this.langFirst;
     }
+
+    this.updateState();
+    this.dispatchChangeEvent();
+  }
+
+  updateState() {
+    if (this.currentLang === this.langSecond) {
+      this.element.classList.add("active");
+    } else {
+      this.element.classList.remove("active");
+    }
+
+    this.element.setAttribute("data-current-lang", this.currentLang);
+  }
+
+  dispatchChangeEvent() {
+    const event = new CustomEvent("language-change", {
+      detail: {
+        language: this.currentLang,
+        langFirst: this.langFirst,
+        langSecond: this.langSecond,
+      },
+      bubbles: true,
+    });
+
+    this.element.dispatchEvent(event);
+  }
+
+  /**
+   * Gets current language
+   * @returns {string} Current language name
+   */
+  getCurrentLanguage() {
+    return this.currentLang;
+  }
+
+  /**
+   * Sets language programmatically
+   * @param {string} lang - Language name (langFirst or langSecond)
+   */
+  setLanguage(lang) {
+    if (lang === this.langFirst || lang === this.langSecond) {
+      this.currentLang = lang;
+      this.updateState();
+      this.dispatchChangeEvent();
+    } else {
+      console.warn(
+        `Invalid language: ${lang}. Must be "${this.langFirst}" or "${this.langSecond}"`,
+      );
+    }
+  }
 }
+
+/**
+ * Initialize all language toggle components on the page
+ */
+export function initLanguageToggles() {
+  const toggles = document.querySelectorAll(".icon-btn-toggle-language");
+
+  toggles.forEach((element) => {
+    if (!element._languageToggle) {
+      element._languageToggle = new LanguageToggle(element);
+    }
+  });
+}
+
+/**
+ * Create a language toggle programmatically
+ * @param {Object} options - Toggle options
+ * @param {string} options.langFirst - First language name (default: "korean")
+ * @param {string} options.langSecond - Second language name (default: "english")
+ * @param {string} options.className - Additional class names
+ * @param {Function} options.onChange - Change event handler
+ * @returns {HTMLButtonElement} Language toggle button element
+ */
+export function createLanguageToggle(options = {}) {
+  const button = document.createElement("button");
+  button.type = "button";
+  button.className =
+    `icon-btn-toggle icon-btn-toggle-language ${options.className || ""}`.trim();
+  button.setAttribute("data-lang-first", options.langFirst || "korean");
+  button.setAttribute("data-lang-second", options.langSecond || "english");
+
+  const toggle = new LanguageToggle(button);
+
+  if (options.onChange) {
+    button.addEventListener("language-change", options.onChange);
+  }
+
+  return button;
+}
+
+// Auto-initialize on DOM content loaded
+if (typeof document !== "undefined") {
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initLanguageToggles);
+  } else {
+    initLanguageToggles();
+  }
+}
+
+export default LanguageToggle;
