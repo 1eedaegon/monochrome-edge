@@ -73,14 +73,6 @@ export class CanvasRenderer {
   render(): void {
     const { width, height } = this.canvas;
 
-    console.log("CanvasRenderer.render() called");
-    console.log("  Canvas size:", width, "x", height);
-    console.log("  Graph stats:", this.graph.getStats());
-    console.log("  Nodes:", this.graph.getNodes().length);
-    if (this.graph.getNodes().length > 0) {
-      console.log("  Sample node:", this.graph.getNodes()[0]);
-    }
-
     // Clear canvas with background
     this.ctx.fillStyle =
       getComputedStyle(document.documentElement)
@@ -108,8 +100,6 @@ export class CanvasRenderer {
 
     // Restore context
     this.ctx.restore();
-
-    console.log("CanvasRenderer.render() completed");
   }
 
   /**
@@ -261,105 +251,120 @@ export class CanvasRenderer {
     });
 
     // Wheel - zoom
-    this.canvas.addEventListener("wheel", (e) => {
-      e.preventDefault();
+    this.canvas.addEventListener(
+      "wheel",
+      (e) => {
+        e.preventDefault();
 
-      const rect = this.canvas.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
+        const rect = this.canvas.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
 
-      const zoomFactor = e.deltaY > 0 ? 0.9 : 1.1;
-      const newScale = Math.max(0.1, Math.min(3, this.scale * zoomFactor));
+        const zoomFactor = e.deltaY > 0 ? 0.9 : 1.1;
+        const newScale = Math.max(0.1, Math.min(3, this.scale * zoomFactor));
 
-      // Zoom towards cursor position
-      this.offsetX = x - (x - this.offsetX) * (newScale / this.scale);
-      this.offsetY = y - (y - this.offsetY) * (newScale / this.scale);
-      this.scale = newScale;
+        // Zoom towards cursor position
+        this.offsetX = x - (x - this.offsetX) * (newScale / this.scale);
+        this.offsetY = y - (y - this.offsetY) * (newScale / this.scale);
+        this.scale = newScale;
 
-      this.render();
-    });
+        this.render();
+      },
+      { passive: false },
+    );
 
     // Touch events for mobile
     let touchStartX = 0;
     let touchStartY = 0;
     let touchStartDistance = 0;
 
-    this.canvas.addEventListener("touchstart", (e) => {
-      e.preventDefault();
-      const rect = this.canvas.getBoundingClientRect();
+    this.canvas.addEventListener(
+      "touchstart",
+      (e) => {
+        e.preventDefault();
+        const rect = this.canvas.getBoundingClientRect();
 
-      if (e.touches.length === 1) {
-        // Single touch - check for node tap or start pan
-        const touch = e.touches[0];
-        if (!touch) return;
-        const x = touch.clientX - rect.left;
-        const y = touch.clientY - rect.top;
+        if (e.touches.length === 1) {
+          // Single touch - check for node tap or start pan
+          const touch = e.touches[0];
+          if (!touch) return;
+          const x = touch.clientX - rect.left;
+          const y = touch.clientY - rect.top;
 
-        const node = this.getNodeAtPosition(x, y);
-        if (node) {
-          this.selectedNode = node;
-          if (this.onNodeClick) {
-            this.onNodeClick(node);
+          const node = this.getNodeAtPosition(x, y);
+          if (node) {
+            this.selectedNode = node;
+            if (this.onNodeClick) {
+              this.onNodeClick(node);
+            }
+            this.render();
+          } else {
+            this.isDragging = true;
+            touchStartX = x;
+            touchStartY = y;
+            this.dragStartX = x - this.offsetX;
+            this.dragStartY = y - this.offsetY;
           }
-          this.render();
-        } else {
-          this.isDragging = true;
-          touchStartX = x;
-          touchStartY = y;
-          this.dragStartX = x - this.offsetX;
-          this.dragStartY = y - this.offsetY;
+        } else if (e.touches.length === 2) {
+          // Two finger pinch zoom
+          const touch0 = e.touches[0];
+          const touch1 = e.touches[1];
+          if (!touch0 || !touch1) return;
+          const dx = touch0.clientX - touch1.clientX;
+          const dy = touch0.clientY - touch1.clientY;
+          touchStartDistance = Math.sqrt(dx * dx + dy * dy);
         }
-      } else if (e.touches.length === 2) {
-        // Two finger pinch zoom
-        const touch0 = e.touches[0];
-        const touch1 = e.touches[1];
-        if (!touch0 || !touch1) return;
-        const dx = touch0.clientX - touch1.clientX;
-        const dy = touch0.clientY - touch1.clientY;
-        touchStartDistance = Math.sqrt(dx * dx + dy * dy);
-      }
-    });
+      },
+      { passive: false },
+    );
 
-    this.canvas.addEventListener("touchmove", (e) => {
-      e.preventDefault();
-      const rect = this.canvas.getBoundingClientRect();
+    this.canvas.addEventListener(
+      "touchmove",
+      (e) => {
+        e.preventDefault();
+        const rect = this.canvas.getBoundingClientRect();
 
-      if (e.touches.length === 1 && this.isDragging) {
-        // Pan
-        const touch = e.touches[0];
-        if (!touch) return;
-        const x = touch.clientX - rect.left;
-        const y = touch.clientY - rect.top;
-        this.offsetX = x - this.dragStartX;
-        this.offsetY = y - this.dragStartY;
-        this.render();
-      } else if (e.touches.length === 2) {
-        // Pinch zoom
-        const touch0 = e.touches[0];
-        const touch1 = e.touches[1];
-        if (!touch0 || !touch1) return;
-        const dx = touch0.clientX - touch1.clientX;
-        const dy = touch0.clientY - touch1.clientY;
-        const distance = Math.sqrt(dx * dx + dy * dy);
-
-        if (touchStartDistance > 0) {
-          const centerX = (touch0.clientX + touch1.clientX) / 2 - rect.left;
-          const centerY = (touch0.clientY + touch1.clientY) / 2 - rect.top;
-
-          const zoomFactor = distance / touchStartDistance;
-          const newScale = Math.max(0.1, Math.min(3, this.scale * zoomFactor));
-
-          this.offsetX =
-            centerX - (centerX - this.offsetX) * (newScale / this.scale);
-          this.offsetY =
-            centerY - (centerY - this.offsetY) * (newScale / this.scale);
-          this.scale = newScale;
-
-          touchStartDistance = distance;
+        if (e.touches.length === 1 && this.isDragging) {
+          // Pan
+          const touch = e.touches[0];
+          if (!touch) return;
+          const x = touch.clientX - rect.left;
+          const y = touch.clientY - rect.top;
+          this.offsetX = x - this.dragStartX;
+          this.offsetY = y - this.dragStartY;
           this.render();
+        } else if (e.touches.length === 2) {
+          // Pinch zoom
+          const touch0 = e.touches[0];
+          const touch1 = e.touches[1];
+          if (!touch0 || !touch1) return;
+          const dx = touch0.clientX - touch1.clientX;
+          const dy = touch0.clientY - touch1.clientY;
+          const distance = Math.sqrt(dx * dx + dy * dy);
+
+          if (touchStartDistance > 0) {
+            const centerX = (touch0.clientX + touch1.clientX) / 2 - rect.left;
+            const centerY = (touch0.clientY + touch1.clientY) / 2 - rect.top;
+
+            const zoomFactor = distance / touchStartDistance;
+            const newScale = Math.max(
+              0.1,
+              Math.min(3, this.scale * zoomFactor),
+            );
+
+            this.offsetX =
+              centerX - (centerX - this.offsetX) * (newScale / this.scale);
+            this.offsetY =
+              centerY - (centerY - this.offsetY) * (newScale / this.scale);
+            this.scale = newScale;
+
+            touchStartDistance = distance;
+            this.render();
+          }
         }
-      }
-    });
+      },
+      { passive: false },
+    );
 
     this.canvas.addEventListener("touchend", (e) => {
       e.preventDefault();
