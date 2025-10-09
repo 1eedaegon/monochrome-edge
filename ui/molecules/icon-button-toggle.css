@@ -83,8 +83,9 @@
 }
 
 /* ========================================
-   THEME TOGGLE - Vertical Pass-through
-   Icons pass through center: top → |center| → bottom
+   THEME TOGGLE - Vertical Animation
+   Current icon: always exits DOWN (translateY +150%)
+   Next icon: always enters from TOP (translateY -150% → 0)
    ======================================== */
 
 /* Warm state: flame at center, snowflake hidden on top */
@@ -113,30 +114,30 @@
     transform: translateY(0);
 }
 
-/* Warm to Cold: flame moves top→bottom (exit), snowflake moves top→center (enter) */
-.icon-btn-toggle-theme[data-transitioning="warm-to-cold"]
+/* Warm → Cold animation: flame(first) exits down, snowflake(last) enters from top */
+.icon-btn-toggle-theme[data-state="warm"].is-animating
     .icon-btn-toggle-icon
     svg:first-child {
     opacity: 0;
     transform: translateY(150%);
 }
 
-.icon-btn-toggle-theme[data-transitioning="warm-to-cold"]
+.icon-btn-toggle-theme[data-state="warm"].is-animating
     .icon-btn-toggle-icon
     svg:last-child {
     opacity: 1;
     transform: translateY(0);
 }
 
-/* Cold to Warm: snowflake moves top→bottom (exit), flame moves top→center (enter) */
-.icon-btn-toggle-theme[data-transitioning="cold-to-warm"]
+/* Cold → Warm animation: snowflake(last) exits down, flame(first) enters from top */
+.icon-btn-toggle-theme[data-state="cold"].is-animating
     .icon-btn-toggle-icon
     svg:first-child {
     opacity: 1;
     transform: translateY(0);
 }
 
-.icon-btn-toggle-theme[data-transitioning="cold-to-warm"]
+.icon-btn-toggle-theme[data-state="cold"].is-animating
     .icon-btn-toggle-icon
     svg:last-child {
     opacity: 0;
@@ -144,8 +145,9 @@
 }
 
 /* ========================================
-   MODE TOGGLE - Horizontal Pass-through
-   Icons pass through center: left → |center| → right
+   MODE TOGGLE - Horizontal Animation
+   Current icon: always exits RIGHT (translateX +150%)
+   Next icon: always enters from LEFT (translateX -150% → 0)
    ======================================== */
 
 /* Light state: sun at center, moon hidden on left */
@@ -172,30 +174,30 @@
     transform: translateX(0);
 }
 
-/* Light to Dark: sun moves left→right (exit), moon moves left→center (enter) */
-.icon-btn-toggle-mode[data-transitioning="light-to-dark"]
+/* Light → Dark animation: sun(first) exits right, moon(last) enters from left */
+.icon-btn-toggle-mode[data-state="light"].is-animating
     .icon-btn-toggle-icon
     svg:first-child {
     opacity: 0;
     transform: translateX(150%);
 }
 
-.icon-btn-toggle-mode[data-transitioning="light-to-dark"]
+.icon-btn-toggle-mode[data-state="light"].is-animating
     .icon-btn-toggle-icon
     svg:last-child {
     opacity: 1;
     transform: translateX(0);
 }
 
-/* Dark to Light: moon moves left→right (exit), sun moves left→center (enter) */
-.icon-btn-toggle-mode[data-transitioning="dark-to-light"]
+/* Dark → Light animation: moon(last) exits right, sun(first) enters from left */
+.icon-btn-toggle-mode[data-state="dark"].is-animating
     .icon-btn-toggle-icon
     svg:first-child {
     opacity: 1;
     transform: translateX(0);
 }
 
-.icon-btn-toggle-mode[data-transitioning="dark-to-light"]
+.icon-btn-toggle-mode[data-state="dark"].is-animating
     .icon-btn-toggle-icon
     svg:last-child {
     opacity: 0;
