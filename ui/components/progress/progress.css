@@ -42,19 +42,19 @@
 
 /* Progress Colors */
 .progress-bar.progress-success {
-    background: var(--theme-success);
+    background: var(--color-success);
 }
 
 .progress-bar.progress-warning {
-    background: var(--theme-warning);
+    background: var(--color-warning);
 }
 
 .progress-bar.progress-error {
-    background: var(--theme-error);
+    background: var(--color-error);
 }
 
 .progress-bar.progress-info {
-    background: var(--theme-info);
+    background: var(--color-info);
 }
 
 /* Striped Progress */
@@ -247,7 +247,9 @@
 }
 
 @keyframes dotPulse {
-    0%, 80%, 100% {
+    0%,
+    80%,
+    100% {
         transform: scale(0);
         opacity: 0.5;
     }
@@ -324,7 +326,7 @@
 }
 
 .progress-steps::before {
-    content: '';
+    content: "";
     position: absolute;
     top: 50%;
     left: 2rem;
@@ -389,7 +391,7 @@
         gap: 1rem;
         padding: 0;
     }
-    
+
     .progress-steps::before {
         top: 2rem;
         bottom: 2rem;

@@ -78,8 +78,11 @@ export class SearchToolbar {
         filter.default || filter.values[0]?.value || "";
     });
 
-    if (this.options.sortOptions.length > 0) {
-      this.activeSort = this.options.sortOptions[0].value;
+    if (this.options.sortOptions && this.options.sortOptions.length > 0) {
+      const firstSort = this.options.sortOptions[0];
+      if (firstSort) {
+        this.activeSort = firstSort.value;
+      }
     }
 
     this.render();
@@ -365,7 +368,10 @@ export class SearchToolbar {
     });
 
     if (this.activeItemIndex >= 0) {
-      items[this.activeItemIndex].scrollIntoView({ block: "nearest" });
+      const activeItem = items[this.activeItemIndex];
+      if (activeItem) {
+        activeItem.scrollIntoView({ block: "nearest" });
+      }
     }
   }
 
