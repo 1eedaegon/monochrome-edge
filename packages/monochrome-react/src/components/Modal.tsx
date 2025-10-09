@@ -1,127 +1,87 @@
-import React, { useEffect, useRef, ReactNode } from 'react';
-import { createPortal } from 'react-dom';
-import { Modal as CoreModal, ModalConfig } from '@monochrome-edge/core';
+import React, { useEffect, ReactNode } from 'react';
 
-export interface ModalProps extends Omit<ModalConfig, 'content' | 'footer'> {
-  children?: ReactNode;
+export interface ModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  title?: string;
+  children: ReactNode;
   footer?: ReactNode;
-  isOpen?: boolean;
-  onClose?: () => void;
-  onOpen?: () => void;
+  size?: 'small' | 'medium' | 'large';
+  className?: string;
+  style?: React.CSSProperties;
 }
 
-export function Modal({
+export const Modal: React.FC<ModalProps> = ({
+  isOpen,
+  onClose,
+  title,
   children,
   footer,
-  isOpen = false,
-  onClose,
-  onOpen,
-  ...props
-}: ModalProps) {
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const modalRef = useRef<CoreModal | null>(null);
-
+  size = 'medium',
+  className = '',
+  style = {}
+}) => {
   useEffect(() => {
-    // Create container
-    containerRef.current = document.createElement('div');
-    containerRef.current.className = 'modal';
-    document.body.appendChild(containerRef.current);
-
-    // Create modal instance
-    modalRef.current = new CoreModal(containerRef.current, {
-      ...props,
-      onClose,
-      onOpen
-    });
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
 
     return () => {
-      // Cleanup
-      modalRef.current?.destroy();
-      containerRef.current?.remove();
+      document.body.style.overflow = '';
     };
-  }, []);
-
-  // Handle open/close
-  useEffect(() => {
-    if (modalRef.current) {
-      if (isOpen) {
-        modalRef.current.open();
-      } else {
-        modalRef.current.close();
-      }
-    }
   }, [isOpen]);
 
-  // Update content
   useEffect(() => {
-    if (modalRef.current && children) {
-      const contentDiv = document.createElement('div');
-      modalRef.current.setContent(contentDiv);
-    }
-  }, [children]);
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isOpen) {
+        onClose();
+      }
+    };
 
-  // Update footer
-  useEffect(() => {
-    if (modalRef.current && footer) {
-      const footerDiv = document.createElement('div');
-      modalRef.current.setFooter(footerDiv);
-    }
-  }, [footer]);
+    document.addEventListener('keydown', handleEscape);
+    return () => document.removeEventListener('keydown', handleEscape);
+  }, [isOpen, onClose]);
 
-  if (!containerRef.current || !isOpen) {
-    return null;
-  }
+  if (!isOpen) return null;
 
-  // Portal render content and footer
-  return createPortal(
-    <>
-      {children && (
-        <div className="modal-content-react" style={{ display: 'none' }}>
+  const sizeClass = size === 'small' ? 'modal-small' : size === 'large' ? 'modal-large' : '';
+
+  return (
+    <div className={`modal is-open ${className}`} style={style}>
+      <div className="modal-backdrop" onClick={onClose} />
+      <div className={`modal-content ${sizeClass}`}>
+        {title && (
+          <div className="modal-header">
+            <h3 className="modal-title">{title}</h3>
+            <button className="modal-close" onClick={onClose} aria-label="Close">
+              ×
+            </button>
+          </div>
+        )}
+        <div className="modal-body">
           {children}
         </div>
-      )}
-      {footer && (
-        <div className="modal-footer-react" style={{ display: 'none' }}>
-          {footer}
-        </div>
-      )}
-    </>,
-    containerRef.current
+        {footer && (
+          <div className="modal-footer">
+            {footer}
+          </div>
+        )}
+      </div>
+    </div>
   );
-}
+};
 
-// Hook for programmatic modal control
-export function useModal(config?: Partial<ModalConfig>) {
-  const modalRef = useRef<CoreModal | null>(null);
+Modal.displayName = 'Modal';
 
-  const open = (content?: ReactNode) => {
-    if (!modalRef.current) {
-      modalRef.current = CoreModal.create(config);
-    }
+// Hook for modal state management
+export const useModal = (defaultOpen = false) => {
+  const [isOpen, setIsOpen] = React.useState(defaultOpen);
 
-    if (content) {
-      const contentDiv = document.createElement('div');
-      // Would need ReactDOM.render or createRoot here for content
-      modalRef.current.setContent(contentDiv);
-    }
+  const open = () => setIsOpen(true);
+  const close = () => setIsOpen(false);
+  const toggle = () => setIsOpen(!isOpen);
 
-    modalRef.current.open();
-  };
-
-  const close = () => {
-    modalRef.current?.close();
-  };
-
-  const destroy = () => {
-    modalRef.current?.destroy();
-    modalRef.current = null;
-  };
-
-  useEffect(() => {
-    return () => {
-      destroy();
-    };
-  }, []);
-
-  return { open, close, destroy };
-}
+  return { isOpen, open, close, toggle };
+};

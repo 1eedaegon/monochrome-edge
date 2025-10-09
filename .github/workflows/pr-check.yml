@@ -1,5 +1,4 @@
 name: PR Check
-
 on:
   pull_request:
     types: [opened, edited, synchronize]
@@ -18,19 +17,19 @@ jobs:
         run: |
           # Get all commits in this PR
           COMMITS=$(git log origin/${{ github.base_ref }}..HEAD --format=%s)
-          
+
           # Conventional commit regex
           PATTERN="^(feat|fix|docs|style|refactor|perf|test|chore|build|ci|revert)(\(.+\))?: .+"
           BREAKING_PATTERN="^(feat|fix)!:"
-          
+
           INVALID_COMMITS=""
           VERSION_IMPACT="patch"
-          
+
           while IFS= read -r commit; do
             if [[ ! "$commit" =~ $PATTERN ]] && [[ ! "$commit" =~ $BREAKING_PATTERN ]]; then
               INVALID_COMMITS="${INVALID_COMMITS}\n  ❌ ${commit}"
             fi
-            
+
             # Determine version impact
             if [[ "$commit" =~ $BREAKING_PATTERN ]] || [[ "$commit" =~ "BREAKING CHANGE:" ]]; then
               VERSION_IMPACT="major"
@@ -38,7 +37,7 @@ jobs:
               VERSION_IMPACT="minor"
             fi
           done <<< "$COMMITS"
-          
+
           if [ -n "$INVALID_COMMITS" ]; then
             echo "❌ Invalid commit messages found:"
             echo -e "$INVALID_COMMITS"
@@ -54,7 +53,7 @@ jobs:
             echo "  feat!: breaking change in API"
             exit 1
           fi
-          
+
           echo "✅ All commits follow Conventional Commits format"
           echo "📦 Version impact: ${VERSION_IMPACT}"
 
@@ -67,7 +66,7 @@ jobs:
               repo: context.repo.repo,
               pull_number: context.issue.number
             });
-            
+
             let versionImpact = 'patch';
             for (const commit of commits.data) {
               const message = commit.commit.message;
@@ -78,14 +77,14 @@ jobs:
                 versionImpact = 'minor';
               }
             }
-            
+
             // Remove existing version labels
             const labels = await github.rest.issues.listLabelsOnIssue({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number
             });
-            
+
             for (const label of labels.data) {
               if (['patch', 'minor', 'major'].includes(label.name)) {
                 await github.rest.issues.removeLabel({
@@ -96,7 +95,7 @@ jobs:
                 });
               }
             }
-            
+
             // Add new version label
             await github.rest.issues.addLabels({
               owner: context.repo.owner,
@@ -104,15 +103,15 @@ jobs:
               issue_number: context.issue.number,
               labels: [versionImpact]
             });
-            
+
             // Add comment
             const body = `### 📦 Version Impact: \`${versionImpact}\`
-            
+
             This PR will trigger a **${versionImpact}** version bump when merged.
-            
+
             Current commit types detected:
             ${commits.data.map(c => `- \`${c.commit.message.split('\n')[0]}\``).join('\n')}`;
-            
+
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,

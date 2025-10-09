@@ -3,12 +3,12 @@
  * Interactive document graph visualization with Barnes-Hut force-directed layout
  */
 
-import { DocumentGraph, DocumentMetadata } from './graph-builder';
-import { BarnesHutLayout } from './barnes-hut-layout';
-import { CanvasRenderer } from './canvas-renderer';
+import { DocumentGraph, DocumentMetadata } from "./graph-builder";
+import { BarnesHutLayout } from "./barnes-hut-layout";
+import { CanvasRenderer } from "./canvas-renderer";
 
 export interface GraphViewOptions {
-  container: HTMLElement;
+  container: HTMLElement | string;
   documents: DocumentMetadata[];
   width?: number;
   height?: number;
@@ -24,6 +24,9 @@ export interface GraphViewOptions {
 
   // Callbacks
   onNodeClick?: (node: { id: string; title: string; tags: string[] }) => void;
+  onNodeHover?: (
+    node: { id: string; title: string; tags: string[] } | null,
+  ) => void;
   onLayoutProgress?: (iteration: number, alpha: number) => void;
 }
 
@@ -37,16 +40,30 @@ export class GraphView {
 
   private animationFrame: number | null = null;
   private isRunning: boolean = false;
+  private resizeObserver: ResizeObserver | null = null;
 
   constructor(options: GraphViewOptions) {
     this.options = options;
-    this.container = options.container;
+    this.container =
+      typeof options.container === "string"
+        ? (document.querySelector(options.container) as HTMLElement)
+        : options.container;
+
+    if (!this.container) {
+      throw new Error(`GraphView: Container not found: ${options.container}`);
+    }
 
     // Create canvas
-    this.canvas = document.createElement('canvas');
-    this.canvas.className = 'graph-view-canvas';
-    this.canvas.width = options.width ?? this.container.clientWidth;
-    this.canvas.height = options.height ?? this.container.clientHeight;
+    this.canvas = document.createElement("canvas");
+    this.canvas.className = "graph-view-canvas";
+
+    // Append canvas to container FIRST so we can measure it
+    this.container.innerHTML = "";
+    this.container.appendChild(this.canvas);
+
+    // Set canvas dimensions after appending (so container.clientWidth is available)
+    this.canvas.width = options.width ?? this.container.clientWidth ?? 800;
+    this.canvas.height = options.height ?? this.container.clientHeight ?? 600;
 
     // Build graph
     this.graph = new DocumentGraph();
@@ -58,13 +75,13 @@ export class GraphView {
       height: this.canvas.height,
       iterations: options.iterations ?? 300,
       repulsionStrength: options.repulsionStrength ?? 800,
-      attractionStrength: options.attractionStrength ?? 0.01
+      attractionStrength: options.attractionStrength ?? 0.01,
     });
 
     // Initialize renderer
     this.renderer = new CanvasRenderer(this.canvas, this.graph, {
       nodeRadius: options.nodeRadius ?? 8,
-      showLabels: options.showLabels ?? true
+      showLabels: options.showLabels ?? true,
     });
 
     // Setup callbacks
@@ -73,17 +90,60 @@ export class GraphView {
         options.onNodeClick!({
           id: node.originalId,
           title: node.title,
-          tags: node.tags
+          tags: node.tags,
         });
       });
     }
 
-    // Append canvas to container
-    this.container.innerHTML = '';
-    this.container.appendChild(this.canvas);
+    if (options.onNodeHover) {
+      this.renderer.setOnNodeHover((node) => {
+        if (node) {
+          options.onNodeHover!({
+            id: node.originalId,
+            title: node.title,
+            tags: node.tags,
+          });
+        } else {
+          options.onNodeHover!(null);
+        }
+      });
+    }
+
+    // Setup resize observer for responsive canvas
+    this.setupResizeObserver();
 
     // Initial render
     this.renderer.render();
+  }
+
+  /**
+   * Setup resize observer for responsive canvas sizing
+   */
+  private setupResizeObserver(): void {
+    if (typeof ResizeObserver === "undefined") return;
+
+    this.resizeObserver = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        const { width, height } = entry.contentRect;
+
+        // Update canvas size
+        const newWidth = Math.floor(width);
+        const newHeight = Math.floor(height);
+
+        if (newWidth > 0 && newHeight > 0) {
+          this.canvas.width = newWidth;
+          this.canvas.height = newHeight;
+
+          // Update layout bounds
+          this.layout.updateBounds(newWidth, newHeight);
+
+          // Re-render
+          this.renderer.render();
+        }
+      }
+    });
+
+    this.resizeObserver.observe(this.container);
   }
 
   /**
@@ -171,7 +231,7 @@ export class GraphView {
       height: this.canvas.height,
       iterations: this.options.iterations ?? 300,
       repulsionStrength: this.options.repulsionStrength ?? 800,
-      attractionStrength: this.options.attractionStrength ?? 0.01
+      attractionStrength: this.options.attractionStrength ?? 0.01,
     });
 
     this.renderer.render();
@@ -198,10 +258,31 @@ export class GraphView {
   }
 
   /**
+   * Reset view (center and fit graph)
+   */
+  resetView(): void {
+    this.renderer.resetView();
+  }
+
+  /**
+   * Render the graph
+   */
+  render(): void {
+    this.renderer.render();
+  }
+
+  /**
    * Destroy component
    */
   destroy(): void {
     this.stopLayout();
-    this.container.innerHTML = '';
+
+    // Disconnect resize observer
+    if (this.resizeObserver) {
+      this.resizeObserver.disconnect();
+      this.resizeObserver = null;
+    }
+
+    this.container.innerHTML = "";
   }
 }

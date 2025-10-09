@@ -1,5 +1,4 @@
 name: Release
-
 on:
   push:
     branches:
@@ -243,5 +242,5 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              body: `🎉 Released in v${version} (${bump} version bump)`
+              body: `Released in v${version} (${bump} version bump)`
             });
