@@ -2144,13 +2144,101 @@ element.style.color = 'var(--theme-text-primary)';</code></pre>
                                 </p>
                             </div>
                             <div class="component-code">
-                                <pre><code class="language-html">&lt;h1 class="text-h1"&gt;Heading 1&lt;/h1&gt;
-&lt;h2 class="text-h2"&gt;Heading 2&lt;/h2&gt;
-&lt;h3 class="text-h3"&gt;Heading 3&lt;/h3&gt;
-&lt;h4 class="text-h4"&gt;Heading 4&lt;/h4&gt;
-&lt;p class="text-body"&gt;Body text&lt;/p&gt;
-&lt;p class="text-body-small"&gt;Small body&lt;/p&gt;
-&lt;p class="text-caption"&gt;Caption&lt;/p&gt;</code></pre>
+                                <div style="padding: 2rem">
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        HTML/CSS
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;h1 class="text-h1"&gt;Main Heading&lt;/h1&gt;
+&lt;h2 class="text-h2"&gt;Subheading&lt;/h2&gt;
+&lt;p class="text-body"&gt;Body text content&lt;/p&gt;
+&lt;p class="text-body-small text-muted"&gt;Secondary text&lt;/p&gt;</code></pre>
+
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        React
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>import '@monochrome-edge/ui/styles.css';
+
+function MyComponent() {
+  return (
+    &lt;div&gt;
+      &lt;h1 className="text-h1"&gt;Main Heading&lt;/h1&gt;
+      &lt;h2 className="text-h2"&gt;Subheading&lt;/h2&gt;
+      &lt;p className="text-body"&gt;Body text content&lt;/p&gt;
+      &lt;p className="text-body-small text-muted"&gt;Secondary text&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Vue.js
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;template&gt;
+  &lt;div&gt;
+    &lt;h1 class="text-h1"&gt;Main Heading&lt;/h1&gt;
+    &lt;h2 class="text-h2"&gt;Subheading&lt;/h2&gt;
+    &lt;p class="text-body"&gt;Body text content&lt;/p&gt;
+    &lt;p class="text-body-small text-muted"&gt;Secondary text&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import '@monochrome-edge/ui/styles.css';
+&lt;/script&gt;</code></pre>
+
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Web Components
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;link rel="stylesheet" href="@monochrome-edge/ui/styles.css"&gt;
+
+&lt;my-component&gt;
+  &lt;h1 class="text-h1"&gt;Main Heading&lt;/h1&gt;
+  &lt;h2 class="text-h2"&gt;Subheading&lt;/h2&gt;
+  &lt;p class="text-body"&gt;Body text content&lt;/p&gt;
+  &lt;p class="text-body-small text-muted"&gt;Secondary text&lt;/p&gt;
+&lt;/my-component&gt;</code></pre>
+
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        jQuery
+                                    </h4>
+                                    <pre><code>// Add typography classes dynamically
+$('&lt;h1&gt;').addClass('text-h1').text('Main Heading').appendTo('#container');
+$('&lt;h2&gt;').addClass('text-h2').text('Subheading').appendTo('#container');
+$('&lt;p&gt;').addClass('text-body').text('Body text content').appendTo('#container');
+$('&lt;p&gt;').addClass('text-body-small text-muted').text('Secondary text').appendTo('#container');</code></pre>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -2638,137 +2726,6 @@ renderAllMath({
 // HTML:
 // &lt;span class="math-inline"&gt;E = mc^2&lt;/span&gt;
 // &lt;div class="math-display"&gt;\int_0^1 x^2 dx&lt;/div&gt;</code></pre>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Using Typography in Frameworks -->
-                    <div class="component-showcase">
-                        <div class="component-header">
-                            <h3 class="component-title">
-                                Using Typography in Frameworks
-                            </h3>
-                            <div class="component-toggle">
-                                <button
-                                    class="toggle-btn active"
-                                    data-target="typography-frameworks"
-                                >
-                                    Preview
-                                </button>
-                                <button
-                                    class="toggle-btn"
-                                    data-target="typography-frameworks"
-                                >
-                                    Code
-                                </button>
-                            </div>
-                        </div>
-                        <div
-                            class="component-content"
-                            id="typography-frameworks"
-                        >
-                            <div class="component-preview">
-                                <p style="color: var(--theme-text-secondary)">
-                                    See code examples for using typography
-                                    classes in different frameworks
-                                </p>
-                            </div>
-                            <div class="component-code">
-                                <div style="padding: 2rem">
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        HTML/CSS
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>&lt;h1 class="text-h1"&gt;Main Heading&lt;/h1&gt;
-&lt;h2 class="text-h2"&gt;Subheading&lt;/h2&gt;
-&lt;p class="text-body"&gt;Body text content&lt;/p&gt;
-&lt;p class="text-body-small text-muted"&gt;Secondary text&lt;/p&gt;</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        React
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>import '@monochrome-edge/ui/styles.css';
-
-function MyComponent() {
-  return (
-    &lt;div&gt;
-      &lt;h1 className="text-h1"&gt;Main Heading&lt;/h1&gt;
-      &lt;h2 className="text-h2"&gt;Subheading&lt;/h2&gt;
-      &lt;p className="text-body"&gt;Body text content&lt;/p&gt;
-      &lt;p className="text-body-small text-muted"&gt;Secondary text&lt;/p&gt;
-    &lt;/div&gt;
-  );
-}</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        Vue.js
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>&lt;template&gt;
-  &lt;div&gt;
-    &lt;h1 class="text-h1"&gt;Main Heading&lt;/h1&gt;
-    &lt;h2 class="text-h2"&gt;Subheading&lt;/h2&gt;
-    &lt;p class="text-body"&gt;Body text content&lt;/p&gt;
-    &lt;p class="text-body-small text-muted"&gt;Secondary text&lt;/p&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
-
-&lt;script setup&gt;
-import '@monochrome-edge/ui/styles.css';
-&lt;/script&gt;</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        Web Components
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>&lt;link rel="stylesheet" href="@monochrome-edge/ui/styles.css"&gt;
-
-&lt;my-component&gt;
-  &lt;h1 class="text-h1"&gt;Main Heading&lt;/h1&gt;
-  &lt;h2 class="text-h2"&gt;Subheading&lt;/h2&gt;
-  &lt;p class="text-body"&gt;Body text content&lt;/p&gt;
-  &lt;p class="text-body-small text-muted"&gt;Secondary text&lt;/p&gt;
-&lt;/my-component&gt;</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        jQuery
-                                    </h4>
-                                    <pre><code>// Add typography classes dynamically
-$('&lt;h1&gt;').addClass('text-h1').text('Main Heading').appendTo('#container');
-$('&lt;h2&gt;').addClass('text-h2').text('Subheading').appendTo('#container');
-$('&lt;p&gt;').addClass('text-body').text('Body text content').appendTo('#container');
-$('&lt;p&gt;').addClass('text-body-small text-muted').text('Secondary text').appendTo('#container');</code></pre>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -3553,7 +3510,22 @@ $('&lt;p&gt;').addClass('text-body-small text-muted').text('Secondary text').app
                                 </div>
                             </div>
                             <div class="component-code">
-                                <pre><code class="language-html">&lt;div class="toc-collapsible is-open"&gt;
+                                <div style="padding: 2rem">
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            font-size: 0.875rem;
+                                            font-weight: 600;
+                                            color: var(--theme-text-secondary);
+                                            text-transform: uppercase;
+                                            letter-spacing: 0.05em;
+                                        "
+                                    >
+                                        HTML/CSS
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;div class="toc-collapsible is-open"&gt;
     &lt;div class="toc-collapsible-header"&gt;
         &lt;h4 class="toc-collapsible-title"&gt;Table of Contents&lt;/h4&gt;
         &lt;span class="toc-collapsible-icon"&gt;▼&lt;/span&gt;
@@ -3576,42 +3548,15 @@ $('.toc-collapsible-header').on('click', function() {
     $(this).parent().toggleClass('is-open');
 });
 &lt;/script&gt;</code></pre>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Framework Usage -->
-                    <div class="component-showcase">
-                        <div class="component-header">
-                            <h3 class="component-title">Framework Usage</h3>
-                            <div class="component-toggle">
-                                <button
-                                    class="toggle-btn active"
-                                    data-target="toc-framework"
-                                >
-                                    Preview
-                                </button>
-                                <button
-                                    class="toggle-btn"
-                                    data-target="toc-framework"
-                                >
-                                    Code
-                                </button>
-                            </div>
-                        </div>
-                        <div class="component-content" id="toc-framework">
-                            <div class="component-preview">
-                                <p style="color: var(--theme-text-secondary)">
-                                    See code examples for using TOC in different
-                                    frameworks
-                                </p>
-                            </div>
-                            <div class="component-code">
-                                <div style="padding: 2rem">
                                     <h4
                                         style="
                                             margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
+                                            font-size: 0.875rem;
+                                            font-weight: 600;
+                                            color: var(--theme-text-secondary);
+                                            text-transform: uppercase;
+                                            letter-spacing: 0.05em;
                                         "
                                     >
                                         React
@@ -3638,7 +3583,11 @@ const tocItems = [
                                     <h4
                                         style="
                                             margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
+                                            font-size: 0.875rem;
+                                            font-weight: 600;
+                                            color: var(--theme-text-secondary);
+                                            text-transform: uppercase;
+                                            letter-spacing: 0.05em;
                                         "
                                     >
                                         Vue.js
@@ -3673,7 +3622,11 @@ const handleItemClick = (item) => {
                                     <h4
                                         style="
                                             margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
+                                            font-size: 0.875rem;
+                                            font-weight: 600;
+                                            color: var(--theme-text-secondary);
+                                            text-transform: uppercase;
+                                            letter-spacing: 0.05em;
                                         "
                                     >
                                         Web Components
@@ -3701,7 +3654,11 @@ toc.addEventListener('item-click', (e) => {
                                     <h4
                                         style="
                                             margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
+                                            font-size: 0.875rem;
+                                            font-weight: 600;
+                                            color: var(--theme-text-secondary);
+                                            text-transform: uppercase;
+                                            letter-spacing: 0.05em;
                                         "
                                     >
                                         jQuery
@@ -4431,37 +4388,6 @@ $('#tree-container').treeView('collapseAll');</code></pre>
         &lt;button class="tab"&gt;Preview&lt;/button&gt;
     &lt;/div&gt;
 &lt;/div&gt;</code></pre>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Framework Examples -->
-                    <div class="component-showcase">
-                        <div class="component-header">
-                            <h3 class="component-title">Framework Usage</h3>
-                            <div class="component-toggle">
-                                <button
-                                    class="toggle-btn active"
-                                    data-target="tabs-framework"
-                                >
-                                    Preview
-                                </button>
-                                <button
-                                    class="toggle-btn"
-                                    data-target="tabs-framework"
-                                >
-                                    Code
-                                </button>
-                            </div>
-                        </div>
-                        <div class="component-content" id="tabs-framework">
-                            <div class="component-preview">
-                                <p style="color: var(--theme-text-secondary)">
-                                    See code examples below for React, Vue, Web
-                                    Components, and jQuery implementations.
-                                </p>
-                            </div>
-                            <div class="component-code">
                                 <div
                                     style="
                                         padding: 2rem;
@@ -4651,46 +4577,77 @@ const handleChange = (tabId) => {
                                 <button class="btn btn-danger">Danger</button>
                             </div>
                             <div class="component-code">
-                                <div style="padding: 2rem">
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        HTML/CSS
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>&lt;button class="btn btn-primary"&gt;Primary&lt;/button&gt;
+                                <div
+                                    style="
+                                        padding: 2rem;
+                                        display: grid;
+                                        grid-template-columns: repeat(
+                                            auto-fit,
+                                            minmax(300px, 1fr)
+                                        );
+                                        gap: 2rem;
+                                    "
+                                >
+                                    <div>
+                                        <h4
+                                            style="
+                                                margin-bottom: 1rem;
+                                                font-size: 0.875rem;
+                                                font-weight: 600;
+                                                color: var(
+                                                    --theme-text-secondary
+                                                );
+                                                text-transform: uppercase;
+                                                letter-spacing: 0.05em;
+                                            "
+                                        >
+                                            HTML/CSS
+                                        </h4>
+                                        <pre
+                                            style="margin-bottom: 2rem"
+                                        ><code>&lt;button class="btn btn-primary"&gt;Primary&lt;/button&gt;
 &lt;button class="btn btn-secondary"&gt;Secondary&lt;/button&gt;</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        React
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>import { Button } from '@monochrome-edge/ui/react';
+                                    </div>
+                                    <div>
+                                        <h4
+                                            style="
+                                                margin-bottom: 1rem;
+                                                font-size: 0.875rem;
+                                                font-weight: 600;
+                                                color: var(
+                                                    --theme-text-secondary
+                                                );
+                                                text-transform: uppercase;
+                                                letter-spacing: 0.05em;
+                                            "
+                                        >
+                                            React
+                                        </h4>
+                                        <pre
+                                            style="margin-bottom: 2rem"
+                                        ><code>import { Button } from '@monochrome-edge/ui/react';
 
 &lt;Button variant="primary"&gt;Primary&lt;/Button&gt;
 &lt;Button variant="secondary"&gt;Secondary&lt;/Button&gt;</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        Vue.js
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>&lt;template&gt;
+                                    </div>
+                                    <div>
+                                        <h4
+                                            style="
+                                                margin-bottom: 1rem;
+                                                font-size: 0.875rem;
+                                                font-weight: 600;
+                                                color: var(
+                                                    --theme-text-secondary
+                                                );
+                                                text-transform: uppercase;
+                                                letter-spacing: 0.05em;
+                                            "
+                                        >
+                                            Vue.js
+                                        </h4>
+                                        <pre
+                                            style="margin-bottom: 2rem"
+                                        ><code>&lt;template&gt;
   &lt;Button variant="primary"&gt;Primary&lt;/Button&gt;
   &lt;Button variant="secondary"&gt;Secondary&lt;/Button&gt;
 &lt;/template&gt;
@@ -4698,51 +4655,73 @@ const handleChange = (tabId) => {
 &lt;script setup&gt;
 import { Button } from '@monochrome-edge/ui/vue';
 &lt;/script&gt;</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        Web Components
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>&lt;mono-button variant="primary"&gt;Primary&lt;/mono-button&gt;
+                                    </div>
+                                    <div>
+                                        <h4
+                                            style="
+                                                margin-bottom: 1rem;
+                                                font-size: 0.875rem;
+                                                font-weight: 600;
+                                                color: var(
+                                                    --theme-text-secondary
+                                                );
+                                                text-transform: uppercase;
+                                                letter-spacing: 0.05em;
+                                            "
+                                        >
+                                            Web Components
+                                        </h4>
+                                        <pre
+                                            style="margin-bottom: 2rem"
+                                        ><code>&lt;mono-button variant="primary"&gt;Primary&lt;/mono-button&gt;
 &lt;mono-button variant="secondary"&gt;Secondary&lt;/mono-button&gt;
 
 &lt;script type="module"&gt;
   import '@monochrome-edge/ui/wc';
 &lt;/script&gt;</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        jQuery
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>$('&lt;button&gt;').addClass('btn btn-primary').text('Primary').appendTo('#app');
+                                    </div>
+                                    <div>
+                                        <h4
+                                            style="
+                                                margin-bottom: 1rem;
+                                                font-size: 0.875rem;
+                                                font-weight: 600;
+                                                color: var(
+                                                    --theme-text-secondary
+                                                );
+                                                text-transform: uppercase;
+                                                letter-spacing: 0.05em;
+                                            "
+                                        >
+                                            jQuery
+                                        </h4>
+                                        <pre
+                                            style="margin-bottom: 2rem"
+                                        ><code>$('&lt;button&gt;').addClass('btn btn-primary').text('Primary').appendTo('#app');
 $('&lt;button&gt;').addClass('btn btn-secondary').text('Secondary').appendTo('#app');</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        Vanilla JavaScript
-                                    </h4>
-                                    <pre><code>import { createButton } from '@monochrome-edge/ui';
+                                    </div>
+                                    <div>
+                                        <h4
+                                            style="
+                                                margin-bottom: 1rem;
+                                                font-size: 0.875rem;
+                                                font-weight: 600;
+                                                color: var(
+                                                    --theme-text-secondary
+                                                );
+                                                text-transform: uppercase;
+                                                letter-spacing: 0.05em;
+                                            "
+                                        >
+                                            Vanilla JavaScript
+                                        </h4>
+                                        <pre><code>import { createButton } from '@monochrome-edge/ui';
 
 const btn1 = createButton('Primary', { variant: 'primary' });
 const btn2 = createButton('Secondary', { variant: 'secondary' });
 document.body.appendChild(btn1);
 document.body.appendChild(btn2);</code></pre>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -4777,59 +4756,158 @@ document.body.appendChild(btn2);</code></pre>
                                 </button>
                             </div>
                             <div class="component-code">
-                                <div style="padding: 2rem">
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        HTML/CSS
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>&lt;button class="btn btn-primary btn-small"&gt;Small&lt;/button&gt;
+                                <div
+                                    style="
+                                        padding: 2rem;
+                                        display: grid;
+                                        grid-template-columns: repeat(
+                                            auto-fit,
+                                            minmax(300px, 1fr)
+                                        );
+                                        gap: 2rem;
+                                    "
+                                >
+                                    <div>
+                                        <h4
+                                            style="
+                                                margin-bottom: 1rem;
+                                                font-size: 0.875rem;
+                                                font-weight: 600;
+                                                color: var(
+                                                    --theme-text-secondary
+                                                );
+                                                text-transform: uppercase;
+                                                letter-spacing: 0.05em;
+                                            "
+                                        >
+                                            HTML/CSS
+                                        </h4>
+                                        <pre
+                                            style="margin-bottom: 2rem"
+                                        ><code>&lt;button class="btn btn-primary btn-small"&gt;Small&lt;/button&gt;
 &lt;button class="btn btn-primary"&gt;Default&lt;/button&gt;
 &lt;button class="btn btn-primary btn-large"&gt;Large&lt;/button&gt;</code></pre>
+                                    </div>
+                                    <div>
+                                        <h4
+                                            style="
+                                                margin-bottom: 1rem;
+                                                font-size: 0.875rem;
+                                                font-weight: 600;
+                                                color: var(
+                                                    --theme-text-secondary
+                                                );
+                                                text-transform: uppercase;
+                                                letter-spacing: 0.05em;
+                                            "
+                                        >
+                                            React
+                                        </h4>
+                                        <pre
+                                            style="margin-bottom: 2rem"
+                                        ><code>import { Button } from '@monochrome-edge/ui/react';
 
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        React
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>&lt;Button size="small"&gt;Small&lt;/Button&gt;
+&lt;Button size="small"&gt;Small&lt;/Button&gt;
 &lt;Button&gt;Default&lt;/Button&gt;
 &lt;Button size="large"&gt;Large&lt;/Button&gt;</code></pre>
+                                    </div>
+                                    <div>
+                                        <h4
+                                            style="
+                                                margin-bottom: 1rem;
+                                                font-size: 0.875rem;
+                                                font-weight: 600;
+                                                color: var(
+                                                    --theme-text-secondary
+                                                );
+                                                text-transform: uppercase;
+                                                letter-spacing: 0.05em;
+                                            "
+                                        >
+                                            Vue.js
+                                        </h4>
+                                        <pre
+                                            style="margin-bottom: 2rem"
+                                        ><code>&lt;template&gt;
+  &lt;Button size="small"&gt;Small&lt;/Button&gt;
+  &lt;Button&gt;Default&lt;/Button&gt;
+  &lt;Button size="large"&gt;Large&lt;/Button&gt;
+&lt;/template&gt;
 
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        Vue.js
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>&lt;Button :size="'small'"&gt;Small&lt;/Button&gt;
-&lt;Button&gt;Default&lt;/Button&gt;
-&lt;Button :size="'large'"&gt;Large&lt;/Button&gt;</code></pre>
+&lt;script setup&gt;
+import { Button } from '@monochrome-edge/ui/vue';
+&lt;/script&gt;</code></pre>
+                                    </div>
+                                    <div>
+                                        <h4
+                                            style="
+                                                margin-bottom: 1rem;
+                                                font-size: 0.875rem;
+                                                font-weight: 600;
+                                                color: var(
+                                                    --theme-text-secondary
+                                                );
+                                                text-transform: uppercase;
+                                                letter-spacing: 0.05em;
+                                            "
+                                        >
+                                            Web Components
+                                        </h4>
+                                        <pre
+                                            style="margin-bottom: 2rem"
+                                        ><code>&lt;mono-button size="small"&gt;Small&lt;/mono-button&gt;
+&lt;mono-button&gt;Default&lt;/mono-button&gt;
+&lt;mono-button size="large"&gt;Large&lt;/mono-button&gt;
 
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        jQuery
-                                    </h4>
-                                    <pre><code>$('.btn').addClass('btn-small');
-$('.btn').addClass('btn-large');</code></pre>
+&lt;script type="module"&gt;
+  import '@monochrome-edge/ui/wc';
+&lt;/script&gt;</code></pre>
+                                    </div>
+                                    <div>
+                                        <h4
+                                            style="
+                                                margin-bottom: 1rem;
+                                                font-size: 0.875rem;
+                                                font-weight: 600;
+                                                color: var(
+                                                    --theme-text-secondary
+                                                );
+                                                text-transform: uppercase;
+                                                letter-spacing: 0.05em;
+                                            "
+                                        >
+                                            jQuery
+                                        </h4>
+                                        <pre
+                                            style="margin-bottom: 2rem"
+                                        ><code>$('&lt;button&gt;').addClass('btn btn-primary btn-small').text('Small').appendTo('#app');
+$('&lt;button&gt;').addClass('btn btn-primary').text('Default').appendTo('#app');
+$('&lt;button&gt;').addClass('btn btn-primary btn-large').text('Large').appendTo('#app');</code></pre>
+                                    </div>
+                                    <div>
+                                        <h4
+                                            style="
+                                                margin-bottom: 1rem;
+                                                font-size: 0.875rem;
+                                                font-weight: 600;
+                                                color: var(
+                                                    --theme-text-secondary
+                                                );
+                                                text-transform: uppercase;
+                                                letter-spacing: 0.05em;
+                                            "
+                                        >
+                                            Vanilla JavaScript
+                                        </h4>
+                                        <pre><code>import { createButton } from '@monochrome-edge/ui';
+
+const btnSmall = createButton('Small', { variant: 'primary', size: 'small' });
+const btnDefault = createButton('Default', { variant: 'primary' });
+const btnLarge = createButton('Large', { variant: 'primary', size: 'large' });
+document.body.appendChild(btnSmall);
+document.body.appendChild(btnDefault);
+document.body.appendChild(btnLarge);</code></pre>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -5396,10 +5474,46 @@ const btn4 = createIconButton({ icon: 'sun', variant: 'outline' });</code></pre>
                                     >
                                         jQuery
                                     </h4>
-                                    <pre><code>$.createIconButton({ icon: 'sun', size: 'sm' });
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>$.createIconButton({ icon: 'sun', size: 'sm' });
 $.createIconButton({ icon: 'sun', size: 'md' });
 $.createIconButton({ icon: 'sun', size: 'lg' });
 $.createIconButton({ icon: 'sun', size: 'xl' });</code></pre>
+
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Web Components
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;monochrome-icon-button icon="sun" size="sm"&gt;&lt;/monochrome-icon-button&gt;
+&lt;monochrome-icon-button icon="sun" size="md"&gt;&lt;/monochrome-icon-button&gt;
+&lt;monochrome-icon-button icon="sun" size="lg"&gt;&lt;/monochrome-icon-button&gt;
+&lt;monochrome-icon-button icon="sun" size="xl"&gt;&lt;/monochrome-icon-button&gt;
+
+&lt;script type="module"&gt;
+  import '@monochrome-edge/web-components';
+&lt;/script&gt;</code></pre>
+
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Vanilla JavaScript
+                                    </h4>
+                                    <pre><code>import { createIconButton } from '@monochrome-edge/vanilla-ts';
+
+const btnSm = createIconButton({ icon: 'sun', size: 'sm' });
+const btnMd = createIconButton({ icon: 'sun', size: 'md' });
+const btnLg = createIconButton({ icon: 'sun', size: 'lg' });
+const btnXl = createIconButton({ icon: 'sun', size: 'xl' });</code></pre>
                                 </div>
                             </div>
                         </div>
@@ -6709,46 +6823,178 @@ $('#container').append($card);</code></pre>
                                 </header>
                             </div>
                             <div class="component-code">
-                                <pre><code class="language-markup">&lt;header class="main-header"&gt;
+                                <div style="padding: 2rem">
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            font-size: 0.875rem;
+                                            font-weight: 600;
+                                            color: var(--theme-text-secondary);
+                                            text-transform: uppercase;
+                                            letter-spacing: 0.05em;
+                                        "
+                                    >
+                                        HTML/CSS
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code class="language-markup">&lt;header class="main-header"&gt;
     &lt;div class="header-container"&gt;
-        &lt;!-- Brand Logo --&gt;
         &lt;div class="header-logo"&gt;
-            &lt;img src="logo-symbol.svg" alt="Logo" width="32" height="32"&gt;
+            &lt;img src="logo.svg" alt="Logo" width="32" height="32"&gt;
             &lt;span class="header-title"&gt;MONOCHROME EDGE&lt;/span&gt;
         &lt;/div&gt;
-
-        &lt;!-- Navigation --&gt;
         &lt;nav class="header-nav"&gt;
             &lt;a href="#" class="header-nav-item"&gt;Overview&lt;/a&gt;
             &lt;a href="#" class="header-nav-item"&gt;Components&lt;/a&gt;
             &lt;a href="#" class="header-nav-item"&gt;Examples&lt;/a&gt;
             &lt;a href="#" class="header-nav-item"&gt;GitHub&lt;/a&gt;
         &lt;/nav&gt;
-
-        &lt;!-- Theme and Mode Controls --&gt;
         &lt;div class="header-controls"&gt;
-            &lt;!-- Theme Switcher --&gt;
-            &lt;div class="icon-btn-group"&gt;
-                &lt;button class="icon-btn theme-btn active" data-theme="warm"&gt;
-                    &lt;svg&gt;...flame icon...&lt;/svg&gt;
-                &lt;/button&gt;
-                &lt;button class="icon-btn theme-btn" data-theme="cold"&gt;
-                    &lt;svg&gt;...snowflake icon...&lt;/svg&gt;
-                &lt;/button&gt;
-            &lt;/div&gt;
-
-            &lt;!-- Mode Switcher --&gt;
-            &lt;div class="icon-btn-group"&gt;
-                &lt;button class="icon-btn mode-btn active" data-mode="light"&gt;
-                    &lt;svg&gt;...sun icon...&lt;/svg&gt;
-                &lt;/button&gt;
-                &lt;button class="icon-btn mode-btn" data-mode="dark"&gt;
-                    &lt;svg&gt;...moon icon...&lt;/svg&gt;
-                &lt;/button&gt;
-            &lt;/div&gt;
+            &lt;button class="icon-btn theme-btn"&gt;...&lt;/button&gt;
+            &lt;button class="icon-btn mode-btn"&gt;...&lt;/button&gt;
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/header&gt;</code></pre>
+
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            font-size: 0.875rem;
+                                            font-weight: 600;
+                                            color: var(--theme-text-secondary);
+                                            text-transform: uppercase;
+                                            letter-spacing: 0.05em;
+                                        "
+                                    >
+                                        React
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code class="language-jsx">import { Header, HeaderNav, IconButton } from '@monochrome-edge/react';
+
+function App() {
+  const [theme, setTheme] = useState('warm');
+  const [mode, setMode] = useState('light');
+
+  return (
+    &lt;Header
+      logo={&lt;img src="logo.svg" alt="Logo" /&gt;}
+      title="MONOCHROME EDGE"
+    &gt;
+      &lt;HeaderNav
+        items={[
+          { label: 'Overview', href: '#overview' },
+          { label: 'Components', href: '#components' },
+          { label: 'Examples', href: '#examples' },
+          { label: 'GitHub', href: '#github' }
+        ]}
+      /&gt;
+      &lt;IconButton
+        icon={theme === 'warm' ? 'flame' : 'snowflake'}
+        onClick={() => setTheme(theme === 'warm' ? 'cold' : 'warm')}
+      /&gt;
+      &lt;IconButton
+        icon={mode === 'light' ? 'sun' : 'moon'}
+        onClick={() => setMode(mode === 'light' ? 'dark' : 'light')}
+      /&gt;
+    &lt;/Header&gt;
+  );
+}</code></pre>
+
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            font-size: 0.875rem;
+                                            font-weight: 600;
+                                            color: var(--theme-text-secondary);
+                                            text-transform: uppercase;
+                                            letter-spacing: 0.05em;
+                                        "
+                                    >
+                                        Vue.js
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code class="language-vue">&lt;template&gt;
+  &lt;Header :logo="logoSrc" title="MONOCHROME EDGE"&gt;
+    &lt;HeaderNav :items="navItems" /&gt;
+    &lt;IconButton
+      :icon="theme === 'warm' ? 'flame' : 'snowflake'"
+      @click="toggleTheme"
+    /&gt;
+    &lt;IconButton
+      :icon="mode === 'light' ? 'sun' : 'moon'"
+      @click="toggleMode"
+    /&gt;
+  &lt;/Header&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { ref } from 'vue';
+import { Header, HeaderNav, IconButton } from '@monochrome-edge/vue';
+
+const theme = ref('warm');
+const mode = ref('light');
+const navItems = [
+  { label: 'Overview', href: '#overview' },
+  { label: 'Components', href: '#components' },
+  { label: 'Examples', href: '#examples' },
+  { label: 'GitHub', href: '#github' }
+];
+
+const toggleTheme = () => {
+  theme.value = theme.value === 'warm' ? 'cold' : 'warm';
+};
+
+const toggleMode = () => {
+  mode.value = mode.value === 'light' ? 'dark' : 'light';
+};
+&lt;/script&gt;</code></pre>
+
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            font-size: 0.875rem;
+                                            font-weight: 600;
+                                            color: var(--theme-text-secondary);
+                                            text-transform: uppercase;
+                                            letter-spacing: 0.05em;
+                                        "
+                                    >
+                                        jQuery
+                                    </h4>
+                                    <pre><code class="language-javascript">// Build header navigation with jQuery
+const $header = $('&lt;header&gt;').addClass('main-header');
+const $container = $('&lt;div&gt;').addClass('header-container');
+
+// Logo
+const $logo = $('&lt;div&gt;').addClass('header-logo');
+$logo.append($('&lt;img&gt;').attr({ src: 'logo.svg', width: 32, height: 32 }));
+$logo.append($('&lt;span&gt;').addClass('header-title').text('MONOCHROME EDGE'));
+
+// Navigation
+const $nav = $('&lt;nav&gt;').addClass('header-nav');
+['Overview', 'Components', 'Examples', 'GitHub'].forEach(item =&gt; {
+  $nav.append(
+    $('&lt;a&gt;')
+      .addClass('header-nav-item')
+      .attr('href', '#' + item.toLowerCase())
+      .text(item)
+  );
+});
+
+// Controls
+const $controls = $('&lt;div&gt;').addClass('header-controls');
+const $themeBtn = $('&lt;button&gt;').addClass('icon-btn theme-btn');
+const $modeBtn = $('&lt;button&gt;').addClass('icon-btn mode-btn');
+
+$controls.append($themeBtn, $modeBtn);
+$container.append($logo, $nav, $controls);
+$header.append($container);
+
+$('body').prepend($header);</code></pre>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -7468,7 +7714,9 @@ const data = [
                                     >
                                         jQuery
                                     </h4>
-                                    <pre><code>// Add row dynamically
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>// Add row dynamically
 $('#addRow').on('click', function() {
     const newRow = `
         &lt;tr&gt;
@@ -7485,6 +7733,41 @@ $('#addRow').on('click', function() {
 $('th').on('click', function() {
     // Sorting logic here
 });</code></pre>
+
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Web Components
+                                    </h4>
+                                    <pre><code>&lt;mono-table&gt;
+    &lt;mono-table-header&gt;
+        &lt;mono-table-row&gt;
+            &lt;mono-table-header-cell&gt;Name&lt;/mono-table-header-cell&gt;
+            &lt;mono-table-header-cell&gt;Status&lt;/mono-table-header-cell&gt;
+            &lt;mono-table-header-cell&gt;Role&lt;/mono-table-header-cell&gt;
+            &lt;mono-table-header-cell&gt;Actions&lt;/mono-table-header-cell&gt;
+        &lt;/mono-table-row&gt;
+    &lt;/mono-table-header&gt;
+    &lt;mono-table-body&gt;
+        &lt;mono-table-row&gt;
+            &lt;mono-table-cell&gt;John Doe&lt;/mono-table-cell&gt;
+            &lt;mono-table-cell&gt;
+                &lt;mono-badge variant="success"&gt;Active&lt;/mono-badge&gt;
+            &lt;/mono-table-cell&gt;
+            &lt;mono-table-cell&gt;Admin&lt;/mono-table-cell&gt;
+            &lt;mono-table-cell&gt;
+                &lt;mono-button variant="ghost" size="small"&gt;Edit&lt;/mono-button&gt;
+            &lt;/mono-table-cell&gt;
+        &lt;/mono-table-row&gt;
+    &lt;/mono-table-body&gt;
+&lt;/mono-table&gt;
+
+&lt;script type="module"&gt;
+  import '@monochrome-edge/web-components';
+&lt;/script&gt;</code></pre>
                                 </div>
                             </div>
                         </div>
@@ -8475,48 +8758,22 @@ $('th').on('click', function() {
                                         href="blog-demo.html"
                                         class="btn btn-primary"
                                         target="_blank"
+                                        style="
+                                            margin-bottom: 2rem;
+                                            display: inline-block;
+                                        "
                                     >
                                         View Full Demo →
                                     </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Using Layouts in Frameworks -->
-                    <div class="component-showcase">
-                        <div class="component-header">
-                            <h3 class="component-title">
-                                Using Layout Classes in Frameworks
-                            </h3>
-                            <div class="component-toggle">
-                                <button
-                                    class="toggle-btn active"
-                                    data-target="layouts-frameworks"
-                                >
-                                    Preview
-                                </button>
-                                <button
-                                    class="toggle-btn"
-                                    data-target="layouts-frameworks"
-                                >
-                                    Code
-                                </button>
-                            </div>
-                        </div>
-                        <div class="component-content" id="layouts-frameworks">
-                            <div class="component-preview">
-                                <p style="color: var(--theme-text-secondary)">
-                                    See code examples for using layout utility
-                                    classes in different frameworks
-                                </p>
-                            </div>
-                            <div class="component-code">
-                                <div style="padding: 2rem">
                                     <h4
                                         style="
                                             margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
+                                            font-size: 0.875rem;
+                                            font-weight: 600;
+                                            color: var(--theme-text-secondary);
+                                            text-transform: uppercase;
+                                            letter-spacing: 0.05em;
                                         "
                                     >
                                         HTML/CSS
@@ -8538,7 +8795,11 @@ $('th').on('click', function() {
                                     <h4
                                         style="
                                             margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
+                                            font-size: 0.875rem;
+                                            font-weight: 600;
+                                            color: var(--theme-text-secondary);
+                                            text-transform: uppercase;
+                                            letter-spacing: 0.05em;
                                         "
                                     >
                                         React
@@ -8569,7 +8830,11 @@ function DynamicSpacing() {
                                     <h4
                                         style="
                                             margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
+                                            font-size: 0.875rem;
+                                            font-weight: 600;
+                                            color: var(--theme-text-secondary);
+                                            text-transform: uppercase;
+                                            letter-spacing: 0.05em;
                                         "
                                     >
                                         Vue.js
@@ -8596,7 +8861,11 @@ import '@monochrome-edge/ui/styles.css';
                                     <h4
                                         style="
                                             margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
+                                            font-size: 0.875rem;
+                                            font-weight: 600;
+                                            color: var(--theme-text-secondary);
+                                            text-transform: uppercase;
+                                            letter-spacing: 0.05em;
                                         "
                                     >
                                         Web Components
@@ -8625,22 +8894,22 @@ class MyLayout extends HTMLElement {
                                     <h4
                                         style="
                                             margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
+                                            font-size: 0.875rem;
+                                            font-weight: 600;
+                                            color: var(--theme-text-secondary);
+                                            text-transform: uppercase;
+                                            letter-spacing: 0.05em;
                                         "
                                     >
                                         jQuery
                                     </h4>
-                                    <pre><code>// Create grid layout dynamically
-const $grid = $('&lt;div&gt;').addClass('demo-grid');
+                                    <pre><code>// Create grid layout
+$('&lt;div&gt;').addClass('demo-grid').appendTo('#container');
 
+// Add cards
 for (let i = 1; i &lt;= 3; i++) {
-  $('&lt;div&gt;')
-    .addClass('card')
-    .text(`Card ${i}`)
-    .appendTo($grid);
+  $('&lt;div&gt;').addClass('card').text(`Card ${i}`).appendTo('.demo-grid');
 }
-
-$grid.appendTo('#container');
 
 // Apply spacing using CSS variables
 $('#myElement').css({
@@ -8882,7 +9151,29 @@ $('#myElement').css({
                                 </div>
                             </div>
                             <div class="component-code">
-                                <pre><code class="language-markup">&lt;div class="accordion"&gt;
+                                <div
+                                    style="
+                                        padding: 2rem;
+                                        display: grid;
+                                        gap: 2rem;
+                                    "
+                                >
+                                    <div>
+                                        <h4
+                                            style="
+                                                margin-bottom: 1rem;
+                                                font-size: 0.875rem;
+                                                font-weight: 600;
+                                                color: var(
+                                                    --theme-text-secondary
+                                                );
+                                                text-transform: uppercase;
+                                                letter-spacing: 0.05em;
+                                            "
+                                        >
+                                            HTML/CSS
+                                        </h4>
+                                        <pre><code class="language-markup">&lt;div class="accordion"&gt;
     &lt;div class="accordion-item"&gt;
         &lt;div class="accordion-header"&gt;
             &lt;button class="accordion-button"&gt;
@@ -8907,44 +9198,7 @@ $('.accordion-button').on('click', function() {
         .toggleClass('show');
 });
 &lt;/script&gt;</code></pre>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Framework Examples -->
-                    <div class="component-showcase">
-                        <div class="component-header">
-                            <h3 class="component-title">Framework Usage</h3>
-                            <div class="component-toggle">
-                                <button
-                                    class="toggle-btn active"
-                                    data-target="accordion-framework"
-                                >
-                                    Preview
-                                </button>
-                                <button
-                                    class="toggle-btn"
-                                    data-target="accordion-framework"
-                                >
-                                    Code
-                                </button>
-                            </div>
-                        </div>
-                        <div class="component-content" id="accordion-framework">
-                            <div class="component-preview">
-                                <p style="color: var(--theme-text-secondary)">
-                                    See framework-specific implementations
-                                    below.
-                                </p>
-                            </div>
-                            <div class="component-code">
-                                <div
-                                    style="
-                                        padding: 2rem;
-                                        display: grid;
-                                        gap: 2rem;
-                                    "
-                                >
+                                    </div>
                                     <div>
                                         <h4
                                             style="
