@@ -291,6 +291,7 @@ export class CanvasRenderer {
       if (e.touches.length === 1) {
         // Single touch - check for node tap or start pan
         const touch = e.touches[0];
+        if (!touch) return;
         const x = touch.clientX - rect.left;
         const y = touch.clientY - rect.top;
 
@@ -310,8 +311,11 @@ export class CanvasRenderer {
         }
       } else if (e.touches.length === 2) {
         // Two finger pinch zoom
-        const dx = e.touches[0].clientX - e.touches[1].clientX;
-        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        const touch0 = e.touches[0];
+        const touch1 = e.touches[1];
+        if (!touch0 || !touch1) return;
+        const dx = touch0.clientX - touch1.clientX;
+        const dy = touch0.clientY - touch1.clientY;
         touchStartDistance = Math.sqrt(dx * dx + dy * dy);
       }
     });
@@ -323,6 +327,7 @@ export class CanvasRenderer {
       if (e.touches.length === 1 && this.isDragging) {
         // Pan
         const touch = e.touches[0];
+        if (!touch) return;
         const x = touch.clientX - rect.left;
         const y = touch.clientY - rect.top;
         this.offsetX = x - this.dragStartX;
@@ -330,15 +335,16 @@ export class CanvasRenderer {
         this.render();
       } else if (e.touches.length === 2) {
         // Pinch zoom
-        const dx = e.touches[0].clientX - e.touches[1].clientX;
-        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        const touch0 = e.touches[0];
+        const touch1 = e.touches[1];
+        if (!touch0 || !touch1) return;
+        const dx = touch0.clientX - touch1.clientX;
+        const dy = touch0.clientY - touch1.clientY;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
         if (touchStartDistance > 0) {
-          const centerX =
-            (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left;
-          const centerY =
-            (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top;
+          const centerX = (touch0.clientX + touch1.clientX) / 2 - rect.left;
+          const centerY = (touch0.clientY + touch1.clientY) / 2 - rect.top;
 
           const zoomFactor = distance / touchStartDistance;
           const newScale = Math.max(0.1, Math.min(3, this.scale * zoomFactor));

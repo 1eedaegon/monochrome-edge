@@ -251,3 +251,159 @@
     border: 1px solid var(--theme-border);
     border-radius: calc(var(--border-radius) / 2);
 }
+
+/* Mobile-responsive search bar */
+@media (max-width: 768px) {
+    .search-bar.mobile-search {
+        position: relative;
+        width: 44px;
+        height: 44px;
+        max-width: 44px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        margin-left: auto;
+        background-color: transparent;
+        border: none;
+        border-radius: var(--border-radius);
+    }
+
+    .search-bar.mobile-search.is-expanded {
+        width: 100%;
+        max-width: 100%;
+        background-color: var(--theme-surface);
+        border: 1px solid var(--theme-border);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    [data-theme-variant="cold"] .search-bar.mobile-search.is-expanded {
+        background-color: var(--theme-bg);
+        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+    }
+
+    .search-bar-icon-btn {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 44px;
+        height: 44px;
+        padding: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--theme-surface);
+        border: 1px solid var(--theme-border);
+        border-radius: var(--border-radius);
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 10;
+        color: var(--theme-text-secondary);
+    }
+
+    .search-bar-icon-btn:hover {
+        background-color: var(--theme-bg);
+        color: var(--theme-text-primary);
+    }
+
+    .search-bar.mobile-search.is-expanded .search-bar-icon-btn {
+        right: auto;
+        left: 0;
+        top: 0;
+        transform: none;
+        width: 44px;
+        height: 44px;
+        background: transparent;
+        border: none;
+        cursor: default;
+        pointer-events: none;
+    }
+
+    .search-bar-input {
+        position: absolute;
+        right: 0;
+        width: 0;
+        height: 40px;
+        padding: 0;
+        border: none;
+        background: transparent;
+        opacity: 0;
+        pointer-events: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .search-bar.is-expanded .search-bar-input {
+        width: 100%;
+        padding: 0.5rem 2.5rem 0.5rem 2.5rem;
+        border: 1px solid var(--theme-border);
+        background-color: var(--theme-surface);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    [data-theme-variant="cold"] .search-bar.is-expanded .search-bar-input {
+        background-color: transparent;
+        padding: 0.5rem 2.5rem 0.5rem 2rem;
+    }
+
+    .search-bar-input::placeholder {
+        opacity: 0;
+    }
+
+    .search-bar.is-expanded .search-bar-input::placeholder {
+        opacity: 1;
+    }
+
+    .search-bar-icon {
+        position: absolute;
+        right: 0;
+        left: auto;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        pointer-events: auto;
+        z-index: 10;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .search-bar.is-expanded .search-bar-icon {
+        right: auto;
+        left: 0.75rem;
+        width: 18px;
+        height: 18px;
+        cursor: default;
+        pointer-events: none;
+    }
+
+    [data-theme-variant="cold"] .search-bar.is-expanded .search-bar-icon {
+        left: 0.625rem;
+    }
+
+    .search-bar-clear {
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.2s;
+    }
+
+    .search-bar.is-expanded
+        .search-bar-input:not(:placeholder-shown)
+        ~ .search-bar-clear {
+        opacity: 0.5;
+        pointer-events: auto;
+    }
+
+    .search-bar.is-expanded .search-bar-input:focus ~ .search-bar-clear,
+    .search-bar.is-expanded .search-bar-clear:hover {
+        opacity: 1;
+    }
+
+    /* Mobile autocomplete suggestions */
+    .search-bar.is-expanded .search-suggestions {
+        right: 0;
+        left: 0;
+        width: 100%;
+    }
+}

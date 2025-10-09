@@ -159,11 +159,13 @@ export class DocumentGraph {
     this.forward.forEach((targets, source) => {
       for (let i = 0; i < targets.length; i++) {
         const target = targets[i];
-        edges.push({
-          source,
-          target,
-          type: this.edgeTypes.get(`${source}-${target}`) || "default",
-        });
+        if (target !== undefined) {
+          edges.push({
+            source,
+            target,
+            type: this.edgeTypes.get(`${source}-${target}`) || "default",
+          });
+        }
       }
     });
 

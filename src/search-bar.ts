@@ -34,26 +34,29 @@ export interface SearchBarOptions {
 
 export class SearchBar {
   private container: HTMLElement;
-  private options: Required<Omit<SearchBarOptions, 'onSelect' | 'onSearch'>> & Pick<SearchBarOptions, 'onSelect' | 'onSearch'>;
-  private input: HTMLInputElement;
-  private resultsContainer: HTMLElement;
+  private options: Required<Omit<SearchBarOptions, "onSelect" | "onSearch">> &
+    Pick<SearchBarOptions, "onSelect" | "onSearch">;
+  private input!: HTMLInputElement;
+  private resultsContainer!: HTMLElement;
   private documents: SearchDocument[];
   private index: Map<string, SearchDocument> = new Map();
   private searchIndex: any; // FlexSearch index
 
   constructor(options: SearchBarOptions) {
-    this.container = typeof options.container === 'string'
-      ? document.querySelector(options.container)!
-      : options.container;
+    this.container =
+      typeof options.container === "string"
+        ? document.querySelector(options.container)!
+        : options.container;
 
     this.options = {
+      container: this.container,
       documents: options.documents,
-      placeholder: options.placeholder ?? 'Search...',
+      placeholder: options.placeholder ?? "Search...",
       maxResults: options.maxResults ?? 10,
       highlightMatches: options.highlightMatches ?? true,
       showCategories: options.showCategories ?? true,
       onSelect: options.onSelect,
-      onSearch: options.onSearch
+      onSearch: options.onSearch,
     };
 
     this.documents = options.documents;
@@ -67,7 +70,7 @@ export class SearchBar {
   private initializeIndex(): void {
     // Simple in-memory search (FlexSearch would be imported here)
     // For demo, we'll use a simple indexOf approach
-    this.documents.forEach(doc => {
+    this.documents.forEach((doc) => {
       this.index.set(doc.id, doc);
     });
   }
@@ -82,10 +85,12 @@ export class SearchBar {
     const results: Array<{ doc: SearchDocument; score: number }> = [];
 
     // Simple fuzzy search implementation
-    this.documents.forEach(doc => {
+    this.documents.forEach((doc) => {
       const titleMatch = doc.title.toLowerCase().indexOf(lowerQuery);
       const contentMatch = doc.content.toLowerCase().indexOf(lowerQuery);
-      const tagMatch = doc.tags?.some(tag => tag.toLowerCase().includes(lowerQuery));
+      const tagMatch = doc.tags?.some((tag) =>
+        tag.toLowerCase().includes(lowerQuery),
+      );
 
       let score = 0;
       if (titleMatch >= 0) score += 10 - titleMatch; // Earlier matches score higher
@@ -100,9 +105,7 @@ export class SearchBar {
     // Sort by score
     results.sort((a, b) => b.score - a.score);
 
-    return results
-      .slice(0, this.options.maxResults)
-      .map(r => r.doc);
+    return results.slice(0, this.options.maxResults).map((r) => r.doc);
   }
 
   /**
@@ -111,7 +114,7 @@ export class SearchBar {
   private highlightText(text: string, query: string): string {
     if (!this.options.highlightMatches || !query) return text;
 
-    const regex = new RegExp(`(${query})`, 'gi');
+    const regex = new RegExp(`(${query})`, "gi");
     return text.replace(regex, '<mark class="search-highlight">$1</mark>');
   }
 
@@ -119,48 +122,48 @@ export class SearchBar {
    * Render the search bar
    */
   private render(): void {
-    this.container.innerHTML = '';
-    this.container.className = 'search-bar';
+    this.container.innerHTML = "";
+    this.container.className = "search-bar";
 
     // Search input
-    const inputWrapper = document.createElement('div');
-    inputWrapper.className = 'search-bar-input-wrapper';
+    const inputWrapper = document.createElement("div");
+    inputWrapper.className = "search-bar-input-wrapper";
 
-    const searchIcon = document.createElement('span');
-    searchIcon.className = 'search-bar-icon';
-    searchIcon.innerHTML = '🔍';
+    const searchIcon = document.createElement("span");
+    searchIcon.className = "search-bar-icon";
+    searchIcon.innerHTML = "🔍";
 
-    this.input = document.createElement('input');
-    this.input.type = 'text';
-    this.input.className = 'search-bar-input';
+    this.input = document.createElement("input");
+    this.input.type = "text";
+    this.input.className = "search-bar-input";
     this.input.placeholder = this.options.placeholder;
 
-    const clearButton = document.createElement('button');
-    clearButton.className = 'search-bar-clear';
-    clearButton.innerHTML = '×';
-    clearButton.style.display = 'none';
-    clearButton.addEventListener('click', () => this.clear());
+    const clearButton = document.createElement("button");
+    clearButton.className = "search-bar-clear";
+    clearButton.innerHTML = "×";
+    clearButton.style.display = "none";
+    clearButton.addEventListener("click", () => this.clear());
 
     inputWrapper.appendChild(searchIcon);
     inputWrapper.appendChild(this.input);
     inputWrapper.appendChild(clearButton);
 
     // Results container
-    this.resultsContainer = document.createElement('div');
-    this.resultsContainer.className = 'search-bar-results';
+    this.resultsContainer = document.createElement("div");
+    this.resultsContainer.className = "search-bar-results";
 
     this.container.appendChild(inputWrapper);
     this.container.appendChild(this.resultsContainer);
 
     // Event listeners
-    this.input.addEventListener('input', (e) => {
+    this.input.addEventListener("input", (e) => {
       const query = (e.target as HTMLInputElement).value;
-      clearButton.style.display = query ? 'block' : 'none';
+      clearButton.style.display = query ? "block" : "none";
       this.handleSearch(query);
     });
 
-    this.input.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
+    this.input.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
         this.clear();
       }
     });
@@ -171,8 +174,8 @@ export class SearchBar {
    */
   private handleSearch(query: string): void {
     if (!query.trim()) {
-      this.resultsContainer.innerHTML = '';
-      this.resultsContainer.classList.remove('is-visible');
+      this.resultsContainer.innerHTML = "";
+      this.resultsContainer.classList.remove("is-visible");
       return;
     }
 
@@ -188,57 +191,57 @@ export class SearchBar {
    * Render search results
    */
   private renderResults(results: SearchDocument[], query: string): void {
-    this.resultsContainer.innerHTML = '';
+    this.resultsContainer.innerHTML = "";
 
     if (results.length === 0) {
-      const empty = document.createElement('div');
-      empty.className = 'search-bar-empty';
+      const empty = document.createElement("div");
+      empty.className = "search-bar-empty";
       empty.textContent = `No results found for "${query}"`;
       this.resultsContainer.appendChild(empty);
-      this.resultsContainer.classList.add('is-visible');
+      this.resultsContainer.classList.add("is-visible");
       return;
     }
 
-    const list = document.createElement('div');
-    list.className = 'search-bar-results-list';
+    const list = document.createElement("div");
+    list.className = "search-bar-results-list";
 
     // Group by category if enabled
     if (this.options.showCategories) {
       const grouped = this.groupByCategory(results);
 
       Object.entries(grouped).forEach(([category, docs]) => {
-        const categoryHeader = document.createElement('div');
-        categoryHeader.className = 'search-bar-category';
+        const categoryHeader = document.createElement("div");
+        categoryHeader.className = "search-bar-category";
         categoryHeader.textContent = category;
         list.appendChild(categoryHeader);
 
-        docs.forEach(doc => {
+        docs.forEach((doc) => {
           list.appendChild(this.createResultItem(doc, query));
         });
       });
     } else {
-      results.forEach(doc => {
+      results.forEach((doc) => {
         list.appendChild(this.createResultItem(doc, query));
       });
     }
 
     this.resultsContainer.appendChild(list);
-    this.resultsContainer.classList.add('is-visible');
+    this.resultsContainer.classList.add("is-visible");
   }
 
   /**
    * Create result item element
    */
   private createResultItem(doc: SearchDocument, query: string): HTMLElement {
-    const item = document.createElement('div');
-    item.className = 'search-bar-result-item';
+    const item = document.createElement("div");
+    item.className = "search-bar-result-item";
 
-    const title = document.createElement('div');
-    title.className = 'search-bar-result-title';
+    const title = document.createElement("div");
+    title.className = "search-bar-result-title";
     title.innerHTML = this.highlightText(doc.title, query);
 
-    const content = document.createElement('div');
-    content.className = 'search-bar-result-content';
+    const content = document.createElement("div");
+    content.className = "search-bar-result-content";
     const snippet = this.createSnippet(doc.content, query);
     content.innerHTML = this.highlightText(snippet, query);
 
@@ -246,18 +249,18 @@ export class SearchBar {
     item.appendChild(content);
 
     if (doc.tags && doc.tags.length > 0) {
-      const tags = document.createElement('div');
-      tags.className = 'search-bar-result-tags';
-      doc.tags.slice(0, 3).forEach(tag => {
-        const tagSpan = document.createElement('span');
-        tagSpan.className = 'search-bar-result-tag';
+      const tags = document.createElement("div");
+      tags.className = "search-bar-result-tags";
+      doc.tags.slice(0, 3).forEach((tag) => {
+        const tagSpan = document.createElement("span");
+        tagSpan.className = "search-bar-result-tag";
         tagSpan.textContent = tag;
         tags.appendChild(tagSpan);
       });
       item.appendChild(tags);
     }
 
-    item.addEventListener('click', () => {
+    item.addEventListener("click", () => {
       if (this.options.onSelect) {
         this.options.onSelect(doc);
       }
@@ -270,19 +273,23 @@ export class SearchBar {
   /**
    * Create content snippet around match
    */
-  private createSnippet(content: string, query: string, length: number = 150): string {
+  private createSnippet(
+    content: string,
+    query: string,
+    length: number = 150,
+  ): string {
     const index = content.toLowerCase().indexOf(query.toLowerCase());
 
     if (index === -1) {
-      return content.substring(0, length) + '...';
+      return content.substring(0, length) + "...";
     }
 
     const start = Math.max(0, index - 50);
     const end = Math.min(content.length, index + query.length + 100);
 
     let snippet = content.substring(start, end);
-    if (start > 0) snippet = '...' + snippet;
-    if (end < content.length) snippet = snippet + '...';
+    if (start > 0) snippet = "..." + snippet;
+    if (end < content.length) snippet = snippet + "...";
 
     return snippet;
   }
@@ -290,11 +297,13 @@ export class SearchBar {
   /**
    * Group results by category
    */
-  private groupByCategory(results: SearchDocument[]): Record<string, SearchDocument[]> {
+  private groupByCategory(
+    results: SearchDocument[],
+  ): Record<string, SearchDocument[]> {
     const grouped: Record<string, SearchDocument[]> = {};
 
-    results.forEach(doc => {
-      const category = doc.category || 'Other';
+    results.forEach((doc) => {
+      const category = doc.category || "Other";
       if (!grouped[category]) {
         grouped[category] = [];
       }
@@ -308,10 +317,12 @@ export class SearchBar {
    * Clear search
    */
   clear(): void {
-    this.input.value = '';
-    this.resultsContainer.innerHTML = '';
-    this.resultsContainer.classList.remove('is-visible');
-    this.container.querySelector<HTMLButtonElement>('.search-bar-clear')!.style.display = 'none';
+    this.input.value = "";
+    this.resultsContainer.innerHTML = "";
+    this.resultsContainer.classList.remove("is-visible");
+    this.container.querySelector<HTMLButtonElement>(
+      ".search-bar-clear",
+    )!.style.display = "none";
   }
 
   /**
@@ -326,7 +337,7 @@ export class SearchBar {
    * Remove document from index
    */
   removeDocument(id: string): void {
-    const index = this.documents.findIndex(d => d.id === id);
+    const index = this.documents.findIndex((d) => d.id === id);
     if (index >= 0) {
       this.documents.splice(index, 1);
     }
@@ -346,7 +357,7 @@ export class SearchBar {
    * Destroy component
    */
   destroy(): void {
-    this.container.innerHTML = '';
+    this.container.innerHTML = "";
     this.index.clear();
   }
 }

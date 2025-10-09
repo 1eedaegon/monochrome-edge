@@ -155,6 +155,9 @@
                     window.SearchToolbar = module.SearchToolbar;
                     window.TreeView = module.TreeView;
                     window.GraphView = module.GraphView;
+                    console.log(
+                        "Monochrome Edge UI modules loaded successfully",
+                    );
 
                     // Initialize all components after module is loaded
                     if (typeof window.initSearchToolbar === "function") {
@@ -411,12 +414,6 @@
                     width 0.3s ease;
             }
 
-            /* Container for content - prevent extreme width on large screens */
-            .ds-content {
-                max-width: 1800px;
-                margin: 0 auto;
-            }
-
             /* Prevent code blocks from causing overflow */
             pre {
                 overflow-x: auto;
@@ -425,19 +422,6 @@
 
             code {
                 word-break: break-word;
-                background-color: var(--theme-surface);
-                color: var(--theme-text-primary);
-                padding: 0.125rem 0.375rem;
-                border-radius: 3px;
-                font-size: 0.875em;
-                border: 1px solid var(--theme-border);
-            }
-
-            pre code {
-                background-color: transparent;
-                padding: 0;
-                border: none;
-                font-size: inherit;
             }
 
             .component-preview,
@@ -662,77 +646,6 @@
                 line-height: 1.6;
             }
 
-            /* Badge Styles */
-            .badge {
-                display: inline-block;
-                padding: 0.25rem 0.625rem;
-                font-size: 0.75rem;
-                font-weight: 600;
-                border-radius: calc(var(--border-radius) * 0.75);
-                background-color: var(--theme-surface);
-                color: var(--theme-text-primary);
-                border: 1px solid var(--theme-border);
-            }
-
-            .badge-success {
-                background-color: var(--color-success);
-                color: white;
-                border-color: var(--color-success);
-            }
-
-            .badge-warning {
-                background-color: var(--color-warning);
-                color: var(--theme-text-primary);
-                border-color: var(--color-warning);
-            }
-
-            .badge-error {
-                background-color: var(--color-error);
-                color: white;
-                border-color: var(--color-error);
-            }
-
-            .badge-info {
-                background-color: var(--color-info);
-                color: white;
-                border-color: var(--color-info);
-            }
-
-            .badge-xs {
-                padding: 0.125rem 0.375rem;
-                font-size: 0.625rem;
-            }
-
-            .badge-sm {
-                padding: 0.1875rem 0.5rem;
-                font-size: 0.6875rem;
-            }
-
-            .badge-lg {
-                padding: 0.375rem 0.875rem;
-                font-size: 0.875rem;
-            }
-
-            .badge-outline {
-                background-color: transparent;
-            }
-
-            .badge-outline.badge-success {
-                color: var(--color-success);
-            }
-
-            .badge-outline.badge-warning {
-                color: var(--color-warning);
-            }
-
-            .badge-outline.badge-error {
-                color: var(--color-error);
-            }
-
-            .badge-outline.badge-info {
-                color: var(--color-info);
-            }
-
             .component-showcase {
                 background-color: var(--theme-surface);
                 border: 1px solid var(--theme-border);
@@ -814,116 +727,17 @@
                 max-height: 600px;
                 overflow-y: auto;
                 padding: 0;
-                background-color: var(--theme-bg);
             }
 
             .component-code pre {
                 margin: 0;
-                min-height: 100%;
                 font-size: var(--font-size-caption);
                 background-color: var(--theme-bg) !important;
+                filter: brightness(0.85);
             }
 
             .component-code pre code {
                 color: var(--theme-text-primary) !important;
-            }
-
-            /* Prism syntax highlighting customization */
-            .component-code pre[class*="language-"],
-            .component-code code[class*="language-"] {
-                color: var(--theme-text-primary);
-                text-shadow: none;
-            }
-
-            /* Comments - muted gray */
-            .component-code .token.comment,
-            .component-code .token.prolog,
-            .component-code .token.doctype,
-            .component-code .token.cdata {
-                color: var(--theme-text-tertiary);
-                opacity: 0.6;
-                font-style: italic;
-            }
-
-            /* Punctuation - subtle */
-            .component-code .token.punctuation {
-                color: var(--theme-text-secondary);
-                opacity: 0.7;
-            }
-
-            /* Keywords - accent bold */
-            .component-code .token.keyword,
-            .component-code .token.atrule,
-            .component-code .token.important {
-                color: var(--theme-accent);
-                font-weight: 600;
-            }
-
-            /* Strings - success color */
-            .component-code .token.string,
-            .component-code .token.char,
-            .component-code .token.attr-value,
-            .component-code .token.inserted {
-                color: var(--color-success);
-                font-weight: 400;
-            }
-
-            /* Numbers & Booleans - info color */
-            .component-code .token.number,
-            .component-code .token.boolean,
-            .component-code .token.constant {
-                color: var(--color-info);
-                font-weight: 500;
-            }
-
-            /* Functions & Class names - primary bright */
-            .component-code .token.function,
-            .component-code .token.class-name {
-                color: var(--theme-text-primary);
-                font-weight: 700;
-                opacity: 1;
-            }
-
-            /* Tags & Selectors - accent */
-            .component-code .token.tag,
-            .component-code .token.selector {
-                color: var(--theme-accent);
-                font-weight: 600;
-            }
-
-            /* Attributes - warning color */
-            .component-code .token.attr-name,
-            .component-code .token.property,
-            .component-code .token.variable {
-                color: var(--color-warning);
-                font-weight: 500;
-            }
-
-            /* Operators */
-            .component-code .token.operator,
-            .component-code .token.entity,
-            .component-code .token.url {
-                color: var(--theme-text-secondary);
-                font-weight: 500;
-            }
-
-            /* Built-in */
-            .component-code .token.builtin {
-                color: var(--color-info);
-                font-weight: 600;
-            }
-
-            /* Deleted */
-            .component-code .token.deleted {
-                color: var(--color-error);
-                font-weight: 400;
-            }
-
-            /* Regex & Symbols */
-            .component-code .token.regex,
-            .component-code .token.symbol {
-                color: var(--theme-text-primary);
-                opacity: 0.85;
             }
 
             .color-grid {
@@ -969,60 +783,6 @@
 
             pre code {
                 font-size: 0.875rem !important;
-            }
-
-            /* Wide screen split view (≥1600px) */
-            @media (min-width: 1600px) {
-                .component-showcase {
-                    display: flex;
-                    flex-direction: column;
-                }
-
-                .component-header {
-                    border-bottom: none;
-                }
-
-                .component-toggle {
-                    display: none;
-                }
-
-                .component-content {
-                    display: grid !important;
-                    grid-template-columns: 1fr 1fr;
-                    gap: 0;
-                    border-top: 1px solid var(--theme-border);
-                    align-items: start;
-                }
-
-                .component-preview {
-                    display: flex !important;
-                    flex-wrap: nowrap;
-                    border-right: 1px solid var(--theme-border);
-                    min-height: 200px;
-                    max-height: none;
-                    align-items: flex-start;
-                    justify-content: center;
-                    padding-top: 3rem;
-                    position: sticky;
-                    top: 0;
-                    overflow: auto;
-                }
-
-                .component-code {
-                    display: block !important;
-                    min-height: 100%;
-                    max-height: 800px;
-                    overflow-y: auto;
-                    overflow-x: hidden;
-                }
-
-                /* Ensure graph/tree views work in split mode */
-                #graph-view-demo .component-preview,
-                #tree-view-demo .component-preview {
-                    display: block !important;
-                    position: static;
-                    min-height: 500px;
-                }
             }
 
             /* Tab styles */
@@ -1338,7 +1098,7 @@
                                 font-size: 0.75rem;
                             "
                         >
-                            v<!-- VERSION -->1.7.3<!-- /VERSION -->
+                            v<!-- VERSION -->1.7.1<!-- /VERSION -->
                         </p>
                     </div>
                 </div>
@@ -1496,9 +1256,6 @@
                     <a class="nav-item" data-section="tabs">
                         <span class="nav-item-label">Tabs</span>
                     </a>
-                    <a class="nav-item" data-section="progress">
-                        <span class="nav-item-label">Progress</span>
-                    </a>
                     <a class="nav-item" data-section="buttons">
                         <span class="nav-item-label">Buttons</span>
                     </a>
@@ -1531,9 +1288,6 @@
                     </a>
                     <a class="nav-item" data-section="timeline">
                         <span class="nav-item-label">Timeline</span>
-                    </a>
-                    <a class="nav-item" data-section="tags-badges">
-                        <span class="nav-item-label">Tags & Badges</span>
                     </a>
                     <a class="nav-item" data-section="accordion">
                         <span class="nav-item-label">Accordion</span>
@@ -1588,7 +1342,6 @@
 
             <!-- Main Content -->
             <main class="ds-main">
-                <div class="ds-content">
                 <!-- Overview Section -->
                 <section class="ds-section active" id="overview">
                     <h2 class="ds-section-title">
@@ -2391,101 +2144,13 @@ element.style.color = 'var(--theme-text-primary)';</code></pre>
                                 </p>
                             </div>
                             <div class="component-code">
-                                <div style="padding: 2rem">
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        HTML/CSS
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code class="language-html">&lt;h1 class="text-h1"&gt;Main Heading&lt;/h1&gt;
-&lt;h2 class="text-h2"&gt;Subheading&lt;/h2&gt;
-&lt;p class="text-body"&gt;Body text content&lt;/p&gt;
-&lt;p class="text-body-small text-muted"&gt;Secondary text&lt;/p&gt;</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        React
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code class="language-jsx">import '@monochrome-edge/ui/styles.css';
-
-function MyComponent() {
-  return (
-    &lt;div&gt;
-      &lt;h1 className="text-h1"&gt;Main Heading&lt;/h1&gt;
-      &lt;h2 className="text-h2"&gt;Subheading&lt;/h2&gt;
-      &lt;p className="text-body"&gt;Body text content&lt;/p&gt;
-      &lt;p className="text-body-small text-muted"&gt;Secondary text&lt;/p&gt;
-    &lt;/div&gt;
-  );
-}</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        Vue.js
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code class="language-vue">&lt;template&gt;
-  &lt;div&gt;
-    &lt;h1 class="text-h1"&gt;Main Heading&lt;/h1&gt;
-    &lt;h2 class="text-h2"&gt;Subheading&lt;/h2&gt;
-    &lt;p class="text-body"&gt;Body text content&lt;/p&gt;
-    &lt;p class="text-body-small text-muted"&gt;Secondary text&lt;/p&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
-
-&lt;script setup&gt;
-import '@monochrome-edge/ui/styles.css';
-&lt;/script&gt;</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        Web Components
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>&lt;link rel="stylesheet" href="@monochrome-edge/ui/styles.css"&gt;
-
-&lt;my-component&gt;
-  &lt;h1 class="text-h1"&gt;Main Heading&lt;/h1&gt;
-  &lt;h2 class="text-h2"&gt;Subheading&lt;/h2&gt;
-  &lt;p class="text-body"&gt;Body text content&lt;/p&gt;
-  &lt;p class="text-body-small text-muted"&gt;Secondary text&lt;/p&gt;
-&lt;/my-component&gt;</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        jQuery
-                                    </h4>
-                                    <pre><code class="language-javascript">// Add typography classes dynamically
-$('&lt;h1&gt;').addClass('text-h1').text('Main Heading').appendTo('#container');
-$('&lt;h2&gt;').addClass('text-h2').text('Subheading').appendTo('#container');
-$('&lt;p&gt;').addClass('text-body').text('Body text content').appendTo('#container');
-$('&lt;p&gt;').addClass('text-body-small text-muted').text('Secondary text').appendTo('#container');</code></pre>
-                                </div>
+                                <pre><code class="language-html">&lt;h1 class="text-h1"&gt;Heading 1&lt;/h1&gt;
+&lt;h2 class="text-h2"&gt;Heading 2&lt;/h2&gt;
+&lt;h3 class="text-h3"&gt;Heading 3&lt;/h3&gt;
+&lt;h4 class="text-h4"&gt;Heading 4&lt;/h4&gt;
+&lt;p class="text-body"&gt;Body text&lt;/p&gt;
+&lt;p class="text-body-small"&gt;Small body&lt;/p&gt;
+&lt;p class="text-caption"&gt;Caption&lt;/p&gt;</code></pre>
                             </div>
                         </div>
                     </div>
@@ -2697,7 +2362,7 @@ $('&lt;p&gt;').addClass('text-body-small text-muted').text('Secondary text').app
                                     class="blog-content"
                                     style="max-width: 100%"
                                 >
-                                    <pre><code class="language-javascript">// JavaScript example
+                                    <pre><code>// JavaScript example
 function greet(name) {
     return `Hello, ${name}!`;
 }
@@ -2976,6 +2641,137 @@ renderAllMath({
                             </div>
                         </div>
                     </div>
+
+                    <!-- Using Typography in Frameworks -->
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">
+                                Using Typography in Frameworks
+                            </h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="typography-frameworks"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="typography-frameworks"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div
+                            class="component-content"
+                            id="typography-frameworks"
+                        >
+                            <div class="component-preview">
+                                <p style="color: var(--theme-text-secondary)">
+                                    See code examples for using typography
+                                    classes in different frameworks
+                                </p>
+                            </div>
+                            <div class="component-code">
+                                <div style="padding: 2rem">
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        HTML/CSS
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;h1 class="text-h1"&gt;Main Heading&lt;/h1&gt;
+&lt;h2 class="text-h2"&gt;Subheading&lt;/h2&gt;
+&lt;p class="text-body"&gt;Body text content&lt;/p&gt;
+&lt;p class="text-body-small text-muted"&gt;Secondary text&lt;/p&gt;</code></pre>
+
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        React
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>import '@monochrome-edge/ui/styles.css';
+
+function MyComponent() {
+  return (
+    &lt;div&gt;
+      &lt;h1 className="text-h1"&gt;Main Heading&lt;/h1&gt;
+      &lt;h2 className="text-h2"&gt;Subheading&lt;/h2&gt;
+      &lt;p className="text-body"&gt;Body text content&lt;/p&gt;
+      &lt;p className="text-body-small text-muted"&gt;Secondary text&lt;/p&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Vue.js
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;template&gt;
+  &lt;div&gt;
+    &lt;h1 class="text-h1"&gt;Main Heading&lt;/h1&gt;
+    &lt;h2 class="text-h2"&gt;Subheading&lt;/h2&gt;
+    &lt;p class="text-body"&gt;Body text content&lt;/p&gt;
+    &lt;p class="text-body-small text-muted"&gt;Secondary text&lt;/p&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import '@monochrome-edge/ui/styles.css';
+&lt;/script&gt;</code></pre>
+
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Web Components
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;link rel="stylesheet" href="@monochrome-edge/ui/styles.css"&gt;
+
+&lt;my-component&gt;
+  &lt;h1 class="text-h1"&gt;Main Heading&lt;/h1&gt;
+  &lt;h2 class="text-h2"&gt;Subheading&lt;/h2&gt;
+  &lt;p class="text-body"&gt;Body text content&lt;/p&gt;
+  &lt;p class="text-body-small text-muted"&gt;Secondary text&lt;/p&gt;
+&lt;/my-component&gt;</code></pre>
+
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        jQuery
+                                    </h4>
+                                    <pre><code>// Add typography classes dynamically
+$('&lt;h1&gt;').addClass('text-h1').text('Main Heading').appendTo('#container');
+$('&lt;h2&gt;').addClass('text-h2').text('Subheading').appendTo('#container');
+$('&lt;p&gt;').addClass('text-body').text('Body text content').appendTo('#container');
+$('&lt;p&gt;').addClass('text-body-small text-muted').text('Secondary text').appendTo('#container');</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </section>
 
                 <!-- Brand Assets Section -->
@@ -3226,28 +3022,11 @@ renderAllMath({
                     </p>
 
                     <div class="component-showcase">
-                        <div class="component-header">
-                            <h3 class="component-title">Landscape Patterns</h3>
-                            <div class="component-toggle">
-                                <button
-                                    class="toggle-btn active"
-                                    data-target="bg-patterns"
-                                >
-                                    Preview
-                                </button>
-                                <button
-                                    class="toggle-btn"
-                                    data-target="bg-patterns"
-                                >
-                                    Code
-                                </button>
-                            </div>
-                        </div>
                         <div class="component-content" id="bg-patterns">
                             <!-- Preview Area (Full Width) -->
                             <div
                                 class="component-preview"
-                                style="margin-bottom: 1rem; flex-direction: column;"
+                                style="margin-bottom: 1rem"
                             >
                                 <div
                                     id="landscape-display"
@@ -3285,71 +3064,94 @@ renderAllMath({
                                         >Wave</span
                                     >
                                 </div>
+                            </div>
 
-                                <!-- Landscape Selection Buttons -->
-                                <div
-                                    style="
-                                        display: flex;
-                                        gap: 0.75rem;
-                                        justify-content: center;
-                                        margin-bottom: 1rem;
-                                        flex-wrap: wrap;
-                                    "
+                            <!-- Landscape Selection Buttons -->
+                            <div
+                                style="
+                                    display: flex;
+                                    gap: 0.75rem;
+                                    justify-content: center;
+                                    margin-bottom: 1rem;
+                                    flex-wrap: wrap;
+                                "
+                            >
+                                <button
+                                    class="btn btn-small landscape-btn active"
+                                    data-landscape="wave"
                                 >
-                                    <button
-                                        class="btn btn-small landscape-btn active"
-                                        data-landscape="wave"
-                                    >
-                                        Wave
-                                    </button>
-                                    <button
-                                        class="btn btn-small landscape-btn"
-                                        data-landscape="mountain"
-                                    >
-                                        Mountain
-                                    </button>
-                                    <button
-                                        class="btn btn-small landscape-btn"
-                                        data-landscape="forest"
-                                    >
-                                        Forest
-                                    </button>
-                                    <button
-                                        class="btn btn-small landscape-btn"
-                                        data-landscape="desert"
-                                    >
-                                        Desert
-                                    </button>
-                                    <button
-                                        class="btn btn-small landscape-btn"
-                                        data-landscape="showcase"
-                                    >
-                                        Showcase
-                                    </button>
-                                </div>
+                                    Wave
+                                </button>
+                                <button
+                                    class="btn btn-small landscape-btn"
+                                    data-landscape="mountain"
+                                >
+                                    Mountain
+                                </button>
+                                <button
+                                    class="btn btn-small landscape-btn"
+                                    data-landscape="forest"
+                                >
+                                    Forest
+                                </button>
+                                <button
+                                    class="btn btn-small landscape-btn"
+                                    data-landscape="desert"
+                                >
+                                    Desert
+                                </button>
+                                <button
+                                    class="btn btn-small landscape-btn"
+                                    data-landscape="showcase"
+                                >
+                                    Showcase
+                                </button>
+                            </div>
 
-                                <!-- Landscape Mode Toggle -->
-                                <div
-                                    style="
-                                        display: flex;
-                                        gap: 0.5rem;
-                                        justify-content: center;
-                                        margin-bottom: 1.5rem;
-                                    "
+                            <!-- Landscape Mode Toggle -->
+                            <div
+                                style="
+                                    display: flex;
+                                    gap: 0.5rem;
+                                    justify-content: center;
+                                    margin-bottom: 1.5rem;
+                                "
+                            >
+                                <button
+                                    class="btn btn-small landscape-mode-btn active"
+                                    data-mode="monochrome"
                                 >
-                                    <button
-                                        class="btn btn-small landscape-mode-btn active"
-                                        data-mode="monochrome"
-                                    >
-                                        Monochrome
-                                    </button>
-                                    <button
-                                        class="btn btn-small landscape-mode-btn"
-                                        data-mode="colored"
-                                    >
-                                        Colored
-                                    </button>
-                                </div>
+                                    Monochrome
+                                </button>
+                                <button
+                                    class="btn btn-small landscape-mode-btn"
+                                    data-mode="colored"
+                                >
+                                    Colored
+                                </button>
+                            </div>
+
+                            <!-- Toggle Buttons -->
+                            <div
+                                style="
+                                    display: flex;
+                                    gap: 0.5rem;
+                                    justify-content: center;
+                                    margin-bottom: 1rem;
+                                "
+                            >
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="bg-patterns"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="bg-patterns"
+                                >
+                                    Code
+                                </button>
                             </div>
                             <div class="component-code">
                                 <pre><code class="language-html">&lt;!-- Wave Landscape --&gt;
@@ -3751,22 +3553,7 @@ renderAllMath({
                                 </div>
                             </div>
                             <div class="component-code">
-                                <div style="padding: 2rem">
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            font-size: 0.875rem;
-                                            font-weight: 600;
-                                            color: var(--theme-text-secondary);
-                                            text-transform: uppercase;
-                                            letter-spacing: 0.05em;
-                                        "
-                                    >
-                                        HTML/CSS
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>&lt;div class="toc-collapsible is-open"&gt;
+                                <pre><code class="language-html">&lt;div class="toc-collapsible is-open"&gt;
     &lt;div class="toc-collapsible-header"&gt;
         &lt;h4 class="toc-collapsible-title"&gt;Table of Contents&lt;/h4&gt;
         &lt;span class="toc-collapsible-icon"&gt;▼&lt;/span&gt;
@@ -3789,15 +3576,42 @@ $('.toc-collapsible-header').on('click', function() {
     $(this).parent().toggleClass('is-open');
 });
 &lt;/script&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
 
+                    <!-- Framework Usage -->
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Framework Usage</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="toc-framework"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="toc-framework"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="toc-framework">
+                            <div class="component-preview">
+                                <p style="color: var(--theme-text-secondary)">
+                                    See code examples for using TOC in different
+                                    frameworks
+                                </p>
+                            </div>
+                            <div class="component-code">
+                                <div style="padding: 2rem">
                                     <h4
                                         style="
                                             margin-bottom: 1rem;
-                                            font-size: 0.875rem;
-                                            font-weight: 600;
-                                            color: var(--theme-text-secondary);
-                                            text-transform: uppercase;
-                                            letter-spacing: 0.05em;
+                                            color: var(--theme-text-primary);
                                         "
                                     >
                                         React
@@ -3824,11 +3638,7 @@ const tocItems = [
                                     <h4
                                         style="
                                             margin-bottom: 1rem;
-                                            font-size: 0.875rem;
-                                            font-weight: 600;
-                                            color: var(--theme-text-secondary);
-                                            text-transform: uppercase;
-                                            letter-spacing: 0.05em;
+                                            color: var(--theme-text-primary);
                                         "
                                     >
                                         Vue.js
@@ -3863,11 +3673,7 @@ const handleItemClick = (item) => {
                                     <h4
                                         style="
                                             margin-bottom: 1rem;
-                                            font-size: 0.875rem;
-                                            font-weight: 600;
-                                            color: var(--theme-text-secondary);
-                                            text-transform: uppercase;
-                                            letter-spacing: 0.05em;
+                                            color: var(--theme-text-primary);
                                         "
                                     >
                                         Web Components
@@ -3895,16 +3701,12 @@ toc.addEventListener('item-click', (e) => {
                                     <h4
                                         style="
                                             margin-bottom: 1rem;
-                                            font-size: 0.875rem;
-                                            font-weight: 600;
-                                            color: var(--theme-text-secondary);
-                                            text-transform: uppercase;
-                                            letter-spacing: 0.05em;
+                                            color: var(--theme-text-primary);
                                         "
                                     >
                                         jQuery
                                     </h4>
-                                    <pre><code class="language-javascript">$('#toc').toc({
+                                    <pre><code>$('#toc').toc({
   items: [
     { id: '1', label: 'Introduction', href: '#intro' },
     { id: '2', label: 'Getting Started', href: '#start' },
@@ -4483,7 +4285,7 @@ tree.addEventListener('node-toggle', (e) => {
                                     >
                                         jQuery
                                     </h4>
-                                    <pre><code class="language-javascript">$('#tree-container').treeView({
+                                    <pre><code>$('#tree-container').treeView({
   data: [
     {
       id: 'src',
@@ -4629,6 +4431,37 @@ $('#tree-container').treeView('collapseAll');</code></pre>
         &lt;button class="tab"&gt;Preview&lt;/button&gt;
     &lt;/div&gt;
 &lt;/div&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Framework Examples -->
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Framework Usage</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="tabs-framework"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="tabs-framework"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="tabs-framework">
+                            <div class="component-preview">
+                                <p style="color: var(--theme-text-secondary)">
+                                    See code examples below for React, Vue, Web
+                                    Components, and jQuery implementations.
+                                </p>
+                            </div>
+                            <div class="component-code">
                                 <div
                                     style="
                                         padding: 2rem;
@@ -4775,344 +4608,6 @@ const handleChange = (tabId) => {
                     </div>
                 </section>
 
-                <!-- Progress Bar Section -->
-                <section class="ds-section" id="progress">
-                    <h2 class="ds-section-title">
-                        Progress Bar
-                        <span class="component-tags">
-                            <span class="component-tag component-tag-css">CSS</span>
-                        </span>
-                    </h2>
-                    <p class="ds-section-description">
-                        Progress indicators for loading states, file uploads, and multi-step processes. Supports linear bars, circular indicators, and step-based progress.
-                    </p>
-
-                    <!-- Linear Progress -->
-                    <div class="component-showcase">
-                        <div class="component-header">
-                            <h3 class="component-title">Linear Progress</h3>
-                            <div class="component-toggle">
-                                <button class="toggle-btn active" data-target="linear-progress">Preview</button>
-                                <button class="toggle-btn" data-target="linear-progress">Code</button>
-                            </div>
-                        </div>
-                        <div class="component-content" id="linear-progress">
-                            <div class="component-preview" style="flex-direction: column; align-items: stretch; gap: 1.5rem;">
-                                <!-- Monochrome Version -->
-                                <div>
-                                    <h4 style="margin-bottom: 0.75rem; font-size: 0.875rem; font-weight: 600;">Monochrome (Accent Color)</h4>
-                                    <div style="display: flex; flex-direction: column; gap: 1rem;">
-                                        <div>
-                                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
-                                                <span style="font-size: 0.75rem;">Downloading...</span>
-                                                <span style="font-size: 0.75rem;">45%</span>
-                                            </div>
-                                            <div class="progress">
-                                                <div class="progress-bar" style="width: 45%"></div>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
-                                                <span style="font-size: 0.75rem;">Processing...</span>
-                                                <span style="font-size: 0.75rem;">75%</span>
-                                            </div>
-                                            <div class="progress">
-                                                <div class="progress-bar progress-striped progress-animated" style="width: 75%"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Colored Version -->
-                                <div>
-                                    <h4 style="margin-bottom: 0.75rem; font-size: 0.875rem; font-weight: 600;">Colored (Semantic Colors)</h4>
-                                    <div style="display: flex; flex-direction: column; gap: 1rem;">
-                                        <div>
-                                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
-                                                <span style="font-size: 0.75rem;">Success</span>
-                                                <span style="font-size: 0.75rem;">100%</span>
-                                            </div>
-                                            <div class="progress">
-                                                <div class="progress-bar progress-success" style="width: 100%"></div>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
-                                                <span style="font-size: 0.75rem;">Warning</span>
-                                                <span style="font-size: 0.75rem;">60%</span>
-                                            </div>
-                                            <div class="progress">
-                                                <div class="progress-bar progress-warning" style="width: 60%"></div>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
-                                                <span style="font-size: 0.75rem;">Error</span>
-                                                <span style="font-size: 0.75rem;">30%</span>
-                                            </div>
-                                            <div class="progress">
-                                                <div class="progress-bar progress-error" style="width: 30%"></div>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div style="display: flex; justify-content: space-between; margin-bottom: 0.25rem;">
-                                                <span style="font-size: 0.75rem;">Info</span>
-                                                <span style="font-size: 0.75rem;">85%</span>
-                                            </div>
-                                            <div class="progress">
-                                                <div class="progress-bar progress-info" style="width: 85%"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Sizes -->
-                                <div>
-                                    <h4 style="margin-bottom: 0.75rem; font-size: 0.875rem; font-weight: 600;">Sizes</h4>
-                                    <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-                                        <div>
-                                            <div style="font-size: 0.75rem; margin-bottom: 0.25rem;">Extra Small</div>
-                                            <div class="progress progress-xs">
-                                                <div class="progress-bar" style="width: 50%"></div>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div style="font-size: 0.75rem; margin-bottom: 0.25rem;">Small</div>
-                                            <div class="progress progress-sm">
-                                                <div class="progress-bar" style="width: 50%"></div>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div style="font-size: 0.75rem; margin-bottom: 0.25rem;">Medium (Default)</div>
-                                            <div class="progress progress-md">
-                                                <div class="progress-bar" style="width: 50%"></div>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div style="font-size: 0.75rem; margin-bottom: 0.25rem;">Large</div>
-                                            <div class="progress progress-lg">
-                                                <div class="progress-bar" style="width: 50%"></div>
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div style="font-size: 0.75rem; margin-bottom: 0.25rem;">Extra Large</div>
-                                            <div class="progress progress-xl">
-                                                <div class="progress-bar" style="width: 50%"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Indeterminate -->
-                                <div>
-                                    <h4 style="margin-bottom: 0.75rem; font-size: 0.875rem; font-weight: 600;">Indeterminate Loading</h4>
-                                    <div class="progress progress-indeterminate">
-                                        <div class="progress-bar"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="component-code">
-                                <div style="padding: 2rem; display: grid; gap: 2rem;">
-                                    <div>
-                                        <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">HTML/CSS</h4>
-                                        <pre style="margin-bottom: 2rem"><code class="language-html">&lt;!-- Monochrome (Accent) --&gt;
-&lt;div class="progress"&gt;
-  &lt;div class="progress-bar" style="width: 45%"&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;!-- Striped & Animated --&gt;
-&lt;div class="progress"&gt;
-  &lt;div class="progress-bar progress-striped progress-animated" style="width: 75%"&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;!-- Colored (Semantic) --&gt;
-&lt;div class="progress"&gt;
-  &lt;div class="progress-bar progress-success" style="width: 100%"&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="progress"&gt;
-  &lt;div class="progress-bar progress-warning" style="width: 60%"&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="progress"&gt;
-  &lt;div class="progress-bar progress-error" style="width: 30%"&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="progress"&gt;
-  &lt;div class="progress-bar progress-info" style="width: 85%"&gt;&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;!-- Sizes --&gt;
-&lt;div class="progress progress-xs"&gt;...&lt;/div&gt;
-&lt;div class="progress progress-sm"&gt;...&lt;/div&gt;
-&lt;div class="progress progress-md"&gt;...&lt;/div&gt;
-&lt;div class="progress progress-lg"&gt;...&lt;/div&gt;
-&lt;div class="progress progress-xl"&gt;...&lt;/div&gt;
-
-&lt;!-- Indeterminate --&gt;
-&lt;div class="progress progress-indeterminate"&gt;
-  &lt;div class="progress-bar"&gt;&lt;/div&gt;
-&lt;/div&gt;</code></pre>
-                                    </div>
-                                    <div>
-                                        <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">React</h4>
-                                        <pre style="margin-bottom: 2rem"><code class="language-jsx">import { useState, useEffect } from 'react';
-
-function ProgressDemo() {
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setProgress((prev) => (prev >= 100 ? 0 : prev + 10));
-    }, 500);
-    return () => clearInterval(timer);
-  }, []);
-
-  return (
-    &lt;div&gt;
-      {/* Monochrome */}
-      &lt;div className="progress"&gt;
-        &lt;div className="progress-bar" style={{ width: `${progress}%` }} /&gt;
-      &lt;/div&gt;
-
-      {/* Colored */}
-      &lt;div className="progress"&gt;
-        &lt;div className="progress-bar progress-success" style={{ width: '100%' }} /&gt;
-      &lt;/div&gt;
-
-      {/* Indeterminate */}
-      &lt;div className="progress progress-indeterminate"&gt;
-        &lt;div className="progress-bar" /&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-  );
-}</code></pre>
-                                    </div>
-                                    <div>
-                                        <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Vue</h4>
-                                        <pre style="margin-bottom: 2rem"><code class="language-javascript">&lt;template&gt;
-  &lt;div&gt;
-    &lt;!-- Monochrome --&gt;
-    &lt;div class="progress"&gt;
-      &lt;div class="progress-bar" :style="{ width: progress + '%' }" /&gt;
-    &lt;/div&gt;
-
-    &lt;!-- Colored --&gt;
-    &lt;div class="progress"&gt;
-      &lt;div class="progress-bar progress-success" style="width: 100%" /&gt;
-    &lt;/div&gt;
-
-    &lt;!-- Indeterminate --&gt;
-    &lt;div class="progress progress-indeterminate"&gt;
-      &lt;div class="progress-bar" /&gt;
-    &lt;/div&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
-
-&lt;script setup&gt;
-import { ref, onMounted, onUnmounted } from 'vue';
-
-const progress = ref(0);
-let timer;
-
-onMounted(() => {
-  timer = setInterval(() => {
-    progress.value = progress.value >= 100 ? 0 : progress.value + 10;
-  }, 500);
-});
-
-onUnmounted(() => clearInterval(timer));
-&lt;/script&gt;</code></pre>
-                                    </div>
-                                    <div>
-                                        <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">jQuery</h4>
-                                        <pre><code class="language-javascript">// Animate progress
-let progress = 0;
-setInterval(() => {
-  progress = progress >= 100 ? 0 : progress + 10;
-  $('.progress-bar').css('width', progress + '%');
-}, 500);
-
-// Set specific progress
-$('.progress-bar').css('width', '75%');
-
-// Add classes dynamically
-$('.progress-bar').addClass('progress-success');
-$('.progress-bar').addClass('progress-striped progress-animated');</code></pre>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Circular Progress -->
-                    <div class="component-showcase">
-                        <div class="component-header">
-                            <h3 class="component-title">Circular Progress</h3>
-                            <div class="component-toggle">
-                                <button class="toggle-btn active" data-target="circular-progress">Preview</button>
-                                <button class="toggle-btn" data-target="circular-progress">Code</button>
-                            </div>
-                        </div>
-                        <div class="component-content" id="circular-progress">
-                            <div class="component-preview">
-                                <div style="display: flex; gap: 2rem; flex-wrap: wrap;">
-                                    <!-- Small -->
-                                    <div class="progress-circle progress-circle-sm">
-                                        <svg viewBox="0 0 120 120">
-                                            <circle class="progress-circle-track" cx="60" cy="60" r="54"/>
-                                            <circle class="progress-circle-bar" cx="60" cy="60" r="54"
-                                                style="stroke-dasharray: 339.292; stroke-dashoffset: 101.788"/>
-                                        </svg>
-                                        <span class="progress-circle-text">70%</span>
-                                    </div>
-
-                                    <!-- Default -->
-                                    <div class="progress-circle">
-                                        <svg viewBox="0 0 120 120">
-                                            <circle class="progress-circle-track" cx="60" cy="60" r="54"/>
-                                            <circle class="progress-circle-bar" cx="60" cy="60" r="54"
-                                                style="stroke-dasharray: 339.292; stroke-dashoffset: 101.788"/>
-                                        </svg>
-                                        <span class="progress-circle-text">70%</span>
-                                    </div>
-
-                                    <!-- Large -->
-                                    <div class="progress-circle progress-circle-lg">
-                                        <svg viewBox="0 0 120 120">
-                                            <circle class="progress-circle-track" cx="60" cy="60" r="54"/>
-                                            <circle class="progress-circle-bar" cx="60" cy="60" r="54"
-                                                style="stroke-dasharray: 339.292; stroke-dashoffset: 101.788"/>
-                                        </svg>
-                                        <span class="progress-circle-text">70%</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="component-code">
-                                <pre><code class="language-html">&lt;div class="progress-circle"&gt;
-  &lt;svg viewBox="0 0 120 120"&gt;
-    &lt;circle class="progress-circle-track" cx="60" cy="60" r="54"/&gt;
-    &lt;circle class="progress-circle-bar" cx="60" cy="60" r="54"
-        style="stroke-dasharray: 339.292; stroke-dashoffset: 101.788"/&gt;
-  &lt;/svg&gt;
-  &lt;span class="progress-circle-text"&gt;70%&lt;/span&gt;
-&lt;/div&gt;
-
-&lt;!-- Sizes --&gt;
-&lt;div class="progress-circle progress-circle-sm"&gt;...&lt;/div&gt;
-&lt;div class="progress-circle"&gt;...&lt;/div&gt;
-&lt;div class="progress-circle progress-circle-lg"&gt;...&lt;/div&gt;
-
-&lt;script&gt;
-// Calculate stroke-dashoffset for percentage
-const radius = 54;
-const circumference = 2 * Math.PI * radius; // 339.292
-const percentage = 70;
-const offset = circumference - (percentage / 100) * circumference; // 101.788
-&lt;/script&gt;</code></pre>
-                            </div>
-                        </div>
-                    </div>
-
-                </section>
-
                 <!-- Buttons Section -->
                 <section class="ds-section" id="buttons">
                     <h2 class="ds-section-title">
@@ -5156,77 +4651,46 @@ const offset = circumference - (percentage / 100) * circumference; // 101.788
                                 <button class="btn btn-danger">Danger</button>
                             </div>
                             <div class="component-code">
-                                <div
-                                    style="
-                                        padding: 2rem;
-                                        display: grid;
-                                        grid-template-columns: repeat(
-                                            auto-fit,
-                                            minmax(300px, 1fr)
-                                        );
-                                        gap: 2rem;
-                                    "
-                                >
-                                    <div>
-                                        <h4
-                                            style="
-                                                margin-bottom: 1rem;
-                                                font-size: 0.875rem;
-                                                font-weight: 600;
-                                                color: var(
-                                                    --theme-text-secondary
-                                                );
-                                                text-transform: uppercase;
-                                                letter-spacing: 0.05em;
-                                            "
-                                        >
-                                            HTML/CSS
-                                        </h4>
-                                        <pre
-                                            style="margin-bottom: 2rem"
-                                        ><code>&lt;button class="btn btn-primary"&gt;Primary&lt;/button&gt;
+                                <div style="padding: 2rem">
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        HTML/CSS
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;button class="btn btn-primary"&gt;Primary&lt;/button&gt;
 &lt;button class="btn btn-secondary"&gt;Secondary&lt;/button&gt;</code></pre>
-                                    </div>
-                                    <div>
-                                        <h4
-                                            style="
-                                                margin-bottom: 1rem;
-                                                font-size: 0.875rem;
-                                                font-weight: 600;
-                                                color: var(
-                                                    --theme-text-secondary
-                                                );
-                                                text-transform: uppercase;
-                                                letter-spacing: 0.05em;
-                                            "
-                                        >
-                                            React
-                                        </h4>
-                                        <pre
-                                            style="margin-bottom: 2rem"
-                                        ><code>import { Button } from '@monochrome-edge/ui/react';
+
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        React
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>import { Button } from '@monochrome-edge/ui/react';
 
 &lt;Button variant="primary"&gt;Primary&lt;/Button&gt;
 &lt;Button variant="secondary"&gt;Secondary&lt;/Button&gt;</code></pre>
-                                    </div>
-                                    <div>
-                                        <h4
-                                            style="
-                                                margin-bottom: 1rem;
-                                                font-size: 0.875rem;
-                                                font-weight: 600;
-                                                color: var(
-                                                    --theme-text-secondary
-                                                );
-                                                text-transform: uppercase;
-                                                letter-spacing: 0.05em;
-                                            "
-                                        >
-                                            Vue.js
-                                        </h4>
-                                        <pre
-                                            style="margin-bottom: 2rem"
-                                        ><code>&lt;template&gt;
+
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Vue.js
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;template&gt;
   &lt;Button variant="primary"&gt;Primary&lt;/Button&gt;
   &lt;Button variant="secondary"&gt;Secondary&lt;/Button&gt;
 &lt;/template&gt;
@@ -5234,73 +4698,51 @@ const offset = circumference - (percentage / 100) * circumference; // 101.788
 &lt;script setup&gt;
 import { Button } from '@monochrome-edge/ui/vue';
 &lt;/script&gt;</code></pre>
-                                    </div>
-                                    <div>
-                                        <h4
-                                            style="
-                                                margin-bottom: 1rem;
-                                                font-size: 0.875rem;
-                                                font-weight: 600;
-                                                color: var(
-                                                    --theme-text-secondary
-                                                );
-                                                text-transform: uppercase;
-                                                letter-spacing: 0.05em;
-                                            "
-                                        >
-                                            Web Components
-                                        </h4>
-                                        <pre
-                                            style="margin-bottom: 2rem"
-                                        ><code>&lt;mono-button variant="primary"&gt;Primary&lt;/mono-button&gt;
+
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Web Components
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;mono-button variant="primary"&gt;Primary&lt;/mono-button&gt;
 &lt;mono-button variant="secondary"&gt;Secondary&lt;/mono-button&gt;
 
 &lt;script type="module"&gt;
   import '@monochrome-edge/ui/wc';
 &lt;/script&gt;</code></pre>
-                                    </div>
-                                    <div>
-                                        <h4
-                                            style="
-                                                margin-bottom: 1rem;
-                                                font-size: 0.875rem;
-                                                font-weight: 600;
-                                                color: var(
-                                                    --theme-text-secondary
-                                                );
-                                                text-transform: uppercase;
-                                                letter-spacing: 0.05em;
-                                            "
-                                        >
-                                            jQuery
-                                        </h4>
-                                        <pre
-                                            style="margin-bottom: 2rem"
-                                        ><code>$('&lt;button&gt;').addClass('btn btn-primary').text('Primary').appendTo('#app');
+
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        jQuery
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>$('&lt;button&gt;').addClass('btn btn-primary').text('Primary').appendTo('#app');
 $('&lt;button&gt;').addClass('btn btn-secondary').text('Secondary').appendTo('#app');</code></pre>
-                                    </div>
-                                    <div>
-                                        <h4
-                                            style="
-                                                margin-bottom: 1rem;
-                                                font-size: 0.875rem;
-                                                font-weight: 600;
-                                                color: var(
-                                                    --theme-text-secondary
-                                                );
-                                                text-transform: uppercase;
-                                                letter-spacing: 0.05em;
-                                            "
-                                        >
-                                            Vanilla JavaScript
-                                        </h4>
-                                        <pre><code class="language-javascript">import { createButton } from '@monochrome-edge/ui';
+
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Vanilla JavaScript
+                                    </h4>
+                                    <pre><code>import { createButton } from '@monochrome-edge/ui';
 
 const btn1 = createButton('Primary', { variant: 'primary' });
 const btn2 = createButton('Secondary', { variant: 'secondary' });
 document.body.appendChild(btn1);
 document.body.appendChild(btn2);</code></pre>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -5335,158 +4777,59 @@ document.body.appendChild(btn2);</code></pre>
                                 </button>
                             </div>
                             <div class="component-code">
-                                <div
-                                    style="
-                                        padding: 2rem;
-                                        display: grid;
-                                        grid-template-columns: repeat(
-                                            auto-fit,
-                                            minmax(300px, 1fr)
-                                        );
-                                        gap: 2rem;
-                                    "
-                                >
-                                    <div>
-                                        <h4
-                                            style="
-                                                margin-bottom: 1rem;
-                                                font-size: 0.875rem;
-                                                font-weight: 600;
-                                                color: var(
-                                                    --theme-text-secondary
-                                                );
-                                                text-transform: uppercase;
-                                                letter-spacing: 0.05em;
-                                            "
-                                        >
-                                            HTML/CSS
-                                        </h4>
-                                        <pre
-                                            style="margin-bottom: 2rem"
-                                        ><code>&lt;button class="btn btn-primary btn-small"&gt;Small&lt;/button&gt;
+                                <div style="padding: 2rem">
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        HTML/CSS
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;button class="btn btn-primary btn-small"&gt;Small&lt;/button&gt;
 &lt;button class="btn btn-primary"&gt;Default&lt;/button&gt;
 &lt;button class="btn btn-primary btn-large"&gt;Large&lt;/button&gt;</code></pre>
-                                    </div>
-                                    <div>
-                                        <h4
-                                            style="
-                                                margin-bottom: 1rem;
-                                                font-size: 0.875rem;
-                                                font-weight: 600;
-                                                color: var(
-                                                    --theme-text-secondary
-                                                );
-                                                text-transform: uppercase;
-                                                letter-spacing: 0.05em;
-                                            "
-                                        >
-                                            React
-                                        </h4>
-                                        <pre
-                                            style="margin-bottom: 2rem"
-                                        ><code>import { Button } from '@monochrome-edge/ui/react';
 
-&lt;Button size="small"&gt;Small&lt;/Button&gt;
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        React
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;Button size="small"&gt;Small&lt;/Button&gt;
 &lt;Button&gt;Default&lt;/Button&gt;
 &lt;Button size="large"&gt;Large&lt;/Button&gt;</code></pre>
-                                    </div>
-                                    <div>
-                                        <h4
-                                            style="
-                                                margin-bottom: 1rem;
-                                                font-size: 0.875rem;
-                                                font-weight: 600;
-                                                color: var(
-                                                    --theme-text-secondary
-                                                );
-                                                text-transform: uppercase;
-                                                letter-spacing: 0.05em;
-                                            "
-                                        >
-                                            Vue.js
-                                        </h4>
-                                        <pre
-                                            style="margin-bottom: 2rem"
-                                        ><code>&lt;template&gt;
-  &lt;Button size="small"&gt;Small&lt;/Button&gt;
-  &lt;Button&gt;Default&lt;/Button&gt;
-  &lt;Button size="large"&gt;Large&lt;/Button&gt;
-&lt;/template&gt;
 
-&lt;script setup&gt;
-import { Button } from '@monochrome-edge/ui/vue';
-&lt;/script&gt;</code></pre>
-                                    </div>
-                                    <div>
-                                        <h4
-                                            style="
-                                                margin-bottom: 1rem;
-                                                font-size: 0.875rem;
-                                                font-weight: 600;
-                                                color: var(
-                                                    --theme-text-secondary
-                                                );
-                                                text-transform: uppercase;
-                                                letter-spacing: 0.05em;
-                                            "
-                                        >
-                                            Web Components
-                                        </h4>
-                                        <pre
-                                            style="margin-bottom: 2rem"
-                                        ><code>&lt;mono-button size="small"&gt;Small&lt;/mono-button&gt;
-&lt;mono-button&gt;Default&lt;/mono-button&gt;
-&lt;mono-button size="large"&gt;Large&lt;/mono-button&gt;
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Vue.js
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;Button :size="'small'"&gt;Small&lt;/Button&gt;
+&lt;Button&gt;Default&lt;/Button&gt;
+&lt;Button :size="'large'"&gt;Large&lt;/Button&gt;</code></pre>
 
-&lt;script type="module"&gt;
-  import '@monochrome-edge/ui/wc';
-&lt;/script&gt;</code></pre>
-                                    </div>
-                                    <div>
-                                        <h4
-                                            style="
-                                                margin-bottom: 1rem;
-                                                font-size: 0.875rem;
-                                                font-weight: 600;
-                                                color: var(
-                                                    --theme-text-secondary
-                                                );
-                                                text-transform: uppercase;
-                                                letter-spacing: 0.05em;
-                                            "
-                                        >
-                                            jQuery
-                                        </h4>
-                                        <pre
-                                            style="margin-bottom: 2rem"
-                                        ><code>$('&lt;button&gt;').addClass('btn btn-primary btn-small').text('Small').appendTo('#app');
-$('&lt;button&gt;').addClass('btn btn-primary').text('Default').appendTo('#app');
-$('&lt;button&gt;').addClass('btn btn-primary btn-large').text('Large').appendTo('#app');</code></pre>
-                                    </div>
-                                    <div>
-                                        <h4
-                                            style="
-                                                margin-bottom: 1rem;
-                                                font-size: 0.875rem;
-                                                font-weight: 600;
-                                                color: var(
-                                                    --theme-text-secondary
-                                                );
-                                                text-transform: uppercase;
-                                                letter-spacing: 0.05em;
-                                            "
-                                        >
-                                            Vanilla JavaScript
-                                        </h4>
-                                        <pre><code class="language-javascript">import { createButton } from '@monochrome-edge/ui';
-
-const btnSmall = createButton('Small', { variant: 'primary', size: 'small' });
-const btnDefault = createButton('Default', { variant: 'primary' });
-const btnLarge = createButton('Large', { variant: 'primary', size: 'large' });
-document.body.appendChild(btnSmall);
-document.body.appendChild(btnDefault);
-document.body.appendChild(btnLarge);</code></pre>
-                                    </div>
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        jQuery
+                                    </h4>
+                                    <pre><code>$('.btn').addClass('btn-small');
+$('.btn').addClass('btn-large');</code></pre>
                                 </div>
                             </div>
                         </div>
@@ -5862,7 +5205,7 @@ const btn4 = $.createIconButton({ icon: 'sun', variant: 'outline' });</code></pr
                                     >
                                         Vanilla JavaScript
                                     </h4>
-                                    <pre><code class="language-javascript">import { createIconButton } from '@monochrome-edge/vanilla-ts';
+                                    <pre><code>import { createIconButton } from '@monochrome-edge/vanilla-ts';
 
 const btn1 = createIconButton({ icon: 'sun', variant: 'default' });
 const btn2 = createIconButton({ icon: 'sun', variant: 'primary' });
@@ -6053,46 +5396,10 @@ const btn4 = createIconButton({ icon: 'sun', variant: 'outline' });</code></pre>
                                     >
                                         jQuery
                                     </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>$.createIconButton({ icon: 'sun', size: 'sm' });
+                                    <pre><code>$.createIconButton({ icon: 'sun', size: 'sm' });
 $.createIconButton({ icon: 'sun', size: 'md' });
 $.createIconButton({ icon: 'sun', size: 'lg' });
 $.createIconButton({ icon: 'sun', size: 'xl' });</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        Web Components
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>&lt;monochrome-icon-button icon="sun" size="sm"&gt;&lt;/monochrome-icon-button&gt;
-&lt;monochrome-icon-button icon="sun" size="md"&gt;&lt;/monochrome-icon-button&gt;
-&lt;monochrome-icon-button icon="sun" size="lg"&gt;&lt;/monochrome-icon-button&gt;
-&lt;monochrome-icon-button icon="sun" size="xl"&gt;&lt;/monochrome-icon-button&gt;
-
-&lt;script type="module"&gt;
-  import '@monochrome-edge/web-components';
-&lt;/script&gt;</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        Vanilla JavaScript
-                                    </h4>
-                                    <pre><code class="language-javascript">import { createIconButton } from '@monochrome-edge/vanilla-ts';
-
-const btnSm = createIconButton({ icon: 'sun', size: 'sm' });
-const btnMd = createIconButton({ icon: 'sun', size: 'md' });
-const btnLg = createIconButton({ icon: 'sun', size: 'lg' });
-const btnXl = createIconButton({ icon: 'sun', size: 'xl' });</code></pre>
                                 </div>
                             </div>
                         </div>
@@ -6258,7 +5565,7 @@ const btnXl = createIconButton({ icon: 'sun', size: 'xl' });</code></pre>
                                     >
                                         Vue.js
                                     </h4>
-                                    <pre><code class="language-html">&lt;IconButton icon="sun" /&gt;
+                                    <pre><code>&lt;IconButton icon="sun" /&gt;
 &lt;IconButton icon="sun" :active="true" /&gt;
 &lt;IconButton icon="sun" :disabled="true" /&gt;
 &lt;IconButton icon="sun" :loading="true" /&gt;</code></pre>
@@ -6443,7 +5750,7 @@ const btnXl = createIconButton({ icon: 'sun', size: 'xl' });</code></pre>
                                     >
                                         jQuery
                                     </h4>
-                                    <pre><code class="language-javascript">$('#email-input').wrap('&lt;div class="form-group"&gt;&lt;/div&gt;');
+                                    <pre><code>$('#email-input').wrap('&lt;div class="form-group"&gt;&lt;/div&gt;');
 $('#email-input').before('&lt;label class="label"&gt;Email Address&lt;/label&gt;');
 $('#email-input').after('&lt;span class="helper-text"&gt;We\'ll never share your email.&lt;/span&gt;');</code></pre>
                                 </div>
@@ -6633,7 +5940,7 @@ dropdown.addEventListener('change', (e) => {
                                     >
                                         jQuery
                                     </h4>
-                                    <pre><code class="language-javascript">function toggleDropdown(button) {
+                                    <pre><code>function toggleDropdown(button) {
     const dropdown = $(button).parent('.dropdown');
     dropdown.toggleClass('is-open');
     dropdown.find('.dropdown-panel').toggleClass('is-open');
@@ -6980,177 +6287,6 @@ const handleSearch = (query, filters, sort) => {
                             </div>
                         </div>
                     </div>
-
-                    <!-- Mobile Search Showcase -->
-                    <div class="component-showcase">
-                        <div class="component-header">
-                            <h3 class="component-title">Mobile Search</h3>
-                            <div class="component-toggle">
-                                <button
-                                    class="toggle-btn active"
-                                    data-target="mobile-search-demo"
-                                >
-                                    Preview
-                                </button>
-                                <button
-                                    class="toggle-btn"
-                                    data-target="mobile-search-demo"
-                                >
-                                    Code
-                                </button>
-                            </div>
-                        </div>
-                        <div class="component-content" id="mobile-search-demo">
-                            <div class="component-preview">
-                                <div style="max-width: 400px; margin: 0 auto;">
-                                    <p style="margin-bottom: 1rem; font-size: 0.875rem; color: var(--theme-text-secondary);">
-                                        On mobile devices (≤768px), only the search icon is shown. Tapping it opens the keyboard and enables autocomplete.
-                                    </p>
-                                    <div class="search-bar mobile-search" id="mobile-search-example">
-                                        <button class="search-bar-icon-btn" type="button" aria-label="Search">
-                                            <svg class="search-bar-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                                <circle cx="11" cy="11" r="8"></circle>
-                                                <path d="m21 21-4.35-4.35"></path>
-                                            </svg>
-                                        </button>
-                                        <input
-                                            type="text"
-                                            class="search-bar-input"
-                                            placeholder="Search..."
-                                        />
-                                        <button class="search-bar-clear" type="button" aria-label="Clear">×</button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="component-code">
-                                <div style="padding: 2rem; display: grid; gap: 2rem">
-                                    <div>
-                                        <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">HTML/CSS</h4>
-                                        <pre style="margin-bottom: 2rem"><code class="language-html">&lt;!-- Mobile-responsive search bar --&gt;
-&lt;div class="search-bar" id="mobile-search"&gt;
-    &lt;input
-        type="text"
-        class="search-bar-input"
-        placeholder="Search..."
-    /&gt;
-    &lt;svg class="search-bar-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"&gt;
-        &lt;circle cx="11" cy="11" r="8"&gt;&lt;/circle&gt;
-        &lt;path d="m21 21-4.35-4.35"&gt;&lt;/path&gt;
-    &lt;/svg&gt;
-    &lt;button class="search-bar-clear"&gt;×&lt;/button&gt;
-&lt;/div&gt;
-
-&lt;script&gt;
-// Mobile search toggle
-const searchBar = document.getElementById('mobile-search');
-const searchInput = searchBar.querySelector('.search-bar-input');
-const searchIcon = searchBar.querySelector('.search-bar-icon');
-
-// Click icon to expand
-searchIcon.addEventListener('click', () => {
-    if (!searchBar.classList.contains('is-expanded')) {
-        searchBar.classList.add('is-expanded');
-        setTimeout(() => searchInput.focus(), 100);
-    }
-});
-
-// Collapse on blur if empty
-searchInput.addEventListener('blur', () => {
-    setTimeout(() => {
-        if (!searchInput.value) {
-            searchBar.classList.remove('is-expanded');
-        }
-    }, 200);
-});
-&lt;/script&gt;</code></pre>
-                                    </div>
-                                    <div>
-                                        <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">React</h4>
-                                        <pre style="margin-bottom: 2rem"><code class="language-jsx">import { useState } from 'react';
-
-function MobileSearchBar() {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [value, setValue] = useState('');
-
-  return (
-    &lt;div className={`search-bar ${isExpanded ? 'is-expanded' : ''}`}&gt;
-      &lt;input
-        type="text"
-        className="search-bar-input"
-        placeholder="Search..."
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
-        onClick={() => setIsExpanded(true)}
-        onBlur={() => !value && setIsExpanded(false)}
-      /&gt;
-      &lt;svg className="search-bar-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"&gt;
-        &lt;circle cx="11" cy="11" r="8" /&gt;
-        &lt;path d="m21 21-4.35-4.35" /&gt;
-      &lt;/svg&gt;
-      &lt;button
-        className="search-bar-clear"
-        onClick={() => setValue('')}
-      &gt;×&lt;/button&gt;
-    &lt;/div&gt;
-  );
-}</code></pre>
-                                    </div>
-                                    <div>
-                                        <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Vue.js</h4>
-                                        <pre style="margin-bottom: 2rem"><code class="language-vue">&lt;template&gt;
-  &lt;div :class="['search-bar', { 'is-expanded': isExpanded }]"&gt;
-    &lt;input
-      type="text"
-      class="search-bar-input"
-      placeholder="Search..."
-      v-model="searchValue"
-      @click="isExpanded = true"
-      @blur="!searchValue && (isExpanded = false)"
-    /&gt;
-    &lt;svg class="search-bar-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"&gt;
-      &lt;circle cx="11" cy="11" r="8" /&gt;
-      &lt;path d="m21 21-4.35-4.35" /&gt;
-    &lt;/svg&gt;
-    &lt;button
-      class="search-bar-clear"
-      @click="searchValue = ''"
-    &gt;×&lt;/button&gt;
-  &lt;/div&gt;
-&lt;/template&gt;
-
-&lt;script&gt;
-export default {
-  data() {
-    return {
-      isExpanded: false,
-      searchValue: ''
-    };
-  }
-};
-&lt;/script&gt;</code></pre>
-                                    </div>
-                                    <div>
-                                        <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">jQuery</h4>
-                                        <pre style="margin-bottom: 2rem"><code class="language-javascript">$('#mobile-search .search-bar-input')
-  .on('click', function() {
-    $(this).closest('.search-bar').addClass('is-expanded');
-    $(this).focus();
-  })
-  .on('blur', function() {
-    const $searchBar = $(this).closest('.search-bar');
-    if (!$(this).val()) {
-      $searchBar.removeClass('is-expanded');
-    }
-  });
-
-$('#mobile-search .search-bar-clear').on('click', function() {
-  $(this).siblings('.search-bar-input').val('');
-});</code></pre>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </section>
 
                 <!-- Cards Section -->
@@ -7309,7 +6445,7 @@ $('#mobile-search .search-bar-clear').on('click', function() {
                                     >
                                         jQuery
                                     </h4>
-                                    <pre><code class="language-javascript">// Create card dynamically
+                                    <pre><code>// Create card dynamically
 const $card = $('&lt;div&gt;').addClass('card');
 const $header = $('&lt;div&gt;').addClass('card-header');
 const $title = $('&lt;h4&gt;').addClass('card-header-title').text('Card Title');
@@ -7573,178 +6709,46 @@ $('#container').append($card);</code></pre>
                                 </header>
                             </div>
                             <div class="component-code">
-                                <div style="padding: 2rem">
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            font-size: 0.875rem;
-                                            font-weight: 600;
-                                            color: var(--theme-text-secondary);
-                                            text-transform: uppercase;
-                                            letter-spacing: 0.05em;
-                                        "
-                                    >
-                                        HTML/CSS
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code class="language-markup">&lt;header class="main-header"&gt;
+                                <pre><code class="language-markup">&lt;header class="main-header"&gt;
     &lt;div class="header-container"&gt;
+        &lt;!-- Brand Logo --&gt;
         &lt;div class="header-logo"&gt;
-            &lt;img src="logo.svg" alt="Logo" width="32" height="32"&gt;
+            &lt;img src="logo-symbol.svg" alt="Logo" width="32" height="32"&gt;
             &lt;span class="header-title"&gt;MONOCHROME EDGE&lt;/span&gt;
         &lt;/div&gt;
+
+        &lt;!-- Navigation --&gt;
         &lt;nav class="header-nav"&gt;
             &lt;a href="#" class="header-nav-item"&gt;Overview&lt;/a&gt;
             &lt;a href="#" class="header-nav-item"&gt;Components&lt;/a&gt;
             &lt;a href="#" class="header-nav-item"&gt;Examples&lt;/a&gt;
             &lt;a href="#" class="header-nav-item"&gt;GitHub&lt;/a&gt;
         &lt;/nav&gt;
+
+        &lt;!-- Theme and Mode Controls --&gt;
         &lt;div class="header-controls"&gt;
-            &lt;button class="icon-btn theme-btn"&gt;...&lt;/button&gt;
-            &lt;button class="icon-btn mode-btn"&gt;...&lt;/button&gt;
+            &lt;!-- Theme Switcher --&gt;
+            &lt;div class="icon-btn-group"&gt;
+                &lt;button class="icon-btn theme-btn active" data-theme="warm"&gt;
+                    &lt;svg&gt;...flame icon...&lt;/svg&gt;
+                &lt;/button&gt;
+                &lt;button class="icon-btn theme-btn" data-theme="cold"&gt;
+                    &lt;svg&gt;...snowflake icon...&lt;/svg&gt;
+                &lt;/button&gt;
+            &lt;/div&gt;
+
+            &lt;!-- Mode Switcher --&gt;
+            &lt;div class="icon-btn-group"&gt;
+                &lt;button class="icon-btn mode-btn active" data-mode="light"&gt;
+                    &lt;svg&gt;...sun icon...&lt;/svg&gt;
+                &lt;/button&gt;
+                &lt;button class="icon-btn mode-btn" data-mode="dark"&gt;
+                    &lt;svg&gt;...moon icon...&lt;/svg&gt;
+                &lt;/button&gt;
+            &lt;/div&gt;
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/header&gt;</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            font-size: 0.875rem;
-                                            font-weight: 600;
-                                            color: var(--theme-text-secondary);
-                                            text-transform: uppercase;
-                                            letter-spacing: 0.05em;
-                                        "
-                                    >
-                                        React
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code class="language-jsx">import { Header, HeaderNav, IconButton } from '@monochrome-edge/react';
-
-function App() {
-  const [theme, setTheme] = useState('warm');
-  const [mode, setMode] = useState('light');
-
-  return (
-    &lt;Header
-      logo={&lt;img src="logo.svg" alt="Logo" /&gt;}
-      title="MONOCHROME EDGE"
-    &gt;
-      &lt;HeaderNav
-        items={[
-          { label: 'Overview', href: '#overview' },
-          { label: 'Components', href: '#components' },
-          { label: 'Examples', href: '#examples' },
-          { label: 'GitHub', href: '#github' }
-        ]}
-      /&gt;
-      &lt;IconButton
-        icon={theme === 'warm' ? 'flame' : 'snowflake'}
-        onClick={() => setTheme(theme === 'warm' ? 'cold' : 'warm')}
-      /&gt;
-      &lt;IconButton
-        icon={mode === 'light' ? 'sun' : 'moon'}
-        onClick={() => setMode(mode === 'light' ? 'dark' : 'light')}
-      /&gt;
-    &lt;/Header&gt;
-  );
-}</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            font-size: 0.875rem;
-                                            font-weight: 600;
-                                            color: var(--theme-text-secondary);
-                                            text-transform: uppercase;
-                                            letter-spacing: 0.05em;
-                                        "
-                                    >
-                                        Vue.js
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code class="language-vue">&lt;template&gt;
-  &lt;Header :logo="logoSrc" title="MONOCHROME EDGE"&gt;
-    &lt;HeaderNav :items="navItems" /&gt;
-    &lt;IconButton
-      :icon="theme === 'warm' ? 'flame' : 'snowflake'"
-      @click="toggleTheme"
-    /&gt;
-    &lt;IconButton
-      :icon="mode === 'light' ? 'sun' : 'moon'"
-      @click="toggleMode"
-    /&gt;
-  &lt;/Header&gt;
-&lt;/template&gt;
-
-&lt;script setup&gt;
-import { ref } from 'vue';
-import { Header, HeaderNav, IconButton } from '@monochrome-edge/vue';
-
-const theme = ref('warm');
-const mode = ref('light');
-const navItems = [
-  { label: 'Overview', href: '#overview' },
-  { label: 'Components', href: '#components' },
-  { label: 'Examples', href: '#examples' },
-  { label: 'GitHub', href: '#github' }
-];
-
-const toggleTheme = () => {
-  theme.value = theme.value === 'warm' ? 'cold' : 'warm';
-};
-
-const toggleMode = () => {
-  mode.value = mode.value === 'light' ? 'dark' : 'light';
-};
-&lt;/script&gt;</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            font-size: 0.875rem;
-                                            font-weight: 600;
-                                            color: var(--theme-text-secondary);
-                                            text-transform: uppercase;
-                                            letter-spacing: 0.05em;
-                                        "
-                                    >
-                                        jQuery
-                                    </h4>
-                                    <pre><code class="language-javascript">// Build header navigation with jQuery
-const $header = $('&lt;header&gt;').addClass('main-header');
-const $container = $('&lt;div&gt;').addClass('header-container');
-
-// Logo
-const $logo = $('&lt;div&gt;').addClass('header-logo');
-$logo.append($('&lt;img&gt;').attr({ src: 'logo.svg', width: 32, height: 32 }));
-$logo.append($('&lt;span&gt;').addClass('header-title').text('MONOCHROME EDGE'));
-
-// Navigation
-const $nav = $('&lt;nav&gt;').addClass('header-nav');
-['Overview', 'Components', 'Examples', 'GitHub'].forEach(item =&gt; {
-  $nav.append(
-    $('&lt;a&gt;')
-      .addClass('header-nav-item')
-      .attr('href', '#' + item.toLowerCase())
-      .text(item)
-  );
-});
-
-// Controls
-const $controls = $('&lt;div&gt;').addClass('header-controls');
-const $themeBtn = $('&lt;button&gt;').addClass('icon-btn theme-btn');
-const $modeBtn = $('&lt;button&gt;').addClass('icon-btn mode-btn');
-
-$controls.append($themeBtn, $modeBtn);
-$container.append($logo, $nav, $controls);
-$header.append($container);
-
-$('body').prepend($header);</code></pre>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -8243,7 +7247,7 @@ modal.addEventListener('close', () => {
                                     >
                                         jQuery
                                     </h4>
-                                    <pre><code class="language-javascript">// Open modal
+                                    <pre><code>// Open modal
 $('#openModal').on('click', function() {
     $('#myModal').addClass('is-open');
 });
@@ -8464,9 +7468,7 @@ const data = [
                                     >
                                         jQuery
                                     </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>// Add row dynamically
+                                    <pre><code>// Add row dynamically
 $('#addRow').on('click', function() {
     const newRow = `
         &lt;tr&gt;
@@ -8483,41 +7485,6 @@ $('#addRow').on('click', function() {
 $('th').on('click', function() {
     // Sorting logic here
 });</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            color: var(--theme-text-primary);
-                                        "
-                                    >
-                                        Web Components
-                                    </h4>
-                                    <pre><code class="language-html">&lt;mono-table&gt;
-    &lt;mono-table-header&gt;
-        &lt;mono-table-row&gt;
-            &lt;mono-table-header-cell&gt;Name&lt;/mono-table-header-cell&gt;
-            &lt;mono-table-header-cell&gt;Status&lt;/mono-table-header-cell&gt;
-            &lt;mono-table-header-cell&gt;Role&lt;/mono-table-header-cell&gt;
-            &lt;mono-table-header-cell&gt;Actions&lt;/mono-table-header-cell&gt;
-        &lt;/mono-table-row&gt;
-    &lt;/mono-table-header&gt;
-    &lt;mono-table-body&gt;
-        &lt;mono-table-row&gt;
-            &lt;mono-table-cell&gt;John Doe&lt;/mono-table-cell&gt;
-            &lt;mono-table-cell&gt;
-                &lt;mono-badge variant="success"&gt;Active&lt;/mono-badge&gt;
-            &lt;/mono-table-cell&gt;
-            &lt;mono-table-cell&gt;Admin&lt;/mono-table-cell&gt;
-            &lt;mono-table-cell&gt;
-                &lt;mono-button variant="ghost" size="small"&gt;Edit&lt;/mono-button&gt;
-            &lt;/mono-table-cell&gt;
-        &lt;/mono-table-row&gt;
-    &lt;/mono-table-body&gt;
-&lt;/mono-table&gt;
-
-&lt;script type="module"&gt;
-  import '@monochrome-edge/web-components';
-&lt;/script&gt;</code></pre>
                                 </div>
                             </div>
                         </div>
@@ -9508,22 +8475,48 @@ $('th').on('click', function() {
                                         href="blog-demo.html"
                                         class="btn btn-primary"
                                         target="_blank"
-                                        style="
-                                            margin-bottom: 2rem;
-                                            display: inline-block;
-                                        "
                                     >
                                         View Full Demo →
                                     </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <!-- Using Layouts in Frameworks -->
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">
+                                Using Layout Classes in Frameworks
+                            </h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="layouts-frameworks"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="layouts-frameworks"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="layouts-frameworks">
+                            <div class="component-preview">
+                                <p style="color: var(--theme-text-secondary)">
+                                    See code examples for using layout utility
+                                    classes in different frameworks
+                                </p>
+                            </div>
+                            <div class="component-code">
+                                <div style="padding: 2rem">
                                     <h4
                                         style="
                                             margin-bottom: 1rem;
-                                            font-size: 0.875rem;
-                                            font-weight: 600;
-                                            color: var(--theme-text-secondary);
-                                            text-transform: uppercase;
-                                            letter-spacing: 0.05em;
+                                            color: var(--theme-text-primary);
                                         "
                                     >
                                         HTML/CSS
@@ -9545,11 +8538,7 @@ $('th').on('click', function() {
                                     <h4
                                         style="
                                             margin-bottom: 1rem;
-                                            font-size: 0.875rem;
-                                            font-weight: 600;
-                                            color: var(--theme-text-secondary);
-                                            text-transform: uppercase;
-                                            letter-spacing: 0.05em;
+                                            color: var(--theme-text-primary);
                                         "
                                     >
                                         React
@@ -9580,11 +8569,7 @@ function DynamicSpacing() {
                                     <h4
                                         style="
                                             margin-bottom: 1rem;
-                                            font-size: 0.875rem;
-                                            font-weight: 600;
-                                            color: var(--theme-text-secondary);
-                                            text-transform: uppercase;
-                                            letter-spacing: 0.05em;
+                                            color: var(--theme-text-primary);
                                         "
                                     >
                                         Vue.js
@@ -9611,11 +8596,7 @@ import '@monochrome-edge/ui/styles.css';
                                     <h4
                                         style="
                                             margin-bottom: 1rem;
-                                            font-size: 0.875rem;
-                                            font-weight: 600;
-                                            color: var(--theme-text-secondary);
-                                            text-transform: uppercase;
-                                            letter-spacing: 0.05em;
+                                            color: var(--theme-text-primary);
                                         "
                                     >
                                         Web Components
@@ -9644,22 +8625,22 @@ class MyLayout extends HTMLElement {
                                     <h4
                                         style="
                                             margin-bottom: 1rem;
-                                            font-size: 0.875rem;
-                                            font-weight: 600;
-                                            color: var(--theme-text-secondary);
-                                            text-transform: uppercase;
-                                            letter-spacing: 0.05em;
+                                            color: var(--theme-text-primary);
                                         "
                                     >
                                         jQuery
                                     </h4>
-                                    <pre><code class="language-javascript">// Create grid layout
-$('&lt;div&gt;').addClass('demo-grid').appendTo('#container');
+                                    <pre><code>// Create grid layout dynamically
+const $grid = $('&lt;div&gt;').addClass('demo-grid');
 
-// Add cards
 for (let i = 1; i &lt;= 3; i++) {
-  $('&lt;div&gt;').addClass('card').text(`Card ${i}`).appendTo('.demo-grid');
+  $('&lt;div&gt;')
+    .addClass('card')
+    .text(`Card ${i}`)
+    .appendTo($grid);
 }
+
+$grid.appendTo('#container');
 
 // Apply spacing using CSS variables
 $('#myElement').css({
@@ -9797,380 +8778,6 @@ $('#myElement').css({
                     </div>
                 </section>
 
-                <!-- Tags & Badges Section -->
-                <section class="ds-section" id="tags-badges">
-                    <h2 class="ds-section-title">
-                        Tags & Badges
-                        <span class="component-tags">
-                            <span class="component-tag component-tag-css"
-                                >CSS</span
-                            >
-                        </span>
-                    </h2>
-                    <p class="ds-section-description">
-                        Standardized tags and badges used throughout the UI library for categorization, status indication, and metadata display.
-                    </p>
-
-                    <!-- Component Type Tags -->
-                    <div class="component-showcase">
-                        <div class="component-header">
-                            <h3 class="component-title">Component Type Tags</h3>
-                            <div class="component-toggle">
-                                <button
-                                    class="toggle-btn active"
-                                    data-target="component-type-tags"
-                                >
-                                    Preview
-                                </button>
-                                <button
-                                    class="toggle-btn"
-                                    data-target="component-type-tags"
-                                >
-                                    Code
-                                </button>
-                            </div>
-                        </div>
-                        <div class="component-content" id="component-type-tags">
-                            <div class="component-preview">
-                                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                                    <div>
-                                        <h4 style="margin-bottom: 0.75rem; font-size: 0.875rem; color: var(--theme-text-secondary);">Individual Tags</h4>
-                                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                                            <span class="component-tag component-tag-css">CSS</span>
-                                            <span class="component-tag component-tag-js">JS</span>
-                                            <span class="component-tag component-tag-svg">SVG</span>
-                                            <span class="component-tag component-tag-canvas">CANVAS</span>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <h4 style="margin-bottom: 0.75rem; font-size: 0.875rem; color: var(--theme-text-secondary);">Combined Tags (Section Headers)</h4>
-                                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                                            <span class="component-tags">
-                                                <span class="component-tag component-tag-css">CSS</span>
-                                            </span>
-                                            <span class="component-tags">
-                                                <span class="component-tag component-tag-css">CSS</span><span class="component-tag component-tag-js">JS</span>
-                                            </span>
-                                            <span class="component-tags">
-                                                <span class="component-tag component-tag-svg">SVG</span><span class="component-tag component-tag-js">JS</span>
-                                            </span>
-                                            <span class="component-tags">
-                                                <span class="component-tag component-tag-canvas">CANVAS</span><span class="component-tag component-tag-js">JS</span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="component-code">
-                                <div style="padding: 2rem; display: grid; gap: 2rem">
-                                    <div>
-                                        <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">HTML/CSS</h4>
-                                        <pre style="margin-bottom: 2rem"><code class="language-html">&lt;!-- Individual Tags --&gt;
-&lt;span class="component-tag component-tag-css"&gt;CSS&lt;/span&gt;
-&lt;span class="component-tag component-tag-js"&gt;JS&lt;/span&gt;
-&lt;span class="component-tag component-tag-svg"&gt;SVG&lt;/span&gt;
-&lt;span class="component-tag component-tag-canvas"&gt;CANVAS&lt;/span&gt;
-
-&lt;!-- Combined Tags (for section headers) --&gt;
-&lt;span class="component-tags"&gt;
-    &lt;span class="component-tag component-tag-css"&gt;CSS&lt;/span&gt;
-    &lt;span class="component-tag component-tag-js"&gt;JS&lt;/span&gt;
-&lt;/span&gt;</code></pre>
-                                    </div>
-                                    <div>
-                                        <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">CSS Classes</h4>
-                                        <pre style="margin-bottom: 2rem"><code class="language-css">/* Base Tag Styles */
-.component-tag {
-    display: inline-block;
-    padding: 0.125rem 0.5rem;
-    font-size: 0.625rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    border-radius: calc(var(--border-radius) / 2);
-    border: 1px solid var(--theme-border);
-}
-
-/* Type Variants */
-.component-tag-css {
-    background-color: var(--theme-bg);
-    color: var(--theme-text-secondary);
-}
-
-.component-tag-js {
-    background-color: var(--theme-accent);
-    color: var(--theme-accent-contrast);
-}
-
-.component-tag-svg {
-    background-color: var(--theme-surface);
-    color: var(--theme-text-primary);
-    border-color: var(--theme-accent);
-}
-
-.component-tag-canvas {
-    background-color: var(--theme-accent);
-    color: var(--theme-accent-contrast);
-    opacity: 0.9;
-}
-
-/* Container for multiple tags */
-.component-tags {
-    display: inline-flex;
-    gap: 0.375rem;
-    align-items: center;
-}</code></pre>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Status & Semantic Badges -->
-                    <div class="component-showcase">
-                        <div class="component-header">
-                            <h3 class="component-title">Status Badges</h3>
-                            <div class="component-toggle">
-                                <button
-                                    class="toggle-btn active"
-                                    data-target="status-badges"
-                                >
-                                    Preview
-                                </button>
-                                <button
-                                    class="toggle-btn"
-                                    data-target="status-badges"
-                                >
-                                    Code
-                                </button>
-                            </div>
-                        </div>
-                        <div class="component-content" id="status-badges">
-                            <div class="component-preview">
-                                <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                                    <div>
-                                        <h4 style="margin-bottom: 0.75rem; font-size: 0.875rem; color: var(--theme-text-secondary);">Semantic Colors</h4>
-                                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                                            <span class="badge badge-success">Success</span>
-                                            <span class="badge badge-warning">Warning</span>
-                                            <span class="badge badge-error">Error</span>
-                                            <span class="badge badge-info">Info</span>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <h4 style="margin-bottom: 0.75rem; font-size: 0.875rem; color: var(--theme-text-secondary);">Sizes</h4>
-                                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
-                                            <span class="badge badge-xs">Extra Small</span>
-                                            <span class="badge badge-sm">Small</span>
-                                            <span class="badge">Medium (Default)</span>
-                                            <span class="badge badge-lg">Large</span>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <h4 style="margin-bottom: 0.75rem; font-size: 0.875rem; color: var(--theme-text-secondary);">Outline Variants</h4>
-                                        <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-                                            <span class="badge badge-outline badge-success">Success</span>
-                                            <span class="badge badge-outline badge-warning">Warning</span>
-                                            <span class="badge badge-outline badge-error">Error</span>
-                                            <span class="badge badge-outline badge-info">Info</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="component-code">
-                                <div style="padding: 2rem; display: grid; gap: 2rem">
-                                    <div>
-                                        <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">HTML</h4>
-                                        <pre style="margin-bottom: 2rem"><code class="language-html">&lt;!-- Semantic Badges --&gt;
-&lt;span class="badge badge-success"&gt;Success&lt;/span&gt;
-&lt;span class="badge badge-warning"&gt;Warning&lt;/span&gt;
-&lt;span class="badge badge-error"&gt;Error&lt;/span&gt;
-&lt;span class="badge badge-info"&gt;Info&lt;/span&gt;
-
-&lt;!-- Sizes --&gt;
-&lt;span class="badge badge-xs"&gt;Extra Small&lt;/span&gt;
-&lt;span class="badge badge-sm"&gt;Small&lt;/span&gt;
-&lt;span class="badge"&gt;Medium&lt;/span&gt;
-&lt;span class="badge badge-lg"&gt;Large&lt;/span&gt;
-
-&lt;!-- Outline Variants --&gt;
-&lt;span class="badge badge-outline badge-success"&gt;Success&lt;/span&gt;
-&lt;span class="badge badge-outline badge-error"&gt;Error&lt;/span&gt;</code></pre>
-                                    </div>
-                                    <div>
-                                        <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">CSS (Add to your styles)</h4>
-                                        <pre style="margin-bottom: 2rem"><code class="language-css">/* Base Badge */
-.badge {
-    display: inline-block;
-    padding: 0.25rem 0.625rem;
-    font-size: 0.75rem;
-    font-weight: 600;
-    border-radius: calc(var(--border-radius) * 0.75);
-    background-color: var(--theme-surface);
-    color: var(--theme-text-primary);
-    border: 1px solid var(--theme-border);
-}
-
-/* Semantic Colors */
-.badge-success {
-    background-color: var(--color-success);
-    color: white;
-    border-color: var(--color-success);
-}
-
-.badge-warning {
-    background-color: var(--color-warning);
-    color: var(--theme-text-primary);
-    border-color: var(--color-warning);
-}
-
-.badge-error {
-    background-color: var(--color-error);
-    color: white;
-    border-color: var(--color-error);
-}
-
-.badge-info {
-    background-color: var(--color-info);
-    color: white;
-    border-color: var(--color-info);
-}
-
-/* Sizes */
-.badge-xs {
-    padding: 0.125rem 0.375rem;
-    font-size: 0.625rem;
-}
-.badge-sm {
-    padding: 0.1875rem 0.5rem;
-    font-size: 0.6875rem;
-}
-.badge-lg {
-    padding: 0.375rem 0.875rem;
-    font-size: 0.875rem;
-}
-
-/* Outline Variant */
-.badge-outline {
-    background-color: transparent;
-}
-
-.badge-outline.badge-success {
-    color: var(--color-success);
-}
-
-.badge-outline.badge-warning {
-    color: var(--color-warning);
-}
-
-.badge-outline.badge-error {
-    color: var(--color-error);
-}
-
-.badge-outline.badge-info {
-    color: var(--color-info);
-}</code></pre>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Usage Examples -->
-                    <div class="component-showcase">
-                        <div class="component-header">
-                            <h3 class="component-title">Usage in Context</h3>
-                            <div class="component-toggle">
-                                <button
-                                    class="toggle-btn active"
-                                    data-target="tags-usage"
-                                >
-                                    Preview
-                                </button>
-                                <button
-                                    class="toggle-btn"
-                                    data-target="tags-usage"
-                                >
-                                    Code
-                                </button>
-                            </div>
-                        </div>
-                        <div class="component-content" id="tags-usage">
-                            <div class="component-preview">
-                                <div style="width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 1.5rem;">
-                                    <!-- Section Header Example -->
-                                    <div style="background-color: var(--theme-surface); border: 1px solid var(--theme-border); border-radius: var(--border-radius); padding: 1.25rem;">
-                                        <h3 style="display: flex; align-items: center; gap: 0.75rem; margin: 0 0 0.5rem 0; font-size: 1.125rem;">
-                                            Component Name
-                                            <span class="component-tags">
-                                                <span class="component-tag component-tag-css">CSS</span>
-                                                <span class="component-tag component-tag-js">JS</span>
-                                            </span>
-                                        </h3>
-                                        <p style="color: var(--theme-text-secondary); font-size: 0.875rem; margin: 0;">
-                                            Example of component type tags in a section header
-                                        </p>
-                                    </div>
-
-                                    <!-- Card with Status Badge -->
-                                    <div style="background-color: var(--theme-surface); border: 1px solid var(--theme-border); border-radius: var(--border-radius); padding: 1.25rem;">
-                                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
-                                            <h4 style="margin: 0; font-size: 1rem;">Task Item</h4>
-                                            <span class="badge badge-success">Completed</span>
-                                        </div>
-                                        <p style="color: var(--theme-text-secondary); font-size: 0.875rem; margin: 0;">
-                                            Example of status badge in a card
-                                        </p>
-                                    </div>
-
-                                    <!-- Multiple Tags on Item -->
-                                    <div style="background-color: var(--theme-surface); border: 1px solid var(--theme-border); border-radius: var(--border-radius); padding: 1.25rem;">
-                                        <h4 style="margin: 0 0 0.5rem 0; font-size: 1rem;">Article Title</h4>
-                                        <div style="display: flex; gap: 0.5rem; align-items: center; font-size: 0.75rem; color: var(--theme-text-secondary);">
-                                            <span class="badge badge-xs badge-outline badge-info">React</span>
-                                            <span class="badge badge-xs badge-outline badge-info">TypeScript</span>
-                                            <span>•</span>
-                                            <span>5 min read</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="component-code">
-                                <div style="padding: 2rem;">
-                                    <pre><code class="language-html">&lt;!-- Section Header with Component Tags --&gt;
-&lt;h2&gt;
-    Component Name
-    &lt;span class="component-tags"&gt;
-        &lt;span class="component-tag component-tag-css"&gt;CSS&lt;/span&gt;
-        &lt;span class="component-tag component-tag-js"&gt;JS&lt;/span&gt;
-    &lt;/span&gt;
-&lt;/h2&gt;
-
-&lt;!-- Card with Status Badge --&gt;
-&lt;div class="card"&gt;
-    &lt;div class="card-body"&gt;
-        &lt;div style="display: flex; justify-content: space-between;"&gt;
-            &lt;h4&gt;Task Item&lt;/h4&gt;
-            &lt;span class="badge badge-success"&gt;Completed&lt;/span&gt;
-        &lt;/div&gt;
-    &lt;/div&gt;
-&lt;/div&gt;
-
-&lt;!-- Article Metadata --&gt;
-&lt;div class="card"&gt;
-    &lt;h4&gt;Article Title&lt;/h4&gt;
-    &lt;div style="display: flex; gap: 0.5rem;"&gt;
-        &lt;span class="badge badge-xs badge-outline badge-info"&gt;React&lt;/span&gt;
-        &lt;span class="badge badge-xs badge-outline badge-info"&gt;TypeScript&lt;/span&gt;
-        &lt;span&gt;• 5 min read&lt;/span&gt;
-    &lt;/div&gt;
-&lt;/div&gt;</code></pre>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
                 <!-- Accordion Section -->
                 <section class="ds-section" id="accordion">
                     <h2 class="ds-section-title">
@@ -10275,29 +8882,7 @@ $('#myElement').css({
                                 </div>
                             </div>
                             <div class="component-code">
-                                <div
-                                    style="
-                                        padding: 2rem;
-                                        display: grid;
-                                        gap: 2rem;
-                                    "
-                                >
-                                    <div>
-                                        <h4
-                                            style="
-                                                margin-bottom: 1rem;
-                                                font-size: 0.875rem;
-                                                font-weight: 600;
-                                                color: var(
-                                                    --theme-text-secondary
-                                                );
-                                                text-transform: uppercase;
-                                                letter-spacing: 0.05em;
-                                            "
-                                        >
-                                            HTML/CSS
-                                        </h4>
-                                        <pre><code class="language-markup">&lt;div class="accordion"&gt;
+                                <pre><code class="language-markup">&lt;div class="accordion"&gt;
     &lt;div class="accordion-item"&gt;
         &lt;div class="accordion-header"&gt;
             &lt;button class="accordion-button"&gt;
@@ -10322,7 +8907,44 @@ $('.accordion-button').on('click', function() {
         .toggleClass('show');
 });
 &lt;/script&gt;</code></pre>
-                                    </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Framework Examples -->
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Framework Usage</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="accordion-framework"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="accordion-framework"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="accordion-framework">
+                            <div class="component-preview">
+                                <p style="color: var(--theme-text-secondary)">
+                                    See framework-specific implementations
+                                    below.
+                                </p>
+                            </div>
+                            <div class="component-code">
+                                <div
+                                    style="
+                                        padding: 2rem;
+                                        display: grid;
+                                        gap: 2rem;
+                                    "
+                                >
                                     <div>
                                         <h4
                                             style="
@@ -13466,33 +12088,6 @@ new DropdownController(document.getElementById('action-dropdown'));
                     </style>
                     <div class="changelog-container">
                         <!-- CHANGELOG_START -->
-                        <div class="changelog-entry" data-version="1.7.3">
-    <h3 class="changelog-version">v1.7.3 <span class="changelog-date">2025-10-09</span></h3>
-    <div class="changelog-content">
-        <div class="changelog-category">
-            <h4 class="changelog-category-title">Bug Fixes</h4>
-            <ul class="changelog-list">
-                <li>
-                    <span class="changelog-commit">fix: add code guide on each component section</span>
-                    <a href="#" class="changelog-hash" title="c2d72a55365a34ffedc5c4ee9d50f3923ac4f3e7">c2d72a5</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</div>
-                        <div class="changelog-entry" data-version="1.7.2">
-    <h3 class="changelog-version">v1.7.2 <span class="changelog-date">2025-10-09</span></h3>
-    <div class="changelog-content">
-        <div class="changelog-category">
-            <h4 class="changelog-category-title">Bug Fixes</h4>
-            <ul class="changelog-list">
-                <li>
-                    <span class="changelog-commit">fix: use package.json version when it&#039;s higher than git tag</span>
-                    <a href="#" class="changelog-hash" title="9665dff35c93c2962fcc9641d1bc2aa6fe11e8c1">9665dff</a>
-                </li>
-            </ul>
-        </div>
-    </div>
                         <div class="changelog-entry" data-version="1.7.0">
                             <h3 class="changelog-version">
                                 v1.7.0
@@ -13560,18 +12155,40 @@ new DropdownController(document.getElementById('action-dropdown'));
                                     </ul>
                                 </div>
                             </div>
+                        </div>
+                        <div class="changelog-entry" data-version="1.6.1">
+                            <h3 class="changelog-version">
+                                v1.6.1
+                                <span class="changelog-date">2025-10-07</span>
+                            </h3>
+                            <div class="changelog-content">
+                                <div class="changelog-category">
+                                    <h4 class="changelog-category-title">
+                                        Bug Fixes
+                                    </h4>
+                                    <ul class="changelog-list">
+                                        <li>
+                                            <span class="changelog-commit"
+                                                >fix: resolve conflict</span
+                                            >
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
                         <div class="changelog-more">
-                            <a href="https://github.com/1eedaegon/monochrome-edge/blob/main/CHANGELOG.md"
-                               class="btn btn-outline"
-                               target="_blank"
-                               rel="noopener noreferrer">
+                            <a
+                                href="https://github.com/1eedaegon/monochrome-edge/blob/main/CHANGELOG.md"
+                                class="btn btn-outline"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                            >
                                 View Full Changelog
                             </a>
                         </div>
-                    <!-- CHANGELOG_END -->
+                        <!-- CHANGELOG_END -->
                     </div>
                 </section>
-                </div>
             </main>
         </div>
 
@@ -14091,6 +12708,12 @@ new DropdownController(document.getElementById('action-dropdown'));
                     }
                 });
 
+                console.log(
+                    "Search Toolbar: Loaded " +
+                        pageDocuments.length +
+                        " documents for autocomplete",
+                );
+
                 const searchToolbar = new window.SearchToolbar(
                     "#search-toolbar-container",
                     {
@@ -14455,7 +13078,7 @@ new DropdownController(document.getElementById('action-dropdown'));
                     data: treeData,
                     expandedByDefault: false,
                     onNodeClick: (node) => {
-                        // Tree node click handler
+                        console.log("Tree node clicked:", node.label);
                     },
                 });
 
@@ -14677,12 +13300,31 @@ new DropdownController(document.getElementById('action-dropdown'));
                 }
 
                 // Debug: Log container and documents
+                console.log("GraphView Debug:");
+                console.log("  Container:", container);
+                console.log(
+                    "  Container width:",
+                    container.clientWidth,
+                    "height:",
+                    container.clientHeight,
+                );
+                console.log("  Documents count:", documents.length);
+                console.log("  Sample document:", documents[0]);
+
                 // Wait for next frame to ensure container is rendered
                 requestAnimationFrame(() => {
                     const containerWidth =
                         container.clientWidth || container.offsetWidth || 1200;
                     const containerHeight =
                         container.clientHeight || container.offsetHeight || 500;
+
+                    console.log("After requestAnimationFrame:");
+                    console.log(
+                        "  Container width:",
+                        containerWidth,
+                        "height:",
+                        containerHeight,
+                    );
 
                     // Create GraphView instance with hover callback
                     const graphView = new window.GraphView({
@@ -14694,7 +13336,7 @@ new DropdownController(document.getElementById('action-dropdown'));
                         showLabels: true,
                         iterations: 0, // No force simulation, use static positions
                         onNodeClick: (node) => {
-                            // Node click handler
+                            console.log("Node clicked:", node.title);
                         },
                         onNodeHover: (node) => {
                             if (!tooltip) return;
@@ -14749,6 +13391,56 @@ new DropdownController(document.getElementById('action-dropdown'));
 
                     // Initial render with static positions
                     graphView.render();
+
+                    // Debug: Check canvas after creation
+                    const canvas =
+                        container.querySelector(".graph-view-canvas");
+                    const ctx = canvas?.getContext("2d");
+                    console.log("  Canvas element:", canvas);
+                    console.log(
+                        "  Canvas width:",
+                        canvas?.width,
+                        "height:",
+                        canvas?.height,
+                    );
+                    console.log(
+                        "  Canvas style:",
+                        canvas?.style.width,
+                        canvas?.style.height,
+                    );
+                    console.log(
+                        "  Canvas offsetWidth:",
+                        canvas?.offsetWidth,
+                        "offsetHeight:",
+                        canvas?.offsetHeight,
+                    );
+
+                    // Check if anything was drawn
+                    if (canvas && ctx) {
+                        const imageData = ctx.getImageData(
+                            0,
+                            0,
+                            canvas.width,
+                            canvas.height,
+                        );
+                        const hasContent = imageData.data.some(
+                            (pixel) => pixel !== 0,
+                        );
+                        console.log("  Canvas has content:", hasContent);
+
+                        // Sample some pixels
+                        console.log(
+                            "  Sample pixels (top-left):",
+                            Array.from(imageData.data.slice(0, 12)),
+                        );
+                        const centerIdx = Math.floor(imageData.data.length / 2);
+                        console.log(
+                            "  Sample pixels (center):",
+                            Array.from(
+                                imageData.data.slice(centerIdx, centerIdx + 12),
+                            ),
+                        );
+                    }
 
                     // Update stats (if elements exist)
                     const stats = graphView.getStats();
@@ -15086,53 +13778,6 @@ new DropdownController(document.getElementById('action-dropdown'));
                             console.error("Math display render error:", e);
                         }
                     });
-
-                // Initialize mobile search
-                const mobileSearchBar = document.getElementById('mobile-search-example');
-                if (mobileSearchBar) {
-                    const mobileSearchInput = mobileSearchBar.querySelector('.search-bar-input');
-                    const mobileSearchIconBtn = mobileSearchBar.querySelector('.search-bar-icon-btn');
-                    const mobileClearBtn = mobileSearchBar.querySelector('.search-bar-clear');
-
-                    // Click icon button to expand
-                    if (mobileSearchIconBtn) {
-                        mobileSearchIconBtn.addEventListener('click', (e) => {
-                            e.preventDefault();
-                            if (!mobileSearchBar.classList.contains('is-expanded')) {
-                                mobileSearchBar.classList.add('is-expanded');
-                                setTimeout(() => {
-                                    mobileSearchInput.focus();
-                                }, 150);
-                            }
-                        });
-                    }
-
-                    // Click input to expand (backup)
-                    mobileSearchInput.addEventListener('click', () => {
-                        if (!mobileSearchBar.classList.contains('is-expanded')) {
-                            mobileSearchBar.classList.add('is-expanded');
-                        }
-                    });
-
-                    // Collapse on blur if empty
-                    mobileSearchInput.addEventListener('blur', () => {
-                        setTimeout(() => {
-                            if (!mobileSearchInput.value) {
-                                mobileSearchBar.classList.remove('is-expanded');
-                            }
-                        }, 200);
-                    });
-
-                    // Clear button
-                    if (mobileClearBtn) {
-                        mobileClearBtn.addEventListener('click', (e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                            mobileSearchInput.value = '';
-                            mobileSearchInput.focus();
-                        });
-                    }
-                }
             });
         </script>
     </body>
