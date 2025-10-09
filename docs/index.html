@@ -15888,25 +15888,27 @@ new DropdownController(document.getElementById('action-dropdown'));
                 const demoModeToggle = document.getElementById('demo-mode-toggle');
                 const demoColorToggle = document.getElementById('demo-color-toggle');
 
+                // Global animation locks
+                let themeAnimationLocked = false;
+                let modeAnimationLocked = false;
+
                 // Helper function to sync all theme toggles
                 function syncThemeToggles(currentToggle, nextState) {
                     // Sync animation state to all other theme toggles
                     [themeToggle, demoThemeToggle].forEach(toggle => {
                         if (toggle && toggle !== currentToggle) {
-                            // Read THIS toggle's current state
-                            const toggleCurrentState = toggle.dataset.state;
+                            // Skip if already animating or already in target state
+                            if (toggle.classList.contains('is-animating')) return;
+                            if (toggle.dataset.state === nextState) return;
 
-                            // Only animate if this toggle is in a different state
-                            if (toggleCurrentState !== nextState) {
-                                // Start animation
-                                toggle.classList.add('is-animating');
+                            // Start animation
+                            toggle.classList.add('is-animating');
 
-                                // Clean up after animation
-                                setTimeout(() => {
-                                    toggle.dataset.state = nextState;
-                                    toggle.classList.remove('is-animating');
-                                }, 600);
-                            }
+                            // Clean up after animation
+                            setTimeout(() => {
+                                toggle.dataset.state = nextState;
+                                toggle.classList.remove('is-animating');
+                            }, 800);
                         }
                     });
 
@@ -15925,20 +15927,18 @@ new DropdownController(document.getElementById('action-dropdown'));
                     // Sync animation state to all other mode toggles
                     [modeToggle, demoModeToggle].forEach(toggle => {
                         if (toggle && toggle !== currentToggle) {
-                            // Read THIS toggle's current state
-                            const toggleCurrentState = toggle.dataset.state;
+                            // Skip if already animating or already in target state
+                            if (toggle.classList.contains('is-animating')) return;
+                            if (toggle.dataset.state === nextState) return;
 
-                            // Only animate if this toggle is in a different state
-                            if (toggleCurrentState !== nextState) {
-                                // Start animation
-                                toggle.classList.add('is-animating');
+                            // Start animation
+                            toggle.classList.add('is-animating');
 
-                                // Clean up after animation
-                                setTimeout(() => {
-                                    toggle.dataset.state = nextState;
-                                    toggle.classList.remove('is-animating');
-                                }, 700);
-                            }
+                            // Clean up after animation
+                            setTimeout(() => {
+                                toggle.dataset.state = nextState;
+                                toggle.classList.remove('is-animating');
+                            }, 800);
                         }
                     });
 
@@ -15954,13 +15954,14 @@ new DropdownController(document.getElementById('action-dropdown'));
 
                 if (themeToggle) {
                     themeToggle.addEventListener('click', function() {
-                        // Prevent multiple clicks during animation
-                        if (this.classList.contains('is-animating')) return;
+                        // Prevent multiple clicks during animation using global lock
+                        if (themeAnimationLocked) return;
 
                         const current = this.dataset.state;
                         const next = current === 'warm' ? 'cold' : 'warm';
 
-                        // Start animation
+                        // Lock ALL theme animations
+                        themeAnimationLocked = true;
                         this.classList.add('is-animating');
 
                         // Apply theme variant to document root IMMEDIATELY
@@ -15973,19 +15974,25 @@ new DropdownController(document.getElementById('action-dropdown'));
                         setTimeout(() => {
                             this.dataset.state = next;
                             this.classList.remove('is-animating');
-                        }, 600);
+
+                            // Unlock after extra delay
+                            setTimeout(() => {
+                                themeAnimationLocked = false;
+                            }, 200);
+                        }, 800);
                     });
                 }
 
                 if (modeToggle) {
                     modeToggle.addEventListener('click', function() {
-                        // Prevent multiple clicks during animation
-                        if (this.classList.contains('is-animating')) return;
+                        // Prevent multiple clicks during animation using global lock
+                        if (modeAnimationLocked) return;
 
                         const current = this.dataset.state;
                         const next = current === 'light' ? 'dark' : 'light';
 
-                        // Start animation
+                        // Lock ALL mode animations
+                        modeAnimationLocked = true;
                         this.classList.add('is-animating');
 
                         // Apply theme mode to document root IMMEDIATELY
@@ -15998,7 +16005,12 @@ new DropdownController(document.getElementById('action-dropdown'));
                         setTimeout(() => {
                             this.dataset.state = next;
                             this.classList.remove('is-animating');
-                        }, 700);
+
+                            // Unlock after extra delay
+                            setTimeout(() => {
+                                modeAnimationLocked = false;
+                            }, 200);
+                        }, 800);
                     });
                 }
 
@@ -16022,13 +16034,14 @@ new DropdownController(document.getElementById('action-dropdown'));
                 // Demo toggles - same functionality
                 if (demoThemeToggle) {
                     demoThemeToggle.addEventListener('click', function() {
-                        // Prevent multiple clicks during animation
-                        if (this.classList.contains('is-animating')) return;
+                        // Prevent multiple clicks during animation using global lock
+                        if (themeAnimationLocked) return;
 
                         const current = this.dataset.state;
                         const next = current === 'warm' ? 'cold' : 'warm';
 
-                        // Start animation
+                        // Lock ALL theme animations
+                        themeAnimationLocked = true;
                         this.classList.add('is-animating');
 
                         // Apply changes IMMEDIATELY
@@ -16038,19 +16051,25 @@ new DropdownController(document.getElementById('action-dropdown'));
                         setTimeout(() => {
                             this.dataset.state = next;
                             this.classList.remove('is-animating');
-                        }, 600);
+
+                            // Unlock after extra delay
+                            setTimeout(() => {
+                                themeAnimationLocked = false;
+                            }, 200);
+                        }, 800);
                     });
                 }
 
                 if (demoModeToggle) {
                     demoModeToggle.addEventListener('click', function() {
-                        // Prevent multiple clicks during animation
-                        if (this.classList.contains('is-animating')) return;
+                        // Prevent multiple clicks during animation using global lock
+                        if (modeAnimationLocked) return;
 
                         const current = this.dataset.state;
                         const next = current === 'light' ? 'dark' : 'light';
 
-                        // Start animation
+                        // Lock ALL mode animations
+                        modeAnimationLocked = true;
                         this.classList.add('is-animating');
 
                         // Apply changes IMMEDIATELY
@@ -16060,7 +16079,12 @@ new DropdownController(document.getElementById('action-dropdown'));
                         setTimeout(() => {
                             this.dataset.state = next;
                             this.classList.remove('is-animating');
-                        }, 700);
+
+                            // Unlock after extra delay
+                            setTimeout(() => {
+                                modeAnimationLocked = false;
+                            }, 200);
+                        }, 800);
                     });
                 }
 
