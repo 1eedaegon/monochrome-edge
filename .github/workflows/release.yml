@@ -77,8 +77,8 @@ jobs:
           echo "Bump type: $BUMP"
           echo "New version: $NEW_VERSION"
 
-          echo "::set-output name=new_version::$NEW_VERSION"
-          echo "::set-output name=bump_type::$BUMP"
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          echo "bump_type=$BUMP" >> $GITHUB_OUTPUT
 
       - name: Generate changelog
         id: changelog
@@ -128,8 +128,7 @@ jobs:
             echo 'changelog<<EOF'
             cat CHANGELOG.md
             echo 'EOF'
-          }
-          echo "::set-output name=changelog::$(cat CHANGELOG.md)"
+          } >> $GITHUB_OUTPUT
 
       - name: Update package.json version
         id: update_version
@@ -143,22 +142,38 @@ jobs:
           echo "Latest git tag version: $LATEST_TAG_VERSION"
           echo "Calculated new version: $NEW_VERSION"
 
-          # Compare versions: if package.json is higher, use it; otherwise use calculated
-          if [[ "$CURRENT_PKG_VERSION" > "$NEW_VERSION" ]] || [[ "$CURRENT_PKG_VERSION" > "$LATEST_TAG_VERSION" ]]; then
-            echo "package.json version ($CURRENT_PKG_VERSION) is higher - using it"
+          # Check if there are any new commits since the last tag
+          if [ "$LATEST_TAG" != "v0.0.0" ]; then
+            NEW_COMMITS=$(git rev-list ${LATEST_TAG}..HEAD --count)
+          else
+            NEW_COMMITS=$(git rev-list HEAD --count)
+          fi
+
+          echo "New commits since last tag: $NEW_COMMITS"
+
+          # Skip release only if no new commits AND versions match
+          if [ "$NEW_COMMITS" -eq 0 ]; then
+            echo "No new commits since last tag - skipping release"
+            echo "skip_release=true" >> $GITHUB_OUTPUT
+          # If package.json version is higher than tag, create release with package.json version
+          elif [[ "$CURRENT_PKG_VERSION" > "$LATEST_TAG_VERSION" ]]; then
+            echo "package.json version ($CURRENT_PKG_VERSION) is higher than tag - creating release"
             FINAL_VERSION="$CURRENT_PKG_VERSION"
             echo "skip_release=false" >> $GITHUB_OUTPUT
             echo "version=$FINAL_VERSION" >> $GITHUB_OUTPUT
-          elif [ "$CURRENT_PKG_VERSION" = "$NEW_VERSION" ] && [ "$CURRENT_PKG_VERSION" = "$LATEST_TAG_VERSION" ]; then
-            echo "All versions match - skipping release"
-            echo "skip_release=true" >> $GITHUB_OUTPUT
-          else
+          # If calculated version is higher, update package.json
+          elif [[ "$NEW_VERSION" > "$CURRENT_PKG_VERSION" ]]; then
             echo "Updating package.json to $NEW_VERSION"
             npm version $NEW_VERSION --no-git-tag-version
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git add package.json package-lock.json
             git commit -m "chore: bump version to $NEW_VERSION [skip ci]"
+            echo "skip_release=false" >> $GITHUB_OUTPUT
+            echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+          # If versions match but there are new commits, use the calculated version
+          else
+            echo "Versions match but new commits exist - using calculated version $NEW_VERSION"
             echo "skip_release=false" >> $GITHUB_OUTPUT
             echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
           fi
