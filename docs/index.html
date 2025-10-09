@@ -7008,15 +7008,21 @@ const handleSearch = (query, filters, sort) => {
                                     </p>
                                     <div class="search-bar mobile-search" id="mobile-search-example">
                                         <button class="search-bar-icon-btn" type="button" aria-label="Search">
-                                            <svg class="search-bar-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                                 <circle cx="11" cy="11" r="8"></circle>
                                                 <path d="m21 21-4.35-4.35"></path>
                                             </svg>
                                         </button>
+                                        <svg class="search-bar-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="11" cy="11" r="8"></circle>
+                                            <path d="m21 21-4.35-4.35"></path>
+                                        </svg>
                                         <input
                                             type="text"
                                             class="search-bar-input"
                                             placeholder="Search..."
+                                            id="mobile-search-input"
+                                            name="mobile-search"
                                         />
                                         <button class="search-bar-clear" type="button" aria-label="Clear">×</button>
                                     </div>
@@ -15078,6 +15084,96 @@ new DropdownController(document.getElementById('action-dropdown'));
                             mobileSearchInput.focus();
                         });
                     }
+
+                    // Autocomplete functionality
+                    const suggestions = [
+                        'Buttons', 'Cards', 'Tables', 'Forms', 'Navigation',
+                        'Typography', 'Colors', 'Icons', 'Layouts', 'Components'
+                    ];
+
+                    let suggestionsContainer = mobileSearchBar.querySelector('.search-suggestions');
+                    if (!suggestionsContainer) {
+                        suggestionsContainer = document.createElement('div');
+                        suggestionsContainer.className = 'search-suggestions';
+                        mobileSearchBar.appendChild(suggestionsContainer);
+                    }
+
+                    let activeIndex = -1;
+
+                    mobileSearchInput.addEventListener('input', (e) => {
+                        const query = e.target.value.toLowerCase().trim();
+                        activeIndex = -1;
+
+                        if (!query) {
+                            suggestionsContainer.classList.remove('is-visible');
+                            return;
+                        }
+
+                        const filtered = suggestions.filter(s =>
+                            s.toLowerCase().includes(query)
+                        );
+
+                        if (filtered.length === 0) {
+                            suggestionsContainer.classList.remove('is-visible');
+                            return;
+                        }
+
+                        suggestionsContainer.innerHTML = filtered.map(suggestion => {
+                            const regex = new RegExp(`(${query})`, 'gi');
+                            const highlighted = suggestion.replace(regex, '<span class="search-suggestion-highlight">$1</span>');
+                            return `<div class="search-suggestion-item" data-value="${suggestion}">${highlighted}</div>`;
+                        }).join('');
+
+                        suggestionsContainer.classList.add('is-visible');
+                    });
+
+                    // Keyboard navigation
+                    mobileSearchInput.addEventListener('keydown', (e) => {
+                        const items = suggestionsContainer.querySelectorAll('.search-suggestion-item');
+
+                        if (e.key === 'ArrowDown') {
+                            e.preventDefault();
+                            activeIndex = Math.min(activeIndex + 1, items.length - 1);
+                            updateActiveItem(items);
+                        } else if (e.key === 'ArrowUp') {
+                            e.preventDefault();
+                            activeIndex = Math.max(activeIndex - 1, -1);
+                            updateActiveItem(items);
+                        } else if (e.key === 'Enter' && activeIndex >= 0) {
+                            e.preventDefault();
+                            items[activeIndex].click();
+                        } else if (e.key === 'Escape') {
+                            suggestionsContainer.classList.remove('is-visible');
+                            activeIndex = -1;
+                        }
+                    });
+
+                    function updateActiveItem(items) {
+                        items.forEach((item, idx) => {
+                            if (idx === activeIndex) {
+                                item.classList.add('is-active');
+                            } else {
+                                item.classList.remove('is-active');
+                            }
+                        });
+                    }
+
+                    // Click on suggestion
+                    suggestionsContainer.addEventListener('click', (e) => {
+                        const item = e.target.closest('.search-suggestion-item');
+                        if (item) {
+                            mobileSearchInput.value = item.dataset.value;
+                            suggestionsContainer.classList.remove('is-visible');
+                            mobileSearchInput.focus();
+                        }
+                    });
+
+                    // Hide suggestions on outside click
+                    document.addEventListener('click', (e) => {
+                        if (!mobileSearchBar.contains(e.target)) {
+                            suggestionsContainer.classList.remove('is-visible');
+                        }
+                    });
                 }
             });
         </script>

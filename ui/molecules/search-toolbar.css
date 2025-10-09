@@ -131,6 +131,11 @@
     background-color: var(--theme-bg);
 }
 
+/* Desktop: icon button is just a visual icon container, non-interactive */
+.search-toolbar-icon-btn {
+    display: none;
+}
+
 .search-toolbar-icon {
     position: absolute;
     left: 1rem;
@@ -139,8 +144,9 @@
     width: 18px;
     height: 18px;
     color: var(--theme-text-secondary);
+    opacity: 1;
     pointer-events: none;
-    opacity: 0.6;
+    transition: all 0.15s;
 }
 
 .search-toolbar-input:focus ~ .search-toolbar-icon {
@@ -399,14 +405,10 @@
     background: var(--theme-text-secondary);
 }
 
-/* Responsive */
+/* Responsive - search-toolbar maintains same layout, only width adjusts */
 @media (max-width: 768px) {
-    .search-toolbar-main {
-        flex-direction: column;
-    }
-
-    .search-toolbar-input-wrapper {
-        border-bottom: 1px solid var(--theme-border);
+    .search-toolbar {
+        width: 100%;
     }
 
     .search-toolbar-controls {
@@ -427,5 +429,11 @@
         border-top: 1px solid var(--theme-border);
         justify-content: center;
         padding: 0.5rem 1rem;
+    }
+
+    .search-toolbar-autocomplete {
+        left: 0;
+        right: 0;
+        width: 100%;
     }
 }
