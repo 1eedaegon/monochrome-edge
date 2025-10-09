@@ -84,4 +84,55 @@ export default [
       terser(),
     ],
   },
+  // jQuery plugins
+  {
+    input: "src/jquery.ts",
+    external,
+    output: [
+      {
+        file: "dist/jquery.js",
+        format: "cjs",
+        exports: "named",
+      },
+      {
+        file: "dist/jquery.esm.js",
+        format: "es",
+      },
+    ],
+    plugins: [
+      typescript({
+        declaration: true,
+        declarationDir: "dist",
+        rootDir: "src",
+      }),
+      resolve(),
+      commonjs(),
+      terser(),
+    ],
+  },
+  // Web Components
+  {
+    input: "src/web-components.ts",
+    output: [
+      {
+        file: "dist/web-components.js",
+        format: "cjs",
+        exports: "named",
+      },
+      {
+        file: "dist/web-components.esm.js",
+        format: "es",
+      },
+    ],
+    plugins: [
+      typescript({
+        declaration: true,
+        declarationDir: "dist",
+        rootDir: "src",
+      }),
+      resolve(),
+      commonjs(),
+      terser(),
+    ],
+  },
 ];

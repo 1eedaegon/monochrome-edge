@@ -33,6 +33,11 @@
       "require": "./dist/jquery.js",
       "types": "./dist/jquery.d.ts"
     },
+    "./web-components": {
+      "import": "./dist/web-components.esm.js",
+      "require": "./dist/web-components.js",
+      "types": "./dist/web-components.d.ts"
+    },
     "./css": "./dist/monochrome.min.css",
     "./warm": "./dist/warm-theme.min.css",
     "./cold": "./dist/cold-theme.min.css"
