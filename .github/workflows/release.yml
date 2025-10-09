@@ -136,20 +136,31 @@ jobs:
         run: |
           CURRENT_PKG_VERSION=$(node -p "require('./package.json').version")
           NEW_VERSION=${{ steps.version.outputs.new_version }}
+          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+          LATEST_TAG_VERSION=${LATEST_TAG#v}
 
           echo "Current package.json version: $CURRENT_PKG_VERSION"
+          echo "Latest git tag version: $LATEST_TAG_VERSION"
           echo "Calculated new version: $NEW_VERSION"
 
-          if [ "$CURRENT_PKG_VERSION" = "$NEW_VERSION" ]; then
-            echo "Version unchanged - skipping release"
+          # Compare versions: if package.json is higher, use it; otherwise use calculated
+          if [[ "$CURRENT_PKG_VERSION" > "$NEW_VERSION" ]] || [[ "$CURRENT_PKG_VERSION" > "$LATEST_TAG_VERSION" ]]; then
+            echo "package.json version ($CURRENT_PKG_VERSION) is higher - using it"
+            FINAL_VERSION="$CURRENT_PKG_VERSION"
+            echo "skip_release=false" >> $GITHUB_OUTPUT
+            echo "version=$FINAL_VERSION" >> $GITHUB_OUTPUT
+          elif [ "$CURRENT_PKG_VERSION" = "$NEW_VERSION" ] && [ "$CURRENT_PKG_VERSION" = "$LATEST_TAG_VERSION" ]; then
+            echo "All versions match - skipping release"
             echo "skip_release=true" >> $GITHUB_OUTPUT
           else
+            echo "Updating package.json to $NEW_VERSION"
             npm version $NEW_VERSION --no-git-tag-version
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git add package.json package-lock.json
             git commit -m "chore: bump version to $NEW_VERSION [skip ci]"
             echo "skip_release=false" >> $GITHUB_OUTPUT
+            echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
           fi
 
       - name: Build
@@ -159,7 +170,8 @@ jobs:
       - name: Create and push tag
         if: steps.update_version.outputs.skip_release != 'true'
         run: |
-          git tag v${{ steps.version.outputs.new_version }}
+          VERSION=${{ steps.update_version.outputs.version || steps.version.outputs.new_version }}
+          git tag v${VERSION}
           git push origin main --tags
 
       - name: Create GitHub Release
@@ -168,8 +180,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ steps.version.outputs.new_version }}
-          release_name: Release v${{ steps.version.outputs.new_version }}
+          tag_name: v${{ steps.update_version.outputs.version || steps.version.outputs.new_version }}
+          release_name: Release v${{ steps.update_version.outputs.version || steps.version.outputs.new_version }}
           body: ${{ steps.changelog.outputs.changelog }}
           draft: false
           prerelease: false
@@ -210,7 +222,7 @@ jobs:
           # Wait for npm to propagate (increased to 60s for better CDN propagation)
           sleep 60
 
-          VERSION="${{ steps.version.outputs.new_version }}"
+          VERSION="${{ steps.update_version.outputs.version || steps.version.outputs.new_version }}"
 
           # Purge all critical files for the new version
           echo "Purging jsDelivr cache for version $VERSION..."
@@ -236,7 +248,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const version = '${{ steps.version.outputs.new_version }}';
+            const version = '${{ steps.update_version.outputs.version || steps.version.outputs.new_version }}';
             const bump = '${{ steps.version.outputs.bump_type }}';
             await github.rest.issues.createComment({
               owner: context.repo.owner,
