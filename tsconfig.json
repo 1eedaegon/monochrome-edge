@@ -23,11 +23,16 @@
     /* React */
     "jsx": "react-jsx",
     /* If your code doesn't run in the DOM: */
-    "lib": [
-      "es2022",
-      "dom"
-    ]
+    "lib": ["es2022", "dom"],
+    /* Path Mapping */
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["ui/*"],
+      "@components/*": ["ui/components/*"],
+      "@utils/*": ["ui/utils/*"],
+      "@assets/*": ["ui/assets/*"]
+    }
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "ui/**/*"],
   "exclude": ["node_modules", "dist"]
 }

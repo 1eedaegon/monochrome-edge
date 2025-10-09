@@ -2,7 +2,11 @@ import typescript from "@rollup/plugin-typescript";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import terser from "@rollup/plugin-terser";
+import alias from "@rollup/plugin-alias";
+import path from "path";
+import { fileURLToPath } from "url";
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const external = ["react", "react-dom", "vue", "jquery"];
 
 export default [
@@ -21,6 +25,20 @@ export default [
       },
     ],
     plugins: [
+      alias({
+        entries: [
+          { find: "@", replacement: path.resolve(__dirname, "ui") },
+          {
+            find: "@components",
+            replacement: path.resolve(__dirname, "ui/components"),
+          },
+          { find: "@utils", replacement: path.resolve(__dirname, "ui/utils") },
+          {
+            find: "@assets",
+            replacement: path.resolve(__dirname, "ui/assets"),
+          },
+        ],
+      }),
       typescript({
         declaration: true,
         declarationDir: "dist",
@@ -74,6 +92,20 @@ export default [
       },
     ],
     plugins: [
+      alias({
+        entries: [
+          { find: "@", replacement: path.resolve(__dirname, "ui") },
+          {
+            find: "@components",
+            replacement: path.resolve(__dirname, "ui/components"),
+          },
+          { find: "@utils", replacement: path.resolve(__dirname, "ui/utils") },
+          {
+            find: "@assets",
+            replacement: path.resolve(__dirname, "ui/assets"),
+          },
+        ],
+      }),
       typescript({
         declaration: true,
         declarationDir: "dist",
@@ -100,6 +132,20 @@ export default [
       },
     ],
     plugins: [
+      alias({
+        entries: [
+          { find: "@", replacement: path.resolve(__dirname, "ui") },
+          {
+            find: "@components",
+            replacement: path.resolve(__dirname, "ui/components"),
+          },
+          { find: "@utils", replacement: path.resolve(__dirname, "ui/utils") },
+          {
+            find: "@assets",
+            replacement: path.resolve(__dirname, "ui/assets"),
+          },
+        ],
+      }),
       typescript({
         declaration: true,
         declarationDir: "dist",
@@ -125,6 +171,20 @@ export default [
       },
     ],
     plugins: [
+      alias({
+        entries: [
+          { find: "@", replacement: path.resolve(__dirname, "ui") },
+          {
+            find: "@components",
+            replacement: path.resolve(__dirname, "ui/components"),
+          },
+          { find: "@utils", replacement: path.resolve(__dirname, "ui/utils") },
+          {
+            find: "@assets",
+            replacement: path.resolve(__dirname, "ui/assets"),
+          },
+        ],
+      }),
       typescript({
         declaration: true,
         declarationDir: "dist",
