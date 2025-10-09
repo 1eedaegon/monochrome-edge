@@ -3,7 +3,7 @@
  * Handles rendering, pan, zoom, and interactions
  */
 
-import { DocumentGraph, GraphNode, GraphEdge } from './graph-builder';
+import { DocumentGraph, GraphNode, GraphEdge } from "./graph-builder";
 
 export interface RenderOptions {
   nodeRadius?: number;
@@ -44,24 +44,24 @@ export class CanvasRenderer {
   constructor(
     canvas: HTMLCanvasElement,
     graph: DocumentGraph,
-    options: RenderOptions = {}
+    options: RenderOptions = {},
   ) {
     this.canvas = canvas;
-    this.ctx = canvas.getContext('2d')!;
+    this.ctx = canvas.getContext("2d")!;
     this.graph = graph;
 
     this.options = {
       nodeRadius: options.nodeRadius ?? 8,
-      nodeColor: options.nodeColor ?? 'var(--theme-accent)',
-      nodeStroke: options.nodeStroke ?? 'var(--theme-border)',
+      nodeColor: options.nodeColor ?? "var(--theme-accent)",
+      nodeStroke: options.nodeStroke ?? "var(--theme-border)",
       nodeStrokeWidth: options.nodeStrokeWidth ?? 2,
-      edgeColor: options.edgeColor ?? 'var(--theme-border)',
+      edgeColor: options.edgeColor ?? "var(--theme-border)",
       edgeWidth: options.edgeWidth ?? 1,
-      labelFont: options.labelFont ?? '12px system-ui, sans-serif',
-      labelColor: options.labelColor ?? 'var(--theme-text-primary)',
+      labelFont: options.labelFont ?? "12px system-ui, sans-serif",
+      labelColor: options.labelColor ?? "var(--theme-text-primary)",
       labelSize: options.labelSize ?? 12,
       showLabels: options.showLabels ?? true,
-      highlightColor: options.highlightColor ?? 'var(--theme-accent)'
+      highlightColor: options.highlightColor ?? "var(--theme-accent)",
     };
 
     this.setupEventListeners();
@@ -73,8 +73,20 @@ export class CanvasRenderer {
   render(): void {
     const { width, height } = this.canvas;
 
-    // Clear canvas
-    this.ctx.clearRect(0, 0, width, height);
+    console.log("CanvasRenderer.render() called");
+    console.log("  Canvas size:", width, "x", height);
+    console.log("  Graph stats:", this.graph.getStats());
+    console.log("  Nodes:", this.graph.getNodes().length);
+    if (this.graph.getNodes().length > 0) {
+      console.log("  Sample node:", this.graph.getNodes()[0]);
+    }
+
+    // Clear canvas with background
+    this.ctx.fillStyle =
+      getComputedStyle(document.documentElement)
+        .getPropertyValue("--theme-bg")
+        .trim() || "#ffffff";
+    this.ctx.fillRect(0, 0, width, height);
 
     // Save context
     this.ctx.save();
@@ -96,6 +108,8 @@ export class CanvasRenderer {
 
     // Restore context
     this.ctx.restore();
+
+    console.log("CanvasRenderer.render() completed");
   }
 
   /**
@@ -125,6 +139,11 @@ export class CanvasRenderer {
    */
   private renderNodes(): void {
     const nodes = this.graph.getNodes();
+
+    if (nodes.length === 0) {
+      console.warn("CanvasRenderer: No nodes to render");
+      return;
+    }
 
     for (const node of nodes) {
       const isHovered = this.hoveredNode?.id === node.id;
@@ -157,8 +176,8 @@ export class CanvasRenderer {
 
     this.ctx.font = this.options.labelFont;
     this.ctx.fillStyle = this.getComputedColor(this.options.labelColor);
-    this.ctx.textAlign = 'center';
-    this.ctx.textBaseline = 'middle';
+    this.ctx.textAlign = "center";
+    this.ctx.textBaseline = "middle";
 
     for (const node of nodes) {
       const isHovered = this.hoveredNode?.id === node.id;
@@ -166,9 +185,10 @@ export class CanvasRenderer {
 
       // Only show label if hovered, selected, or if labels are always shown
       if (isHovered || isSelected || this.scale > 0.8) {
-        const label = node.title.length > 20
-          ? node.title.substring(0, 20) + '...'
-          : node.title;
+        const label =
+          node.title.length > 20
+            ? node.title.substring(0, 20) + "..."
+            : node.title;
 
         this.ctx.fillText(label, node.x, node.y + this.options.nodeRadius + 12);
       }
@@ -180,7 +200,7 @@ export class CanvasRenderer {
    */
   private setupEventListeners(): void {
     // Mouse down - start dragging
-    this.canvas.addEventListener('mousedown', (e) => {
+    this.canvas.addEventListener("mousedown", (e) => {
       const rect = this.canvas.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
@@ -196,14 +216,14 @@ export class CanvasRenderer {
         this.isDragging = true;
         this.dragStartX = x - this.offsetX;
         this.dragStartY = y - this.offsetY;
-        this.canvas.style.cursor = 'grabbing';
+        this.canvas.style.cursor = "grabbing";
       }
 
       this.render();
     });
 
     // Mouse move - pan or hover
-    this.canvas.addEventListener('mousemove', (e) => {
+    this.canvas.addEventListener("mousemove", (e) => {
       const rect = this.canvas.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
@@ -217,7 +237,7 @@ export class CanvasRenderer {
         const node = this.getNodeAtPosition(x, y);
         if (node !== this.hoveredNode) {
           this.hoveredNode = node;
-          this.canvas.style.cursor = node ? 'pointer' : 'grab';
+          this.canvas.style.cursor = node ? "pointer" : "grab";
           if (this.onNodeHover) {
             this.onNodeHover(node);
           }
@@ -227,21 +247,21 @@ export class CanvasRenderer {
     });
 
     // Mouse up - stop dragging
-    this.canvas.addEventListener('mouseup', () => {
+    this.canvas.addEventListener("mouseup", () => {
       this.isDragging = false;
-      this.canvas.style.cursor = 'grab';
+      this.canvas.style.cursor = "grab";
     });
 
     // Mouse leave - stop dragging
-    this.canvas.addEventListener('mouseleave', () => {
+    this.canvas.addEventListener("mouseleave", () => {
       this.isDragging = false;
       this.hoveredNode = null;
-      this.canvas.style.cursor = 'default';
+      this.canvas.style.cursor = "default";
       this.render();
     });
 
     // Wheel - zoom
-    this.canvas.addEventListener('wheel', (e) => {
+    this.canvas.addEventListener("wheel", (e) => {
       e.preventDefault();
 
       const rect = this.canvas.getBoundingClientRect();
@@ -259,14 +279,106 @@ export class CanvasRenderer {
       this.render();
     });
 
+    // Touch events for mobile
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchStartDistance = 0;
+
+    this.canvas.addEventListener("touchstart", (e) => {
+      e.preventDefault();
+      const rect = this.canvas.getBoundingClientRect();
+
+      if (e.touches.length === 1) {
+        // Single touch - check for node tap or start pan
+        const touch = e.touches[0];
+        const x = touch.clientX - rect.left;
+        const y = touch.clientY - rect.top;
+
+        const node = this.getNodeAtPosition(x, y);
+        if (node) {
+          this.selectedNode = node;
+          if (this.onNodeClick) {
+            this.onNodeClick(node);
+          }
+          this.render();
+        } else {
+          this.isDragging = true;
+          touchStartX = x;
+          touchStartY = y;
+          this.dragStartX = x - this.offsetX;
+          this.dragStartY = y - this.offsetY;
+        }
+      } else if (e.touches.length === 2) {
+        // Two finger pinch zoom
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        touchStartDistance = Math.sqrt(dx * dx + dy * dy);
+      }
+    });
+
+    this.canvas.addEventListener("touchmove", (e) => {
+      e.preventDefault();
+      const rect = this.canvas.getBoundingClientRect();
+
+      if (e.touches.length === 1 && this.isDragging) {
+        // Pan
+        const touch = e.touches[0];
+        const x = touch.clientX - rect.left;
+        const y = touch.clientY - rect.top;
+        this.offsetX = x - this.dragStartX;
+        this.offsetY = y - this.dragStartY;
+        this.render();
+      } else if (e.touches.length === 2) {
+        // Pinch zoom
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if (touchStartDistance > 0) {
+          const centerX =
+            (e.touches[0].clientX + e.touches[1].clientX) / 2 - rect.left;
+          const centerY =
+            (e.touches[0].clientY + e.touches[1].clientY) / 2 - rect.top;
+
+          const zoomFactor = distance / touchStartDistance;
+          const newScale = Math.max(0.1, Math.min(3, this.scale * zoomFactor));
+
+          this.offsetX =
+            centerX - (centerX - this.offsetX) * (newScale / this.scale);
+          this.offsetY =
+            centerY - (centerY - this.offsetY) * (newScale / this.scale);
+          this.scale = newScale;
+
+          touchStartDistance = distance;
+          this.render();
+        }
+      }
+    });
+
+    this.canvas.addEventListener("touchend", (e) => {
+      e.preventDefault();
+      this.isDragging = false;
+      if (e.touches.length === 0) {
+        touchStartDistance = 0;
+      }
+    });
+
+    this.canvas.addEventListener("touchcancel", () => {
+      this.isDragging = false;
+      touchStartDistance = 0;
+    });
+
     // Set initial cursor
-    this.canvas.style.cursor = 'grab';
+    this.canvas.style.cursor = "grab";
   }
 
   /**
    * Get node at screen position
    */
-  private getNodeAtPosition(screenX: number, screenY: number): GraphNode | null {
+  private getNodeAtPosition(
+    screenX: number,
+    screenY: number,
+  ): GraphNode | null {
     // Transform screen coordinates to graph coordinates
     const graphX = (screenX - this.offsetX) / this.scale;
     const graphY = (screenY - this.offsetY) / this.scale;
@@ -292,7 +404,7 @@ export class CanvasRenderer {
    */
   private getComputedColor(color: string): string {
     // If it's a CSS variable, get computed value
-    if (color.startsWith('var(')) {
+    if (color.startsWith("var(")) {
       const varName = color.match(/var\((.*?)\)/)?.[1];
       if (varName) {
         return getComputedStyle(document.documentElement)
@@ -325,8 +437,10 @@ export class CanvasRenderer {
     if (nodes.length === 0) return;
 
     // Find bounding box
-    let minX = Infinity, minY = Infinity;
-    let maxX = -Infinity, maxY = -Infinity;
+    let minX = Infinity,
+      minY = Infinity;
+    let maxX = -Infinity,
+      maxY = -Infinity;
 
     for (const node of nodes) {
       minX = Math.min(minX, node.x);

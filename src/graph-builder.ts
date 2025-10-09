@@ -8,23 +8,25 @@ export interface DocumentMetadata {
   title: string;
   tags: string[];
   links: { target: string; type: string }[];
+  x?: number;
+  y?: number;
 }
 
 export interface GraphNode {
-  id: number;           // Integer ID
-  originalId: string;   // Original string ID
+  id: number; // Integer ID
+  originalId: string; // Original string ID
   title: string;
   tags: string[];
-  x: number;           // Position (for layout)
+  x: number; // Position (for layout)
   y: number;
-  vx: number;          // Velocity (for physics simulation)
+  vx: number; // Velocity (for physics simulation)
   vy: number;
-  mass: number;        // For force calculations
+  mass: number; // For force calculations
 }
 
 export interface GraphEdge {
-  source: number;      // Integer node ID
-  target: number;      // Integer node ID
+  source: number; // Integer node ID
+  target: number; // Integer node ID
   type: string;
 }
 
@@ -56,17 +58,17 @@ export class DocumentGraph {
       this.nodeIdMap.set(doc.id, index);
       this.nodeIdReverse.push(doc.id);
 
-      // Initialize node with random position
+      // Initialize node with provided position or random
       this.nodes.push({
         id: index,
         originalId: doc.id,
         title: doc.title,
         tags: doc.tags,
-        x: Math.random() * 800,
-        y: Math.random() * 600,
+        x: doc.x ?? Math.random() * 800,
+        y: doc.y ?? Math.random() * 600,
         vx: 0,
         vy: 0,
-        mass: 1 + doc.links.length * 0.1 // Mass based on connections
+        mass: 1 + doc.links.length * 0.1, // Mass based on connections
       });
     });
 
@@ -80,7 +82,7 @@ export class DocumentGraph {
     const backwardTemp: Map<number, number[]> = new Map();
 
     documents.forEach((doc, sourceId) => {
-      doc.links.forEach(link => {
+      doc.links.forEach((link) => {
         const targetId = this.nodeIdMap.get(link.target);
 
         if (targetId !== undefined) {
@@ -160,7 +162,7 @@ export class DocumentGraph {
         edges.push({
           source,
           target,
-          type: this.edgeTypes.get(`${source}-${target}`) || 'default'
+          type: this.edgeTypes.get(`${source}-${target}`) || "default",
         });
       }
     });
@@ -209,7 +211,7 @@ export class DocumentGraph {
     let totalEdges = 0;
     let maxDegree = 0;
 
-    this.forward.forEach(targets => {
+    this.forward.forEach((targets) => {
       totalEdges += targets.length;
       maxDegree = Math.max(maxDegree, targets.length);
     });
@@ -218,7 +220,7 @@ export class DocumentGraph {
       nodeCount: this.nodes.length,
       edgeCount: totalEdges,
       avgDegree: this.nodes.length > 0 ? totalEdges / this.nodes.length : 0,
-      maxDegree
+      maxDegree,
     };
   }
 }

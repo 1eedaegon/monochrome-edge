@@ -12,6 +12,30 @@ export type { InputProps } from './components/Input';
 export { Modal, useModal } from './components/Modal';
 export type { ModalProps } from './components/Modal';
 
+export { SearchToolbar } from './components/SearchToolbar';
+export type { SearchToolbarProps } from './components/SearchToolbar';
+
+export { GraphView } from './components/GraphView';
+export type { GraphViewProps, DocumentMetadata } from './components/GraphView';
+
+export { TreeView } from './components/TreeView';
+export type { TreeViewProps, TreeNode } from './components/TreeView';
+
+export { Tabs } from './components/Tabs';
+export type { TabsProps, TabItem } from './components/Tabs';
+
+export { TOC } from './components/TOC';
+export type { TOCProps, TOCItem } from './components/TOC';
+
+export { Dropdown } from './components/Dropdown';
+export type { DropdownProps, DropdownOption } from './components/Dropdown';
+
+export { NavigationHeader, NavigationSidebar } from './components/Navigation';
+export type { NavigationHeaderProps, NavigationSidebarProps, NavItem } from './components/Navigation';
+
+export { Accordion } from './components/Accordion';
+export type { AccordionProps, AccordionItem } from './components/Accordion';
+
 // Hooks
 export { useToast } from './hooks/useToast';
 export type { UseToastReturn } from './hooks/useToast';

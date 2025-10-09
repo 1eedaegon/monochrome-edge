@@ -3,8 +3,8 @@
  * O(n log n) complexity using QuadTree spatial decomposition
  */
 
-import { DocumentGraph, GraphNode } from './graph-builder';
-import { QuadTree, QuadTreeNode } from './quad-tree';
+import { DocumentGraph, GraphNode } from "./graph-builder";
+import { QuadTree, QuadTreeNode } from "./quad-tree";
 
 export interface LayoutOptions {
   width: number;
@@ -12,11 +12,11 @@ export interface LayoutOptions {
   iterations?: number;
   repulsionStrength?: number;
   attractionStrength?: number;
-  theta?: number;           // Barnes-Hut approximation threshold
-  damping?: number;         // Velocity damping (friction)
-  initialAlpha?: number;    // Initial temperature
-  alphaDecay?: number;      // Cooling rate
-  minAlpha?: number;        // Stop threshold
+  theta?: number; // Barnes-Hut approximation threshold
+  damping?: number; // Velocity damping (friction)
+  initialAlpha?: number; // Initial temperature
+  alphaDecay?: number; // Cooling rate
+  minAlpha?: number; // Stop threshold
 }
 
 export class BarnesHutLayout {
@@ -36,7 +36,7 @@ export class BarnesHutLayout {
       damping: options.damping ?? 0.3,
       initialAlpha: options.initialAlpha ?? 1.0,
       alphaDecay: options.alphaDecay ?? 0.01,
-      minAlpha: options.minAlpha ?? 0.001
+      minAlpha: options.minAlpha ?? 0.001,
     };
     this.alpha = this.options.initialAlpha;
   }
@@ -85,13 +85,13 @@ export class BarnesHutLayout {
         y: node.y,
         mass: node.mass,
         centerX: node.x,
-        centerY: node.y
+        centerY: node.y,
       };
 
       const force = quadTree.calculateForce(
         quadNode,
         this.options.theta,
-        this.options.repulsionStrength
+        this.options.repulsionStrength,
       );
 
       forces.set(node.id, force);
@@ -174,7 +174,12 @@ export class BarnesHutLayout {
    * Build QuadTree from current node positions
    */
   private buildQuadTree(nodes: GraphNode[]): QuadTree {
-    const quadTree = new QuadTree(0, 0, this.options.width, this.options.height);
+    const quadTree = new QuadTree(
+      0,
+      0,
+      this.options.width,
+      this.options.height,
+    );
 
     for (const node of nodes) {
       const quadNode: QuadTreeNode = {
@@ -182,7 +187,7 @@ export class BarnesHutLayout {
         y: node.y,
         mass: node.mass,
         centerX: node.x,
-        centerY: node.y
+        centerY: node.y,
       };
 
       quadTree.insert(quadNode);
@@ -203,5 +208,13 @@ export class BarnesHutLayout {
    */
   getAlpha(): number {
     return this.alpha;
+  }
+
+  /**
+   * Update layout bounds (for responsive resize)
+   */
+  updateBounds(width: number, height: number): void {
+    this.options.width = width;
+    this.options.height = height;
   }
 }
