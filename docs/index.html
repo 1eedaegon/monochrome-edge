@@ -14095,11 +14095,13 @@ new DropdownController(document.getElementById('action-dropdown'));
                     // Update logo colors
                     updateLogoColors();
 
-                    // Sync toggle buttons
+                    // Sync toggle buttons - instant state change, no animation
                     const themeToggle = document.getElementById('theme-toggle');
                     const demoThemeToggle = document.getElementById('demo-theme-toggle');
                     [themeToggle, demoThemeToggle].forEach(toggle => {
                         if (toggle) {
+                            // Clear any ongoing animation and set new state
+                            toggle.classList.remove('is-animating');
                             toggle.dataset.state = theme;
                         }
                     });
@@ -14117,11 +14119,13 @@ new DropdownController(document.getElementById('action-dropdown'));
                     // Update logo colors
                     updateLogoColors();
 
-                    // Sync toggle buttons
+                    // Sync toggle buttons - instant state change, no animation
                     const modeToggle = document.getElementById('mode-toggle');
                     const demoModeToggle = document.getElementById('demo-mode-toggle');
                     [modeToggle, demoModeToggle].forEach(toggle => {
                         if (toggle) {
+                            // Clear any ongoing animation and set new state
+                            toggle.classList.remove('is-animating');
                             toggle.dataset.state = mode;
                         }
                     });
@@ -15885,16 +15889,30 @@ new DropdownController(document.getElementById('action-dropdown'));
                 const demoColorToggle = document.getElementById('demo-color-toggle');
 
                 // Helper function to sync all theme toggles
-                function syncThemeToggles(newState) {
+                function syncThemeToggles(currentToggle, nextState) {
+                    // Sync animation state to all other theme toggles
                     [themeToggle, demoThemeToggle].forEach(toggle => {
-                        if (toggle && toggle.dataset.state !== newState) {
-                            toggle.dataset.state = newState;
+                        if (toggle && toggle !== currentToggle) {
+                            // Read THIS toggle's current state
+                            const toggleCurrentState = toggle.dataset.state;
+
+                            // Only animate if this toggle is in a different state
+                            if (toggleCurrentState !== nextState) {
+                                // Start animation
+                                toggle.classList.add('is-animating');
+
+                                // Clean up after animation
+                                setTimeout(() => {
+                                    toggle.dataset.state = nextState;
+                                    toggle.classList.remove('is-animating');
+                                }, 600);
+                            }
                         }
                     });
 
                     // Update theme-btn active state
                     document.querySelectorAll('.theme-btn').forEach(btn => {
-                        if (btn.dataset.theme === newState) {
+                        if (btn.dataset.theme === nextState) {
                             btn.classList.add('active');
                         } else {
                             btn.classList.remove('active');
@@ -15903,16 +15921,30 @@ new DropdownController(document.getElementById('action-dropdown'));
                 }
 
                 // Helper function to sync all mode toggles
-                function syncModeToggles(newState) {
+                function syncModeToggles(currentToggle, nextState) {
+                    // Sync animation state to all other mode toggles
                     [modeToggle, demoModeToggle].forEach(toggle => {
-                        if (toggle && toggle.dataset.state !== newState) {
-                            toggle.dataset.state = newState;
+                        if (toggle && toggle !== currentToggle) {
+                            // Read THIS toggle's current state
+                            const toggleCurrentState = toggle.dataset.state;
+
+                            // Only animate if this toggle is in a different state
+                            if (toggleCurrentState !== nextState) {
+                                // Start animation
+                                toggle.classList.add('is-animating');
+
+                                // Clean up after animation
+                                setTimeout(() => {
+                                    toggle.dataset.state = nextState;
+                                    toggle.classList.remove('is-animating');
+                                }, 700);
+                            }
                         }
                     });
 
                     // Update mode-btn active state
                     document.querySelectorAll('.mode-btn').forEach(btn => {
-                        if (btn.dataset.mode === newState) {
+                        if (btn.dataset.mode === nextState) {
                             btn.classList.add('active');
                         } else {
                             btn.classList.remove('active');
@@ -15928,20 +15960,18 @@ new DropdownController(document.getElementById('action-dropdown'));
                         const current = this.dataset.state;
                         const next = current === 'warm' ? 'cold' : 'warm';
 
-                        // Set transition direction for animation
-                        this.dataset.transitioning = `${current}-to-${next}`;
+                        // Start animation
                         this.classList.add('is-animating');
 
-                        // Apply theme variant to document root IMMEDIATELY (color transition starts now)
+                        // Apply theme variant to document root IMMEDIATELY
                         document.documentElement.setAttribute('data-theme-variant', next);
 
-                        // Sync all theme toggles and buttons IMMEDIATELY
-                        syncThemeToggles(next);
+                        // Sync all theme toggles and buttons
+                        syncThemeToggles(this, next);
 
                         // Clean up animation state after animation completes
                         setTimeout(() => {
                             this.dataset.state = next;
-                            this.removeAttribute('data-transitioning');
                             this.classList.remove('is-animating');
                         }, 600);
                     });
@@ -15955,20 +15985,18 @@ new DropdownController(document.getElementById('action-dropdown'));
                         const current = this.dataset.state;
                         const next = current === 'light' ? 'dark' : 'light';
 
-                        // Set transition direction for animation
-                        this.dataset.transitioning = `${current}-to-${next}`;
+                        // Start animation
                         this.classList.add('is-animating');
 
-                        // Apply theme mode to document root IMMEDIATELY (color transition starts now)
+                        // Apply theme mode to document root IMMEDIATELY
                         document.documentElement.setAttribute('data-theme', next);
 
-                        // Sync all mode toggles and buttons IMMEDIATELY
-                        syncModeToggles(next);
+                        // Sync all mode toggles and buttons
+                        syncModeToggles(this, next);
 
                         // Clean up animation state after animation completes
                         setTimeout(() => {
                             this.dataset.state = next;
-                            this.removeAttribute('data-transitioning');
                             this.classList.remove('is-animating');
                         }, 700);
                     });
@@ -16000,16 +16028,15 @@ new DropdownController(document.getElementById('action-dropdown'));
                         const current = this.dataset.state;
                         const next = current === 'warm' ? 'cold' : 'warm';
 
-                        this.dataset.transitioning = `${current}-to-${next}`;
+                        // Start animation
                         this.classList.add('is-animating');
 
                         // Apply changes IMMEDIATELY
                         document.documentElement.setAttribute('data-theme-variant', next);
-                        syncThemeToggles(next);
+                        syncThemeToggles(this, next);
 
                         setTimeout(() => {
                             this.dataset.state = next;
-                            this.removeAttribute('data-transitioning');
                             this.classList.remove('is-animating');
                         }, 600);
                     });
@@ -16023,16 +16050,15 @@ new DropdownController(document.getElementById('action-dropdown'));
                         const current = this.dataset.state;
                         const next = current === 'light' ? 'dark' : 'light';
 
-                        this.dataset.transitioning = `${current}-to-${next}`;
+                        // Start animation
                         this.classList.add('is-animating');
 
                         // Apply changes IMMEDIATELY
                         document.documentElement.setAttribute('data-theme', next);
-                        syncModeToggles(next);
+                        syncModeToggles(this, next);
 
                         setTimeout(() => {
                             this.dataset.state = next;
-                            this.removeAttribute('data-transitioning');
                             this.classList.remove('is-animating');
                         }, 700);
                     });
