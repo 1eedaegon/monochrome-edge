@@ -18,10 +18,12 @@ export default [
         file: "dist/index.js",
         format: "cjs",
         exports: "named",
+        inlineDynamicImports: true,
       },
       {
         file: "dist/index.esm.js",
         format: "es",
+        inlineDynamicImports: true,
       },
     ],
     plugins: [
@@ -58,10 +60,12 @@ export default [
         file: "dist/react.js",
         format: "cjs",
         exports: "named",
+        inlineDynamicImports: true,
       },
       {
         file: "dist/react.esm.js",
         format: "es",
+        inlineDynamicImports: true,
       },
     ],
     plugins: [
@@ -85,10 +89,12 @@ export default [
         file: "dist/vue.js",
         format: "cjs",
         exports: "named",
+        inlineDynamicImports: true,
       },
       {
         file: "dist/vue.esm.js",
         format: "es",
+        inlineDynamicImports: true,
       },
     ],
     plugins: [
@@ -125,10 +131,12 @@ export default [
         file: "dist/jquery.js",
         format: "cjs",
         exports: "named",
+        inlineDynamicImports: true,
       },
       {
         file: "dist/jquery.esm.js",
         format: "es",
+        inlineDynamicImports: true,
       },
     ],
     plugins: [
@@ -164,10 +172,12 @@ export default [
         file: "dist/web-components.js",
         format: "cjs",
         exports: "named",
+        inlineDynamicImports: true,
       },
       {
         file: "dist/web-components.esm.js",
         format: "es",
+        inlineDynamicImports: true,
       },
     ],
     plugins: [
