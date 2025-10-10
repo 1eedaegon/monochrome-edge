@@ -19,7 +19,9 @@ Monochrome Edge provides a comprehensive set of UI components built with pure CS
 
 ## Installation
 
-### NPM
+### NPM (Recommended)
+
+Installing via npm eliminates network latency and prevents CSS reload issues with animations.
 
 ```bash
 npm install @monochrome-edge/ui
@@ -32,10 +34,88 @@ npm install @monochrome-edge/ui
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css">
 ```
 
+> ⚠️ **Note**: CDN usage may cause animation flickering on icon-buttons and other animated components due to network latency. For production use, we recommend npm installation.
 
 ## Quick Start
 
-### CSS Import
+### 1. NPM Import (Recommended)
+#### Vanilla JavaScript/TypeScript Projects
+
+```javascript
+// Import main CSS
+import '@monochrome-edge/ui/css';
+
+// Or use package.json exports
+import '@monochrome-edge/ui/dist/monochrome.min.css';
+```
+
+#### Library Examples
+
+**React**
+```jsx
+// In your main App.js or index.js
+import '@monochrome-edge/ui/css';
+import React from 'react';
+
+function App() {
+  return (
+    <div>
+      <button className="btn btn-primary">Click me</button>
+      <button className="icon-btn loading">
+        <svg>...</svg>
+      </button>
+    </div>
+  );
+}
+```
+
+**Vue**
+```vue
+<script>
+// In main.js
+import '@monochrome-edge/ui/css';
+import { createApp } from 'vue';
+
+createApp(App).mount('#app');
+</script>
+```
+
+**Next.js**
+```javascript
+// In _app.js or layout.js
+import '@monochrome-edge/ui/css';
+
+export default function App({ Component, pageProps }) {
+  return <Component {...pageProps} />;
+}
+```
+
+**Vite**
+```javascript
+// In main.js or main.ts
+import '@monochrome-edge/ui/css';
+```
+
+**Webpack**
+```javascript
+// In entry file (index.js)
+import '@monochrome-edge/ui/css';
+```
+
+#### Import Specific Themes
+
+```javascript
+// Warm theme only
+import '@monochrome-edge/ui/warm';
+
+// Cold theme only
+import '@monochrome-edge/ui/cold';
+
+// All themes
+import '@monochrome-edge/ui/css';
+```
+
+### 2. CDN (Quick Prototyping)
 
 ```html
 <!-- CDN -->
@@ -56,7 +136,7 @@ npm install @monochrome-edge/ui
 <body>
   <!-- Button -->
   <button class="btn btn-primary">Primary Button</button>
-  
+
   <!-- Card -->
   <div class="card">
     <div class="card-header">
@@ -66,7 +146,7 @@ npm install @monochrome-edge/ui
       Card content
     </div>
   </div>
-  
+
   <!-- Landscape Background -->
   <div class="b-landscape b-landscape-wave"></div>
 </body>
