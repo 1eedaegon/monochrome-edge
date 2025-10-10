@@ -18,26 +18,19 @@ export default [
         file: "dist/index.js",
         format: "cjs",
         exports: "named",
-        inlineDynamicImports: true,
       },
       {
         file: "dist/index.esm.js",
         format: "es",
-        inlineDynamicImports: true,
       },
     ],
     plugins: [
       alias({
         entries: [
-          { find: "@", replacement: path.resolve(__dirname, "ui") },
+          { find: "@src", replacement: path.resolve(__dirname, "src") },
           {
-            find: "@components",
-            replacement: path.resolve(__dirname, "ui/components"),
-          },
-          { find: "@utils", replacement: path.resolve(__dirname, "ui/utils") },
-          {
-            find: "@assets",
-            replacement: path.resolve(__dirname, "ui/assets"),
+            find: "@ui",
+            replacement: path.resolve(__dirname, "ui"),
           },
         ],
       }),
@@ -60,12 +53,10 @@ export default [
         file: "dist/react.js",
         format: "cjs",
         exports: "named",
-        inlineDynamicImports: true,
       },
       {
         file: "dist/react.esm.js",
         format: "es",
-        inlineDynamicImports: true,
       },
     ],
     plugins: [
@@ -89,26 +80,19 @@ export default [
         file: "dist/vue.js",
         format: "cjs",
         exports: "named",
-        inlineDynamicImports: true,
       },
       {
         file: "dist/vue.esm.js",
         format: "es",
-        inlineDynamicImports: true,
       },
     ],
     plugins: [
       alias({
         entries: [
-          { find: "@", replacement: path.resolve(__dirname, "ui") },
+          { find: "@src", replacement: path.resolve(__dirname, "src") },
           {
-            find: "@components",
-            replacement: path.resolve(__dirname, "ui/components"),
-          },
-          { find: "@utils", replacement: path.resolve(__dirname, "ui/utils") },
-          {
-            find: "@assets",
-            replacement: path.resolve(__dirname, "ui/assets"),
+            find: "@ui",
+            replacement: path.resolve(__dirname, "ui"),
           },
         ],
       }),
@@ -131,26 +115,19 @@ export default [
         file: "dist/jquery.js",
         format: "cjs",
         exports: "named",
-        inlineDynamicImports: true,
       },
       {
         file: "dist/jquery.esm.js",
         format: "es",
-        inlineDynamicImports: true,
       },
     ],
     plugins: [
       alias({
         entries: [
-          { find: "@", replacement: path.resolve(__dirname, "ui") },
+          { find: "@src", replacement: path.resolve(__dirname, "src") },
           {
-            find: "@components",
-            replacement: path.resolve(__dirname, "ui/components"),
-          },
-          { find: "@utils", replacement: path.resolve(__dirname, "ui/utils") },
-          {
-            find: "@assets",
-            replacement: path.resolve(__dirname, "ui/assets"),
+            find: "@ui",
+            replacement: path.resolve(__dirname, "ui"),
           },
         ],
       }),
@@ -172,26 +149,19 @@ export default [
         file: "dist/web-components.js",
         format: "cjs",
         exports: "named",
-        inlineDynamicImports: true,
       },
       {
         file: "dist/web-components.esm.js",
         format: "es",
-        inlineDynamicImports: true,
       },
     ],
     plugins: [
       alias({
         entries: [
-          { find: "@", replacement: path.resolve(__dirname, "ui") },
+          { find: "@src", replacement: path.resolve(__dirname, "src") },
           {
-            find: "@components",
-            replacement: path.resolve(__dirname, "ui/components"),
-          },
-          { find: "@utils", replacement: path.resolve(__dirname, "ui/utils") },
-          {
-            find: "@assets",
-            replacement: path.resolve(__dirname, "ui/assets"),
+            find: "@ui",
+            replacement: path.resolve(__dirname, "ui"),
           },
         ],
       }),
