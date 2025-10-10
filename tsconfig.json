@@ -27,10 +27,8 @@
     /* Path Mapping */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["ui/*"],
-      "@components/*": ["ui/components/*"],
-      "@utils/*": ["ui/utils/*"],
-      "@assets/*": ["ui/assets/*"]
+      "@src/*": ["src/*"],
+      "@ui/*": ["ui/*"]
     }
   },
   "include": ["src/**/*", "ui/**/*"],

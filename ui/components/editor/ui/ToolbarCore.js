@@ -3,7 +3,7 @@
  * Provides all editing tools and formatting options
  */
 
-import { iconLoader } from "@utils/iconLoader.js";
+import { iconLoader } from "@src/iconLoader";
 
 export class ToolbarCore {
   constructor(container, editor) {

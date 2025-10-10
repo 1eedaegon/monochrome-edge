@@ -3,6 +3,7 @@ import commonjs from "@rollup/plugin-commonjs";
 import terser from "@rollup/plugin-terser";
 import postcss from "rollup-plugin-postcss";
 import alias from "@rollup/plugin-alias";
+import typescript from "@rollup/plugin-typescript";
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -21,21 +22,21 @@ export default [
     plugins: [
       alias({
         entries: [
-          { find: "@", replacement: path.resolve(__dirname, "ui") },
-          {
-            find: "@components",
-            replacement: path.resolve(__dirname, "ui/components"),
-          },
-          { find: "@utils", replacement: path.resolve(__dirname, "ui/utils") },
-          {
-            find: "@assets",
-            replacement: path.resolve(__dirname, "ui/assets"),
-          },
+          { find: "@src", replacement: path.resolve(__dirname, "src") },
+          { find: "@ui", replacement: path.resolve(__dirname, "ui") },
         ],
       }),
       resolve({
         browser: true,
         preferBuiltins: false,
+        extensions: [".js", ".ts", ".json"],
+      }),
+      typescript({
+        declaration: false,
+        compilerOptions: {
+          target: "es2020",
+          module: "esnext",
+        },
       }),
       commonjs(),
       postcss({
@@ -62,21 +63,21 @@ export default [
     plugins: [
       alias({
         entries: [
-          { find: "@", replacement: path.resolve(__dirname, "ui") },
-          {
-            find: "@components",
-            replacement: path.resolve(__dirname, "ui/components"),
-          },
-          { find: "@utils", replacement: path.resolve(__dirname, "ui/utils") },
-          {
-            find: "@assets",
-            replacement: path.resolve(__dirname, "ui/assets"),
-          },
+          { find: "@src", replacement: path.resolve(__dirname, "src") },
+          { find: "@ui", replacement: path.resolve(__dirname, "ui") },
         ],
       }),
       resolve({
         browser: true,
         preferBuiltins: false,
+        extensions: [".js", ".ts", ".json"],
+      }),
+      typescript({
+        declaration: false,
+        compilerOptions: {
+          target: "es2020",
+          module: "esnext",
+        },
       }),
       commonjs(),
       postcss({
@@ -103,21 +104,21 @@ export default [
     plugins: [
       alias({
         entries: [
-          { find: "@", replacement: path.resolve(__dirname, "ui") },
-          {
-            find: "@components",
-            replacement: path.resolve(__dirname, "ui/components"),
-          },
-          { find: "@utils", replacement: path.resolve(__dirname, "ui/utils") },
-          {
-            find: "@assets",
-            replacement: path.resolve(__dirname, "ui/assets"),
-          },
+          { find: "@src", replacement: path.resolve(__dirname, "src") },
+          { find: "@ui", replacement: path.resolve(__dirname, "ui") },
         ],
       }),
       resolve({
         browser: true,
         preferBuiltins: false,
+        extensions: [".js", ".ts", ".json"],
+      }),
+      typescript({
+        declaration: false,
+        compilerOptions: {
+          target: "es2020",
+          module: "esnext",
+        },
       }),
       commonjs(),
       postcss({
@@ -153,21 +154,21 @@ export default [
     plugins: [
       alias({
         entries: [
-          { find: "@", replacement: path.resolve(__dirname, "ui") },
-          {
-            find: "@components",
-            replacement: path.resolve(__dirname, "ui/components"),
-          },
-          { find: "@utils", replacement: path.resolve(__dirname, "ui/utils") },
-          {
-            find: "@assets",
-            replacement: path.resolve(__dirname, "ui/assets"),
-          },
+          { find: "@src", replacement: path.resolve(__dirname, "src") },
+          { find: "@ui", replacement: path.resolve(__dirname, "ui") },
         ],
       }),
       resolve({
         browser: true,
         preferBuiltins: false,
+        extensions: [".js", ".ts", ".json"],
+      }),
+      typescript({
+        declaration: false,
+        compilerOptions: {
+          target: "es2020",
+          module: "esnext",
+        },
       }),
       commonjs(),
       postcss({

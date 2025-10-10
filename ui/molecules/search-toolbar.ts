@@ -3,6 +3,8 @@
  * Advanced search with filters, sorting, and autocomplete
  */
 
+import { iconLoader } from "@src/iconLoader";
+
 export interface SearchToolbarOptions {
   placeholder?: string;
   autocomplete?: string[] | ((query: string) => Promise<string[]>);
@@ -136,8 +138,6 @@ export class SearchToolbar {
 
   private async loadIcons(): Promise<void> {
     try {
-      const { iconLoader } = await import("@utils/iconLoader.js");
-
       const searchIcon = this.container.querySelector('[data-icon="search"]');
       if (searchIcon) {
         const svg = await iconLoader.load("search", { width: 20, height: 20 });
