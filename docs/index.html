@@ -766,6 +766,43 @@
                 height: 100%;
             }
 
+            /* Icon showcase item - standardized container */
+            .icon-showcase-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 0.5rem;
+                padding: 0.75rem;
+                min-width: 0;
+            }
+
+            .icon-showcase-item span {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 48px;
+                height: 48px;
+                flex-shrink: 0;
+                color: var(--theme-text-primary);
+            }
+
+            .icon-showcase-item span svg {
+                width: 24px;
+                height: 24px;
+            }
+
+            .icon-showcase-item p {
+                margin: 0;
+                font-size: 0.7rem;
+                color: var(--theme-text-secondary);
+                word-break: break-word;
+                text-align: center;
+                width: 100%;
+                overflow-wrap: break-word;
+                hyphens: auto;
+            }
+
             /* ========================================
                LANGUAGE TOGGLE COMPONENT
                Diagonal flip animation: Lang1 ↖ / ↘ Lang2
@@ -1366,6 +1403,16 @@
                     display: block !important;
                     position: static;
                     min-height: 500px;
+                }
+
+                /* Icon System needs block display for grid layout */
+                #icon-components .component-preview {
+                    display: block;
+                    position: static;
+                    min-height: auto;
+                    padding: 0;
+                    align-items: initial;
+                    justify-content: initial;
                 }
             }
 
@@ -3592,35 +3639,35 @@ renderAllMath({
                         </div>
                         <div class="component-content" id="icon-components">
                             <div class="component-preview">
-                                <div style="display: flex; flex-wrap: wrap; gap: 1.5rem; padding: 2rem; background: var(--theme-surface); border-radius: 8px;">
-                                    <div style="text-align: center;"><span data-icon="bold"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">bold</p></div>
-                                    <div style="text-align: center;"><span data-icon="italic"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">italic</p></div>
-                                    <div style="text-align: center;"><span data-icon="strikethrough"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">strikethrough</p></div>
-                                    <div style="text-align: center;"><span data-icon="code"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">code</p></div>
-                                    <div style="text-align: center;"><span data-icon="code-block"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">code-block</p></div>
-                                    <div style="text-align: center;"><span data-icon="list-ul"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">list-ul</p></div>
-                                    <div style="text-align: center;"><span data-icon="list-ol"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">list-ol</p></div>
-                                    <div style="text-align: center;"><span data-icon="checkbox"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">checkbox</p></div>
-                                    <div style="text-align: center;"><span data-icon="quote"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">quote</p></div>
-                                    <div style="text-align: center;"><span data-icon="link"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">link</p></div>
-                                    <div style="text-align: center;"><span data-icon="image"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">image</p></div>
-                                    <div style="text-align: center;"><span data-icon="table"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">table</p></div>
-                                    <div style="text-align: center;"><span data-icon="sun"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">sun</p></div>
-                                    <div style="text-align: center;"><span data-icon="moon"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">moon</p></div>
-                                    <div style="text-align: center;"><span data-icon="flame"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">flame</p></div>
-                                    <div style="text-align: center;"><span data-icon="snowflake"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">snowflake</p></div>
-                                    <div style="text-align: center;"><span data-icon="palette"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">palette</p></div>
-                                    <div style="text-align: center;"><span data-icon="globe"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">globe</p></div>
-                                    <div style="text-align: center;"><span data-icon="search"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">search</p></div>
-                                    <div style="text-align: center;"><span data-icon="menu"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">menu</p></div>
-                                    <div style="text-align: center;"><span data-icon="close"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">close</p></div>
-                                    <div style="text-align: center;"><span data-icon="plus"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">plus</p></div>
-                                    <div style="text-align: center;"><span data-icon="check"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">check</p></div>
-                                    <div style="text-align: center;"><span data-icon="circle"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">circle</p></div>
-                                    <div style="text-align: center;"><span data-icon="file"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">file</p></div>
-                                    <div style="text-align: center;"><span data-icon="folder"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">folder</p></div>
-                                    <div style="text-align: center;"><span data-icon="file-plus"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">file-plus</p></div>
-                                    <div style="text-align: center;"><span data-icon="folder-plus"></span><p style="margin: 0.25rem 0 0 0; font-size: 0.7rem;">folder-plus</p></div>
+                                <div style="width: 100%; display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 1rem; padding: 2rem; background: var(--theme-surface); border-radius: 8px;">
+                                    <div class="icon-showcase-item"><span data-icon="bold"></span><p>bold</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="italic"></span><p>italic</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="strikethrough"></span><p>strikethrough</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="code"></span><p>code</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="code-block"></span><p>code-block</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="list-ul"></span><p>list-ul</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="list-ol"></span><p>list-ol</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="checkbox"></span><p>checkbox</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="quote"></span><p>quote</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="link"></span><p>link</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="image"></span><p>image</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="table"></span><p>table</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="sun"></span><p>sun</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="moon"></span><p>moon</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="flame"></span><p>flame</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="snowflake"></span><p>snowflake</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="palette"></span><p>palette</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="globe"></span><p>globe</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="search"></span><p>search</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="menu"></span><p>menu</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="close"></span><p>close</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="plus"></span><p>plus</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="check"></span><p>check</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="circle"></span><p>circle</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="file"></span><p>file</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="folder"></span><p>folder</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="file-plus"></span><p>file-plus</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="folder-plus"></span><p>folder-plus</p></div>
                                 </div>
                             </div>
                             <div class="component-code">
@@ -6672,6 +6719,15 @@ const btnXl = createIconButton({ icon: 'sun', size: 'xl' });</code></pre>
     &lt;div class="icon-btn-toggle-icon"&gt;
         &lt;svg&gt;...palette icon...&lt;/svg&gt;
     &lt;/div&gt;
+&lt;/button&gt;
+
+&lt;!-- Language Toggle (KO ↔ EN) --&gt;
+&lt;button class="language-toggle" data-toggled="false"&gt;
+    &lt;div class="language-toggle-text"&gt;
+        &lt;span class="lang-first"&gt;KO&lt;/span&gt;
+        &lt;span class="lang-slash"&gt;&lt;/span&gt;
+        &lt;span class="lang-second"&gt;EN&lt;/span&gt;
+    &lt;/div&gt;
 &lt;/button&gt;</code></pre>
                                     </div>
                                     <div>
@@ -6716,6 +6772,18 @@ colorToggle.addEventListener('click', function() {
     const current = this.dataset.state;
     const next = current === 'colored' ? 'monochrome' : 'colored';
     this.dataset.state = next;
+});
+
+// Language toggle with diagonal flip animation
+const languageToggle = document.querySelector('.language-toggle');
+languageToggle.addEventListener('click', function() {
+    const isToggled = this.dataset.toggled === 'true';
+    this.classList.add('is-animating');
+
+    setTimeout(() => {
+        this.dataset.toggled = !isToggled;
+        this.classList.remove('is-animating');
+    }, 500);
 });</code></pre>
                                     </div>
                                     <div>
@@ -16300,10 +16368,20 @@ new DropdownController(document.getElementById('action-dropdown'));
 
         <!-- Icon Loader for Icon System showcase -->
         <script type="module">
+            // Detect environment
+            const isLocal = window.location.hostname === 'localhost' ||
+                           window.location.hostname === '127.0.0.1' ||
+                           window.location.hostname === '';
+
             // Simple icon loader for docs page
             async function loadIcon(name, width = 16, height = 16) {
                 try {
-                    const response = await fetch(`../ui/assets/icons/${name}.svg`);
+                    // Use different paths for local vs GitHub Pages
+                    const basePath = isLocal
+                        ? '../ui/assets/icons/'
+                        : 'https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/ui/assets/icons/';
+
+                    const response = await fetch(`${basePath}${name}.svg`);
                     if (!response.ok) throw new Error('Icon not found');
                     let svg = await response.text();
                     svg = svg.replace(/width="[^"]*"/, `width="${width}"`);
@@ -16323,7 +16401,7 @@ new DropdownController(document.getElementById('action-dropdown'));
                     if (iconName) {
                         const svg = await loadIcon(iconName, 24, 24);
                         el.innerHTML = svg;
-                        el.style.cssText = 'display: inline-block; color: var(--theme-text-primary);';
+                        // Remove inline styles - let CSS class handle it
                     }
                 }
             });
