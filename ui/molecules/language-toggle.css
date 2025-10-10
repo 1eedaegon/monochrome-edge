@@ -1,7 +1,7 @@
 /*
- * Language Toggle Component
- * Multi-language toggle with country flag icons
- * Supports cycling through multiple languages
+ * Language Toggle Component - Text Version
+ * Diagonal flip animation: Lang1 ↖ / ↘ Lang2
+ * Two-language text toggle with diagonal slash separator
  */
 
 /* ========================================
@@ -13,7 +13,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
+    width: 50px;
     height: 44px;
     padding: 0;
     background: var(--theme-surface);
@@ -36,189 +36,97 @@
     transform: scale(0.95);
 }
 
-/* Icon container - holds all language flag icons */
-.language-toggle-icon {
+/* ========================================
+   TEXT CONTAINER
+   ======================================== */
+
+/* Container for diagonal layout */
+.language-toggle-text {
     position: relative;
-    width: 24px;
-    height: 24px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
     color: var(--theme-text-secondary);
 }
 
-.language-toggle:hover .language-toggle-icon {
+.language-toggle:hover .language-toggle-text {
     color: var(--theme-text-primary);
 }
 
-/* Individual flag icons - stacked on top of each other */
-.language-toggle-icon svg {
+/* ========================================
+   LANGUAGE TEXT POSITIONS
+   ======================================== */
+
+/* First language - top-left */
+.lang-first {
     position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
+    top: 6px;
+    left: 6px;
     transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ========================================
-   FLAG ICON DEFINITIONS
-   ======================================== */
-
-/* Korean Flag - Taegukgi (태극기) */
-.flag-icon-kr circle {
-    fill: none;
-    stroke: currentColor;
-}
-
-.flag-icon-kr .yin-yang {
-    fill: #c70000;
-}
-
-.flag-icon-kr .yang {
-    fill: #003478;
-}
-
-/* US/English Flag - Stars and Stripes */
-.flag-icon-us .stripes {
-    stroke: currentColor;
-}
-
-.flag-icon-us .stars {
-    fill: currentColor;
-}
-
-/* Japanese Flag - Hinomaru (日の丸) */
-.flag-icon-jp circle {
-    fill: #bc002d;
-}
-
-/* Chinese Flag - Five Stars */
-.flag-icon-cn .big-star {
-    fill: #ffde00;
-}
-
-.flag-icon-cn .small-star {
-    fill: #ffde00;
-}
-
-/* French Flag - Tricolor */
-.flag-icon-fr rect {
-    fill: currentColor;
-}
-
-/* German Flag - Tricolor */
-.flag-icon-de rect {
-    fill: currentColor;
-}
-
-/* Spanish Flag - Coat of Arms */
-.flag-icon-es rect {
-    fill: currentColor;
-}
-
-/* Default Globe Icon (fallback) */
-.flag-icon-globe {
-    stroke: currentColor;
-    fill: none;
-}
-
-/* ========================================
-   ANIMATION STATES
-   ======================================== */
-
-/* Hide all icons by default (positioned off-screen left) */
-.language-toggle-icon svg {
-    opacity: 0;
-    transform: translateX(-150%);
-}
-
-/* Active language icon - centered and visible */
-.language-toggle[data-lang="ko"] .flag-icon-kr,
-.language-toggle[data-lang="en"] .flag-icon-us,
-.language-toggle[data-lang="ja"] .flag-icon-jp,
-.language-toggle[data-lang="zh"] .flag-icon-cn,
-.language-toggle[data-lang="fr"] .flag-icon-fr,
-.language-toggle[data-lang="de"] .flag-icon-de,
-.language-toggle[data-lang="es"] .flag-icon-es {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-/* Animation: Current icon exits right, next icon enters from left */
-.language-toggle.is-animating .flag-icon-current {
-    opacity: 0;
-    transform: translateX(150%);
-}
-
-.language-toggle.is-animating .flag-icon-next {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-/* ========================================
-   STATE INDICATOR
-   ======================================== */
-
-.language-toggle::after {
-    content: "";
+/* Second language - bottom-right */
+.lang-second {
     position: absolute;
-    bottom: 4px;
-    right: 4px;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    opacity: 0.7;
-    transition: background-color 0.3s;
+    bottom: 6px;
+    right: 6px;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Country-specific indicator colors */
-.language-toggle[data-lang="ko"]::after {
-    background-color: #003478; /* Korean blue */
-}
-
-.language-toggle[data-lang="en"]::after {
-    background-color: #b22234; /* US red */
-}
-
-.language-toggle[data-lang="ja"]::after {
-    background-color: #bc002d; /* Japanese red */
-}
-
-.language-toggle[data-lang="zh"]::after {
-    background-color: #de2910; /* Chinese red */
-}
-
-.language-toggle[data-lang="fr"]::after {
-    background-color: #002395; /* French blue */
-}
-
-.language-toggle[data-lang="de"]::after {
-    background-color: #000000; /* German black */
-}
-
-.language-toggle[data-lang="es"]::after {
-    background-color: #c60b1e; /* Spanish red */
+/* Diagonal slash separator (top-right to bottom-left: \ direction) */
+.lang-slash {
+    position: absolute;
+    width: 1px;
+    height: 32px;
+    background: currentColor;
+    opacity: 0.3;
+    transform: rotate(45deg);
+    transform-origin: center;
 }
 
 /* ========================================
-   LANGUAGE CODE DISPLAY (Optional)
+   TOGGLE STATES
    ======================================== */
 
-.language-toggle-label {
-    position: absolute;
-    top: -8px;
-    left: 50%;
-    transform: translateX(-50%);
-    font-size: 0.625rem;
-    font-weight: 600;
-    color: var(--theme-text-tertiary);
-    background: var(--theme-surface);
-    padding: 0 4px;
-    border-radius: 2px;
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.2s;
+/* Default state (not toggled) */
+.language-toggle[data-toggled="false"] .lang-first {
+    top: 6px;
+    left: 6px;
+    opacity: 1;
 }
 
-.language-toggle:hover .language-toggle-label {
+.language-toggle[data-toggled="false"] .lang-second {
+    bottom: 6px;
+    right: 6px;
     opacity: 1;
+}
+
+/* Toggled state - positions swap */
+.language-toggle[data-toggled="true"] .lang-first {
+    top: auto;
+    bottom: 6px;
+    left: auto;
+    right: 6px;
+    opacity: 1;
+}
+
+.language-toggle[data-toggled="true"] .lang-second {
+    bottom: auto;
+    top: 6px;
+    right: auto;
+    left: 6px;
+    opacity: 1;
+}
+
+/* Animation state - fade during transition */
+.language-toggle.is-animating .lang-first,
+.language-toggle.is-animating .lang-second {
+    opacity: 0.4;
 }
 
 /* ========================================
@@ -226,23 +134,29 @@
    ======================================== */
 
 .language-toggle-sm {
-    width: 36px;
+    width: 40px;
     height: 36px;
 }
 
-.language-toggle-sm .language-toggle-icon {
-    width: 18px;
-    height: 18px;
+.language-toggle-sm .language-toggle-text {
+    font-size: 0.5rem;
+}
+
+.language-toggle-sm .lang-slash {
+    height: 24px;
 }
 
 .language-toggle-lg {
-    width: 52px;
+    width: 60px;
     height: 52px;
 }
 
-.language-toggle-lg .language-toggle-icon {
-    width: 28px;
-    height: 28px;
+.language-toggle-lg .language-toggle-text {
+    font-size: 0.75rem;
+}
+
+.language-toggle-lg .lang-slash {
+    height: 40px;
 }
 
 /* ========================================
