@@ -186,7 +186,21 @@ jobs:
         if: steps.update_version.outputs.skip_release != 'true'
         run: |
           VERSION=${{ steps.update_version.outputs.version || steps.version.outputs.new_version }}
-          git tag v${VERSION}
+
+          # Check if tag already exists
+          if git rev-parse "v${VERSION}" >/dev/null 2>&1; then
+            echo "Tag v${VERSION} already exists locally, deleting..."
+            git tag -d "v${VERSION}"
+          fi
+
+          # Check if tag exists on remote
+          if git ls-remote --tags origin | grep -q "refs/tags/v${VERSION}"; then
+            echo "Tag v${VERSION} exists on remote, deleting..."
+            git push origin ":refs/tags/v${VERSION}"
+          fi
+
+          # Create new tag
+          git tag "v${VERSION}"
           git push origin main --tags
 
       - name: Create GitHub Release
