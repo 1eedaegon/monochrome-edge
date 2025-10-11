@@ -12,9 +12,15 @@
         />
         <meta
             name="keywords"
-            content="UI components, CSS library, monochrome design, minimalist UI, warm theme, cold theme, landscape backgrounds, web components, buttons, cards, forms, typography, color palette, navigation, tables, modals, badges, design system, Pantone colors, semantic colors, success color, warning color, error color, info color, react components, vue components, web design, frontend library"
+            content="UI components, CSS library, monochrome design, minimalist UI, warm theme, cold theme, landscape backgrounds, web components, buttons, cards, forms, typography, color palette, navigation, tables, modals, badges, design system, Pantone colors, semantic colors, success color, warning color, error color, info color, react components, vue components, web design, frontend library, breadcrumb navigation, stepper component, icon toggle, accordion, timeline, callout, editor"
         />
         <meta name="author" content="1eedaegon" />
+        <link rel="canonical" href="https://1eedaegon.github.io/monochrome-edge/" />
+
+        <!-- Additional SEO -->
+        <meta name="robots" content="index, follow" />
+        <meta name="language" content="English" />
+        <meta name="revisit-after" content="7 days" />
 
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website" />
@@ -17193,6 +17199,11 @@ new DropdownController(document.getElementById('action-dropdown'));
                     keywords: ["events", "chronology", "history"],
                 },
                 {
+                    id: "breadcrumb",
+                    label: "Breadcrumb",
+                    keywords: ["navigation", "path", "hierarchy", "trail", "location"],
+                },
+                {
                     id: "stepper",
                     label: "Stepper",
                     keywords: ["steps", "progress", "wizard", "workflow", "process", "snake", "horizontal"],
@@ -17238,6 +17249,69 @@ new DropdownController(document.getElementById('action-dropdown'));
 
                     // Update URL hash
                     history.pushState(null, null, `#${sectionId}`);
+
+                    // Update SEO meta tags dynamically
+                    updateMetaTags(sectionId);
+                }
+            }
+
+            // Update meta tags for SEO
+            function updateMetaTags(sectionId) {
+                const component = componentsData.find(c => c.id === sectionId);
+                if (!component) return;
+
+                const baseTitle = "Monochrome Edge";
+                const title = sectionId === "overview"
+                    ? baseTitle + " - Modern Minimalist UI Component Library"
+                    : `${component.label} - ${baseTitle}`;
+
+                const description = `${component.label} component in Monochrome Edge UI library. ${component.keywords.join(", ")}. Pure CSS with React, Vue, jQuery, and Web Components support.`;
+
+                // Update title
+                document.title = title;
+
+                // Update meta description
+                let metaDesc = document.querySelector('meta[name="description"]');
+                if (metaDesc) {
+                    metaDesc.setAttribute('content', description);
+                }
+
+                // Update OG tags
+                let ogTitle = document.querySelector('meta[property="og:title"]');
+                if (ogTitle) {
+                    ogTitle.setAttribute('content', title);
+                }
+
+                let ogDesc = document.querySelector('meta[property="og:description"]');
+                if (ogDesc) {
+                    ogDesc.setAttribute('content', description);
+                }
+
+                let ogUrl = document.querySelector('meta[property="og:url"]');
+                if (ogUrl) {
+                    ogUrl.setAttribute('content', `https://1eedaegon.github.io/monochrome-edge/#${sectionId}`);
+                }
+
+                // Update Twitter tags
+                let twitterTitle = document.querySelector('meta[property="twitter:title"]');
+                if (twitterTitle) {
+                    twitterTitle.setAttribute('content', title);
+                }
+
+                let twitterDesc = document.querySelector('meta[property="twitter:description"]');
+                if (twitterDesc) {
+                    twitterDesc.setAttribute('content', description);
+                }
+
+                let twitterUrl = document.querySelector('meta[property="twitter:url"]');
+                if (twitterUrl) {
+                    twitterUrl.setAttribute('content', `https://1eedaegon.github.io/monochrome-edge/#${sectionId}`);
+                }
+
+                // Update canonical link
+                let canonical = document.querySelector('link[rel="canonical"]');
+                if (canonical) {
+                    canonical.setAttribute('href', `https://1eedaegon.github.io/monochrome-edge/#${sectionId}`);
                 }
             }
 
@@ -17347,6 +17421,15 @@ new DropdownController(document.getElementById('action-dropdown'));
             document.addEventListener("DOMContentLoaded", function () {
                 // Initialize sidebar search
                 initSidebarSearch();
+
+                // Handle initial hash on page load for SEO
+                const initialHash = window.location.hash.slice(1);
+                if (initialHash) {
+                    const section = document.getElementById(initialHash);
+                    if (section) {
+                        updateMetaTags(initialHash);
+                    }
+                }
 
                 // Tab switching for code examples
                 document.querySelectorAll(".tab-btn").forEach((btn) => {
@@ -17958,9 +18041,17 @@ new DropdownController(document.getElementById('action-dropdown'));
             async function loadIcon(name, width = 16, height = 16) {
                 try {
                     // Use different paths for local vs GitHub Pages
-                    const basePath = isLocal
-                        ? '../ui/assets/icons/'
-                        : 'https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/ui/assets/icons/';
+                    let basePath;
+                    if (isLocal) {
+                        basePath = '../ui/assets/icons/';
+                    } else if (window.location.hostname.includes('github.io')) {
+                        // GitHub Pages: try repository path first, fallback to CDN
+                        const repoPath = window.location.pathname.split('/')[1];
+                        basePath = `/${repoPath}/ui/assets/icons/`;
+                    } else {
+                        // CDN fallback
+                        basePath = 'https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/ui/assets/icons/';
+                    }
 
                     const response = await fetch(`${basePath}${name}.svg`);
                     if (!response.ok) throw new Error('Icon not found');
@@ -17984,6 +18075,14 @@ new DropdownController(document.getElementById('action-dropdown'));
                         el.innerHTML = svg;
                         // Remove inline styles - let CSS class handle it
                     }
+                }
+            });
+
+            // Handle browser back/forward buttons and direct hash changes
+            window.addEventListener('hashchange', function() {
+                const hash = window.location.hash.slice(1);
+                if (hash) {
+                    updateMetaTags(hash);
                 }
             });
         </script>
