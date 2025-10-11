@@ -6168,10 +6168,10 @@ import { IconButton } from '@monochrome-edge/vue';
                                     </h4>
                                     <pre
                                         style="margin-bottom: 2rem"
-                                    ><code>&lt;monochrome-icon-button icon="sun" variant="default"&gt;&lt;/monochrome-icon-button&gt;
-&lt;monochrome-icon-button icon="sun" variant="primary"&gt;&lt;/monochrome-icon-button&gt;
-&lt;monochrome-icon-button icon="sun" variant="ghost"&gt;&lt;/monochrome-icon-button&gt;
-&lt;monochrome-icon-button icon="sun" variant="outline"&gt;&lt;/monochrome-icon-button&gt;
+                                    ><code>&lt;mce-icon-button icon="sun" variant="default"&gt;&lt;/mce-icon-button&gt;
+&lt;mce-icon-button icon="sun" variant="primary"&gt;&lt;/mce-icon-button&gt;
+&lt;mce-icon-button icon="sun" variant="ghost"&gt;&lt;/mce-icon-button&gt;
+&lt;mce-icon-button icon="sun" variant="outline"&gt;&lt;/mce-icon-button&gt;
 
 &lt;script type="module"&gt;
   import '@monochrome-edge/web-components';
@@ -6408,10 +6408,10 @@ $.createIconButton({ icon: 'sun', size: 'xl' });</code></pre>
                                     </h4>
                                     <pre
                                         style="margin-bottom: 2rem"
-                                    ><code>&lt;monochrome-icon-button icon="sun" size="sm"&gt;&lt;/monochrome-icon-button&gt;
-&lt;monochrome-icon-button icon="sun" size="md"&gt;&lt;/monochrome-icon-button&gt;
-&lt;monochrome-icon-button icon="sun" size="lg"&gt;&lt;/monochrome-icon-button&gt;
-&lt;monochrome-icon-button icon="sun" size="xl"&gt;&lt;/monochrome-icon-button&gt;
+                                    ><code>&lt;mce-icon-button icon="sun" size="sm"&gt;&lt;/mce-icon-button&gt;
+&lt;mce-icon-button icon="sun" size="md"&gt;&lt;/mce-icon-button&gt;
+&lt;mce-icon-button icon="sun" size="lg"&gt;&lt;/mce-icon-button&gt;
+&lt;mce-icon-button icon="sun" size="xl"&gt;&lt;/mce-icon-button&gt;
 
 &lt;script type="module"&gt;
   import '@monochrome-edge/web-components';
@@ -13017,15 +13017,15 @@ function App() {
                             <div class="component-code" data-framework="vue">
                                 <pre><code class="language-vue">&lt;template&gt;
   &lt;div&gt;
-    &lt;monochrome-button variant="primary" size="large"&gt;
+    &lt;mce-button variant="primary" size="large"&gt;
       Primary Button
-    &lt;/monochrome-button&gt;
-    &lt;monochrome-button variant="secondary" :loading="true"&gt;
+    &lt;/mce-button&gt;
+    &lt;mce-button variant="secondary" :loading="true"&gt;
       Loading...
-    &lt;/monochrome-button&gt;
-    &lt;monochrome-button variant="ghost" @click="handleClick"&gt;
+    &lt;/mce-button&gt;
+    &lt;mce-button variant="ghost" @click="handleClick"&gt;
       Ghost Button
-    &lt;/monochrome-button&gt;
+    &lt;/mce-button&gt;
   &lt;/div&gt;
 &lt;/template&gt;
 
@@ -13098,17 +13098,17 @@ $('&lt;button&gt;Dynamic Button&lt;/button&gt;')
 &lt;/script&gt;
 
 &lt;!-- Use as custom elements --&gt;
-&lt;monochrome-button variant="primary" size="large"&gt;
+&lt;mce-button variant="primary" size="large"&gt;
   Primary Button
-&lt;/monochrome-button&gt;
+&lt;/mce-button&gt;
 
-&lt;monochrome-button variant="secondary" loading="true"&gt;
+&lt;mce-button variant="secondary" loading="true"&gt;
   Loading...
-&lt;/monochrome-button&gt;
+&lt;/mce-button&gt;
 
-&lt;monochrome-button variant="ghost" id="ghost-btn"&gt;
+&lt;mce-button variant="ghost" id="ghost-btn"&gt;
   Ghost Button
-&lt;/monochrome-button&gt;
+&lt;/mce-button&gt;
 
 &lt;script&gt;
   // Add event listener
@@ -13225,9 +13225,9 @@ function LoginForm() {
       /&gt;
     &lt;/form-group&gt;
 
-    &lt;monochrome-button type="submit" variant="primary"&gt;
+    &lt;mce-button type="submit" variant="primary"&gt;
       Sign In
-    &lt;/monochrome-button&gt;
+    &lt;/mce-button&gt;
   &lt;/form&gt;
 &lt;/template&gt;
 
@@ -13345,9 +13345,9 @@ $('#email').on('blur', function() {
     &gt;
   &lt;/div&gt;
 
-  &lt;monochrome-button type="submit" variant="primary"&gt;
+  &lt;mce-button type="submit" variant="primary"&gt;
     Sign In
-  &lt;/monochrome-button&gt;
+  &lt;/mce-button&gt;
 &lt;/form&gt;
 
 &lt;script&gt;
@@ -13576,12 +13576,12 @@ cards.forEach(card => {
 &lt;/div&gt;
 
 &lt;!-- Custom Card with Web Components --&gt;
-&lt;monochrome-card title="Active Users"&gt;
+&lt;mce-card title="Active Users"&gt;
   &lt;div class="flex items-center justify-between"&gt;
     &lt;span class="text-secondary"&gt;Current&lt;/span&gt;
     &lt;span class="text-2xl font-bold"&gt;1,234&lt;/span&gt;
   &lt;/div&gt;
-&lt;/monochrome-card&gt;</code></pre>
+&lt;/mce-card&gt;</code></pre>
                             </div>
                         </div>
                     </div>
@@ -13681,9 +13681,9 @@ function ModalExample() {
                             <div class="component-code" data-framework="vue">
                                 <pre><code class="language-vue">&lt;template&gt;
   &lt;div&gt;
-    &lt;monochrome-button @click="isOpen = true"&gt;
+    &lt;mce-button @click="isOpen = true"&gt;
       Open Modal
-    &lt;/monochrome-button&gt;
+    &lt;/mce-button&gt;
 
     &lt;mce-modal
       :is-open="isOpen"
@@ -13693,12 +13693,12 @@ function ModalExample() {
     &gt;
       &lt;p&gt;This is a modal dialog with custom content.&lt;/p&gt;
       &lt;template #footer&gt;
-        &lt;monochrome-button variant="ghost" @click="isOpen = false"&gt;
+        &lt;mce-button variant="ghost" @click="isOpen = false"&gt;
           Cancel
-        &lt;/monochrome-button&gt;
-        &lt;monochrome-button variant="primary" @click="isOpen = false"&gt;
+        &lt;/mce-button&gt;
+        &lt;mce-button variant="primary" @click="isOpen = false"&gt;
           Confirm
-        &lt;/monochrome-button&gt;
+        &lt;/mce-button&gt;
       &lt;/template&gt;
     &lt;/mce-modal&gt;
 
@@ -13711,12 +13711,12 @@ function ModalExample() {
     &gt;
       &lt;p&gt;Are you sure you want to proceed?&lt;/p&gt;
       &lt;template #footer&gt;
-        &lt;monochrome-button variant="ghost" @click="confirmOpen = false"&gt;
+        &lt;mce-button variant="ghost" @click="confirmOpen = false"&gt;
           No
-        &lt;/monochrome-button&gt;
-        &lt;monochrome-button variant="danger" @click="confirmOpen = false"&gt;
+        &lt;/mce-button&gt;
+        &lt;mce-button variant="danger" @click="confirmOpen = false"&gt;
           Yes, Delete
-        &lt;/monochrome-button&gt;
+        &lt;/mce-button&gt;
       &lt;/template&gt;
     &lt;/mce-modal&gt;
   &lt;/div&gt;
