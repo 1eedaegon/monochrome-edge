@@ -14,7 +14,32 @@ class IconLoader {
   private cache: Map<string, string>;
   private loading: Map<string, Promise<string>>;
 
-  constructor(basePath = "/ui/assets/icons/") {
+  constructor(basePath?: string) {
+    // Auto-detect base path if not provided
+    if (!basePath) {
+      if (typeof window !== "undefined") {
+        const isLocal =
+          window.location.hostname === "localhost" ||
+          window.location.hostname === "127.0.0.1" ||
+          window.location.hostname === "";
+
+        if (isLocal) {
+          basePath = "/ui/assets/icons/";
+        } else if (window.location.hostname.includes("github.io")) {
+          // GitHub Pages
+          const repoPath = window.location.pathname.split("/")[1];
+          basePath = `/${repoPath}/ui/assets/icons/`;
+        } else {
+          // CDN fallback
+          basePath =
+            "https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/ui/assets/icons/";
+        }
+      } else {
+        // SSR fallback
+        basePath = "/ui/assets/icons/";
+      }
+    }
+
     this.basePath = basePath;
     this.cache = new Map();
     this.loading = new Map();
