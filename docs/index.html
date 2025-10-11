@@ -1923,6 +1923,9 @@
                     <a class="nav-item" data-section="timeline">
                         <span class="nav-item-label">Timeline</span>
                     </a>
+                    <a class="nav-item" data-section="stepper">
+                        <span class="nav-item-label">Stepper</span>
+                    </a>
                     <a class="nav-item" data-section="tags-badges">
                         <span class="nav-item-label">Tags & Badges</span>
                     </a>
@@ -3663,6 +3666,7 @@ renderAllMath({
                                     <div class="icon-showcase-item"><span data-icon="close"></span><p>close</p></div>
                                     <div class="icon-showcase-item"><span data-icon="plus"></span><p>plus</p></div>
                                     <div class="icon-showcase-item"><span data-icon="check"></span><p>check</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="completed"></span><p>completed</p></div>
                                     <div class="icon-showcase-item"><span data-icon="circle"></span><p>circle</p></div>
                                     <div class="icon-showcase-item"><span data-icon="file"></span><p>file</p></div>
                                     <div class="icon-showcase-item"><span data-icon="folder"></span><p>folder</p></div>
@@ -9272,7 +9276,7 @@ $('th').on('click', function() {
                                     class="demo-grid"
                                     style="
                                         width: 100%;
-                                        gap: 2rem;
+                                        gap: 3rem;
                                         align-items: flex-start;
                                     "
                                 >
@@ -9711,7 +9715,7 @@ $('th').on('click', function() {
                                     class="demo-grid"
                                     style="
                                         width: 100%;
-                                        gap: 2rem;
+                                        gap: 3rem;
                                         align-items: flex-start;
                                     "
                                 >
@@ -10513,6 +10517,342 @@ $('#myElement').css({
             &lt;p class="timeline-description"&gt;Build completed.&lt;/p&gt;
         &lt;/div&gt;
     &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Stepper Section -->
+                <section class="ds-section" id="stepper">
+                    <h2 class="ds-section-title">
+                        Stepper
+                        <span class="component-tags">
+                            <span class="component-tag component-tag-css">CSS</span>
+                            <span class="component-tag component-tag-svg">SVG</span>
+                            <span class="component-tag component-tag-js">JS</span>
+                        </span>
+                    </h2>
+                    <p class="ds-section-description">
+                        Interactive step indicators with SVG-based rendering for workflows, wizards, and progress tracking. Supports multiple layouts (horizontal, vertical, snake) and two types (default with circles, text with buttons). Features automatic responsive behavior and smart popup positioning.
+                    </p>
+
+                    <!-- Stepper (Horizontal) -->
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Stepper (Horizontal)</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="stepper-linear-horizontal"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="stepper-linear-horizontal"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="stepper-linear-horizontal">
+                            <div class="component-preview">
+                                <div class="stepper"
+                                     data-type="default"
+                                     data-layout="horizontal"
+                                     data-steps='[
+                                         {"indicator":"1","labelTitle":"Account Setup","labelDesc":"Create your profile","state":"completed","title":"Account Setup","desc":"Create your account and set up your profile information."},
+                                         {"indicator":"2","labelTitle":"Verification","labelDesc":"Verify email","state":"failed","title":"Email Verification Failed","desc":"Email verification failed. Please check your email and try again."},
+                                         {"indicator":"3","labelTitle":"Preferences","labelDesc":"Customize settings","state":"pending","title":"Set Preferences","desc":"Customize your application settings and preferences."},
+                                         {"indicator":"4","labelTitle":"Confirmation","labelDesc":"Review & confirm","state":"pending","title":"Final Confirmation","desc":"Review all your settings and confirm to complete setup."}
+                                     ]'>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-markup">&lt;!-- HTML: Declarative API --&gt;
+&lt;div class="stepper"
+     data-type="default"
+     data-layout="horizontal"
+     data-steps='[
+         {
+           "indicator": "1",
+           "labelTitle": "Account Setup",
+           "labelDesc": "Create your profile",
+           "state": "completed",
+           "title": "Account Setup",
+           "desc": "Create your account and set up your profile."
+         },
+         {
+           "indicator": "2",
+           "labelTitle": "Verification",
+           "labelDesc": "Verify email",
+           "state": "failed",
+           "title": "Email Verification Failed",
+           "desc": "Email verification failed. Please check your email."
+         },
+         {
+           "indicator": "3",
+           "labelTitle": "Preferences",
+           "labelDesc": "Customize settings",
+           "state": "pending",
+           "title": "Set Preferences",
+           "desc": "Customize your application settings."
+         }
+     ]'&gt;
+&lt;/div&gt;
+
+&lt;!-- States: pending, active, completed, failed --&gt;
+
+&lt;!-- JavaScript: Programmatic API --&gt;
+&lt;script&gt;
+const stepper = new Stepper(container, {
+  type: 'default',        // 'default' | 'text'
+  layout: 'horizontal',   // 'horizontal' | 'vertical' | 'snake'
+  onStepClick: (index, step) =&gt; {
+    console.log('Step clicked:', index, step);
+  }
+});
+
+// Update step state dynamically
+stepper.updateStep(1, { state: 'completed' });
+&lt;/script&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stepper (Vertical) -->
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Stepper (Vertical)</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="stepper-linear-vertical-left"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="stepper-linear-vertical-left"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="stepper-linear-vertical-left">
+                            <div class="component-preview" style="max-width: 240px;">
+                                <div class="stepper"
+                                     data-type="default"
+                                     data-layout="vertical"
+                                     data-steps='[
+                                         {"indicator":"1","labelTitle":"Account","state":"completed","title":"Account Setup","desc":"Create your account and set up your profile information."},
+                                         {"indicator":"2","labelTitle":"Verification","state":"completed","title":"Email Verification","desc":"Verify your email address to continue."},
+                                         {"indicator":"3","labelTitle":"Preferences","state":"active","title":"Set Preferences","desc":"Customize your application settings and preferences."},
+                                         {"indicator":"4","labelTitle":"Confirmation","state":"pending","title":"Final Confirmation","desc":"Review all your settings and confirm to complete setup."}
+                                     ]'>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-markup">&lt;div class="stepper"
+     data-type="default"
+     data-layout="vertical"
+     data-steps='[
+         {"indicator":"1","labelTitle":"Account","state":"completed"},
+         {"indicator":"2","labelTitle":"Verification","state":"active"},
+         {"indicator":"3","labelTitle":"Preferences","state":"pending"}
+     ]'&gt;
+&lt;/div&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stepper (Snake / Dynamic Spacing) -->
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Stepper (Snake / Dynamic Spacing)</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="stepper-snake"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="stepper-snake"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="stepper-snake">
+                            <div class="component-preview">
+                                <div class="stepper"
+                                     data-type="default"
+                                     data-layout="snake"
+                                     data-steps='[
+                                         {"indicator":"1","labelTitle":"Initialize","state":"completed","title":"Initialize Project","desc":"Set up the project structure and dependencies"},
+                                         {"indicator":"2","labelTitle":"Configure","labelDesc":"Setup","state":"completed","title":"Configuration","desc":"Configure build tools and environment"},
+                                         {"indicator":"3","labelTitle":"Build","state":"completed"},
+                                         {"indicator":"4","labelTitle":"Test","state":"completed"},
+                                         {"indicator":"5","labelTitle":"Deploy","state":"active","title":"Deployment","desc":"Deploy to production environment"},
+                                         {"indicator":"6","labelTitle":"Monitor","state":"pending"},
+                                         {"indicator":"7","labelTitle":"Optimize","state":"pending"},
+                                         {"indicator":"8","labelTitle":"Finalize","state":"pending"}
+                                     ]'>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-markup">&lt;div class="stepper"
+     data-type="default"
+     data-layout="snake"
+     data-steps='[
+         {"indicator":"1","labelTitle":"Initialize","state":"completed"},
+         {"indicator":"2","labelTitle":"Configure","state":"active"},
+         {"indicator":"3","labelTitle":"Build","state":"pending"}
+     ]'&gt;
+&lt;/div&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Text Stepper (Horizontal) -->
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Text Stepper (Horizontal)</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="stepper-text-horizontal"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="stepper-text-horizontal"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="stepper-text-horizontal">
+                            <div class="component-preview">
+                                <div class="stepper"
+                                     data-type="text"
+                                     data-layout="horizontal"
+                                     data-steps='[
+                                         {"labelTitle":"Personal Info","state":"completed"},
+                                         {"labelTitle":"Address","state":"active"},
+                                         {"labelTitle":"Payment","state":"pending"},
+                                         {"labelTitle":"Confirm","state":"pending"}
+                                     ]'>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-markup">&lt;div class="stepper"
+     data-type="text"
+     data-layout="horizontal"
+     data-steps='[
+         {"labelTitle":"Personal Info","state":"completed"},
+         {"labelTitle":"Address","state":"active"},
+         {"labelTitle":"Payment","state":"pending"}
+     ]'&gt;
+&lt;/div&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Text Stepper (Vertical) -->
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Text Stepper (Vertical)</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="stepper-text-vertical"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="stepper-text-vertical"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="stepper-text-vertical">
+                            <div class="component-preview" style="max-width: 240px;">
+                                <div class="stepper"
+                                     data-type="text"
+                                     data-layout="vertical"
+                                     data-steps='[
+                                         {"labelTitle":"Setup","state":"completed","title":"Initial Setup","desc":"Configure basic settings"},
+                                         {"labelTitle":"Connect","state":"active","title":"Connect Account","desc":"Link your account"},
+                                         {"labelTitle":"Verify","state":"pending","title":"Verification","desc":"Verify your identity"},
+                                         {"labelTitle":"Complete","state":"pending","title":"Completion","desc":"Finish setup"}
+                                     ]'>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-markup">&lt;div class="stepper"
+     data-type="text"
+     data-layout="vertical"
+     data-steps='[
+         {"labelTitle":"Setup","state":"completed"},
+         {"labelTitle":"Connect","state":"active"},
+         {"labelTitle":"Verify","state":"pending"}
+     ]'&gt;
+&lt;/div&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Text Stepper (Snake) -->
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Text Stepper (Snake)</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="stepper-text-snake"
+                                >
+                                    Preview
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="stepper-text-snake"
+                                >
+                                    Code
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="stepper-text-snake">
+                            <div class="component-preview">
+                                <div class="stepper"
+                                     data-type="text"
+                                     data-layout="snake"
+                                     data-steps='[
+                                         {"labelTitle":"Plan","state":"completed"},
+                                         {"labelTitle":"Design","state":"completed"},
+                                         {"labelTitle":"Develop","state":"active"},
+                                         {"labelTitle":"Test","state":"pending"},
+                                         {"labelTitle":"Deploy","state":"pending"},
+                                         {"labelTitle":"Monitor","state":"pending"}
+                                     ]'>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-markup">&lt;div class="stepper"
+     data-type="text"
+     data-layout="snake"
+     data-steps='[
+         {"labelTitle":"Plan","state":"completed"},
+         {"labelTitle":"Design","state":"completed"},
+         {"labelTitle":"Develop","state":"active"},
+         {"labelTitle":"Test","state":"pending"}
+     ]'&gt;
 &lt;/div&gt;</code></pre>
                             </div>
                         </div>
@@ -14282,19 +14622,6 @@ new DropdownController(document.getElementById('action-dropdown'));
                 </li>
             </ul>
         </div>
-        <div class="changelog-category">
-            <h4 class="changelog-category-title">Other</h4>
-            <ul class="changelog-list">
-                <li>
-                    <span class="changelog-commit">1eedaegon</span>
-                    <a href="#" class="changelog-hash" title=""></a>
-                </li>
-                <li>
-                    <span class="changelog-commit">1eedaegon</span>
-                    <a href="#" class="changelog-hash" title=""></a>
-                </li>
-            </ul>
-        </div>
     </div>
                         <div class="changelog-entry" data-version="1.9.4">
     <h3 class="changelog-version">v1.9.4 <span class="changelog-date">2025-10-10</span></h3>
@@ -14313,6 +14640,19 @@ new DropdownController(document.getElementById('action-dropdown'));
                 <li>
                     <span class="changelog-commit">fix: update grid for icon system align</span>
                     <a href="#" class="changelog-hash" title="efc0d45d767ebaa63680dd7142595d41b0910da6">efc0d45</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+                        <div class="changelog-entry" data-version="1.9.3">
+    <h3 class="changelog-version">v1.9.3 <span class="changelog-date">2025-10-09</span></h3>
+    <div class="changelog-content">
+        <div class="changelog-category">
+            <h4 class="changelog-category-title">Bug Fixes</h4>
+            <ul class="changelog-list">
+                <li>
+                    <span class="changelog-commit">fix: update assets loading process</span>
+                    <a href="#" class="changelog-hash" title="41198c337d50b94296f6040bcc03f38b35ef8898">41198c3</a>
                 </li>
             </ul>
         </div>
@@ -15697,6 +16037,11 @@ new DropdownController(document.getElementById('action-dropdown'));
                     keywords: ["events", "chronology", "history"],
                 },
                 {
+                    id: "stepper",
+                    label: "Stepper",
+                    keywords: ["steps", "progress", "wizard", "workflow", "process", "snake", "horizontal"],
+                },
+                {
                     id: "accordion",
                     label: "Accordion",
                     keywords: ["collapsible", "expand", "collapse", "faq"],
@@ -16486,5 +16831,8 @@ new DropdownController(document.getElementById('action-dropdown'));
                 }
             });
         </script>
+
+        <!-- Snake Stepper SVG -->
+        <script src="../ui/components/stepper/stepper-unified.js"></script>
     </body>
 </html>

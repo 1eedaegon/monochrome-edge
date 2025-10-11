@@ -80,5 +80,6 @@
 @import url("./components/tabs/file-tabs.css");
 @import url("./components/accordion/accordion.css");
 @import url("./components/progress/progress.css");
+@import url("./components/stepper/stepper-unified.css");
 @import url("./components/command/command.css");
 @import url("./components/tree/tree.css");
