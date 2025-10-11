@@ -74,6 +74,15 @@
       this.setupResponsive();
     }
 
+    /**
+     * Truncate text to maximum length (30 chars) with ellipsis
+     */
+    truncateText(text, maxLength = 30) {
+      if (!text) return text;
+      if (text.length <= maxLength) return text;
+      return text.substring(0, maxLength - 3) + "...";
+    }
+
     parseSteps() {
       // Try to parse from data-steps attribute (JSON)
       const dataSteps = this.container.getAttribute("data-steps");
@@ -635,7 +644,7 @@
         title.setAttribute("y", labelY);
         title.setAttribute("text-anchor", textAnchor);
         title.setAttribute("class", "label-title");
-        title.textContent = pos.labelTitle;
+        title.textContent = this.truncateText(pos.labelTitle);
         g.appendChild(title);
 
         // Label description (if exists)
@@ -648,7 +657,7 @@
           desc.setAttribute("y", labelY + 14); // 14px below title
           desc.setAttribute("text-anchor", textAnchor);
           desc.setAttribute("class", "label-desc");
-          desc.textContent = pos.labelDesc;
+          desc.textContent = this.truncateText(pos.labelDesc);
           g.appendChild(desc);
         }
       });
@@ -674,8 +683,8 @@
       const title = popup.querySelector(".stepper-popup-title");
       const desc = popup.querySelector(".stepper-popup-desc");
 
-      title.textContent = step.title || "";
-      desc.textContent = step.desc || "";
+      title.textContent = this.truncateText(step.title) || "";
+      desc.textContent = this.truncateText(step.desc) || "";
 
       if (!step.title) title.style.display = "none";
       else title.style.display = "block";
