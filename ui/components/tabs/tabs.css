@@ -33,7 +33,7 @@
     border-bottom: none;
     background: var(--theme-bg);
     padding: 0.25rem;
-    border-radius: var(--border-radius);
+    border-radius: 0;
     gap: 0.25rem;
 }
 
@@ -89,8 +89,10 @@
 
 /* Pills Style */
 .tabs-pills .tab {
-    border-radius: 999px;
+    border-radius: 0;
     padding: 0.5rem 1rem;
+    margin: -0.25rem;
+    padding: calc(0.5rem + 0.25rem) calc(1rem + 0.25rem);
 }
 
 .tabs-pills .tab::after {

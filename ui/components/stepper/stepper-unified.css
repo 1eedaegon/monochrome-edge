@@ -1,0 +1,429 @@
+/*
+ * Unified Stepper Component Styles
+ * Supports two types (default, text) and three layouts (horizontal, vertical, snake)
+ * All rendering done with SVG for consistent scaling and behavior
+ */
+
+/* === Base Stepper Container === */
+.stepper {
+    position: relative;
+    padding: 2rem 1rem;
+    min-height: 200px;
+    width: 100%;
+    min-width: 240px;
+}
+
+/* === SVG Canvas === */
+.stepper-svg {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: auto;
+    z-index: 1;
+    overflow: visible;
+}
+
+/* Vertical layout (narrow screens) */
+.stepper[data-layout="vertical"] .stepper-svg {
+    margin: 0 auto;
+    display: block;
+}
+
+/* === SVG Nodes === */
+.stepper-svg .node {
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stepper-svg .node:hover circle {
+    stroke-width: 2;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+}
+
+.stepper-svg .node circle {
+    fill: transparent;
+    stroke: var(--theme-border);
+    stroke-width: 1;
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stepper-svg .node text {
+    fill: var(--theme-text-tertiary);
+    font-size: 11px;
+    font-weight: 500;
+    font-family: var(--font-family-sans, sans-serif);
+    pointer-events: none;
+    user-select: none;
+}
+
+/* === Node States === */
+
+/* Pending */
+.stepper-svg .node.pending circle {
+    fill: transparent;
+    stroke: var(--theme-border);
+}
+
+.stepper-svg .node.pending text {
+    fill: var(--theme-text-secondary);
+}
+
+/* Active */
+.stepper-svg .node.active circle {
+    fill: transparent;
+    stroke: var(--theme-text-primary);
+    stroke-width: 2;
+}
+
+.stepper-svg .node.active text {
+    fill: var(--theme-text-primary);
+    font-weight: 600;
+}
+
+/* Completed */
+.stepper-svg .node.completed circle {
+    fill: var(--theme-surface);
+    stroke: var(--theme-text-secondary);
+    stroke-width: 1.5;
+}
+
+.stepper-svg .node.completed .checkmark {
+    stroke: var(--theme-text-secondary);
+    stroke-width: 2;
+    fill: none;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Failed */
+.stepper-svg .node.failed circle {
+    fill: transparent;
+    stroke: var(--color-error, #e53e3e);
+    stroke-width: 1.5;
+}
+
+.stepper-svg .node.failed .close-icon line {
+    stroke: var(--color-error, #e53e3e);
+    stroke-width: 2;
+    stroke-linecap: round;
+}
+
+/* Error (legacy support) */
+.stepper-svg .node.error circle {
+    fill: transparent;
+    stroke: var(--color-error);
+}
+
+.stepper-svg .node.error text {
+    fill: var(--color-error);
+    font-weight: 600;
+}
+
+/* === Connectors === */
+.stepper-svg .connectors {
+    pointer-events: none;
+}
+
+.stepper-svg .connector {
+    stroke: var(--theme-border);
+    stroke-width: 2.5;
+    opacity: 0.6;
+    fill: none;
+    transition:
+        stroke 0.25s ease,
+        opacity 0.25s ease;
+}
+
+.stepper-svg .connector.completed {
+    stroke: var(--theme-text-secondary);
+    opacity: 0.7;
+}
+
+/* === Progress Bar === */
+.stepper-svg .progress-bar-bg {
+    fill: var(--theme-border);
+    opacity: 0.4;
+}
+
+.stepper-svg .progress-bar-fill {
+    fill: var(--theme-text-primary);
+    opacity: 1;
+    transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* === SVG Labels === */
+.stepper-svg .labels {
+    pointer-events: none;
+}
+
+.stepper-svg .label-title {
+    fill: var(--theme-text-secondary);
+    font-size: 12px;
+    font-weight: 400;
+    font-family: var(--font-family-sans, sans-serif);
+}
+
+.stepper-svg .label-desc {
+    fill: var(--theme-text-tertiary);
+    font-size: 11px;
+    font-weight: 400;
+    font-family: var(--font-family-sans, sans-serif);
+    opacity: 0.8;
+}
+
+/* === Text Type Specific Styles === */
+.stepper-svg .node.type-text .text-node-bg {
+    fill: transparent;
+    stroke: none;
+    transition: fill 0.2s ease;
+}
+
+.stepper-svg .node.type-text:hover .text-node-bg {
+    fill: rgba(0, 0, 0, 0.02);
+}
+
+.stepper-svg .node.type-text.active .text-node-bg {
+    fill: var(--theme-text-primary);
+}
+
+.stepper-svg .node.type-text.failed .text-node-bg {
+    fill: rgba(229, 62, 62, 0.08);
+}
+
+.stepper-svg .node.type-text .text-node-label {
+    fill: var(--theme-text-tertiary);
+    font-size: 13px;
+    font-weight: 500;
+    font-family: var(--font-family-sans, sans-serif);
+    pointer-events: none;
+    user-select: none;
+}
+
+.stepper-svg .node.type-text.active .text-node-label {
+    fill: var(--theme-bg);
+    font-weight: 600;
+}
+
+.stepper-svg .node.type-text.completed .text-node-label {
+    fill: var(--theme-text-secondary);
+}
+
+.stepper-svg .node.type-text.failed .text-node-label {
+    fill: var(--color-error, #e53e3e);
+    font-weight: 600;
+}
+
+/* Legacy mode-text-only support for backward compatibility */
+.stepper-svg .node.mode-text-only .text-only-bg,
+.stepper-svg .node.mode-text-only .text-node-bg {
+    fill: transparent;
+    stroke: none;
+    transition: fill 0.2s ease;
+}
+
+.stepper-svg .node.mode-text-only:hover .text-only-bg,
+.stepper-svg .node.mode-text-only:hover .text-node-bg {
+    fill: rgba(0, 0, 0, 0.02);
+}
+
+.stepper-svg .node.mode-text-only.active .text-only-bg,
+.stepper-svg .node.mode-text-only.active .text-node-bg {
+    fill: var(--theme-text-primary);
+}
+
+.stepper-svg .node.mode-text-only .text-only-label,
+.stepper-svg .node.mode-text-only .text-node-label {
+    fill: var(--theme-text-tertiary);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.stepper-svg .node.mode-text-only.active .text-only-label,
+.stepper-svg .node.mode-text-only.active .text-node-label {
+    fill: var(--theme-bg);
+    font-weight: 600;
+}
+
+.stepper-svg .node.mode-text-only.completed .text-only-label,
+.stepper-svg .node.mode-text-only.completed .text-node-label {
+    fill: var(--theme-text-secondary);
+}
+
+/* === Hover Popup === */
+.stepper-popup {
+    position: fixed;
+    display: block;
+    background: var(--theme-surface);
+    border: 1px solid var(--theme-border);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    isolation: isolate;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 280px;
+    max-width: min(400px, calc(100vw - 2rem));
+    width: max-content;
+    height: auto;
+    min-height: fit-content;
+    z-index: 9999;
+}
+
+.stepper-popup.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.stepper-popup::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid var(--theme-surface);
+}
+
+.stepper-popup-title {
+    display: block;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    color: var(--theme-text-primary);
+    margin: 0 0 0.5rem 0;
+    padding: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    max-width: 100%;
+    width: 100%;
+    line-height: 1.4;
+    height: auto;
+}
+
+.stepper-popup-desc {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--theme-text-secondary);
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+    max-width: 100%;
+    width: 100%;
+    height: auto;
+}
+
+/* === Layout-specific Container Styles === */
+
+/* Horizontal Layout */
+.stepper[data-layout="horizontal"] {
+    padding: 1.5rem 0;
+    min-height: 120px;
+}
+
+/* Vertical Layout */
+.stepper[data-layout="vertical"] {
+    padding: 2rem 1rem;
+    min-height: 300px;
+}
+
+/* Snake Layout */
+.stepper[data-layout="snake"] {
+    padding: 2rem 1rem;
+    min-height: 200px;
+}
+
+/* Type-specific adjustments */
+.stepper[data-type="text"][data-layout="horizontal"] {
+    padding: 1.5rem 0;
+    min-height: 100px;
+}
+
+/* Legacy mode-specific classes for backward compatibility */
+.stepper-linear {
+    padding: 1.5rem 0;
+    min-height: 120px;
+}
+
+.stepper-snake {
+    padding: 2rem 1rem;
+    min-height: 200px;
+}
+
+.stepper-vertical {
+    padding: 2rem 1rem;
+    min-height: 300px;
+}
+
+.stepper-text-only {
+    padding: 1.5rem 0;
+    min-height: 100px;
+}
+
+/* === Responsive === */
+@media (max-width: 640px) {
+    .stepper {
+        padding: 1.5rem 0.5rem;
+    }
+
+    .stepper-svg .label-title {
+        font-size: 11px;
+    }
+
+    .stepper-svg .label-desc {
+        font-size: 10px;
+    }
+
+    .stepper-popup {
+        width: calc(100vw - 2rem);
+        max-width: 240px;
+    }
+}
+
+@media (max-width: 480px) {
+    .stepper {
+        padding: 1rem 0.5rem;
+    }
+
+    .stepper-svg .label-desc {
+        display: none;
+    }
+}
+
+/* === Dark Mode Adjustments === */
+[data-theme="dark"] .stepper-popup {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .stepper-svg .node:hover circle {
+    filter: drop-shadow(0 2px 4px rgba(255, 255, 255, 0.1));
+}
+
+[data-theme="dark"] .stepper-svg .node.type-text:hover .text-node-bg {
+    fill: rgba(255, 255, 255, 0.05);
+}
+
+/* Legacy support */
+[data-theme="dark"] .stepper-svg .node.mode-text-only:hover .text-only-bg,
+[data-theme="dark"] .stepper-svg .node.mode-text-only:hover .text-node-bg {
+    fill: rgba(255, 255, 255, 0.05);
+}
+
+/* Improve visibility of pending indicator in dark mode */
+[data-theme="dark"] .stepper-svg .node.pending text {
+    fill: var(--theme-text-secondary);
+    opacity: 0.9;
+}
+
+/* Improve visibility of label description in dark mode */
+[data-theme="dark"] .stepper-svg .label-desc {
+    fill: var(--theme-text-secondary);
+    opacity: 0.8;
+}

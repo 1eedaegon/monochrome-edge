@@ -1,0 +1,580 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Unified Stepper - All Modes Test</title>
+        <link rel="stylesheet" href="../dist/monochrome.min.css" />
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family:
+                    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+                    Oxygen, Ubuntu, sans-serif;
+                background: var(--theme-bg);
+                color: var(--theme-text-primary);
+                padding: 2rem;
+                line-height: 1.6;
+            }
+
+            .test-container {
+                max-width: 1400px;
+                margin: 0 auto;
+            }
+
+            h1 {
+                font-size: 2rem;
+                font-weight: 600;
+                margin-bottom: 0.5rem;
+            }
+
+            .subtitle {
+                color: var(--theme-text-secondary);
+                font-size: 0.875rem;
+                margin-bottom: 2rem;
+            }
+
+            .test-section {
+                margin-bottom: 3rem;
+                padding: 2rem;
+                background: var(--theme-surface);
+                border: 1px solid var(--theme-border);
+                border-radius: 8px;
+            }
+
+            .test-section h2 {
+                font-size: 1.25rem;
+                font-weight: 600;
+                margin-bottom: 1rem;
+                color: var(--theme-text-primary);
+            }
+
+            .test-section p {
+                color: var(--theme-text-secondary);
+                font-size: 0.875rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .controls {
+                display: flex;
+                gap: 1rem;
+                margin-bottom: 2rem;
+                flex-wrap: wrap;
+            }
+
+            .controls button {
+                padding: 0.5rem 1rem;
+                background: var(--theme-bg);
+                border: 1px solid var(--theme-border);
+                border-radius: 6px;
+                cursor: pointer;
+                font-size: 0.875rem;
+                color: var(--theme-text-primary);
+                transition: all 0.2s;
+            }
+
+            .controls button:hover {
+                background: var(--theme-surface);
+                border-color: var(--theme-text-secondary);
+            }
+
+            .controls button:active {
+                transform: scale(0.95);
+            }
+
+            .info-box {
+                background: var(--theme-bg);
+                border: 1px solid var(--theme-border);
+                border-radius: 6px;
+                padding: 1rem;
+                margin-bottom: 1.5rem;
+                font-family: "Monaco", "Courier New", monospace;
+                font-size: 0.75rem;
+            }
+
+            .info-box .label {
+                color: var(--theme-text-secondary);
+                display: inline-block;
+                width: 150px;
+            }
+
+            .info-box .value {
+                color: var(--theme-text-primary);
+                font-weight: 600;
+            }
+
+            .resize-container {
+                resize: horizontal;
+                overflow: auto;
+                border: 2px dashed var(--theme-border);
+                padding: 1rem;
+                min-width: 200px;
+                max-width: 100%;
+            }
+
+            .resize-handle {
+                text-align: center;
+                color: var(--theme-text-secondary);
+                font-size: 0.75rem;
+                margin-top: 1rem;
+            }
+
+            code {
+                background: var(--theme-bg);
+                padding: 0.125rem 0.375rem;
+                border-radius: 3px;
+                font-family: "Monaco", "Courier New", monospace;
+                font-size: 0.8125rem;
+            }
+
+            h3 {
+                font-size: 1rem;
+                margin-top: 2rem;
+                margin-bottom: 1rem;
+                font-weight: 500;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="test-container">
+            <h1>Unified Stepper - All Modes Test</h1>
+            <p class="subtitle">
+                Testing all layout modes: Linear, Snake, Vertical, Text-only +
+                Progress Bar
+            </p>
+
+            <!-- Test 1: Linear Mode -->
+            <div class="test-section">
+                <h2>Test 1: Linear Mode</h2>
+                <p>Single horizontal row with equal spacing</p>
+
+                <h3>Horizontal Layout (Default Type)</h3>
+                <div style="width: 800px; margin-bottom: 2rem">
+                    <div
+                        class="stepper"
+                        data-type="default"
+                        data-layout="horizontal"
+                        data-steps='[
+                         {"indicator":"1","labelTitle":"Setup","state":"completed","title":"Account Setup","desc":"Create your account and set up your profile information."},
+                         {"indicator":"2","labelTitle":"Verify","state":"completed","title":"Email Verification","desc":"Verify your email address to continue."},
+                         {"indicator":"3","labelTitle":"Configure","state":"active","title":"Configuration","desc":"Configure build tools and preferences."},
+                         {"indicator":"4","labelTitle":"Deploy","state":"pending","title":"Deployment","desc":"Deploy your application to production."}
+                     ]'
+                    ></div>
+                </div>
+
+                <h3>Horizontal Layout with Progress Bar</h3>
+                <div style="width: 800px; margin-bottom: 2rem">
+                    <div
+                        class="stepper"
+                        data-type="default"
+                        data-layout="horizontal"
+                        data-show-progress="true"
+                        data-steps='[
+                         {"indicator":"1","labelTitle":"Init","state":"completed"},
+                         {"indicator":"2","labelTitle":"Build","state":"completed"},
+                         {"indicator":"3","labelTitle":"Test","state":"active"},
+                         {"indicator":"4","labelTitle":"Deploy","state":"pending"},
+                         {"indicator":"5","labelTitle":"Monitor","state":"pending"}
+                     ]'
+                    ></div>
+                </div>
+            </div>
+
+            <!-- Test 2: Snake Mode -->
+            <div class="test-section">
+                <h2>Test 2: Snake Mode (Dynamic Spacing)</h2>
+                <p>
+                    Zigzag pattern with dynamic spacing based on minimum gap
+                    (80px)
+                </p>
+
+                <h3>Snake Mode - Wide Container (1200px)</h3>
+                <div style="width: 1200px; margin-bottom: 2rem">
+                    <div
+                        class="stepper"
+                        data-type="default" data-layout="snake"
+                        data-steps='[
+                         {"indicator":"1","labelTitle":"Init","state":"completed"},
+                         {"indicator":"2","labelTitle":"Config","state":"completed"},
+                         {"indicator":"3","labelTitle":"Build","state":"completed"},
+                         {"indicator":"4","labelTitle":"Test","state":"completed"},
+                         {"indicator":"5","labelTitle":"Deploy","state":"active"},
+                         {"indicator":"6","labelTitle":"Monitor","state":"pending"},
+                         {"indicator":"7","labelTitle":"Optimize","state":"pending"},
+                         {"indicator":"8","labelTitle":"Done","state":"pending"}
+                     ]'
+                    ></div>
+                </div>
+
+                <h3>Snake Mode - Medium Container (600px)</h3>
+                <div style="width: 600px; margin-bottom: 2rem">
+                    <div
+                        class="stepper"
+                        data-type="default" data-layout="snake"
+                        data-steps='[
+                         {"indicator":"1","labelTitle":"Init","state":"completed"},
+                         {"indicator":"2","labelTitle":"Config","state":"completed"},
+                         {"indicator":"3","labelTitle":"Build","state":"completed"},
+                         {"indicator":"4","labelTitle":"Test","state":"active"},
+                         {"indicator":"5","labelTitle":"Deploy","state":"pending"},
+                         {"indicator":"6","labelTitle":"Monitor","state":"pending"}
+                     ]'
+                    ></div>
+                </div>
+
+                <h3>Snake Mode - Narrow Container (300px)</h3>
+                <div style="width: 300px; margin-bottom: 2rem">
+                    <div
+                        class="stepper"
+                        data-type="default" data-layout="snake"
+                        data-steps='[
+                         {"indicator":"1","labelTitle":"Init","state":"completed"},
+                         {"indicator":"2","labelTitle":"Build","state":"completed"},
+                         {"indicator":"3","labelTitle":"Test","state":"active"},
+                         {"indicator":"4","labelTitle":"Deploy","state":"pending"}
+                     ]'
+                    ></div>
+                </div>
+            </div>
+
+            <!-- Test 3: Vertical Mode -->
+            <div class="test-section">
+                <h2>Test 3: Vertical Mode</h2>
+                <p>
+                    All nodes vertically centered - ideal for narrow containers
+                </p>
+
+                <h3>Vertical Mode (240px width)</h3>
+                <div style="width: 240px; margin-bottom: 2rem">
+                    <div
+                        class="stepper"
+                        data-type="default" data-layout="vertical"
+                        data-steps='[
+                         {"indicator":"1","labelTitle":"Setup","state":"completed"},
+                         {"indicator":"2","labelTitle":"Configure","state":"completed"},
+                         {"indicator":"3","labelTitle":"Build","state":"active"},
+                         {"indicator":"4","labelTitle":"Test","state":"pending"},
+                         {"indicator":"5","labelTitle":"Deploy","state":"pending"}
+                     ]'
+                    ></div>
+                </div>
+
+                <h3>Vertical Mode with Progress Bar</h3>
+                <div style="width: 240px; margin-bottom: 2rem">
+                    <div
+                        class="stepper"
+                        data-type="default" data-layout="vertical"
+                        data-show-progress="true"
+                        data-steps='[
+                         {"indicator":"1","labelTitle":"A","state":"completed"},
+                         {"indicator":"2","labelTitle":"B","state":"completed"},
+                         {"indicator":"3","labelTitle":"C","state":"active"},
+                         {"indicator":"4","labelTitle":"D","state":"pending"}
+                     ]'
+                    ></div>
+                </div>
+            </div>
+
+            <!-- Test 4: Text-only Mode -->
+            <div class="test-section">
+                <h2>Test 4: Text-only Mode</h2>
+                <p>
+                    Text-style nodes without circles, checkmark shows completion
+                </p>
+
+                <h3>Text-only Mode</h3>
+                <div style="width: 800px; margin-bottom: 2rem">
+                    <div
+                        class="stepper"
+                        data-type="text" data-layout="horizontal"
+                        data-steps='[
+                         {"indicator":"1","labelTitle":"Account","state":"completed"},
+                         {"indicator":"2","labelTitle":"Verification","state":"completed"},
+                         {"indicator":"3","labelTitle":"Preferences","state":"active"},
+                         {"indicator":"4","labelTitle":"Confirmation","state":"pending"}
+                     ]'
+                    ></div>
+                </div>
+            </div>
+
+            <!-- Test 5: Resizable Snake Mode -->
+            <div class="test-section">
+                <h2>Test 5: Resizable Container (Snake Mode)</h2>
+                <p>
+                    Drag the bottom-right corner to resize and watch the stepper
+                    adapt in real-time
+                </p>
+
+                <div class="info-box" id="resize-info">
+                    <div>
+                        <span class="label">Container Width:</span>
+                        <span class="value" id="container-width">-</span>
+                    </div>
+                    <div>
+                        <span class="label">Current Mode:</span>
+                        <span class="value" id="current-mode">snake</span>
+                    </div>
+                    <div>
+                        <span class="label">Layout:</span>
+                        <span class="value" id="layout-type">-</span>
+                    </div>
+                </div>
+
+                <div class="resize-container" id="resize-container">
+                    <div
+                        class="stepper"
+                        id="stepper-resizable"
+                        data-type="default" data-layout="snake"
+                        data-steps='[
+                         {"indicator":"1","labelTitle":"Initialize","state":"completed","title":"Initialize Project","desc":"Set up the project structure and dependencies"},
+                         {"indicator":"2","labelTitle":"Configure","labelDesc":"Setup","state":"completed","title":"Configuration","desc":"Configure build tools and environment variables"},
+                         {"indicator":"3","labelTitle":"Build","state":"completed","title":"Build Application","desc":"Compile and bundle the application"},
+                         {"indicator":"4","labelTitle":"Test","state":"active","title":"Run Tests","desc":"Execute unit tests and integration tests"},
+                         {"indicator":"5","labelTitle":"Deploy","state":"pending","title":"Deploy to Production","desc":"Deploy the application to production servers"},
+                         {"indicator":"6","labelTitle":"Monitor","state":"pending","title":"Monitor Performance","desc":"Monitor application performance and errors"}
+                     ]'
+                    ></div>
+                    <div class="resize-handle">↔ Drag to resize ↔</div>
+                </div>
+            </div>
+
+            <!-- Test 6: Dynamic Step Management -->
+            <div class="test-section">
+                <h2>Test 6: Dynamic Step Add/Remove</h2>
+                <p>Test dynamic step manipulation with the new API</p>
+
+                <div class="info-box" id="dynamic-info">
+                    <div>
+                        <span class="label">Current Step Count:</span>
+                        <span class="value" id="step-count">5</span>
+                    </div>
+                    <div>
+                        <span class="label">Container Width:</span>
+                        <span class="value" id="dynamic-width">-</span>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button onclick="addStep()">➕ Add Step</button>
+                    <button onclick="removeStep()">➖ Remove Step</button>
+                    <button onclick="resetSteps()">🔄 Reset (5 steps)</button>
+                </div>
+
+                <div style="width: 700px">
+                    <div
+                        class="stepper"
+                        id="stepper-dynamic"
+                        data-type="default" data-layout="snake"
+                        data-steps='[
+                         {"indicator":"1","labelTitle":"Step 1","state":"completed"},
+                         {"indicator":"2","labelTitle":"Step 2","state":"completed"},
+                         {"indicator":"3","labelTitle":"Step 3","state":"active"},
+                         {"indicator":"4","labelTitle":"Step 4","state":"pending"},
+                         {"indicator":"5","labelTitle":"Step 5","state":"pending"}
+                     ]'
+                    ></div>
+                </div>
+            </div>
+
+            <!-- Test 7: All Modes Comparison -->
+            <div class="test-section">
+                <h2>Test 7: All Modes Side-by-Side</h2>
+                <p>
+                    Compare all modes with the same data (5 steps, 600px width)
+                </p>
+
+                <h3>Linear Mode</h3>
+                <div style="width: 600px; margin-bottom: 2rem">
+                    <div
+                        class="stepper"
+                        data-type="default" data-layout="horizontal"
+                        data-steps='[
+                         {"indicator":"1","labelTitle":"A","state":"completed"},
+                         {"indicator":"2","labelTitle":"B","state":"completed"},
+                         {"indicator":"3","labelTitle":"C","state":"active"},
+                         {"indicator":"4","labelTitle":"D","state":"pending"},
+                         {"indicator":"5","labelTitle":"E","state":"pending"}
+                     ]'
+                    ></div>
+                </div>
+
+                <h3>Snake Mode</h3>
+                <div style="width: 600px; margin-bottom: 2rem">
+                    <div
+                        class="stepper"
+                        data-type="default" data-layout="snake"
+                        data-steps='[
+                         {"indicator":"1","labelTitle":"A","state":"completed"},
+                         {"indicator":"2","labelTitle":"B","state":"completed"},
+                         {"indicator":"3","labelTitle":"C","state":"active"},
+                         {"indicator":"4","labelTitle":"D","state":"pending"},
+                         {"indicator":"5","labelTitle":"E","state":"pending"}
+                     ]'
+                    ></div>
+                </div>
+
+                <h3>Vertical Mode</h3>
+                <div style="width: 240px; margin-bottom: 2rem">
+                    <div
+                        class="stepper"
+                        data-type="default" data-layout="vertical"
+                        data-steps='[
+                         {"indicator":"1","labelTitle":"A","state":"completed"},
+                         {"indicator":"2","labelTitle":"B","state":"completed"},
+                         {"indicator":"3","labelTitle":"C","state":"active"},
+                         {"indicator":"4","labelTitle":"D","state":"pending"},
+                         {"indicator":"5","labelTitle":"E","state":"pending"}
+                     ]'
+                    ></div>
+                </div>
+
+                <h3>Text-only Mode</h3>
+                <div style="width: 600px; margin-bottom: 2rem">
+                    <div
+                        class="stepper"
+                        data-type="text" data-layout="horizontal"
+                        data-steps='[
+                         {"indicator":"1","labelTitle":"A","state":"completed"},
+                         {"indicator":"2","labelTitle":"B","state":"completed"},
+                         {"indicator":"3","labelTitle":"C","state":"active"},
+                         {"indicator":"4","labelTitle":"D","state":"pending"},
+                         {"indicator":"5","labelTitle":"E","state":"pending"}
+                     ]'
+                    ></div>
+                </div>
+            </div>
+        </div>
+
+        <script src="../ui/components/stepper/stepper-unified.js"></script>
+        <script>
+            // Store stepper instance for dynamic test
+            let dynamicStepper = null;
+            let stepCounter = 5;
+
+            // Wait for DOM to be ready
+            document.addEventListener("DOMContentLoaded", () => {
+                // Get the dynamic stepper instance
+                const dynamicContainer =
+                    document.getElementById("stepper-dynamic");
+                dynamicStepper = new Stepper(dynamicContainer);
+
+                // Update step count display
+                updateStepCount();
+
+                // Setup resize container monitoring
+                const resizeContainer =
+                    document.getElementById("resize-container");
+                const resizeObserver = new ResizeObserver(() => {
+                    updateResizeInfo();
+                });
+                resizeObserver.observe(resizeContainer);
+
+                // Initial update
+                updateResizeInfo();
+                updateDynamicInfo();
+            });
+
+            function addStep() {
+                if (!dynamicStepper) return;
+
+                stepCounter++;
+                dynamicStepper.addStep({
+                    indicator: stepCounter.toString(),
+                    labelTitle: `Step ${stepCounter}`,
+                    state: "pending",
+                });
+
+                updateStepCount();
+                updateDynamicInfo();
+            }
+
+            function removeStep() {
+                if (!dynamicStepper || dynamicStepper.steps.length <= 1) return;
+
+                dynamicStepper.removeStep(dynamicStepper.steps.length - 1);
+
+                updateStepCount();
+                updateDynamicInfo();
+            }
+
+            function resetSteps() {
+                if (!dynamicStepper) return;
+
+                const dynamicContainer =
+                    document.getElementById("stepper-dynamic");
+                dynamicContainer.setAttribute(
+                    "data-steps",
+                    JSON.stringify([
+                        {
+                            indicator: "1",
+                            labelTitle: "Step 1",
+                            state: "completed",
+                        },
+                        {
+                            indicator: "2",
+                            labelTitle: "Step 2",
+                            state: "completed",
+                        },
+                        {
+                            indicator: "3",
+                            labelTitle: "Step 3",
+                            state: "active",
+                        },
+                        {
+                            indicator: "4",
+                            labelTitle: "Step 4",
+                            state: "pending",
+                        },
+                        {
+                            indicator: "5",
+                            labelTitle: "Step 5",
+                            state: "pending",
+                        },
+                    ]),
+                );
+
+                dynamicStepper.destroy();
+                dynamicStepper = new Stepper(dynamicContainer);
+
+                stepCounter = 5;
+                updateStepCount();
+                updateDynamicInfo();
+            }
+
+            function updateStepCount() {
+                document.getElementById("step-count").textContent =
+                    dynamicStepper ? dynamicStepper.steps.length : 5;
+            }
+
+            function updateResizeInfo() {
+                const container = document.querySelector(
+                    "#resize-container .stepper",
+                );
+                if (!container) return;
+
+                const width = container.clientWidth;
+                const layout =
+                    container.getAttribute("data-layout") || "horizontal";
+
+                document.getElementById("container-width").textContent =
+                    `${width}px`;
+                document.getElementById("layout-type").textContent = layout;
+            }
+
+            function updateDynamicInfo() {
+                const container = document.getElementById("stepper-dynamic");
+                if (!container) return;
+
+                const width = container.clientWidth;
+                document.getElementById("dynamic-width").textContent =
+                    `${width}px`;
+            }
+        </script>
+    </body>
+</html>
