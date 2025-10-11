@@ -169,11 +169,18 @@ jobs:
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git add package.json package-lock.json
             git commit -m "chore: bump version to $NEW_VERSION [skip ci]"
+            git push origin main
             echo "skip_release=false" >> $GITHUB_OUTPUT
             echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
           # If versions match but there are new commits, use the calculated version
           else
             echo "Versions match but new commits exist - using calculated version $NEW_VERSION"
+            npm version $NEW_VERSION --no-git-tag-version
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add package.json package-lock.json
+            git commit -m "chore: bump version to $NEW_VERSION [skip ci]"
+            git push origin main
             echo "skip_release=false" >> $GITHUB_OUTPUT
             echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
           fi
@@ -215,8 +222,22 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Publish to npm
+      - name: Check if version exists on npm
         if: steps.update_version.outputs.skip_release != 'true'
+        id: check_npm
+        run: |
+          VERSION=${{ steps.update_version.outputs.version || steps.version.outputs.new_version }}
+          if npm view @monochrome-edge/ui@${VERSION} version 2>/dev/null; then
+            echo "Version ${VERSION} already exists on npm"
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "Version ${VERSION} does not exist on npm"
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+        continue-on-error: true
+
+      - name: Publish to npm
+        if: steps.update_version.outputs.skip_release != 'true' && steps.check_npm.outputs.exists != 'true'
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
@@ -230,8 +251,24 @@ jobs:
           registry-url: "https://npm.pkg.github.com"
           scope: "@1eedaegon"
 
-      - name: Publish to GitHub Packages
+      - name: Check if version exists on GitHub Packages
         if: steps.update_version.outputs.skip_release != 'true'
+        id: check_github
+        run: |
+          VERSION=${{ steps.update_version.outputs.version || steps.version.outputs.new_version }}
+          if npm view @1eedaegon/monochrome-edge@${VERSION} version --registry=https://npm.pkg.github.com 2>/dev/null; then
+            echo "Version ${VERSION} already exists on GitHub Packages"
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "Version ${VERSION} does not exist on GitHub Packages"
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true
+
+      - name: Publish to GitHub Packages
+        if: steps.update_version.outputs.skip_release != 'true' && steps.check_github.outputs.exists != 'true'
         run: |
           # Temporarily modify package.json for GitHub Packages
           npm pkg set name="@1eedaegon/monochrome-edge"
