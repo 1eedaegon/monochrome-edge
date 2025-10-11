@@ -28,6 +28,7 @@
 @import url("./atoms/badge.css");
 @import url("./atoms/spinner.css");
 @import url("./atoms/component-type-tag.css");
+@import url("./atoms/breadcrumb.css");
 
 /* Molecules */
 @import url("./molecules/card.css");
