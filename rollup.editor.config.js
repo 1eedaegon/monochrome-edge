@@ -33,6 +33,7 @@ export default [
       }),
       typescript({
         declaration: false,
+        declarationMap: false,
         compilerOptions: {
           target: "es2020",
           module: "esnext",
@@ -74,6 +75,7 @@ export default [
       }),
       typescript({
         declaration: false,
+        declarationMap: false,
         compilerOptions: {
           target: "es2020",
           module: "esnext",
@@ -115,6 +117,7 @@ export default [
       }),
       typescript({
         declaration: false,
+        declarationMap: false,
         compilerOptions: {
           target: "es2020",
           module: "esnext",
@@ -165,6 +168,7 @@ export default [
       }),
       typescript({
         declaration: false,
+        declarationMap: false,
         compilerOptions: {
           target: "es2020",
           module: "esnext",

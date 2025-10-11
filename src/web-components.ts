@@ -406,6 +406,283 @@ class MonochromeToast extends MonochromeElement {
   }
 }
 
+// Icon Toggle Component
+class MonochromeIconToggle extends MonochromeElement {
+  static get observedAttributes() {
+    return ["type", "state", "disabled", "variant", "icon1", "icon2"];
+  }
+
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    this.render();
+    this.setupEventListeners();
+  }
+
+  attributeChangedCallback() {
+    this.render();
+  }
+
+  render() {
+    const type = this.getAttribute("type") || "mode"; // mode, theme, color, language
+    const state = this.getAttribute("state") || this.getDefaultState(type);
+    const disabled = this.hasAttribute("disabled");
+    const variant = this.getAttribute("variant") || "default"; // default, ghost
+    const icon1 = this.getAttribute("icon1");
+    const icon2 = this.getAttribute("icon2");
+
+    const classList = ["icon-btn-toggle", `icon-btn-toggle-${type}`];
+
+    if (variant === "ghost") {
+      classList.push("icon-btn-toggle-ghost");
+    }
+    if (type === "color") {
+      classList.push("icon-btn-toggle-colored");
+    }
+
+    this.className = classList.join(" ");
+    this.setAttribute("data-state", state);
+
+    if (disabled) {
+      this.setAttribute("disabled", "");
+    } else {
+      this.removeAttribute("disabled");
+    }
+
+    const icons = this.getIcons(type, icon1, icon2);
+    this.innerHTML = `
+      <span class="icon-btn-toggle-icon">
+        ${icons.icon1}
+        ${icons.icon2}
+      </span>
+    `;
+  }
+
+  getDefaultState(type: string): string {
+    switch (type) {
+      case "mode":
+        return document.documentElement.getAttribute("data-theme") || "light";
+      case "theme":
+        return (
+          document.documentElement.getAttribute("data-theme-variant") || "warm"
+        );
+      case "color":
+        return "monochrome";
+      case "language":
+        return "ko";
+      default:
+        return "default";
+    }
+  }
+
+  getIcons(
+    type: string,
+    customIcon1?: string | null,
+    customIcon2?: string | null,
+  ): { icon1: string; icon2: string } {
+    if (customIcon1 && customIcon2) {
+      return { icon1: customIcon1, icon2: customIcon2 };
+    }
+
+    const iconSets: Record<string, { icon1: string; icon2: string }> = {
+      mode: {
+        icon1:
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>',
+        icon2:
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>',
+      },
+      theme: {
+        icon1:
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>',
+        icon2:
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>',
+      },
+      color: {
+        icon1:
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12h8"/></svg>',
+        icon2:
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>',
+      },
+      language: {
+        icon1:
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+        icon2:
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>',
+      },
+    };
+
+    const result = iconSets[type];
+    if (result) {
+      return result;
+    }
+    return iconSets.mode!;
+  }
+
+  setupEventListeners() {
+    this.addEventListener("click", () => {
+      if (this.hasAttribute("disabled")) return;
+
+      const type = this.getAttribute("type") || "mode";
+      const currentState = this.getAttribute("data-state");
+
+      // Add animation class
+      this.classList.add("is-animating");
+
+      // Toggle state
+      const newState = this.getNextState(type, currentState || "");
+      this.setAttribute("state", newState);
+      this.setAttribute("data-state", newState);
+
+      // Apply to document
+      this.applyState(type, newState);
+
+      // Remove animation class after transition
+      setTimeout(() => {
+        this.classList.remove("is-animating");
+      }, 500);
+
+      this.emit("toggle", { type, state: newState });
+    });
+  }
+
+  getNextState(type: string, currentState: string): string {
+    const stateMap: Record<string, Record<string, string>> = {
+      mode: { light: "dark", dark: "light" },
+      theme: { warm: "cold", cold: "warm" },
+      color: { monochrome: "colored", colored: "monochrome" },
+      language: { ko: "en", en: "ko" },
+    };
+
+    return stateMap[type]?.[currentState] || currentState;
+  }
+
+  applyState(type: string, state: string) {
+    switch (type) {
+      case "mode":
+        document.documentElement.setAttribute("data-theme", state);
+        break;
+      case "theme":
+        document.documentElement.setAttribute("data-theme-variant", state);
+        break;
+      case "color":
+        // Custom handling for color toggle
+        this.emit("color-change", { state });
+        break;
+      case "language":
+        // Custom handling for language toggle
+        this.emit("language-change", { state });
+        break;
+    }
+  }
+}
+
+// Breadcrumb Item Component
+class MonochromeBreadcrumbItem extends MonochromeElement {
+  static get observedAttributes() {
+    return ["active", "href"];
+  }
+
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    this.render();
+  }
+
+  attributeChangedCallback() {
+    this.render();
+  }
+
+  render() {
+    const active = this.hasAttribute("active");
+    const href = this.getAttribute("href");
+    const content = this.textContent?.trim() || "";
+
+    this.className = `breadcrumb-item${active ? " is-active" : ""}`;
+
+    if (href && !active) {
+      this.innerHTML = `<a href="${href}">${content}</a>`;
+    } else {
+      this.textContent = content;
+    }
+  }
+}
+
+// Breadcrumb Component
+class MonochromeBreadcrumb extends MonochromeElement {
+  static get observedAttributes() {
+    return ["variant", "separator", "max-items"];
+  }
+
+  constructor() {
+    super();
+  }
+
+  connectedCallback() {
+    this.render();
+  }
+
+  attributeChangedCallback() {
+    this.render();
+  }
+
+  render() {
+    const variant = this.getAttribute("variant") || "default"; // default, compact, large, contained
+    const separator = this.getAttribute("separator") || "/";
+    const maxItems = parseInt(this.getAttribute("max-items") || "0");
+
+    const classList = ["breadcrumb"];
+    if (variant !== "default") {
+      classList.push(`breadcrumb-${variant}`);
+    }
+
+    this.className = classList.join(" ");
+
+    // Get all breadcrumb items
+    const items = Array.from(this.querySelectorAll("mce-breadcrumb-item"));
+
+    // Handle max-items with ellipsis
+    if (maxItems > 0 && items.length > maxItems) {
+      const firstItems = items.slice(0, Math.floor(maxItems / 2));
+      const lastItems = items.slice(-Math.ceil(maxItems / 2));
+
+      items.forEach((item) => {
+        if (!firstItems.includes(item) && !lastItems.includes(item)) {
+          (item as HTMLElement).style.display = "none";
+        }
+      });
+
+      // Insert ellipsis
+      if (firstItems.length > 0) {
+        const ellipsis = document.createElement("span");
+        ellipsis.className = "breadcrumb-item breadcrumb-ellipsis";
+        ellipsis.textContent = "...";
+        const lastFirstItem = firstItems[firstItems.length - 1];
+        if (lastFirstItem) {
+          lastFirstItem.insertAdjacentElement("afterend", ellipsis);
+        }
+      }
+    }
+
+    // Add separators
+    items.forEach((item, index) => {
+      if (
+        index < items.length - 1 &&
+        (item as HTMLElement).style.display !== "none"
+      ) {
+        const sep = document.createElement("span");
+        sep.className = "breadcrumb-separator";
+        sep.setAttribute("aria-hidden", "true");
+        sep.textContent = separator;
+        item.insertAdjacentElement("afterend", sep);
+      }
+    });
+  }
+}
+
 // Register all components
 export function registerMonochromeComponents() {
   customElements.define("mce-button", MonochromeButton);
@@ -417,6 +694,9 @@ export function registerMonochromeComponents() {
   customElements.define("mce-checkbox", MonochromeCheckbox);
   customElements.define("mce-badge", MonochromeBadge);
   customElements.define("mce-toast", MonochromeToast);
+  customElements.define("mce-icon-toggle", MonochromeIconToggle);
+  customElements.define("mce-breadcrumb", MonochromeBreadcrumb);
+  customElements.define("mce-breadcrumb-item", MonochromeBreadcrumbItem);
 }
 
 // Auto-register if not in module context
@@ -478,6 +758,9 @@ export {
   MonochromeCheckbox,
   MonochromeBadge,
   MonochromeToast,
+  MonochromeIconToggle,
+  MonochromeBreadcrumb,
+  MonochromeBreadcrumbItem,
 };
 
 export default {
