@@ -71,24 +71,24 @@
 /* Active */
 .stepper-svg .node.active circle {
     fill: transparent;
-    stroke: var(--theme-text-primary);
+    stroke: var(--theme-text-emphasis, var(--theme-text-primary));
     stroke-width: 2;
 }
 
 .stepper-svg .node.active text {
-    fill: var(--theme-text-primary);
+    fill: var(--theme-text-emphasis, var(--theme-text-primary));
     font-weight: 600;
 }
 
 /* Completed */
 .stepper-svg .node.completed circle {
     fill: var(--theme-surface);
-    stroke: var(--theme-text-secondary);
+    stroke: var(--color-success, #10b981);
     stroke-width: 1.5;
 }
 
 .stepper-svg .node.completed .checkmark {
-    stroke: var(--theme-text-secondary);
+    stroke: var(--color-success, #10b981);
     stroke-width: 2;
     fill: none;
     stroke-linecap: round;
@@ -183,7 +183,7 @@
 }
 
 .stepper-svg .node.type-text.active .text-node-bg {
-    fill: var(--theme-text-primary);
+    fill: var(--theme-text-emphasis, var(--theme-text-primary));
 }
 
 .stepper-svg .node.type-text.failed .text-node-bg {
@@ -204,8 +204,13 @@
     font-weight: 600;
 }
 
+.stepper-svg .node.type-text.completed .text-node-bg {
+    fill: var(--color-success, #10b981);
+}
+
 .stepper-svg .node.type-text.completed .text-node-label {
-    fill: var(--theme-text-secondary);
+    fill: var(--theme-bg);
+    font-weight: 600;
 }
 
 .stepper-svg .node.type-text.failed .text-node-label {
@@ -228,7 +233,7 @@
 
 .stepper-svg .node.mode-text-only.active .text-only-bg,
 .stepper-svg .node.mode-text-only.active .text-node-bg {
-    fill: var(--theme-text-primary);
+    fill: var(--theme-text-emphasis, var(--theme-text-primary));
 }
 
 .stepper-svg .node.mode-text-only .text-only-label,
@@ -244,9 +249,15 @@
     font-weight: 600;
 }
 
+.stepper-svg .node.mode-text-only.completed .text-only-bg,
+.stepper-svg .node.mode-text-only.completed .text-node-bg {
+    fill: var(--color-success, #10b981);
+}
+
 .stepper-svg .node.mode-text-only.completed .text-only-label,
 .stepper-svg .node.mode-text-only.completed .text-node-label {
-    fill: var(--theme-text-secondary);
+    fill: var(--theme-bg);
+    font-weight: 600;
 }
 
 /* === Hover Popup === */
@@ -276,17 +287,57 @@
     visibility: visible;
 }
 
+/* Default arrow (top position) - points down */
 .stepper-popup::after {
     content: "";
     position: absolute;
-    bottom: 100%;
+    top: 100%;
     left: 50%;
     transform: translateX(-50%);
     width: 0;
     height: 0;
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
-    border-bottom: 6px solid var(--theme-surface);
+    border-top: 6px solid var(--theme-surface);
+}
+
+/* Top positioned popup - arrow points down */
+.stepper-popup.popup-top::after {
+    top: 100%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    transform: translateX(-50%);
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 6px solid var(--theme-surface);
+    border-bottom: none;
+}
+
+/* Left positioned popup - arrow points right */
+.stepper-popup.popup-left::after {
+    top: 50%;
+    left: 100%;
+    right: auto;
+    bottom: auto;
+    transform: translateY(-50%);
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 6px solid var(--theme-surface);
+    border-right: none;
+}
+
+/* Right positioned popup - arrow points left */
+.stepper-popup.popup-right::after {
+    top: 50%;
+    right: 100%;
+    left: auto;
+    bottom: auto;
+    transform: translateY(-50%);
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-right: 6px solid var(--theme-surface);
+    border-left: none;
 }
 
 .stepper-popup-title {

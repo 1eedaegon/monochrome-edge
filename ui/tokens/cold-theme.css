@@ -36,6 +36,7 @@
     --theme-background: #f5f7f9;
     --theme-text-primary: #18181b;
     --theme-text-secondary: #71717a;
+    --theme-text-emphasis: var(--cool-600);
     --theme-accent: #6b7280;
     --theme-accent-contrast: #ffffff;
     --theme-secondary: #9ca3af;
@@ -64,6 +65,7 @@
     --theme-background: #161a1f;
     --theme-text-primary: rgba(255, 255, 255, 0.95);
     --theme-text-secondary: #b1b1ba;
+    --theme-text-emphasis: var(--cool-400);
     --theme-accent: #9ca3af;
     --theme-accent-contrast: #18181b;
     --theme-secondary: #6b7280;

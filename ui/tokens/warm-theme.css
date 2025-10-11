@@ -40,6 +40,7 @@
     --theme-background: #f7f6f5;
     --theme-text-primary: #1c1a18;
     --theme-text-secondary: #5c5956;
+    --theme-text-emphasis: var(--warm-600);
     --theme-accent: #8a8784;
     --theme-accent-contrast: #ffffff;
     --theme-secondary: #a8a5a2;
@@ -68,6 +69,7 @@
     --theme-background: #1b1a19;
     --theme-text-primary: rgba(255, 255, 255, 0.92);
     --theme-text-secondary: #a8a5a2;
+    --theme-text-emphasis: var(--warm-400);
     --theme-accent: #4a4846;
     --theme-accent-contrast: rgba(255, 255, 255, 0.92);
     --theme-secondary: #5c5956;
