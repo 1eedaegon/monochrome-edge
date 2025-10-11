@@ -25,12 +25,8 @@ class IconLoader {
 
         if (isLocal) {
           basePath = "/ui/assets/icons/";
-        } else if (window.location.hostname.includes("github.io")) {
-          // GitHub Pages
-          const repoPath = window.location.pathname.split("/")[1];
-          basePath = `/${repoPath}/ui/assets/icons/`;
         } else {
-          // CDN fallback
+          // Use CDN for GitHub Pages and production
           basePath =
             "https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/ui/assets/icons/";
         }

@@ -18040,16 +18040,12 @@ new DropdownController(document.getElementById('action-dropdown'));
             // Simple icon loader for docs page
             async function loadIcon(name, width = 16, height = 16) {
                 try {
-                    // Use different paths for local vs GitHub Pages
+                    // Use different paths for local vs production
                     let basePath;
                     if (isLocal) {
                         basePath = '../ui/assets/icons/';
-                    } else if (window.location.hostname.includes('github.io')) {
-                        // GitHub Pages: try repository path first, fallback to CDN
-                        const repoPath = window.location.pathname.split('/')[1];
-                        basePath = `/${repoPath}/ui/assets/icons/`;
                     } else {
-                        // CDN fallback
+                        // Use CDN for GitHub Pages and production
                         basePath = 'https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/ui/assets/icons/';
                     }
 
@@ -18098,11 +18094,9 @@ new DropdownController(document.getElementById('action-dropdown'));
                 let scriptPath;
                 if (isLocal) {
                     scriptPath = '../ui/components/stepper/stepper-unified.js';
-                } else if (window.location.hostname.includes('github.io')) {
-                    const repoPath = window.location.pathname.split('/')[1];
-                    scriptPath = `/${repoPath}/ui/components/stepper/stepper-unified.js`;
                 } else {
-                    scriptPath = '../ui/components/stepper/stepper-unified.js';
+                    // Use CDN for GitHub Pages and production
+                    scriptPath = 'https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/ui/components/stepper/stepper-unified.js';
                 }
 
                 const script = document.createElement('script');
