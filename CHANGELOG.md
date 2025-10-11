@@ -5,19 +5,16 @@ All notable changes to Monochrome Edge UI Components will be documented in this 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.9.9] - 2025-10-11
+## [1.9.10] - 2025-10-11
 
 ### Bug Fixes
 
-- fix: unvisible search icon ([613bbba](../../commit/613bbba932341e7327b455c5880c31c1bdc5d078))
-- fix: change name web-component prefix mono- to mce- ([0251653](../../commit/02516537b78821342daa5f0ac00c20fc09ccdcef))
-- fix: enhance visibility stepper ([a3ec759](../../commit/a3ec7596a85930bc7284a7f2b37d9c3239300542))
-- fix: increase the font size on stepper labels ([302447f](../../commit/302447f7d261bd4d6a459fe4954d83fda66811d5))
+- fix: support cdn for icons ([b5ed2a9](../../commit/b5ed2a933e574c65c6ff302beabd50d9cedfaf50))
+- fix: stepper icon dynamic loader ([f75e42c](../../commit/f75e42c685d02917f814cc57b9fa110d4a3145c8))
 
-### Chore
+### Other
 
-- chore: bump version to 1.9.8 [skip ci] ([915e580](../../commit/915e580140e654d4195a5f15018d2c03c90b2c7e))
-- chore: bump version to 1.9.7 [skip ci] ([80b1102](../../commit/80b11024d0f5a28f1595118cdfc0f056cdefc29b))
+- ci: fix auto bump version on ci ([95666be](../../commit/95666be1da865b675c5aa12061d6572efbbb8669))
 
 ## Changes
 
