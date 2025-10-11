@@ -408,19 +408,19 @@ class MonochromeToast extends MonochromeElement {
 
 // Register all components
 export function registerMonochromeComponents() {
-  customElements.define("mono-button", MonochromeButton);
-  customElements.define("mono-card", MonochromeCard);
-  customElements.define("mono-modal", MonochromeModal);
-  customElements.define("mono-tabs", MonochromeTabs);
-  customElements.define("mono-accordion", MonochromeAccordion);
-  customElements.define("mono-input", MonochromeInput);
-  customElements.define("mono-checkbox", MonochromeCheckbox);
-  customElements.define("mono-badge", MonochromeBadge);
-  customElements.define("mono-toast", MonochromeToast);
+  customElements.define("mce-button", MonochromeButton);
+  customElements.define("mce-card", MonochromeCard);
+  customElements.define("mce-modal", MonochromeModal);
+  customElements.define("mce-tabs", MonochromeTabs);
+  customElements.define("mce-accordion", MonochromeAccordion);
+  customElements.define("mce-input", MonochromeInput);
+  customElements.define("mce-checkbox", MonochromeCheckbox);
+  customElements.define("mce-badge", MonochromeBadge);
+  customElements.define("mce-toast", MonochromeToast);
 }
 
 // Auto-register if not in module context
-if (typeof window !== "undefined" && !window.customElements.get("mono-button")) {
+if (typeof window !== "undefined" && !window.customElements.get("mce-button")) {
   registerMonochromeComponents();
 }
 
@@ -437,7 +437,7 @@ export function showToast(
     document.body.appendChild(container);
   }
 
-  const toast = document.createElement("mono-toast");
+  const toast = document.createElement("mce-toast");
   toast.setAttribute("message", message);
   toast.setAttribute("type", type);
   toast.setAttribute("duration", duration.toString());
