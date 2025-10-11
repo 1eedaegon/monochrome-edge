@@ -158,14 +158,14 @@
 
 .stepper-svg .label-title {
     fill: var(--theme-text-secondary);
-    font-size: 12px;
-    font-weight: 400;
+    font-size: 13px;
+    font-weight: 500;
     font-family: var(--font-family-sans, sans-serif);
 }
 
 .stepper-svg .label-desc {
     fill: var(--theme-text-tertiary);
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 400;
     font-family: var(--font-family-sans, sans-serif);
     opacity: 0.8;
