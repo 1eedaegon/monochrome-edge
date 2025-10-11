@@ -3680,19 +3680,19 @@ const handleItemClick = (item) => {
                                     </h4>
                                     <pre
                                         style="margin-bottom: 2rem"
-                                    ><code>&lt;mono-toc
+                                    ><code>&lt;mce-toc
   title="Table of Contents"
   collapsible
   active-id="1"
 &gt;
-  &lt;mono-toc-item id="1" href="#intro"&gt;Introduction&lt;/mono-toc-item&gt;
-  &lt;mono-toc-item id="2" href="#start"&gt;Getting Started&lt;/mono-toc-item&gt;
-  &lt;mono-toc-item id="3" href="#concepts"&gt;Core Concepts&lt;/mono-toc-item&gt;
-  &lt;mono-toc-item id="4" href="#api"&gt;API Reference&lt;/mono-toc-item&gt;
-&lt;/mono-toc&gt;
+  &lt;mce-toc-item id="1" href="#intro"&gt;Introduction&lt;/mce-toc-item&gt;
+  &lt;mce-toc-item id="2" href="#start"&gt;Getting Started&lt;/mce-toc-item&gt;
+  &lt;mce-toc-item id="3" href="#concepts"&gt;Core Concepts&lt;/mce-toc-item&gt;
+  &lt;mce-toc-item id="4" href="#api"&gt;API Reference&lt;/mce-toc-item&gt;
+&lt;/mce-toc&gt;
 
 &lt;script&gt;
-const toc = document.querySelector('mono-toc');
+const toc = document.querySelector('mce-toc');
 toc.addEventListener('item-click', (e) => {
   console.log('Clicked:', e.detail);
 });
@@ -3957,11 +3957,11 @@ const handleNodeHover = (node) => {
                                         >
                                             Web Components
                                         </h4>
-                                        <pre><code class="language-html">&lt;mono-graph-view
+                                        <pre><code class="language-html">&lt;mce-graph-view
   id="graph"
   width="800"
   height="600"
-&gt;&lt;/mono-graph-view&gt;
+&gt;&lt;/mce-graph-view&gt;
 
 &lt;script type="module"&gt;
   import '@monochrome-edge/web-components';
@@ -4241,7 +4241,7 @@ const handleNodeToggle = (node, isExpanded) => {
                                     </h4>
                                     <pre
                                         style="margin-bottom: 2rem"
-                                    ><code>&lt;mono-tree-view id="tree"&gt;&lt;/mono-tree-view&gt;
+                                    ><code>&lt;mce-tree-view id="tree"&gt;&lt;/mce-tree-view&gt;
 
 &lt;script type="module"&gt;
 const tree = document.getElementById('tree');
@@ -4558,11 +4558,11 @@ const handleChange = (tabId) => {
                                         >
                                             Web Components
                                         </h4>
-                                        <pre><code class="language-html">&lt;mono-tabs id="tabs"&gt;
+                                        <pre><code class="language-html">&lt;mce-tabs id="tabs"&gt;
   &lt;div slot="tab-home" data-label="Home"&gt;Home content&lt;/div&gt;
   &lt;div slot="tab-profile" data-label="Profile"&gt;Profile content&lt;/div&gt;
   &lt;div slot="tab-settings" data-label="Settings"&gt;Settings content&lt;/div&gt;
-&lt;/mono-tabs&gt;
+&lt;/mce-tabs&gt;
 
 &lt;script type="module"&gt;
   import '@monochrome-edge/web-components';
@@ -4709,8 +4709,8 @@ import { Button } from '@monochrome-edge/ui/vue';
                                     </h4>
                                     <pre
                                         style="margin-bottom: 2rem"
-                                    ><code>&lt;mono-button variant="primary"&gt;Primary&lt;/mono-button&gt;
-&lt;mono-button variant="secondary"&gt;Secondary&lt;/mono-button&gt;
+                                    ><code>&lt;mce-button variant="primary"&gt;Primary&lt;/mce-button&gt;
+&lt;mce-button variant="secondary"&gt;Secondary&lt;/mce-button&gt;
 
 &lt;script type="module"&gt;
   import '@monochrome-edge/ui/wc';
@@ -5731,12 +5731,12 @@ $.createIconButton({ icon: 'sun', size: 'xl' });</code></pre>
                                     </h4>
                                     <pre
                                         style="margin-bottom: 2rem"
-                                    ><code>&lt;mono-input
+                                    ><code>&lt;mce-input
     label="Email Address"
     type="email"
     placeholder="you@example.com"
     helper-text="We'll never share your email."
-&gt;&lt;/mono-input&gt;
+&gt;&lt;/mce-input&gt;
 
 &lt;script type="module"&gt;
   import '@monochrome-edge/ui/wc';
@@ -5920,13 +5920,13 @@ $('#email-input').after('&lt;span class="helper-text"&gt;We\'ll never share your
                                     </h4>
                                     <pre
                                         style="margin-bottom: 2rem"
-                                    ><code>&lt;mono-dropdown
+                                    ><code>&lt;mce-dropdown
     placeholder="Select Option"
     options='["Option 1", "Option 2", "Option 3"]'
-&gt;&lt;/mono-dropdown&gt;
+&gt;&lt;/mce-dropdown&gt;
 
 &lt;script&gt;
-const dropdown = document.querySelector('mono-dropdown');
+const dropdown = document.querySelector('mce-dropdown');
 dropdown.addEventListener('change', (e) => {
     console.log('Selected:', e.detail.value);
 });
@@ -6217,10 +6217,10 @@ const handleSearch = (query, filters, sort) => {
                                         >
                                             Web Components
                                         </h4>
-                                        <pre><code class="language-html">&lt;mono-search-toolbar
+                                        <pre><code class="language-html">&lt;mce-search-toolbar
   placeholder="Search components..."
   id="search-toolbar"
-&gt;&lt;/mono-search-toolbar&gt;
+&gt;&lt;/mce-search-toolbar&gt;
 
 &lt;script type="module"&gt;
   import '@monochrome-edge/web-components';
@@ -6429,9 +6429,9 @@ const handleSearch = (query, filters, sort) => {
                                     </h4>
                                     <pre
                                         style="margin-bottom: 2rem"
-                                    ><code>&lt;mono-card title="Card Title"&gt;
+                                    ><code>&lt;mce-card title="Card Title"&gt;
     &lt;p&gt;Card content&lt;/p&gt;
-&lt;/mono-card&gt;
+&lt;/mce-card&gt;
 
 &lt;script type="module"&gt;
   import '@monochrome-edge/ui/wc';
@@ -7224,16 +7224,16 @@ $('#container').append($card);</code></pre>
                                     </h4>
                                     <pre
                                         style="margin-bottom: 2rem"
-                                    ><code>&lt;mono-modal is-open title="Modal Title"&gt;
+                                    ><code>&lt;mce-modal is-open title="Modal Title"&gt;
     &lt;p&gt;Modal content goes here&lt;/p&gt;
     &lt;div slot="footer"&gt;
         &lt;button class="btn btn-ghost"&gt;Cancel&lt;/button&gt;
         &lt;button class="btn btn-primary"&gt;Confirm&lt;/button&gt;
     &lt;/div&gt;
-&lt;/mono-modal&gt;
+&lt;/mce-modal&gt;
 
 &lt;script&gt;
-const modal = document.querySelector('mono-modal');
+const modal = document.querySelector('mce-modal');
 modal.addEventListener('close', () => {
     modal.removeAttribute('is-open');
 });
@@ -9032,14 +9032,14 @@ const handleChange = (expandedIds) => {
                                         >
                                             Web Components
                                         </h4>
-                                        <pre><code class="language-html">&lt;mono-accordion id="faq" allow-multiple="false"&gt;
+                                        <pre><code class="language-html">&lt;mce-accordion id="faq" allow-multiple="false"&gt;
   &lt;div data-accordion-id="1" data-accordion-title="What is Monochrome Edge?"&gt;
     A minimalist UI library...
   &lt;/div&gt;
   &lt;div data-accordion-id="2" data-accordion-title="How to get started?"&gt;
     Install via npm...
   &lt;/div&gt;
-&lt;/mono-accordion&gt;
+&lt;/mce-accordion&gt;
 
 &lt;script type="module"&gt;
   import '@monochrome-edge/web-components';
@@ -9800,12 +9800,12 @@ function DashboardCards() {
                                 <pre><code class="language-vue">&lt;template&gt;
   &lt;div class="grid grid-cols-3 gap-4"&gt;
     &lt;!-- Basic Card --&gt;
-    &lt;mono-card&gt;
+    &lt;mce-card&gt;
       &lt;template #header&gt;
         &lt;h3&gt;Basic Card&lt;/h3&gt;
       &lt;/template&gt;
       &lt;p&gt;This is a basic card with header and body.&lt;/p&gt;
-    &lt;/mono-card&gt;
+    &lt;/mce-card&gt;
 
     &lt;!-- Stat Card --&gt;
     &lt;stat-card
@@ -9817,12 +9817,12 @@ function DashboardCards() {
     /&gt;
 
     &lt;!-- Custom Styled Card --&gt;
-    &lt;mono-card class="border-highlight"&gt;
+    &lt;mce-card class="border-highlight"&gt;
       &lt;div class="flex items-center justify-between"&gt;
         &lt;span class="text-secondary"&gt;Active Users&lt;/span&gt;
         &lt;span class="text-2xl font-bold"&gt;1,234&lt;/span&gt;
       &lt;/div&gt;
-    &lt;/mono-card&gt;
+    &lt;/mce-card&gt;
   &lt;/div&gt;
 &lt;/template&gt;
 
@@ -10040,7 +10040,7 @@ function ModalExample() {
       Open Modal
     &lt;/monochrome-button&gt;
 
-    &lt;mono-modal
+    &lt;mce-modal
       :is-open="isOpen"
       @close="isOpen = false"
       title="Sample Modal"
@@ -10055,10 +10055,10 @@ function ModalExample() {
           Confirm
         &lt;/monochrome-button&gt;
       &lt;/template&gt;
-    &lt;/mono-modal&gt;
+    &lt;/mce-modal&gt;
 
     &lt;!-- Confirmation Modal --&gt;
-    &lt;mono-modal
+    &lt;mce-modal
       :is-open="confirmOpen"
       @close="confirmOpen = false"
       title="Confirm Action"
@@ -10073,7 +10073,7 @@ function ModalExample() {
           Yes, Delete
         &lt;/monochrome-button&gt;
       &lt;/template&gt;
-    &lt;/mono-modal&gt;
+    &lt;/mce-modal&gt;
   &lt;/div&gt;
 &lt;/template&gt;
 
@@ -10356,35 +10356,35 @@ function DataTable() {
                             </div>
                             <div class="component-code" data-framework="vue">
                                 <pre><code class="language-vue">&lt;template&gt;
-  &lt;mono-table&gt;
-    &lt;mono-table-header&gt;
-      &lt;mono-table-row&gt;
-        &lt;mono-table-cell header&gt;Name&lt;/mono-table-cell&gt;
-        &lt;mono-table-cell header&gt;Email&lt;/mono-table-cell&gt;
-        &lt;mono-table-cell header&gt;Status&lt;/mono-table-cell&gt;
-        &lt;mono-table-cell header&gt;Actions&lt;/mono-table-cell&gt;
-      &lt;/mono-table-row&gt;
-    &lt;/mono-table-header&gt;
-    &lt;mono-table-body&gt;
-      &lt;mono-table-row v-for="row in data" :key="row.id"&gt;
-        &lt;mono-table-cell&gt;{{ row.name }}&lt;/mono-table-cell&gt;
-        &lt;mono-table-cell&gt;{{ row.email }}&lt;/mono-table-cell&gt;
-        &lt;mono-table-cell&gt;
+  &lt;mce-table&gt;
+    &lt;mce-table-header&gt;
+      &lt;mce-table-row&gt;
+        &lt;mce-table-cell header&gt;Name&lt;/mce-table-cell&gt;
+        &lt;mce-table-cell header&gt;Email&lt;/mce-table-cell&gt;
+        &lt;mce-table-cell header&gt;Status&lt;/mce-table-cell&gt;
+        &lt;mce-table-cell header&gt;Actions&lt;/mce-table-cell&gt;
+      &lt;/mce-table-row&gt;
+    &lt;/mce-table-header&gt;
+    &lt;mce-table-body&gt;
+      &lt;mce-table-row v-for="row in data" :key="row.id"&gt;
+        &lt;mce-table-cell&gt;{{ row.name }}&lt;/mce-table-cell&gt;
+        &lt;mce-table-cell&gt;{{ row.email }}&lt;/mce-table-cell&gt;
+        &lt;mce-table-cell&gt;
           &lt;span :class="`badge badge-${row.status}`"&gt;
             {{ row.status }}
           &lt;/span&gt;
-        &lt;/mono-table-cell&gt;
-        &lt;mono-table-cell&gt;
+        &lt;/mce-table-cell&gt;
+        &lt;mce-table-cell&gt;
           &lt;button class="btn btn-sm btn-ghost" @click="editRow(row)"&gt;
             Edit
           &lt;/button&gt;
           &lt;button class="btn btn-sm btn-danger" @click="deleteRow(row)"&gt;
             Delete
           &lt;/button&gt;
-        &lt;/mono-table-cell&gt;
-      &lt;/mono-table-row&gt;
-    &lt;/mono-table-body&gt;
-  &lt;/mono-table&gt;
+        &lt;/mce-table-cell&gt;
+      &lt;/mce-table-row&gt;
+    &lt;/mce-table-body&gt;
+  &lt;/mce-table&gt;
 &lt;/template&gt;
 
 &lt;script setup&gt;
