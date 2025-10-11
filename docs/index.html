@@ -5484,10 +5484,11 @@ function ProgressDemo() {
     &lt;/div&gt;
   );
 }</code></pre>
-                                    </div>
-                                    <div>
-                                        <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Vue</h4>
-                                        <pre style="margin-bottom: 2rem"><code class="language-javascript">&lt;template&gt;
+                                </div>
+
+                                <div>
+                                    <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Vue</h4>
+                                    <pre style="margin-bottom: 2rem"><code class="language-javascript">&lt;template&gt;
   &lt;div&gt;
     &lt;!-- Monochrome --&gt;
     &lt;div class="progress"&gt;
@@ -10598,6 +10599,14 @@ $('#myElement').css({
            "state": "pending",
            "title": "Set Preferences",
            "desc": "Customize your application settings."
+         },
+         {
+           "indicator": "4",
+           "labelTitle": "Confirmation",
+           "labelDesc": "Review & confirm",
+           "state": "pending",
+           "title": "Final Confirmation",
+           "desc": "Review all your settings and confirm to complete setup."
          }
      ]'&gt;
 &lt;/div&gt;
@@ -10617,6 +10626,111 @@ const stepper = new Stepper(container, {
 // Update step state dynamically
 stepper.updateStep(1, { state: 'completed' });
 &lt;/script&gt;</code></pre>
+
+                                <div>
+                                    <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">React</h4>
+                                    <pre style="margin-bottom: 2rem"><code class="language-jsx">import { useState } from 'react';
+
+function StepperDemo() {
+  const [currentStep, setCurrentStep] = useState(0);
+  const [steps, setSteps] = useState([
+    { indicator: '1', labelTitle: 'Account Setup', state: 'completed' },
+    { indicator: '2', labelTitle: 'Verification', state: 'active' },
+    { indicator: '3', labelTitle: 'Preferences', state: 'pending' },
+    { indicator: '4', labelTitle: 'Confirmation', state: 'pending' }
+  ]);
+
+  const nextStep = () => {
+    setSteps(prev => prev.map((step, idx) => ({
+      ...step,
+      state: idx < currentStep + 1 ? 'completed' :
+             idx === currentStep + 1 ? 'active' : 'pending'
+    })));
+    setCurrentStep(prev => Math.min(prev + 1, steps.length - 1));
+  };
+
+  return (
+    &lt;div&gt;
+      &lt;div
+        className="stepper"
+        data-type="default"
+        data-layout="horizontal"
+        data-steps={JSON.stringify(steps)}
+      /&gt;
+      &lt;button onClick={nextStep}&gt;Next Step&lt;/button&gt;
+    &lt;/div&gt;
+  );
+}</code></pre>
+                                    </div>
+                                    <div>
+                                        <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">Vue</h4>
+                                        <pre style="margin-bottom: 2rem"><code class="language-javascript">&lt;template&gt;
+  &lt;div&gt;
+    &lt;div
+      class="stepper"
+      data-type="default"
+      data-layout="horizontal"
+      :data-steps="JSON.stringify(steps)"
+    /&gt;
+    &lt;button @click="nextStep"&gt;Next Step&lt;/button&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { ref } from 'vue';
+
+const currentStep = ref(0);
+const steps = ref([
+  { indicator: '1', labelTitle: 'Account Setup', state: 'completed' },
+  { indicator: '2', labelTitle: 'Verification', state: 'active' },
+  { indicator: '3', labelTitle: 'Preferences', state: 'pending' },
+  { indicator: '4', labelTitle: 'Confirmation', state: 'pending' }
+]);
+
+const nextStep = () => {
+  steps.value = steps.value.map((step, idx) => ({
+    ...step,
+    state: idx < currentStep.value + 1 ? 'completed' :
+           idx === currentStep.value + 1 ? 'active' : 'pending'
+  }));
+  currentStep.value = Math.min(currentStep.value + 1, steps.value.length - 1);
+};
+&lt;/script&gt;</code></pre>
+                                </div>
+
+                                <div>
+                                    <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">jQuery</h4>
+                                    <pre><code class="language-javascript">// Initialize stepper
+const $container = $('.stepper');
+const stepper = new Stepper($container[0], {
+  type: 'default',
+  layout: 'horizontal',
+  onStepClick: (index, step) => {
+    console.log('Step clicked:', index, step);
+  }
+});
+
+// Update step state
+$('#nextBtn').on('click', function() {
+  const currentActive = stepper.steps.findIndex(s => s.state === 'active');
+  if (currentActive >= 0) {
+    stepper.updateStep(currentActive, { state: 'completed' });
+    if (currentActive + 1 < stepper.steps.length) {
+      stepper.updateStep(currentActive + 1, { state: 'active' });
+    }
+  }
+});
+
+// Add new step
+stepper.addStep({
+  indicator: '5',
+  labelTitle: 'New Step',
+  state: 'pending'
+});
+
+// Remove step
+stepper.removeStep(stepper.steps.length - 1);</code></pre>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -10646,10 +10760,10 @@ stepper.updateStep(1, { state: 'completed' });
                                      data-type="default"
                                      data-layout="vertical"
                                      data-steps='[
-                                         {"indicator":"1","labelTitle":"Account","state":"completed","title":"Account Setup","desc":"Create your account and set up your profile information."},
-                                         {"indicator":"2","labelTitle":"Verification","state":"completed","title":"Email Verification","desc":"Verify your email address to continue."},
-                                         {"indicator":"3","labelTitle":"Preferences","state":"active","title":"Set Preferences","desc":"Customize your application settings and preferences."},
-                                         {"indicator":"4","labelTitle":"Confirmation","state":"pending","title":"Final Confirmation","desc":"Review all your settings and confirm to complete setup."}
+                                         {"indicator":"1","labelTitle":"Account","labelDesc":"Setup","state":"completed","title":"Account Setup","desc":"Create your account and set up your profile information."},
+                                         {"indicator":"2","labelTitle":"Verification","labelDesc":"Email","state":"completed","title":"Email Verification","desc":"Verify your email address to continue."},
+                                         {"indicator":"3","labelTitle":"Preferences","labelDesc":"Settings","state":"active","title":"Set Preferences","desc":"Customize your application settings and preferences."},
+                                         {"indicator":"4","labelTitle":"Confirmation","labelDesc":"Review","state":"pending","title":"Final Confirmation","desc":"Review all your settings and confirm to complete setup."}
                                      ]'>
                                 </div>
                             </div>
@@ -10658,9 +10772,10 @@ stepper.updateStep(1, { state: 'completed' });
      data-type="default"
      data-layout="vertical"
      data-steps='[
-         {"indicator":"1","labelTitle":"Account","state":"completed"},
-         {"indicator":"2","labelTitle":"Verification","state":"active"},
-         {"indicator":"3","labelTitle":"Preferences","state":"pending"}
+         {"indicator":"1","labelTitle":"Account","labelDesc":"Setup","state":"completed","title":"Account Setup","desc":"Create your account and set up your profile information."},
+         {"indicator":"2","labelTitle":"Verification","labelDesc":"Email","state":"completed","title":"Email Verification","desc":"Verify your email address to continue."},
+         {"indicator":"3","labelTitle":"Preferences","labelDesc":"Settings","state":"active","title":"Set Preferences","desc":"Customize your application settings and preferences."},
+         {"indicator":"4","labelTitle":"Confirmation","labelDesc":"Review","state":"pending","title":"Final Confirmation","desc":"Review all your settings and confirm to complete setup."}
      ]'&gt;
 &lt;/div&gt;</code></pre>
                             </div>
@@ -10708,9 +10823,14 @@ stepper.updateStep(1, { state: 'completed' });
      data-type="default"
      data-layout="snake"
      data-steps='[
-         {"indicator":"1","labelTitle":"Initialize","state":"completed"},
-         {"indicator":"2","labelTitle":"Configure","state":"active"},
-         {"indicator":"3","labelTitle":"Build","state":"pending"}
+         {"indicator":"1","labelTitle":"Initialize","state":"completed","title":"Initialize Project","desc":"Set up the project structure and dependencies"},
+         {"indicator":"2","labelTitle":"Configure","labelDesc":"Setup","state":"completed","title":"Configuration","desc":"Configure build tools and environment"},
+         {"indicator":"3","labelTitle":"Build","state":"completed"},
+         {"indicator":"4","labelTitle":"Test","state":"completed"},
+         {"indicator":"5","labelTitle":"Deploy","state":"active","title":"Deployment","desc":"Deploy to production environment"},
+         {"indicator":"6","labelTitle":"Monitor","state":"pending"},
+         {"indicator":"7","labelTitle":"Optimize","state":"pending"},
+         {"indicator":"8","labelTitle":"Finalize","state":"pending"}
      ]'&gt;
 &lt;/div&gt;</code></pre>
                             </div>
@@ -10756,7 +10876,8 @@ stepper.updateStep(1, { state: 'completed' });
      data-steps='[
          {"labelTitle":"Personal Info","state":"completed"},
          {"labelTitle":"Address","state":"active"},
-         {"labelTitle":"Payment","state":"pending"}
+         {"labelTitle":"Payment","state":"pending"},
+         {"labelTitle":"Confirm","state":"pending"}
      ]'&gt;
 &lt;/div&gt;</code></pre>
                             </div>
@@ -10800,9 +10921,10 @@ stepper.updateStep(1, { state: 'completed' });
      data-type="text"
      data-layout="vertical"
      data-steps='[
-         {"labelTitle":"Setup","state":"completed"},
-         {"labelTitle":"Connect","state":"active"},
-         {"labelTitle":"Verify","state":"pending"}
+         {"labelTitle":"Setup","state":"completed","title":"Initial Setup","desc":"Configure basic settings"},
+         {"labelTitle":"Connect","state":"active","title":"Connect Account","desc":"Link your account"},
+         {"labelTitle":"Verify","state":"pending","title":"Verification","desc":"Verify your identity"},
+         {"labelTitle":"Complete","state":"pending","title":"Completion","desc":"Finish setup"}
      ]'&gt;
 &lt;/div&gt;</code></pre>
                             </div>
@@ -10851,7 +10973,9 @@ stepper.updateStep(1, { state: 'completed' });
          {"labelTitle":"Plan","state":"completed"},
          {"labelTitle":"Design","state":"completed"},
          {"labelTitle":"Develop","state":"active"},
-         {"labelTitle":"Test","state":"pending"}
+         {"labelTitle":"Test","state":"pending"},
+         {"labelTitle":"Deploy","state":"pending"},
+         {"labelTitle":"Monitor","state":"pending"}
      ]'&gt;
 &lt;/div&gt;</code></pre>
                             </div>

@@ -198,7 +198,8 @@
                 <div style="width: 1200px; margin-bottom: 2rem">
                     <div
                         class="stepper"
-                        data-type="default" data-layout="snake"
+                        data-type="default"
+                        data-layout="snake"
                         data-steps='[
                          {"indicator":"1","labelTitle":"Init","state":"completed"},
                          {"indicator":"2","labelTitle":"Config","state":"completed"},
@@ -216,7 +217,8 @@
                 <div style="width: 600px; margin-bottom: 2rem">
                     <div
                         class="stepper"
-                        data-type="default" data-layout="snake"
+                        data-type="default"
+                        data-layout="snake"
                         data-steps='[
                          {"indicator":"1","labelTitle":"Init","state":"completed"},
                          {"indicator":"2","labelTitle":"Config","state":"completed"},
@@ -232,7 +234,8 @@
                 <div style="width: 300px; margin-bottom: 2rem">
                     <div
                         class="stepper"
-                        data-type="default" data-layout="snake"
+                        data-type="default"
+                        data-layout="snake"
                         data-steps='[
                          {"indicator":"1","labelTitle":"Init","state":"completed"},
                          {"indicator":"2","labelTitle":"Build","state":"completed"},
@@ -254,13 +257,14 @@
                 <div style="width: 240px; margin-bottom: 2rem">
                     <div
                         class="stepper"
-                        data-type="default" data-layout="vertical"
+                        data-type="default"
+                        data-layout="vertical"
                         data-steps='[
-                         {"indicator":"1","labelTitle":"Setup","state":"completed"},
-                         {"indicator":"2","labelTitle":"Configure","state":"completed"},
-                         {"indicator":"3","labelTitle":"Build","state":"active"},
-                         {"indicator":"4","labelTitle":"Test","state":"pending"},
-                         {"indicator":"5","labelTitle":"Deploy","state":"pending"}
+                         {"indicator":"1","labelTitle":"Setup","labelDesc":"Initialize","state":"completed"},
+                         {"indicator":"2","labelTitle":"Configure","labelDesc":"Settings","state":"completed"},
+                         {"indicator":"3","labelTitle":"Build","labelDesc":"Compile","state":"active"},
+                         {"indicator":"4","labelTitle":"Test","labelDesc":"Verify","state":"pending"},
+                         {"indicator":"5","labelTitle":"Deploy","labelDesc":"Publish","state":"pending"}
                      ]'
                     ></div>
                 </div>
@@ -269,13 +273,14 @@
                 <div style="width: 240px; margin-bottom: 2rem">
                     <div
                         class="stepper"
-                        data-type="default" data-layout="vertical"
+                        data-type="default"
+                        data-layout="vertical"
                         data-show-progress="true"
                         data-steps='[
-                         {"indicator":"1","labelTitle":"A","state":"completed"},
-                         {"indicator":"2","labelTitle":"B","state":"completed"},
-                         {"indicator":"3","labelTitle":"C","state":"active"},
-                         {"indicator":"4","labelTitle":"D","state":"pending"}
+                         {"indicator":"1","labelTitle":"A","labelDesc":"First step","state":"completed"},
+                         {"indicator":"2","labelTitle":"B","labelDesc":"Second step","state":"completed"},
+                         {"indicator":"3","labelTitle":"C","labelDesc":"Third step","state":"active"},
+                         {"indicator":"4","labelTitle":"D","labelDesc":"Fourth step","state":"pending"}
                      ]'
                     ></div>
                 </div>
@@ -292,12 +297,38 @@
                 <div style="width: 800px; margin-bottom: 2rem">
                     <div
                         class="stepper"
-                        data-type="text" data-layout="horizontal"
+                        data-type="text"
+                        data-layout="horizontal"
                         data-steps='[
                          {"indicator":"1","labelTitle":"Account","state":"completed"},
                          {"indicator":"2","labelTitle":"Verification","state":"completed"},
                          {"indicator":"3","labelTitle":"Preferences","state":"active"},
                          {"indicator":"4","labelTitle":"Confirmation","state":"pending"}
+                     ]'
+                    ></div>
+                </div>
+
+                <h3>Text-only Mode with Hover Popup</h3>
+                <p
+                    style="
+                        font-size: 0.875rem;
+                        color: var(--theme-text-secondary);
+                        margin-bottom: 1rem;
+                    "
+                >
+                    Hover over step labels to see detailed information in a
+                    popup
+                </p>
+                <div style="width: 800px; margin-bottom: 2rem">
+                    <div
+                        class="stepper"
+                        data-type="text"
+                        data-layout="horizontal"
+                        data-steps='[
+                         {"indicator":"1","labelTitle":"Order","state":"completed","title":"Order Placed","desc":"Your order has been received and is being processed."},
+                         {"indicator":"2","labelTitle":"Payment","state":"completed","title":"Payment Confirmed","desc":"Payment has been successfully processed."},
+                         {"indicator":"3","labelTitle":"Shipping","state":"active","title":"In Transit","desc":"Your order is on its way to the destination."},
+                         {"indicator":"4","labelTitle":"Delivery","state":"pending","title":"Delivery Pending","desc":"Your order will be delivered soon."}
                      ]'
                     ></div>
                 </div>
@@ -330,7 +361,8 @@
                     <div
                         class="stepper"
                         id="stepper-resizable"
-                        data-type="default" data-layout="snake"
+                        data-type="default"
+                        data-layout="snake"
                         data-steps='[
                          {"indicator":"1","labelTitle":"Initialize","state":"completed","title":"Initialize Project","desc":"Set up the project structure and dependencies"},
                          {"indicator":"2","labelTitle":"Configure","labelDesc":"Setup","state":"completed","title":"Configuration","desc":"Configure build tools and environment variables"},
@@ -370,7 +402,8 @@
                     <div
                         class="stepper"
                         id="stepper-dynamic"
-                        data-type="default" data-layout="snake"
+                        data-type="default"
+                        data-layout="snake"
                         data-steps='[
                          {"indicator":"1","labelTitle":"Step 1","state":"completed"},
                          {"indicator":"2","labelTitle":"Step 2","state":"completed"},
@@ -393,7 +426,8 @@
                 <div style="width: 600px; margin-bottom: 2rem">
                     <div
                         class="stepper"
-                        data-type="default" data-layout="horizontal"
+                        data-type="default"
+                        data-layout="horizontal"
                         data-steps='[
                          {"indicator":"1","labelTitle":"A","state":"completed"},
                          {"indicator":"2","labelTitle":"B","state":"completed"},
@@ -408,7 +442,8 @@
                 <div style="width: 600px; margin-bottom: 2rem">
                     <div
                         class="stepper"
-                        data-type="default" data-layout="snake"
+                        data-type="default"
+                        data-layout="snake"
                         data-steps='[
                          {"indicator":"1","labelTitle":"A","state":"completed"},
                          {"indicator":"2","labelTitle":"B","state":"completed"},
@@ -423,13 +458,14 @@
                 <div style="width: 240px; margin-bottom: 2rem">
                     <div
                         class="stepper"
-                        data-type="default" data-layout="vertical"
+                        data-type="default"
+                        data-layout="vertical"
                         data-steps='[
-                         {"indicator":"1","labelTitle":"A","state":"completed"},
-                         {"indicator":"2","labelTitle":"B","state":"completed"},
-                         {"indicator":"3","labelTitle":"C","state":"active"},
-                         {"indicator":"4","labelTitle":"D","state":"pending"},
-                         {"indicator":"5","labelTitle":"E","state":"pending"}
+                         {"indicator":"1","labelTitle":"A","labelDesc":"Step A","state":"completed"},
+                         {"indicator":"2","labelTitle":"B","labelDesc":"Step B","state":"completed"},
+                         {"indicator":"3","labelTitle":"C","labelDesc":"Step C","state":"active"},
+                         {"indicator":"4","labelTitle":"D","labelDesc":"Step D","state":"pending"},
+                         {"indicator":"5","labelTitle":"E","labelDesc":"Step E","state":"pending"}
                      ]'
                     ></div>
                 </div>
@@ -438,7 +474,8 @@
                 <div style="width: 600px; margin-bottom: 2rem">
                     <div
                         class="stepper"
-                        data-type="text" data-layout="horizontal"
+                        data-type="text"
+                        data-layout="horizontal"
                         data-steps='[
                          {"indicator":"1","labelTitle":"A","state":"completed"},
                          {"indicator":"2","labelTitle":"B","state":"completed"},

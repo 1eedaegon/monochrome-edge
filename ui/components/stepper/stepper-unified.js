@@ -712,6 +712,9 @@
       // - If stepper is on right side of screen, position popup to the left
       const isVerticalLayout = this.options.layout === "vertical";
 
+      // Remove all position classes first
+      popup.classList.remove("popup-top", "popup-left", "popup-right");
+
       if (isVerticalLayout) {
         const viewportWidth = window.innerWidth;
         const containerCenterX = containerRect.left + containerRect.width / 2;
@@ -722,17 +725,20 @@
           popup.style.left = `${nodeScreenX + this.options.nodeSize / 2 + 12}px`;
           popup.style.top = `${nodeScreenY}px`;
           popup.style.transform = "translateY(-50%)";
+          popup.classList.add("popup-right");
         } else {
           // Stepper on right: position popup to the left of the node
           popup.style.left = `${nodeScreenX - this.options.nodeSize / 2 - 12}px`;
           popup.style.top = `${nodeScreenY}px`;
           popup.style.transform = "translate(-100%, -50%)";
+          popup.classList.add("popup-left");
         }
       } else {
         // Horizontal modes: position popup centered above the node with 12px gap
         popup.style.left = `${nodeScreenX}px`;
         popup.style.top = `${nodeScreenY - this.options.nodeSize / 2 - 12}px`;
         popup.style.transform = "translate(-50%, -100%)";
+        popup.classList.add("popup-top");
       }
 
       popup.classList.add("visible");
