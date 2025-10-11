@@ -18088,6 +18088,28 @@ new DropdownController(document.getElementById('action-dropdown'));
         </script>
 
         <!-- Snake Stepper SVG -->
-        <script src="../ui/components/stepper/stepper-unified.js"></script>
+        <script>
+            // Dynamically load stepper script with correct path
+            (function() {
+                const isLocal = window.location.hostname === 'localhost' ||
+                               window.location.hostname === '127.0.0.1' ||
+                               window.location.hostname === '';
+
+                let scriptPath;
+                if (isLocal) {
+                    scriptPath = '../ui/components/stepper/stepper-unified.js';
+                } else if (window.location.hostname.includes('github.io')) {
+                    const repoPath = window.location.pathname.split('/')[1];
+                    scriptPath = `/${repoPath}/ui/components/stepper/stepper-unified.js`;
+                } else {
+                    scriptPath = '../ui/components/stepper/stepper-unified.js';
+                }
+
+                const script = document.createElement('script');
+                script.src = scriptPath;
+                script.async = false;
+                document.head.appendChild(script);
+            })();
+        </script>
     </body>
 </html>
