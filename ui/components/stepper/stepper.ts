@@ -566,8 +566,16 @@ export class Stepper {
         );
         nodeGroup.classList.add("node", "type-text", pos.state || "pending");
 
+        // Calculate text lines first to determine box height
+        const label = pos.labelTitle || pos.indicator;
+        const maxChars = 15;
+        const lines = this.breakTextByWords(label, maxChars);
+
         const width = pos.textOnlyWidth || 60;
-        const height = 24;
+        const lineHeight = 14; // px
+        const verticalPadding = 8; // px (4px top + 4px bottom)
+        const height = lines.length * lineHeight + verticalPadding;
+
         const rect = document.createElementNS(
           "http://www.w3.org/2000/svg",
           "rect",
@@ -584,10 +592,6 @@ export class Stepper {
         // Always show text for text type, regardless of state
         // Background color changes based on state via CSS
         // Support multi-line text with tspan elements
-        const label = pos.labelTitle || pos.indicator;
-        const maxChars = 15;
-        const lines = this.breakTextByWords(label, maxChars);
-
         const text = document.createElementNS(
           "http://www.w3.org/2000/svg",
           "text",
@@ -596,10 +600,9 @@ export class Stepper {
         text.setAttribute("text-anchor", "middle");
         text.classList.add("text-node-label");
 
-        // Calculate y position to center multi-line text
-        const lineHeight = 14; // px
-        const totalHeight = lines.length * lineHeight;
-        const startY = pos.y - totalHeight / 2 + lineHeight / 2;
+        // Calculate y position to center multi-line text within the box
+        const textHeight = lines.length * lineHeight;
+        const startY = pos.y - textHeight / 2 + lineHeight * 0.7; // 0.7 for better vertical centering
 
         lines.forEach((line, lineIndex) => {
           const tspan = document.createElementNS(
