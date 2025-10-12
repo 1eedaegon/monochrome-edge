@@ -307,38 +307,7 @@
         <!-- jQuery -->
         <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-        <!-- Monochrome Edge Components -->
-        <script type="module">
-            const isLocalDev =
-                window.location.hostname === "localhost" ||
-                window.location.hostname === "127.0.0.1";
-            const modulePath = isLocalDev
-                ? "../dist/index.esm.js"
-                : "https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/index.esm.js";
-
-            // Load Monochrome Edge UI modules
-            import(modulePath)
-                .then((module) => {
-                    // Expose all components to window
-                    window.SearchToolbar = module.SearchToolbar;
-                    window.TreeView = module.TreeView;
-                    window.GraphView = module.GraphView;
-
-                    // Initialize all components after module is loaded
-                    if (typeof window.initSearchToolbar === "function") {
-                        window.initSearchToolbar();
-                    }
-                    if (typeof window.initTreeView === "function") {
-                        window.initTreeView();
-                    }
-                    if (typeof window.initGraphView === "function") {
-                        window.initGraphView();
-                    }
-                })
-                .catch((err) => {
-                    console.error("Failed to load UI modules:", err);
-                });
-        </script>
+        <!-- Monochrome Edge Components will be loaded by ui.js bundle at the end of body -->
 
         <!-- Prism.js for code highlighting -->
         <link
@@ -608,6 +577,23 @@
                 font-size: inherit;
             }
 
+            /* Mobile responsive code blocks */
+            @media (max-width: 768px) {
+                pre {
+                    font-size: 0.75rem;
+                    line-height: 1.5;
+                    padding: 0.75rem;
+                }
+
+                pre code {
+                    font-size: 0.75rem;
+                }
+
+                code {
+                    font-size: 0.8125rem;
+                }
+            }
+
             .component-preview,
             .component-code {
                 overflow-x: auto;
@@ -814,12 +800,13 @@
                Diagonal flip animation: Lang1 ↖ / ↘ Lang2
                ======================================== */
 
+            /* Language Toggle - Multi-language cycle */
             .language-toggle {
                 position: relative;
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
-                width: 50px;
+                width: 56px;
                 height: 44px;
                 padding: 0;
                 background: var(--theme-surface);
@@ -830,7 +817,7 @@
                     background 0.2s cubic-bezier(0.4, 0, 0.2, 1),
                     border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1),
                     transform 0.1s cubic-bezier(0.4, 0, 0.2, 1);
-                overflow: hidden;
+                overflow: visible;
             }
 
             .language-toggle:hover {
@@ -850,7 +837,6 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                font-size: 0.625rem;
                 font-weight: 600;
                 letter-spacing: 0.02em;
                 color: var(--theme-text-secondary);
@@ -860,67 +846,120 @@
                 color: var(--theme-text-primary);
             }
 
-            /* First language - top-left */
-            .lang-first {
+            /* Current language - top-left, larger */
+            .lang-current {
                 position: absolute;
-                top: 6px;
-                left: 6px;
-                transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                top: 8px;
+                left: 8px;
+                font-size: 0.75rem;
+                font-weight: 700;
+                opacity: 1;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             }
 
-            /* Second language - bottom-right */
-            .lang-second {
+            /* Next language - bottom-right, smaller */
+            .lang-next {
                 position: absolute;
-                bottom: 6px;
-                right: 6px;
-                transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                bottom: 8px;
+                right: 8px;
+                font-size: 0.625rem;
+                font-weight: 500;
+                opacity: 0.7;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             }
 
-            /* Diagonal slash separator (top-right to bottom-left: \ direction) */
-            .lang-slash {
+            .language-toggle:hover .lang-next {
+                opacity: 1;
+                font-weight: 600;
+            }
+
+            /* Diagonal separator */
+            .lang-separator {
                 position: absolute;
                 width: 1px;
                 height: 32px;
                 background: currentColor;
-                opacity: 0.3;
+                opacity: 0.2;
                 transform: rotate(45deg);
                 transform-origin: center;
+                transition: opacity 0.2s;
             }
 
-            /* Default state (not toggled) */
-            .language-toggle[data-toggled="false"] .lang-first {
-                top: 6px;
-                left: 6px;
-                opacity: 1;
-            }
-
-            .language-toggle[data-toggled="false"] .lang-second {
-                bottom: 6px;
-                right: 6px;
-                opacity: 1;
-            }
-
-            /* Toggled state - positions swap */
-            .language-toggle[data-toggled="true"] .lang-first {
-                top: auto;
-                bottom: 6px;
-                left: auto;
-                right: 6px;
-                opacity: 1;
-            }
-
-            .language-toggle[data-toggled="true"] .lang-second {
-                bottom: auto;
-                top: 6px;
-                right: auto;
-                left: 6px;
-                opacity: 1;
-            }
-
-            /* Animation state - fade during transition */
-            .language-toggle.is-animating .lang-first,
-            .language-toggle.is-animating .lang-second {
+            .language-toggle:hover .lang-separator {
                 opacity: 0.4;
+            }
+
+            /* Animation - language cycle */
+            .language-toggle.is-cycling .lang-current {
+                animation: langSlideOut 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            .language-toggle.is-cycling .lang-next {
+                animation: langSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+
+            @keyframes langSlideOut {
+                0% {
+                    transform: translate(0, 0) scale(1);
+                    opacity: 1;
+                }
+                100% {
+                    transform: translate(-10px, -10px) scale(0.8);
+                    opacity: 0;
+                }
+            }
+
+            @keyframes langSlideIn {
+                0% {
+                    transform: translate(10px, 10px) scale(0.8);
+                    opacity: 0;
+                }
+                100% {
+                    transform: translate(0, 0) scale(1);
+                    opacity: 1;
+                }
+            }
+
+            /* Tooltip */
+            .language-toggle::after {
+                content: attr(data-lang-tooltip);
+                position: absolute;
+                bottom: calc(100% + 8px);
+                left: 50%;
+                transform: translateX(-50%) translateY(4px);
+                padding: 0.5rem 0.75rem;
+                background: var(--theme-text-primary);
+                color: var(--theme-bg);
+                font-size: 0.6875rem;
+                line-height: 1.4;
+                white-space: pre-line;
+                text-align: center;
+                border-radius: 6px;
+                opacity: 0;
+                pointer-events: none;
+                transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 1000;
+                min-width: 120px;
+            }
+
+            .language-toggle::before {
+                content: '';
+                position: absolute;
+                bottom: calc(100% + 2px);
+                left: 50%;
+                transform: translateX(-50%);
+                border: 4px solid transparent;
+                border-top-color: var(--theme-text-primary);
+                opacity: 0;
+                pointer-events: none;
+                transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 1000;
+            }
+
+            .language-toggle:hover::after,
+            .language-toggle:hover::before {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
             }
 
             .ds-title {
@@ -2010,8 +2049,8 @@
                                 <h3 class="text-h4">Warm Theme</h3>
                                 <p class="text-body-small text-muted">
                                     Warm, content-focused design for CMS and
-                                    publishing platforms. Features Blond Wood
-                                    (#D3C8AB) as the primary accent.
+                                    publishing platforms. Features warm gray tones
+                                    with earthy accents like Wine (#4a3636) and Olive (#7a7d6e).
                                 </p>
                             </div>
                         </div>
@@ -2020,8 +2059,8 @@
                                 <h3 class="text-h4">Cold Theme</h3>
                                 <p class="text-body-small text-muted">
                                     Cold, professional design for SaaS and
-                                    API-driven businesses. Features Basalt
-                                    (#8C9092) as the primary accent.
+                                    API-driven businesses. Features cool gray tones
+                                    with emphasis on Cool Gray 600 (#4b5563).
                                 </p>
                             </div>
                         </div>
@@ -2836,10 +2875,15 @@ element.style.color = 'var(--theme-text-primary)';</code></pre>
                                     </h4>
                                     <pre
                                         style="margin-bottom: 2rem"
-                                    ><code class="language-html">&lt;h1 class="text-h1"&gt;Main Heading&lt;/h1&gt;
-&lt;h2 class="text-h2"&gt;Subheading&lt;/h2&gt;
-&lt;p class="text-body"&gt;Body text content&lt;/p&gt;
-&lt;p class="text-body-small text-muted"&gt;Secondary text&lt;/p&gt;</code></pre>
+                                    ><code class="language-html">&lt;!-- Typography is styled by default - no classes needed --&gt;
+&lt;h1&gt;Main Heading&lt;/h1&gt;
+&lt;h2&gt;Subheading&lt;/h2&gt;
+&lt;p&gt;Body text content&lt;/p&gt;
+&lt;small&gt;Secondary text&lt;/small&gt;
+
+&lt;!-- Optional: Use utility classes for specific styling --&gt;
+&lt;p class="text-muted"&gt;Muted text&lt;/p&gt;
+&lt;p class="text-emphasis"&gt;Emphasized text&lt;/p&gt;</code></pre>
 
                                     <h4
                                         style="
@@ -2856,10 +2900,13 @@ element.style.color = 'var(--theme-text-primary)';</code></pre>
 function MyComponent() {
   return (
     &lt;div&gt;
-      &lt;h1 className="text-h1"&gt;Main Heading&lt;/h1&gt;
-      &lt;h2 className="text-h2"&gt;Subheading&lt;/h2&gt;
-      &lt;p className="text-body"&gt;Body text content&lt;/p&gt;
-      &lt;p className="text-body-small text-muted"&gt;Secondary text&lt;/p&gt;
+      &lt;h1&gt;Main Heading&lt;/h1&gt;
+      &lt;h2&gt;Subheading&lt;/h2&gt;
+      &lt;p&gt;Body text content&lt;/p&gt;
+      &lt;small&gt;Secondary text&lt;/small&gt;
+
+      {/* Optional utility classes */}
+      &lt;p className="text-muted"&gt;Muted text&lt;/p&gt;
     &lt;/div&gt;
   );
 }</code></pre>
@@ -2876,10 +2923,13 @@ function MyComponent() {
                                         style="margin-bottom: 2rem"
                                     ><code class="language-vue">&lt;template&gt;
   &lt;div&gt;
-    &lt;h1 class="text-h1"&gt;Main Heading&lt;/h1&gt;
-    &lt;h2 class="text-h2"&gt;Subheading&lt;/h2&gt;
-    &lt;p class="text-body"&gt;Body text content&lt;/p&gt;
-    &lt;p class="text-body-small text-muted"&gt;Secondary text&lt;/p&gt;
+    &lt;h1&gt;Main Heading&lt;/h1&gt;
+    &lt;h2&gt;Subheading&lt;/h2&gt;
+    &lt;p&gt;Body text content&lt;/p&gt;
+    &lt;small&gt;Secondary text&lt;/small&gt;
+
+    &lt;!-- Optional utility classes --&gt;
+    &lt;p class="text-muted"&gt;Muted text&lt;/p&gt;
   &lt;/div&gt;
 &lt;/template&gt;
 
@@ -2900,10 +2950,10 @@ import '@monochrome-edge/ui/styles.css';
                                     ><code>&lt;link rel="stylesheet" href="@monochrome-edge/ui/styles.css"&gt;
 
 &lt;my-component&gt;
-  &lt;h1 class="text-h1"&gt;Main Heading&lt;/h1&gt;
-  &lt;h2 class="text-h2"&gt;Subheading&lt;/h2&gt;
-  &lt;p class="text-body"&gt;Body text content&lt;/p&gt;
-  &lt;p class="text-body-small text-muted"&gt;Secondary text&lt;/p&gt;
+  &lt;h1&gt;Main Heading&lt;/h1&gt;
+  &lt;h2&gt;Subheading&lt;/h2&gt;
+  &lt;p&gt;Body text content&lt;/p&gt;
+  &lt;small&gt;Secondary text&lt;/small&gt;
 &lt;/my-component&gt;</code></pre>
 
                                     <h4
@@ -2914,11 +2964,14 @@ import '@monochrome-edge/ui/styles.css';
                                     >
                                         jQuery
                                     </h4>
-                                    <pre><code class="language-javascript">// Add typography classes dynamically
-$('&lt;h1&gt;').addClass('text-h1').text('Main Heading').appendTo('#container');
-$('&lt;h2&gt;').addClass('text-h2').text('Subheading').appendTo('#container');
-$('&lt;p&gt;').addClass('text-body').text('Body text content').appendTo('#container');
-$('&lt;p&gt;').addClass('text-body-small text-muted').text('Secondary text').appendTo('#container');</code></pre>
+                                    <pre><code class="language-javascript">// Add typography elements dynamically
+$('&lt;h1&gt;').text('Main Heading').appendTo('#container');
+$('&lt;h2&gt;').text('Subheading').appendTo('#container');
+$('&lt;p&gt;').text('Body text content').appendTo('#container');
+$('&lt;small&gt;').text('Secondary text').appendTo('#container');
+
+// Add utility class if needed
+$('&lt;p&gt;').addClass('text-muted').text('Muted text').appendTo('#container');</code></pre>
                                 </div>
                             </div>
                         </div>
@@ -3612,30 +3665,44 @@ renderAllMath({
                                 </div>
                             </div>
                             <div class="component-code">
-                                <pre><code class="language-markup">&lt;!-- Primary Logo (Full wordmark) --&gt;
-&lt;svg class="brand-logo-primary" width="220" height="40" viewBox="0 0 220 40" xmlns="http://www.w3.org/2000/svg"&gt;
-    &lt;line class="logo-slash-line" x1="2" y1="35" x2="22" y2="5" stroke-width="3" stroke-linecap="square"/&gt;
-    &lt;line class="logo-slash-line" x1="10" y1="35" x2="30" y2="5" stroke-width="3" stroke-linecap="square"/&gt;
-    &lt;text class="logo-text" x="40" y="25" font-family="system-ui, -apple-system, sans-serif"
-          font-size="14" font-weight="700" letter-spacing="0.8"&gt;MONOCHROME EDGE&lt;/text&gt;
+                                <div style="padding: 2rem;">
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Using Logo as Image</h4>
+                                    <pre style="margin-bottom: 2rem;"><code class="language-html">&lt;!-- Recommended: Use image files --&gt;
+&lt;img src="assets/logo-primary.svg" alt="Monochrome Edge" width="220" height="40"&gt;
+&lt;img src="assets/logo-symbol.svg" alt="Monochrome Edge Symbol" width="40" height="40"&gt;
+
+&lt;!-- Or PNG for better compatibility --&gt;
+&lt;img src="assets/logo-primary.png" alt="Monochrome Edge" width="220" height="40"&gt;
+&lt;img src="assets/logo-symbol.png" alt="Monochrome Edge Symbol" width="40" height="40"&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Download Assets</h4>
+                                    <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem;">
+                                        <a href="dist/ui/assets/logo.svg" download class="btn btn-primary">
+                                            Download SVG Logo
+                                        </a>
+                                        <a href="https://github.com/1eedaegon/monochrome-edge/tree/main/ui/assets" target="_blank" class="btn btn-ghost">
+                                            View All Assets on GitHub
+                                        </a>
+                                    </div>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Inline SVG (Advanced)</h4>
+                                    <p style="color: var(--theme-text-secondary); font-size: 0.875rem; margin-bottom: 1rem;">
+                                        Only use inline SVG if you need to dynamically control colors with CSS:
+                                    </p>
+                                    <pre><code class="language-html">&lt;!-- Inline SVG with theme-aware colors --&gt;
+&lt;svg class="brand-logo-primary" width="220" height="40" viewBox="0 0 220 40"&gt;
+    &lt;line x1="2" y1="35" x2="22" y2="5" stroke="#78716c" stroke-width="3"/&gt;
+    &lt;line x1="10" y1="35" x2="30" y2="5" stroke="#78716c" stroke-width="3"/&gt;
+    &lt;text x="40" y="25" fill="currentColor" font-family="system-ui"
+          font-size="14" font-weight="700"&gt;MONOCHROME EDGE&lt;/text&gt;
 &lt;/svg&gt;
 
-&lt;!-- Secondary Logo (Symbol only) --&gt;
-&lt;svg class="brand-logo-secondary" width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"&gt;
-    &lt;line class="logo-slash-line" x1="10" y1="35" x2="30" y2="5" stroke-width="3" stroke-linecap="square"/&gt;
-    &lt;line class="logo-slash-line" x1="18" y1="35" x2="38" y2="5" stroke-width="3" stroke-linecap="square"/&gt;
-&lt;/svg&gt;
-
-&lt;!-- CSS automatically applies theme colors --&gt;
 &lt;style&gt;
-.brand-logo-primary .logo-text {
-    fill: var(--theme-text-primary);
-}
-.brand-logo-primary .logo-slash-line,
-.brand-logo-secondary .logo-slash-line {
-    stroke: #78716c; /* Stone color */
+.brand-logo-primary {
+    color: var(--theme-text-primary);
 }
 &lt;/style&gt;</code></pre>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -3681,6 +3748,15 @@ renderAllMath({
                                     <div class="icon-showcase-item"><span data-icon="folder"></span><p>folder</p></div>
                                     <div class="icon-showcase-item"><span data-icon="file-plus"></span><p>file-plus</p></div>
                                     <div class="icon-showcase-item"><span data-icon="folder-plus"></span><p>folder-plus</p></div>
+                                    <!-- Social Icons -->
+                                    <div class="icon-showcase-item"><span data-icon="github"></span><p>github</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="twitter"></span><p>twitter</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="linkedin"></span><p>linkedin</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="facebook"></span><p>facebook</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="instagram"></span><p>instagram</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="youtube"></span><p>youtube</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="slack"></span><p>slack</p></div>
+                                    <div class="icon-showcase-item"><span data-icon="discord"></span><p>discord</p></div>
                                 </div>
                             </div>
                             <div class="component-code">
@@ -4557,7 +4633,7 @@ const documents = [
   }
 ];
 
-const graphView = new GraphView({
+const graphView = new MonochromeEdge.GraphView({
   container: '#graph-container',
   documents,
   nodeRadius: 8,
@@ -5424,41 +5500,45 @@ const handleChange = (tabId) => {
                                 <div style="padding: 2rem; display: grid; gap: 2rem;">
                                     <div>
                                         <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">HTML/CSS</h4>
-                                        <pre style="margin-bottom: 2rem"><code class="language-html">&lt;!-- Monochrome (Accent) --&gt;
-&lt;div class="progress"&gt;
-  &lt;div class="progress-bar" style="width: 45%"&gt;&lt;/div&gt;
+                                        <pre style="margin-bottom: 2rem"><code class="language-html">&lt;!-- Basic Progress Bar with data attribute --&gt;
+&lt;div class="progress" data-value="45"&gt;
+  &lt;div class="progress-bar"&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;!-- Striped & Animated --&gt;
-&lt;div class="progress"&gt;
-  &lt;div class="progress-bar progress-striped progress-animated" style="width: 75%"&gt;&lt;/div&gt;
+&lt;div class="progress" data-value="75"&gt;
+  &lt;div class="progress-bar progress-striped progress-animated"&gt;&lt;/div&gt;
 &lt;/div&gt;
 
 &lt;!-- Colored (Semantic) --&gt;
-&lt;div class="progress"&gt;
-  &lt;div class="progress-bar progress-success" style="width: 100%"&gt;&lt;/div&gt;
+&lt;div class="progress" data-value="100"&gt;
+  &lt;div class="progress-bar progress-success"&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;div class="progress"&gt;
-  &lt;div class="progress-bar progress-warning" style="width: 60%"&gt;&lt;/div&gt;
+&lt;div class="progress" data-value="60"&gt;
+  &lt;div class="progress-bar progress-warning"&gt;&lt;/div&gt;
 &lt;/div&gt;
-&lt;div class="progress"&gt;
-  &lt;div class="progress-bar progress-error" style="width: 30%"&gt;&lt;/div&gt;
-&lt;/div&gt;
-&lt;div class="progress"&gt;
-  &lt;div class="progress-bar progress-info" style="width: 85%"&gt;&lt;/div&gt;
+&lt;div class="progress" data-value="30"&gt;
+  &lt;div class="progress-bar progress-error"&gt;&lt;/div&gt;
 &lt;/div&gt;
 
-&lt;!-- Sizes --&gt;
-&lt;div class="progress progress-xs"&gt;...&lt;/div&gt;
-&lt;div class="progress progress-sm"&gt;...&lt;/div&gt;
-&lt;div class="progress progress-md"&gt;...&lt;/div&gt;
-&lt;div class="progress progress-lg"&gt;...&lt;/div&gt;
-&lt;div class="progress progress-xl"&gt;...&lt;/div&gt;
-
-&lt;!-- Indeterminate --&gt;
+&lt;!-- Indeterminate (no value needed) --&gt;
 &lt;div class="progress progress-indeterminate"&gt;
   &lt;div class="progress-bar"&gt;&lt;/div&gt;
-&lt;/div&gt;</code></pre>
+&lt;/div&gt;
+
+&lt;script&gt;
+// Initialize progress bars
+document.querySelectorAll('.progress[data-value]').forEach(el => {
+  const value = el.getAttribute('data-value');
+  el.querySelector('.progress-bar').style.width = value + '%';
+});
+
+// Update progress dynamically
+function setProgress(element, value) {
+  const bar = element.querySelector('.progress-bar');
+  bar.style.width = Math.min(100, Math.max(0, value)) + '%';
+}
+&lt;/script&gt;</code></pre>
                                     </div>
                                     <div>
                                         <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">React</h4>
@@ -5975,57 +6055,160 @@ document.body.appendChild(btnLarge);</code></pre>
                         <div class="component-content" id="icon-options">
                             <div class="component-preview">
                                 <div class="icon-btn-group">
-                                    <button class="icon-btn" title="Warm Theme">
-                                        <svg class="icon" viewBox="0 0 24 24">
-                                            <path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/>
-                                        </svg>
-                                    </button>
-                                    <button class="icon-btn" title="Cold Theme">
-                                        <svg class="icon" viewBox="0 0 24 24">
-                                            <line x1="2" x2="22" y1="12" y2="12"/>
-                                            <line x1="12" x2="12" y1="2" y2="22"/>
-                                            <path d="m20 16-4-4 4-4"/>
-                                            <path d="m4 8 4 4-4 4"/>
-                                            <path d="m16 4-4 4-4-4"/>
-                                            <path d="m8 20 4-4 4 4"/>
-                                        </svg>
-                                    </button>
-                                    <button class="icon-btn active" title="Light Mode">
-                                        <svg class="icon" viewBox="0 0 24 24">
+                                    <button class="icon-btn" title="Default">
+                                        <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                             <circle cx="12" cy="12" r="4"/>
-                                            <path d="M12 2v2"/>
-                                            <path d="M12 20v2"/>
-                                            <path d="m4.93 4.93 1.41 1.41"/>
-                                            <path d="m17.66 17.66 1.41 1.41"/>
-                                            <path d="M2 12h2"/>
-                                            <path d="M20 12h2"/>
-                                            <path d="m6.34 17.66-1.41 1.41"/>
-                                            <path d="m19.07 4.93-1.41 1.41"/>
+                                            <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/>
                                         </svg>
                                     </button>
-                                    <button class="icon-btn" title="Dark Mode">
-                                        <svg class="icon" viewBox="0 0 24 24">
-                                            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+                                    <button class="icon-btn icon-btn-primary" title="Primary">
+                                        <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="12" r="4"/>
+                                            <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/>
+                                        </svg>
+                                    </button>
+                                    <button class="icon-btn icon-btn-ghost" title="Ghost">
+                                        <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="12" r="4"/>
+                                            <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/>
+                                        </svg>
+                                    </button>
+                                    <button class="icon-btn icon-btn-outline" title="Outline">
+                                        <svg class="icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="12" r="4"/>
+                                            <path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/>
                                         </svg>
                                     </button>
                                 </div>
                             </div>
                             <div class="component-code">
-                                <pre><code class="language-html">&lt;!-- Flame, Snowflake, Sun, Moon icons --&gt;
-&lt;div class="icon-btn-group"&gt;
-  &lt;button class="icon-btn" title="Warm Theme"&gt;
-    &lt;svg&gt;...flame...&lt;/svg&gt;
-  &lt;/button&gt;
-  &lt;button class="icon-btn" title="Cold Theme"&gt;
-    &lt;svg&gt;...snowflake...&lt;/svg&gt;
-  &lt;/button&gt;
-  &lt;button class="icon-btn active" title="Light Mode"&gt;
-    &lt;svg&gt;...sun...&lt;/svg&gt;
-  &lt;/button&gt;
-  &lt;button class="icon-btn" title="Dark Mode"&gt;
-    &lt;svg&gt;...moon...&lt;/svg&gt;
-  &lt;/button&gt;
-&lt;/div&gt;</code></pre>
+                                <div style="padding: 2rem">
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        HTML/CSS
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;!-- Using package icons --&gt;
+&lt;button class="icon-btn"&gt;
+  &lt;img src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/assets/icons/sun.svg" class="icon" alt="Sun"&gt;
+&lt;/button&gt;
+&lt;button class="icon-btn icon-btn-primary"&gt;
+  &lt;img src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/assets/icons/sun.svg" class="icon" alt="Sun"&gt;
+&lt;/button&gt;
+&lt;button class="icon-btn icon-btn-ghost"&gt;
+  &lt;img src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/assets/icons/sun.svg" class="icon" alt="Sun"&gt;
+&lt;/button&gt;
+&lt;button class="icon-btn icon-btn-outline"&gt;
+  &lt;img src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/assets/icons/sun.svg" class="icon" alt="Sun"&gt;
+&lt;/button&gt;
+
+&lt;!-- Or copy icons to your project --&gt;
+&lt;button class="icon-btn"&gt;
+  &lt;img src="assets/icons/sun.svg" class="icon" alt="Sun"&gt;
+&lt;/button&gt;</code></pre>
+
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        React
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>import { IconButton } from '@monochrome-edge/react';
+
+&lt;IconButton icon="sun" variant="default" /&gt;
+&lt;IconButton icon="sun" variant="primary" /&gt;
+&lt;IconButton icon="sun" variant="ghost" /&gt;
+&lt;IconButton icon="sun" variant="outline" /&gt;</code></pre>
+
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Vue.js
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;template&gt;
+  &lt;IconButton icon="sun" variant="default" /&gt;
+  &lt;IconButton icon="sun" variant="primary" /&gt;
+  &lt;IconButton icon="sun" variant="ghost" /&gt;
+  &lt;IconButton icon="sun" variant="outline" /&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+import { IconButton } from '@monochrome-edge/vue';
+&lt;/script&gt;</code></pre>
+
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Web Components
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>&lt;mce-icon-button icon="sun" variant="default"&gt;&lt;/mce-icon-button&gt;
+&lt;mce-icon-button icon="sun" variant="primary"&gt;&lt;/mce-icon-button&gt;
+&lt;mce-icon-button icon="sun" variant="ghost"&gt;&lt;/mce-icon-button&gt;
+&lt;mce-icon-button icon="sun" variant="outline"&gt;&lt;/mce-icon-button&gt;
+
+&lt;script type="module"&gt;
+  import '@monochrome-edge/web-components';
+&lt;/script&gt;</code></pre>
+
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        jQuery
+                                    </h4>
+                                    <pre
+                                        style="margin-bottom: 2rem"
+                                    ><code>const btn1 = $.createIconButton({ icon: 'sun', variant: 'default' });
+const btn2 = $.createIconButton({ icon: 'sun', variant: 'primary' });
+const btn3 = $.createIconButton({ icon: 'sun', variant: 'ghost' });
+const btn4 = $.createIconButton({ icon: 'sun', variant: 'outline' });</code></pre>
+
+                                    <h4
+                                        style="
+                                            margin-bottom: 1rem;
+                                            color: var(--theme-text-primary);
+                                        "
+                                    >
+                                        Vanilla JavaScript
+                                    </h4>
+                                    <pre><code class="language-javascript">import { createIconButton } from '@monochrome-edge/vanilla-ts';
+
+const btn1 = createIconButton({ icon: 'sun', variant: 'default' });
+const btn2 = createIconButton({ icon: 'sun', variant: 'primary' });
+const btn3 = createIconButton({ icon: 'sun', variant: 'ghost' });
+const btn4 = createIconButton({ icon: 'sun', variant: 'outline' });</code></pre>
+
+                                    <div style="margin-top: 2rem; padding: 1rem; background: var(--bg-secondary); border-radius: 0.5rem;">
+                                        <p style="margin: 0 0 0.5rem 0; font-weight: 500;">Icon Resources:</p>
+                                        <ul style="margin: 0; padding-left: 1.5rem; color: var(--text-secondary);">
+                                            <li><a href="https://heroicons.com" target="_blank" style="color: var(--primary);">Heroicons</a> - Simple, MIT licensed icons</li>
+                                            <li><a href="https://lucide.dev" target="_blank" style="color: var(--primary);">Lucide</a> - Beautiful & consistent icon toolkit</li>
+                                            <li><a href="https://fontawesome.com" target="_blank" style="color: var(--primary);">Font Awesome</a> - Popular icon library</li>
+                                            <li><a href="https://feathericons.com" target="_blank" style="color: var(--primary);">Feather Icons</a> - Minimalist open source icons</li>
+                                        </ul>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -6115,10 +6298,24 @@ document.body.appendChild(btnLarge);</code></pre>
                                     </h4>
                                     <pre
                                         style="margin-bottom: 2rem"
-                                    ><code>&lt;button class="icon-btn"&gt;...&lt;/button&gt;
-&lt;button class="icon-btn icon-btn-primary"&gt;...&lt;/button&gt;
-&lt;button class="icon-btn icon-btn-ghost"&gt;...&lt;/button&gt;
-&lt;button class="icon-btn icon-btn-outline"&gt;...&lt;/button&gt;</code></pre>
+                                    ><code>&lt;!-- Using package icons --&gt;
+&lt;button class="icon-btn"&gt;
+  &lt;img src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/assets/icons/sun.svg" class="icon" alt="Sun"&gt;
+&lt;/button&gt;
+&lt;button class="icon-btn icon-btn-primary"&gt;
+  &lt;img src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/assets/icons/sun.svg" class="icon" alt="Sun"&gt;
+&lt;/button&gt;
+&lt;button class="icon-btn icon-btn-ghost"&gt;
+  &lt;img src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/assets/icons/sun.svg" class="icon" alt="Sun"&gt;
+&lt;/button&gt;
+&lt;button class="icon-btn icon-btn-outline"&gt;
+  &lt;img src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/assets/icons/sun.svg" class="icon" alt="Sun"&gt;
+&lt;/button&gt;
+
+&lt;!-- Or copy icons to your project --&gt;
+&lt;button class="icon-btn"&gt;
+  &lt;img src="assets/icons/sun.svg" class="icon" alt="Sun"&gt;
+&lt;/button&gt;</code></pre>
 
                                     <h4
                                         style="
@@ -6348,10 +6545,24 @@ const btn4 = createIconButton({ icon: 'sun', variant: 'outline' });</code></pre>
                                     </h4>
                                     <pre
                                         style="margin-bottom: 2rem"
-                                    ><code>&lt;button class="icon-btn icon-btn-sm"&gt;...&lt;/button&gt;
-&lt;button class="icon-btn icon-btn-md"&gt;...&lt;/button&gt;
-&lt;button class="icon-btn icon-btn-lg"&gt;...&lt;/button&gt;
-&lt;button class="icon-btn icon-btn-xl"&gt;...&lt;/button&gt;</code></pre>
+                                    ><code>&lt;!-- Using package icons --&gt;
+&lt;button class="icon-btn icon-btn-sm"&gt;
+  &lt;img src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/assets/icons/sun.svg" class="icon" alt="Sun"&gt;
+&lt;/button&gt;
+&lt;button class="icon-btn icon-btn-md"&gt;
+  &lt;img src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/assets/icons/sun.svg" class="icon" alt="Sun"&gt;
+&lt;/button&gt;
+&lt;button class="icon-btn icon-btn-lg"&gt;
+  &lt;img src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/assets/icons/sun.svg" class="icon" alt="Sun"&gt;
+&lt;/button&gt;
+&lt;button class="icon-btn icon-btn-xl"&gt;
+  &lt;img src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/assets/icons/sun.svg" class="icon" alt="Sun"&gt;
+&lt;/button&gt;
+
+&lt;!-- Or copy icons to your project --&gt;
+&lt;button class="icon-btn icon-btn-md"&gt;
+  &lt;img src="assets/icons/sun.svg" class="icon" alt="Sun"&gt;
+&lt;/button&gt;</code></pre>
 
                                     <h4
                                         style="
@@ -6568,10 +6779,24 @@ const btnXl = createIconButton({ icon: 'sun', size: 'xl' });</code></pre>
                                     </h4>
                                     <pre
                                         style="margin-bottom: 2rem"
-                                    ><code>&lt;button class="icon-btn"&gt;...&lt;/button&gt;
-&lt;button class="icon-btn active"&gt;...&lt;/button&gt;
-&lt;button class="icon-btn" disabled&gt;...&lt;/button&gt;
-&lt;button class="icon-btn loading"&gt;...&lt;/button&gt;</code></pre>
+                                    ><code>&lt;!-- Using package icons --&gt;
+&lt;button class="icon-btn"&gt;
+  &lt;img src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/assets/icons/sun.svg" class="icon" alt="Sun"&gt;
+&lt;/button&gt;
+&lt;button class="icon-btn active"&gt;
+  &lt;img src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/assets/icons/sun.svg" class="icon" alt="Sun"&gt;
+&lt;/button&gt;
+&lt;button class="icon-btn" disabled&gt;
+  &lt;img src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/assets/icons/sun.svg" class="icon" alt="Sun"&gt;
+&lt;/button&gt;
+&lt;button class="icon-btn loading"&gt;
+  &lt;img src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/assets/icons/sun.svg" class="icon" alt="Sun"&gt;
+&lt;/button&gt;
+
+&lt;!-- Or copy icons to your project --&gt;
+&lt;button class="icon-btn"&gt;
+  &lt;img src="assets/icons/sun.svg" class="icon" alt="Sun"&gt;
+&lt;/button&gt;</code></pre>
 
                                     <h4
                                         style="
@@ -6684,15 +6909,15 @@ const btnXl = createIconButton({ icon: 'sun', size: 'xl' });</code></pre>
 
                                     <!-- Language Toggle -->
                                     <div style="text-align: center;">
-                                        <button class="language-toggle" id="demo-language-toggle" data-toggled="false" title="Korean ↔ English">
+                                        <button class="language-toggle" id="demo-language-toggle" data-languages="KO,EN,CN,JP" data-current-index="0" data-lang-tooltip="" aria-label="Language selector">
                                             <div class="language-toggle-text">
-                                                <span class="lang-first">KO</span>
-                                                <span class="lang-slash"></span>
-                                                <span class="lang-second">EN</span>
+                                                <span class="lang-current">KO</span>
+                                                <span class="lang-separator"></span>
+                                                <span class="lang-next">EN</span>
                                             </div>
                                         </button>
                                         <p style="margin-top: 0.5rem; font-size: 0.75rem; font-weight: 500; color: var(--theme-text-secondary);">Language</p>
-                                        <p style="font-size: 0.625rem; color: var(--theme-text-tertiary);">KO ↔ EN</p>
+                                        <p id="lang-status" style="font-size: 0.625rem; color: var(--theme-text-tertiary);">KO → EN → CN → JP</p>
                                     </div>
                                 </div>
                                 <div style="margin-top: 1rem; padding: 1rem; background: var(--theme-bg); border-radius: var(--border-radius); text-align: center;">
@@ -6701,7 +6926,7 @@ const btnXl = createIconButton({ icon: 'sun', size: 'xl' });</code></pre>
                                         Theme: Vertical slide with warm/cold gradient transition<br/>
                                         Mode: Horizontal slide with light→dark gradient<br/>
                                         Color: Instant toggle with gradient background<br/>
-                                        Language: Diagonal flip with separator line (top-left ↔ bottom-right)
+                                        Language: Multi-language cycle (KO → EN → CN → JP) with diagonal animation
                                     </p>
                                 </div>
                             </div>
@@ -6963,6 +7188,212 @@ $('#ghost-toggle').mceIconToggle({
   type: 'mode',
   variant: 'ghost'
 });</code></pre>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Icon Buttons -->
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Social Icon Buttons</h3>
+                            <div class="component-toggle">
+                                <button class="toggle-btn active" data-target="social-icons">Preview</button>
+                                <button class="toggle-btn" data-target="social-icons">Code</button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="social-icons">
+                            <div class="component-preview">
+                                <div class="icon-btn-group">
+                                    <!-- GitHub -->
+                                    <a href="https://github.com" class="icon-btn icon-btn-ghost" title="GitHub" target="_blank">
+                                        <img src="../ui/assets/icons/github.svg" class="icon" alt="GitHub">
+                                    </a>
+                                    <!-- Twitter -->
+                                    <a href="https://twitter.com" class="icon-btn icon-btn-ghost" title="Twitter" target="_blank">
+                                        <img src="../ui/assets/icons/twitter.svg" class="icon" alt="Twitter">
+                                    </a>
+                                    <!-- LinkedIn -->
+                                    <a href="https://linkedin.com" class="icon-btn icon-btn-ghost" title="LinkedIn" target="_blank">
+                                        <img src="../ui/assets/icons/linkedin.svg" class="icon" alt="LinkedIn">
+                                    </a>
+                                    <!-- Facebook -->
+                                    <a href="https://facebook.com" class="icon-btn icon-btn-ghost" title="Facebook" target="_blank">
+                                        <img src="../ui/assets/icons/facebook.svg" class="icon" alt="Facebook">
+                                    </a>
+                                    <!-- Instagram -->
+                                    <a href="https://instagram.com" class="icon-btn icon-btn-ghost" title="Instagram" target="_blank">
+                                        <img src="../ui/assets/icons/instagram.svg" class="icon" alt="Instagram">
+                                    </a>
+                                    <!-- YouTube -->
+                                    <a href="https://youtube.com" class="icon-btn icon-btn-ghost" title="YouTube" target="_blank">
+                                        <img src="../ui/assets/icons/youtube.svg" class="icon" alt="YouTube">
+                                    </a>
+                                    <!-- Slack -->
+                                    <a href="https://slack.com" class="icon-btn icon-btn-ghost" title="Slack" target="_blank">
+                                        <img src="../ui/assets/icons/slack.svg" class="icon" alt="Slack">
+                                    </a>
+                                    <!-- Discord -->
+                                    <a href="https://discord.com" class="icon-btn icon-btn-ghost" title="Discord" target="_blank">
+                                        <img src="../ui/assets/icons/discord.svg" class="icon" alt="Discord">
+                                    </a>
+                                </div>
+
+                                <div style="margin-top: 2rem;">
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Primary Variant</h4>
+                                    <div class="icon-btn-group">
+                                        <a href="https://github.com" class="icon-btn icon-btn-primary" title="GitHub" target="_blank">
+                                            <img src="../ui/assets/icons/github.svg" class="icon" alt="GitHub">
+                                        </a>
+                                        <a href="https://twitter.com" class="icon-btn icon-btn-primary" title="Twitter" target="_blank">
+                                            <img src="../ui/assets/icons/twitter.svg" class="icon" alt="Twitter">
+                                        </a>
+                                        <a href="https://linkedin.com" class="icon-btn icon-btn-primary" title="LinkedIn" target="_blank">
+                                            <img src="../ui/assets/icons/linkedin.svg" class="icon" alt="LinkedIn">
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div style="margin-top: 2rem;">
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Outline Variant</h4>
+                                    <div class="icon-btn-group">
+                                        <a href="https://github.com" class="icon-btn icon-btn-outline" title="GitHub" target="_blank">
+                                            <img src="../ui/assets/icons/github.svg" class="icon" alt="GitHub">
+                                        </a>
+                                        <a href="https://twitter.com" class="icon-btn icon-btn-outline" title="Twitter" target="_blank">
+                                            <img src="../ui/assets/icons/twitter.svg" class="icon" alt="Twitter">
+                                        </a>
+                                        <a href="https://linkedin.com" class="icon-btn icon-btn-outline" title="LinkedIn" target="_blank">
+                                            <img src="../ui/assets/icons/linkedin.svg" class="icon" alt="LinkedIn">
+                                        </a>
+                                    </div>
+                                </div>
+
+                                <div style="margin-top: 2rem;">
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">With Tooltips</h4>
+                                    <div class="icon-btn-group">
+                                        <a href="https://github.com" class="icon-btn icon-btn-ghost tooltip-container" title="Follow us on GitHub" target="_blank">
+                                            <img src="../ui/assets/icons/github.svg" class="icon" alt="GitHub">
+                                            <span class="tooltip">Follow us on GitHub</span>
+                                        </a>
+                                        <a href="https://twitter.com" class="icon-btn icon-btn-ghost tooltip-container" title="Follow us on Twitter" target="_blank">
+                                            <img src="../ui/assets/icons/twitter.svg" class="icon" alt="Twitter">
+                                            <span class="tooltip">Follow us on Twitter</span>
+                                        </a>
+                                        <a href="https://linkedin.com" class="icon-btn icon-btn-ghost tooltip-container" title="Connect on LinkedIn" target="_blank">
+                                            <img src="../ui/assets/icons/linkedin.svg" class="icon" alt="LinkedIn">
+                                            <span class="tooltip">Connect on LinkedIn</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="component-code">
+                                <div style="padding: 2rem">
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">HTML/CSS</h4>
+                                    <pre style="margin-bottom: 2rem"><code>&lt;!-- Basic Social Icons --&gt;
+&lt;div class="icon-btn-group"&gt;
+  &lt;a href="https://github.com" class="icon-btn icon-btn-ghost" title="GitHub" target="_blank"&gt;
+    &lt;img src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/assets/icons/github.svg" class="icon" alt="GitHub"&gt;
+  &lt;/a&gt;
+  &lt;a href="https://twitter.com" class="icon-btn icon-btn-ghost" title="Twitter" target="_blank"&gt;
+    &lt;img src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/assets/icons/twitter.svg" class="icon" alt="Twitter"&gt;
+  &lt;/a&gt;
+  &lt;a href="https://linkedin.com" class="icon-btn icon-btn-ghost" title="LinkedIn" target="_blank"&gt;
+    &lt;img src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/assets/icons/linkedin.svg" class="icon" alt="LinkedIn"&gt;
+  &lt;/a&gt;
+&lt;/div&gt;
+
+&lt;!-- With Tooltips --&gt;
+&lt;a href="https://github.com" class="icon-btn icon-btn-ghost tooltip-container" target="_blank"&gt;
+  &lt;img src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/assets/icons/github.svg" class="icon" alt="GitHub"&gt;
+  &lt;span class="tooltip"&gt;Follow us on GitHub&lt;/span&gt;
+&lt;/a&gt;</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Available Social Icons</h4>
+                                    <pre style="margin-bottom: 2rem"><code>&lt;!-- All available social icons in the package --&gt;
+github.svg      - GitHub
+twitter.svg     - Twitter (X)
+linkedin.svg    - LinkedIn
+facebook.svg    - Facebook
+instagram.svg   - Instagram
+youtube.svg     - YouTube
+slack.svg       - Slack
+discord.svg     - Discord
+
+&lt;!-- CDN URLs --&gt;
+https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/assets/icons/[icon-name].svg</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">React Example</h4>
+                                    <pre style="margin-bottom: 2rem"><code>import React from 'react';
+
+function SocialLinks() {
+  const socialLinks = [
+    { name: 'GitHub', url: 'https://github.com/yourorg', icon: 'github' },
+    { name: 'Twitter', url: 'https://twitter.com/yourorg', icon: 'twitter' },
+    { name: 'LinkedIn', url: 'https://linkedin.com/company/yourorg', icon: 'linkedin' },
+  ];
+
+  return (
+    &lt;div className="icon-btn-group"&gt;
+      {socialLinks.map(link =&gt; (
+        &lt;a
+          key={link.name}
+          href={link.url}
+          className="icon-btn icon-btn-ghost"
+          title={link.name}
+          target="_blank"
+          rel="noopener noreferrer"
+        &gt;
+          &lt;img
+            src={`https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/assets/icons/${link.icon}.svg`}
+            className="icon"
+            alt={link.name}
+          /&gt;
+        &lt;/a&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}</code></pre>
+
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary);">Vue.js Example</h4>
+                                    <pre style="margin-bottom: 2rem"><code>&lt;template&gt;
+  &lt;div class="icon-btn-group"&gt;
+    &lt;a
+      v-for="link in socialLinks"
+      :key="link.name"
+      :href="link.url"
+      class="icon-btn icon-btn-ghost"
+      :title="link.name"
+      target="_blank"
+      rel="noopener noreferrer"
+    &gt;
+      &lt;img
+        :src="`https://cdn.jsdelivr.net/npm/@monochrome-edge/ui/assets/icons/${link.icon}.svg`"
+        class="icon"
+        :alt="link.name"
+      &gt;
+    &lt;/a&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup&gt;
+const socialLinks = [
+  { name: 'GitHub', url: 'https://github.com/yourorg', icon: 'github' },
+  { name: 'Twitter', url: 'https://twitter.com/yourorg', icon: 'twitter' },
+  { name: 'LinkedIn', url: 'https://linkedin.com/company/yourorg', icon: 'linkedin' },
+];
+&lt;/script&gt;</code></pre>
+
+                                    <div style="margin-top: 2rem; padding: 1rem; background: var(--theme-surface); border-radius: 0.5rem; border: 1px solid var(--theme-border);">
+                                        <p style="margin: 0 0 0.5rem 0; font-weight: 600; color: var(--theme-text-primary);">💡 Best Practices</p>
+                                        <ul style="margin: 0; padding-left: 1.5rem; color: var(--theme-text-secondary); line-height: 1.8;">
+                                            <li>Always include <code>title</code> attribute for accessibility</li>
+                                            <li>Use <code>target="_blank"</code> and <code>rel="noopener noreferrer"</code> for external links</li>
+                                            <li>Use <code>icon-btn-ghost</code> for subtle social icons in footer/header</li>
+                                            <li>Group related social links with <code>icon-btn-group</code> for consistent spacing</li>
+                                            <li>Consider adding tooltips for better UX</li>
+                                        </ul>
                                     </div>
                                 </div>
                             </div>
@@ -7814,54 +8245,36 @@ $('#disabled-toggle').mceIconToggle({
                                         </h4>
                                         <pre><code class="language-javascript">import { SearchToolbar } from '@monochrome-edge/ui';
 
-const toolbar = new SearchToolbar('#search-toolbar-container', {
+// Basic usage
+const toolbar = new MonochromeEdge.SearchToolbar('#search-toolbar', {
+  placeholder: 'Search...',
+  onSearch: (query) => {
+    console.log('Search:', query);
+    // Your search logic here
+  }
+});
+
+// With autocomplete
+const toolbarWithAutocomplete = new MonochromeEdge.SearchToolbar('#search-toolbar', {
   placeholder: 'Search components...',
   autocomplete: async (query) => {
-    // Simulate API call or filter local data
-    const items = [
-      'React Hooks',
-      'React Context',
-      'Vue Composition API',
-      'Vue Directives',
-      'Angular Services',
-      'TypeScript Types'
-    ];
+    const items = ['React', 'Vue', 'Angular', 'Svelte'];
     return items.filter(item =>
       item.toLowerCase().includes(query.toLowerCase())
     );
   },
-  filters: [
-    {
-      id: 'category',
-      label: 'Category',
-      values: [
-        { value: 'all', label: 'All' },
-        { value: 'components', label: 'Components' },
-        { value: 'utilities', label: 'Utilities' },
-        { value: 'hooks', label: 'Hooks' }
-      ],
-      default: 'all'
-    },
-    {
-      id: 'status',
-      label: 'Status',
-      values: [
-        { value: 'all', label: 'All' },
-        { value: 'stable', label: 'Stable' },
-        { value: 'beta', label: 'Beta' }
-      ],
-      default: 'all'
-    }
-  ],
-  sortOptions: [
-    { value: 'relevance', label: 'Relevance' },
-    { value: 'name', label: 'Name' },
-    { value: 'date', label: 'Date' }
-  ],
+  onSearch: (query) => {
+    // Handle search
+  }
+});
+
+// Advanced: With filters and sort (see full docs)
+const advancedToolbar = new MonochromeEdge.SearchToolbar('#search-toolbar', {
+  placeholder: 'Advanced search...',
+  filters: [/* filter config */],
+  sortOptions: [/* sort config */],
   onSearch: (query, filters, sort) => {
-    console.log('Search:', { query, filters, sort });
-    // Perform search and update results
-    toolbar.setResultsCount(42);
+    // Handle advanced search
   }
 });</code></pre>
                                     </div>
@@ -8670,14 +9083,24 @@ $('#container').append($card);</code></pre>
             &lt;span class="header-title"&gt;MONOCHROME EDGE&lt;/span&gt;
         &lt;/div&gt;
         &lt;nav class="header-nav"&gt;
-            &lt;a href="#" class="header-nav-item"&gt;Overview&lt;/a&gt;
-            &lt;a href="#" class="header-nav-item"&gt;Components&lt;/a&gt;
-            &lt;a href="#" class="header-nav-item"&gt;Examples&lt;/a&gt;
-            &lt;a href="#" class="header-nav-item"&gt;GitHub&lt;/a&gt;
+            &lt;a href="#overview" class="header-nav-item"&gt;Overview&lt;/a&gt;
+            &lt;a href="#components" class="header-nav-item"&gt;Components&lt;/a&gt;
+            &lt;a href="#examples" class="header-nav-item"&gt;Examples&lt;/a&gt;
+            &lt;a href="https://github.com/your-repo" class="header-nav-item"&gt;GitHub&lt;/a&gt;
         &lt;/nav&gt;
         &lt;div class="header-controls"&gt;
-            &lt;button class="icon-btn theme-btn"&gt;...&lt;/button&gt;
-            &lt;button class="icon-btn mode-btn"&gt;...&lt;/button&gt;
+            &lt;!-- Theme Toggle Button (Warm/Cold) --&gt;
+            &lt;button class="icon-btn" onclick="toggleTheme()"&gt;
+                &lt;svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"&gt;
+                    &lt;path d="M10 3v1m0 12v1m7-7h-1M4 10H3m13.66 3.66l-.71-.71M5.05 5.05l-.71-.71m11.32 0l-.71.71M5.05 14.95l-.71.71M13 10a3 3 0 11-6 0 3 3 0 016 0z"/&gt;
+                &lt;/svg&gt;
+            &lt;/button&gt;
+            &lt;!-- Dark Mode Toggle Button --&gt;
+            &lt;button class="icon-btn" onclick="toggleDarkMode()"&gt;
+                &lt;svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"&gt;
+                    &lt;path d="M10 2a8 8 0 108 8 8.009 8.009 0 00-8-8zm0 14a6 6 0 110-12 6 6 0 010 12z"/&gt;
+                &lt;/svg&gt;
+            &lt;/button&gt;
         &lt;/div&gt;
     &lt;/div&gt;
 &lt;/header&gt;</code></pre>
@@ -8696,34 +9119,44 @@ $('#container').append($card);</code></pre>
                                     </h4>
                                     <pre
                                         style="margin-bottom: 2rem"
-                                    ><code class="language-jsx">import { Header, HeaderNav, IconButton } from '@monochrome-edge/react';
+                                    ><code class="language-jsx">import { useState } from 'react';
 
 function App() {
   const [theme, setTheme] = useState('warm');
-  const [mode, setMode] = useState('light');
+  const [darkMode, setDarkMode] = useState(false);
 
   return (
-    &lt;Header
-      logo={&lt;img src="logo.svg" alt="Logo" /&gt;}
-      title="MONOCHROME EDGE"
-    &gt;
-      &lt;HeaderNav
-        items={[
-          { label: 'Overview', href: '#overview' },
-          { label: 'Components', href: '#components' },
-          { label: 'Examples', href: '#examples' },
-          { label: 'GitHub', href: '#github' }
-        ]}
-      /&gt;
-      &lt;IconButton
-        icon={theme === 'warm' ? 'flame' : 'snowflake'}
-        onClick={() => setTheme(theme === 'warm' ? 'cold' : 'warm')}
-      /&gt;
-      &lt;IconButton
-        icon={mode === 'light' ? 'sun' : 'moon'}
-        onClick={() => setMode(mode === 'light' ? 'dark' : 'light')}
-      /&gt;
-    &lt;/Header&gt;
+    &lt;header className="main-header"&gt;
+      &lt;div className="header-container"&gt;
+        &lt;div className="header-logo"&gt;
+          &lt;img src="logo.svg" alt="Logo" width="32" height="32" /&gt;
+          &lt;span className="header-title"&gt;MONOCHROME EDGE&lt;/span&gt;
+        &lt;/div&gt;
+
+        &lt;nav className="header-nav"&gt;
+          &lt;a href="#overview" className="header-nav-item"&gt;Overview&lt;/a&gt;
+          &lt;a href="#components" className="header-nav-item"&gt;Components&lt;/a&gt;
+          &lt;a href="#examples" className="header-nav-item"&gt;Examples&lt;/a&gt;
+          &lt;a href="https://github.com/your-repo" className="header-nav-item"&gt;GitHub&lt;/a&gt;
+        &lt;/nav&gt;
+
+        &lt;div className="header-controls"&gt;
+          {/* Theme Toggle */}
+          &lt;button className="icon-btn" onClick={() => setTheme(theme === 'warm' ? 'cold' : 'warm')}&gt;
+            &lt;svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"&gt;
+              &lt;path d="M10 3v1m0 12v1m7-7h-1M4 10H3m13.66 3.66l-.71-.71M5.05 5.05l-.71-.71m11.32 0l-.71.71M5.05 14.95l-.71.71M13 10a3 3 0 11-6 0 3 3 0 016 0z"/&gt;
+            &lt;/svg&gt;
+          &lt;/button&gt;
+
+          {/* Dark Mode Toggle */}
+          &lt;button className="icon-btn" onClick={() => setDarkMode(!darkMode)}&gt;
+            &lt;svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"&gt;
+              &lt;path d="M10 2a8 8 0 108 8 8.009 8.009 0 00-8-8zm0 14a6 6 0 110-12 6 6 0 010 12z"/&gt;
+            &lt;/svg&gt;
+          &lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/header&gt;
   );
 }</code></pre>
 
@@ -9568,15 +10001,32 @@ const items = ref([
                                         style="margin-bottom: 2rem"
                                     ><code>import { Modal } from '@monochrome-edge/ui/react';
 
+{/* Simple modal with built-in footer actions */}
 &lt;Modal
     isOpen={isOpen}
     onClose={() => setIsOpen(false)}
     title="Modal Title"
+    confirmText="Confirm"
+    cancelText="Cancel"
+    onConfirm={() => {
+      // Handle confirm action
+      setIsOpen(false);
+    }}
 &gt;
     &lt;p&gt;Modal content goes here&lt;/p&gt;
+&lt;/Modal&gt;
+
+{/* Custom footer when needed */}
+&lt;Modal
+    isOpen={isOpen}
+    onClose={() => setIsOpen(false)}
+    title="Custom Actions"
+&gt;
+    &lt;p&gt;Content with custom footer&lt;/p&gt;
     &lt;Modal.Footer&gt;
-        &lt;Button variant="ghost" onClick={() => setIsOpen(false)}&gt;Cancel&lt;/Button&gt;
-        &lt;Button variant="primary"&gt;Confirm&lt;/Button&gt;
+        &lt;button className="btn btn-ghost" onClick={() => setIsOpen(false)}&gt;Cancel&lt;/button&gt;
+        &lt;button className="btn btn-primary"&gt;Save&lt;/button&gt;
+        &lt;button className="btn btn-success"&gt;Publish&lt;/button&gt;
     &lt;/Modal.Footer&gt;
 &lt;/Modal&gt;</code></pre>
 
@@ -11243,10 +11693,10 @@ $('#myElement').css({
      data-steps='[
          {
            "indicator": "1",
-           "labelTitle": "Account Setup",
+           "labelTitle": "Account Setup hellow asdfdsafdsa",
            "labelDesc": "Create your profile",
            "state": "completed",
-           "title": "Account Setup",
+           "title": "Account Setup adfasdfdsafas",
            "desc": "Create your account and set up your profile."
          },
          {
@@ -11280,7 +11730,7 @@ $('#myElement').css({
 
 &lt;!-- JavaScript: Programmatic API --&gt;
 &lt;script&gt;
-const stepper = new Stepper(container, {
+const stepper = new MonochromeEdge.Stepper(container, {
   type: 'default',        // 'default' | 'text'
   layout: 'horizontal',   // 'horizontal' | 'vertical' | 'snake'
   onStepClick: (index, step) =&gt; {
@@ -11367,7 +11817,7 @@ const nextStep = () => {
                                     <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">jQuery</h4>
                                     <pre><code class="language-javascript">// Initialize stepper
 const $container = $('.stepper');
-const stepper = new Stepper($container[0], {
+const stepper = new MonochromeEdge.Stepper($container[0], {
   type: 'default',
   layout: 'horizontal',
   onStepClick: (index, step) => {
@@ -11425,8 +11875,8 @@ stepper.removeStep(stepper.steps.length - 1);</code></pre>
                                      data-type="default"
                                      data-layout="vertical"
                                      data-steps='[
-                                         {"indicator":"1","labelTitle":"Account","labelDesc":"Setup","state":"completed","title":"Account Setup","desc":"Create your account and set up your profile information."},
-                                         {"indicator":"2","labelTitle":"Verification","labelDesc":"Email","state":"completed","title":"Email Verification","desc":"Verify your email address to continue."},
+                                         {"indicator":"1","labelTitle":"Accountasdsadsadas","labelDesc":"Setup","state":"completed","title":"Account Setup","desc":"Create your account and set up your profile information."},
+                                         {"indicator":"2","labelTitle":"Verificationdasdasdas","labelDesc":"Email","state":"completed","title":"Email Verification","desc":"Verify your email address to continue."},
                                          {"indicator":"3","labelTitle":"Preferences","labelDesc":"Settings","state":"active","title":"Set Preferences","desc":"Customize your application settings and preferences."},
                                          {"indicator":"4","labelTitle":"Confirmation","labelDesc":"Review","state":"pending","title":"Final Confirmation","desc":"Review all your settings and confirm to complete setup."}
                                      ]'>
@@ -11459,7 +11909,7 @@ function VerticalStepperDemo() {
 
   useEffect(() => {
     if (containerRef.current) {
-      new Stepper(containerRef.current, {
+      new MonochromeEdge.Stepper(containerRef.current, {
         type: 'default',
         layout: 'vertical'
       });
@@ -11503,7 +11953,7 @@ const steps = ref([
 
 onMounted(() => {
   if (stepperRef.value) {
-    new Stepper(stepperRef.value, {
+    new MonochromeEdge.Stepper(stepperRef.value, {
       type: 'default',
       layout: 'vertical'
     });
@@ -11515,7 +11965,7 @@ onMounted(() => {
                                 <div>
                                     <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">jQuery</h4>
                                     <pre><code class="language-javascript">// Initialize vertical stepper
-const stepper = new Stepper($('.stepper')[0], {
+const stepper = new MonochromeEdge.Stepper($('.stepper')[0], {
   type: 'default',
   layout: 'vertical'
 });
@@ -11594,7 +12044,7 @@ function SnakeStepperDemo() {
 
   useEffect(() => {
     if (containerRef.current) {
-      const stepper = new Stepper(containerRef.current, {
+      const stepper = new MonochromeEdge.Stepper(containerRef.current, {
         type: 'default',
         layout: 'snake',
         onStepClick: (index) => console.log('Step:', index)
@@ -11650,7 +12100,7 @@ const steps = ref([
 
 onMounted(() => {
   if (stepperRef.value) {
-    new Stepper(stepperRef.value, {
+    new MonochromeEdge.Stepper(stepperRef.value, {
       type: 'default',
       layout: 'snake'
     });
@@ -11662,7 +12112,7 @@ onMounted(() => {
                                 <div>
                                     <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">jQuery</h4>
                                     <pre><code class="language-javascript">// Initialize snake stepper
-const stepper = new Stepper($('.stepper')[0], {
+const stepper = new MonochromeEdge.Stepper($('.stepper')[0], {
   type: 'default',
   layout: 'snake'
 });
@@ -11705,10 +12155,10 @@ function advanceStep() {
                                      data-type="text"
                                      data-layout="horizontal"
                                      data-steps='[
-                                         {"labelTitle":"Personal Info","state":"completed"},
-                                         {"labelTitle":"Address","state":"active"},
-                                         {"labelTitle":"Payment","state":"pending"},
-                                         {"labelTitle":"Confirm","state":"pending"}
+                                         {"labelTitle":"Personaasdasdasdasl Info","state":"completed"},
+                                         {"labelTitle":"Addrdasdaasdsadsdsasddksfjsdkasdsaess","state":"active"},
+                                         {"labelTitle":"Paymedasdasdsadasnt","state":"pending"},
+                                         {"labelTitle":"Confidasdasdrm","state":"pending"}
                                      ]'>
                                 </div>
                             </div>
@@ -11717,10 +12167,10 @@ function advanceStep() {
      data-type="text"
      data-layout="horizontal"
      data-steps='[
-         {"labelTitle":"Personal Info","state":"completed"},
-         {"labelTitle":"Address","state":"active"},
-         {"labelTitle":"Payment","state":"pending"},
-         {"labelTitle":"Confirm","state":"pending"}
+         {"labelTitle":"Persasdasdasdonal Info","state":"completed"},
+         {"labelTitle":"Addreasdasdsadss","state":"active"},
+         {"labelTitle":"Paymeasdasdasdnt","state":"pending"},
+         {"labelTitle":"Confiasdasdsadasrm","state":"pending"}
      ]'&gt;
 &lt;/div&gt;</code></pre>
 
@@ -11733,7 +12183,7 @@ function TextStepperDemo() {
 
   useEffect(() => {
     if (containerRef.current) {
-      new Stepper(containerRef.current, {
+      new MonochromeEdge.Stepper(containerRef.current, {
         type: 'text',
         layout: 'horizontal'
       });
@@ -11784,7 +12234,7 @@ const steps = ref([
 
 onMounted(() => {
   if (stepperRef.value) {
-    new Stepper(stepperRef.value, {
+    new MonochromeEdge.Stepper(stepperRef.value, {
       type: 'text',
       layout: 'horizontal'
     });
@@ -11796,7 +12246,7 @@ onMounted(() => {
                                 <div>
                                     <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">jQuery</h4>
                                     <pre><code class="language-javascript">// Initialize text stepper
-const stepper = new Stepper($('.stepper')[0], {
+const stepper = new MonochromeEdge.Stepper($('.stepper')[0], {
   type: 'text',
   layout: 'horizontal'
 });</code></pre>
@@ -11858,7 +12308,7 @@ function TextVerticalStepperDemo() {
 
   useEffect(() => {
     if (containerRef.current) {
-      new Stepper(containerRef.current, {
+      new MonochromeEdge.Stepper(containerRef.current, {
         type: 'text',
         layout: 'vertical'
       });
@@ -11909,7 +12359,7 @@ const steps = ref([
 
 onMounted(() => {
   if (stepperRef.value) {
-    new Stepper(stepperRef.value, {
+    new MonochromeEdge.Stepper(stepperRef.value, {
       type: 'text',
       layout: 'vertical'
     });
@@ -11921,7 +12371,7 @@ onMounted(() => {
                                 <div>
                                     <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">jQuery</h4>
                                     <pre><code class="language-javascript">// Initialize text vertical stepper
-const stepper = new Stepper($('.stepper')[0], {
+const stepper = new MonochromeEdge.Stepper($('.stepper')[0], {
   type: 'text',
   layout: 'vertical'
 });</code></pre>
@@ -11987,7 +12437,7 @@ function TextSnakeStepperDemo() {
 
   useEffect(() => {
     if (containerRef.current) {
-      new Stepper(containerRef.current, {
+      new MonochromeEdge.Stepper(containerRef.current, {
         type: 'text',
         layout: 'snake'
       });
@@ -12042,7 +12492,7 @@ const steps = ref([
 
 onMounted(() => {
   if (stepperRef.value) {
-    new Stepper(stepperRef.value, {
+    new MonochromeEdge.Stepper(stepperRef.value, {
       type: 'text',
       layout: 'snake'
     });
@@ -12054,7 +12504,7 @@ onMounted(() => {
                                 <div>
                                     <h4 style="margin-bottom: 1rem; font-size: 0.875rem; font-weight: 600; color: var(--theme-text-secondary); text-transform: uppercase; letter-spacing: 0.05em;">jQuery</h4>
                                     <pre><code class="language-javascript">// Initialize text snake stepper
-const stepper = new Stepper($('.stepper')[0], {
+const stepper = new MonochromeEdge.Stepper($('.stepper')[0], {
   type: 'text',
   layout: 'snake'
 });</code></pre>
@@ -12365,7 +12815,7 @@ const stepper = new Stepper($('.stepper')[0], {
                         <div class="component-content" id="tags-usage">
                             <div class="component-preview">
                                 <div style="width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 1.5rem;">
-                                    <!-- Section Header Example -->
+                                    <!-- 1. Component Tags (for documentation) -->
                                     <div style="background-color: var(--theme-surface); border: 1px solid var(--theme-border); border-radius: var(--border-radius); padding: 1.25rem;">
                                         <h3 style="display: flex; align-items: center; gap: 0.75rem; margin: 0 0 0.5rem 0; font-size: 1.125rem;">
                                             Component Name
@@ -12375,36 +12825,49 @@ const stepper = new Stepper($('.stepper')[0], {
                                             </span>
                                         </h3>
                                         <p style="color: var(--theme-text-secondary); font-size: 0.875rem; margin: 0;">
-                                            Example of component type tags in a section header
+                                            Use component-tag for showing tech stack/type in docs
                                         </p>
                                     </div>
 
-                                    <!-- Card with Status Badge -->
+                                    <!-- 2. Status Badge (for UI state) -->
                                     <div style="background-color: var(--theme-surface); border: 1px solid var(--theme-border); border-radius: var(--border-radius); padding: 1.25rem;">
-                                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem;">
+                                        <div style="display: flex; justify-content: space-between; align-items: start;">
                                             <h4 style="margin: 0; font-size: 1rem;">Task Item</h4>
                                             <span class="badge badge-success">Completed</span>
                                         </div>
-                                        <p style="color: var(--theme-text-secondary); font-size: 0.875rem; margin: 0;">
-                                            Example of status badge in a card
+                                        <p style="color: var(--theme-text-secondary); font-size: 0.875rem; margin: 0.5rem 0 0 0;">
+                                            Use badge for showing status, notifications, counts
                                         </p>
                                     </div>
 
-                                    <!-- Multiple Tags on Item -->
+                                    <!-- 3. Metadata Tags (for categories/labels) -->
                                     <div style="background-color: var(--theme-surface); border: 1px solid var(--theme-border); border-radius: var(--border-radius); padding: 1.25rem;">
-                                        <h4 style="margin: 0 0 0.5rem 0; font-size: 1rem;">Article Title</h4>
-                                        <div style="display: flex; gap: 0.5rem; align-items: center; font-size: 0.75rem; color: var(--theme-text-secondary);">
+                                        <div style="display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem;">
                                             <span class="badge badge-xs badge-outline badge-info">React</span>
                                             <span class="badge badge-xs badge-outline badge-info">TypeScript</span>
-                                            <span>•</span>
-                                            <span>5 min read</span>
+                                            <small style="color: var(--theme-text-secondary);">• 5 min read</small>
                                         </div>
+                                        <p style="color: var(--theme-text-secondary); font-size: 0.875rem; margin: 0;">
+                                            Use badge-outline for categories, tags, filters
+                                        </p>
+                                    </div>
+
+                                    <!-- 4. Badge vs Text -->
+                                    <div style="background-color: var(--theme-surface); border: 1px solid var(--theme-border); border-radius: var(--border-radius); padding: 1.25rem;">
+                                        <div style="display: flex; gap: 1rem; align-items: center; margin-bottom: 0.5rem;">
+                                            <span class="badge badge-warning">Pending</span>
+                                            <small style="color: var(--theme-text-secondary);">Secondary information</small>
+                                        </div>
+                                        <p style="color: var(--theme-text-secondary); font-size: 0.875rem; margin: 0;">
+                                            Badge: Interactive or semantic status | Text/Small: Descriptive or static text
+                                        </p>
                                     </div>
                                 </div>
                             </div>
                             <div class="component-code">
                                 <div style="padding: 2rem;">
-                                    <pre><code class="language-html">&lt;!-- Section Header with Component Tags --&gt;
+                                    <pre><code class="language-html">&lt;!-- 1. Component Tags (for documentation) --&gt;
+&lt;!-- Use component-tag for showing tech stack/type in docs --&gt;
 &lt;h2&gt;
     Component Name
     &lt;span class="component-tags"&gt;
@@ -12413,25 +12876,29 @@ const stepper = new Stepper($('.stepper')[0], {
     &lt;/span&gt;
 &lt;/h2&gt;
 
-&lt;!-- Card with Status Badge --&gt;
+&lt;!-- 2. Status Badge (for UI state) --&gt;
+&lt;!-- Use badge for showing status, notifications, counts --&gt;
 &lt;div class="card"&gt;
-    &lt;div class="card-body"&gt;
-        &lt;div style="display: flex; justify-content: space-between;"&gt;
-            &lt;h4&gt;Task Item&lt;/h4&gt;
-            &lt;span class="badge badge-success"&gt;Completed&lt;/span&gt;
-        &lt;/div&gt;
+    &lt;div style="display: flex; justify-content: space-between;"&gt;
+        &lt;h4&gt;Task Item&lt;/h4&gt;
+        &lt;span class="badge badge-success"&gt;Completed&lt;/span&gt;
     &lt;/div&gt;
 &lt;/div&gt;
 
-&lt;!-- Article Metadata --&gt;
-&lt;div class="card"&gt;
-    &lt;h4&gt;Article Title&lt;/h4&gt;
-    &lt;div style="display: flex; gap: 0.5rem;"&gt;
-        &lt;span class="badge badge-xs badge-outline badge-info"&gt;React&lt;/span&gt;
-        &lt;span class="badge badge-xs badge-outline badge-info"&gt;TypeScript&lt;/span&gt;
-        &lt;span&gt;• 5 min read&lt;/span&gt;
-    &lt;/div&gt;
-&lt;/div&gt;</code></pre>
+&lt;!-- 3. Metadata Tags (for categories/labels) --&gt;
+&lt;!-- Use badge-outline for categories, tags, filters --&gt;
+&lt;div style="display: flex; gap: 0.5rem; align-items: center;"&gt;
+    &lt;span class="badge badge-xs badge-outline badge-info"&gt;React&lt;/span&gt;
+    &lt;span class="badge badge-xs badge-outline badge-info"&gt;TypeScript&lt;/span&gt;
+    &lt;small class="text-muted"&gt;• 5 min read&lt;/small&gt;
+&lt;/div&gt;
+
+&lt;!-- 4. Badge vs Text --&gt;
+&lt;!-- Badge: Interactive or semantic status --&gt;
+&lt;span class="badge badge-warning"&gt;Pending&lt;/span&gt;
+
+&lt;!-- Text/Small: Descriptive or static text --&gt;
+&lt;small class="text-muted"&gt;Secondary information&lt;/small&gt;</code></pre>
                                 </div>
                             </div>
                         </div>
@@ -16378,13 +16845,14 @@ new DropdownController(document.getElementById('action-dropdown'));
 
             // Initialize Search Toolbar
             window.initSearchToolbar = function () {
-                if (
-                    !window.SearchToolbar ||
-                    !document.getElementById("search-toolbar-container")
-                ) {
-                    console.warn(
-                        "SearchToolbar not available or container not found",
-                    );
+                const container = document.getElementById("search-toolbar-container");
+                if (!container) {
+                    console.warn("SearchToolbar container not found");
+                    return;
+                }
+
+                if (typeof MonochromeEdge === 'undefined' || !MonochromeEdge.SearchToolbar) {
+                    console.error("SearchToolbar component not loaded");
                     return;
                 }
                 // Extract actual page content for autocomplete
@@ -16436,7 +16904,7 @@ new DropdownController(document.getElementById('action-dropdown'));
                     }
                 });
 
-                const searchToolbar = new window.SearchToolbar(
+                const searchToolbar = new MonochromeEdge.SearchToolbar(
                     "#search-toolbar-container",
                     {
                         placeholder: "Search...",
@@ -16481,7 +16949,7 @@ new DropdownController(document.getElementById('action-dropdown'));
             };
 
             // Try to initialize immediately if module already loaded
-            if (window.SearchToolbar) {
+            if (typeof MonochromeEdge !== 'undefined' && MonochromeEdge.SearchToolbar) {
                 window.initSearchToolbar();
             }
 
@@ -16708,8 +17176,8 @@ new DropdownController(document.getElementById('action-dropdown'));
         <script>
             // Initialize Tree View
             window.initTreeView = function () {
-                if (!window.TreeView) {
-                    console.warn("TreeView component not loaded yet");
+                if (typeof MonochromeEdge === 'undefined' || !MonochromeEdge.TreeView) {
+                    console.error("TreeView component not loaded");
                     return;
                 }
 
@@ -16795,7 +17263,7 @@ new DropdownController(document.getElementById('action-dropdown'));
                 if (!container) return;
 
                 // Create TreeView instance
-                const treeView = new window.TreeView({
+                const treeView = new MonochromeEdge.TreeView({
                     container: container,
                     data: treeData,
                     expandedByDefault: false,
@@ -16823,8 +17291,8 @@ new DropdownController(document.getElementById('action-dropdown'));
         <script>
             // Canvas-based Graph View Demo using GraphView component
             window.initGraphView = function () {
-                if (!window.GraphView) {
-                    console.warn("GraphView component not loaded yet");
+                if (typeof MonochromeEdge === 'undefined' || !MonochromeEdge.GraphView) {
+                    console.error("GraphView component not loaded");
                     return;
                 }
 
@@ -17030,7 +17498,7 @@ new DropdownController(document.getElementById('action-dropdown'));
                         container.clientHeight || container.offsetHeight || 500;
 
                     // Create GraphView instance with hover callback
-                    const graphView = new window.GraphView({
+                    const graphView = new MonochromeEdge.GraphView({
                         container: container,
                         documents: documents,
                         width: containerWidth,
@@ -17998,56 +18466,72 @@ new DropdownController(document.getElementById('action-dropdown'));
                     });
                 }
 
-                // Multi-language toggle with diagonal flip animation
+                // Multi-language cycle with diagonal animation
                 function initLanguageToggle(element) {
-                    // Get language array from data attribute or default to 2 languages
+                    // Parse language list
                     const languagesAttr = element.getAttribute('data-languages');
-                    const languages = languagesAttr ? languagesAttr.split(',') : ['KO', 'EN'];
+                    const languages = languagesAttr ? languagesAttr.split(',').map(l => l.trim()) : ['KO', 'EN'];
 
-                    let currentIndex = 0;
+                    let currentIndex = parseInt(element.getAttribute('data-current-index') || '0', 10);
                     let isAnimating = false;
 
-                    const langFirst = element.querySelector('.lang-first');
-                    const langSecond = element.querySelector('.lang-second');
+                    const langCurrent = element.querySelector('.lang-current');
+                    const langNext = element.querySelector('.lang-next');
+                    const statusElement = document.getElementById('lang-status');
 
+                    // Update tooltip with all languages
+                    function updateTooltip() {
+                        const nextIndex = (currentIndex + 1) % languages.length;
+                        const remainingLangs = [];
+
+                        // Collect all next languages in order
+                        for (let i = 1; i < languages.length; i++) {
+                            const idx = (currentIndex + i) % languages.length;
+                            remainingLangs.push(languages[idx]);
+                        }
+
+                        const tooltip = `${languages[currentIndex]}\n${remainingLangs.join(' → ')}`;
+                        element.setAttribute('data-lang-tooltip', tooltip);
+                        element.setAttribute('aria-label', `${languages[currentIndex]}, Next: ${remainingLangs.join(', ')}`);
+                    }
+
+                    // Update display
+                    function updateDisplay() {
+                        const nextIndex = (currentIndex + 1) % languages.length;
+                        langCurrent.textContent = languages[currentIndex];
+                        langNext.textContent = languages[nextIndex];
+
+                        // Update status text
+                        if (statusElement) {
+                            statusElement.textContent = languages.join(' → ');
+                        }
+
+                        updateTooltip();
+                    }
+
+                    // Initialize
+                    updateDisplay();
+
+                    // Click handler
                     element.addEventListener('click', function() {
                         if (isAnimating) return;
 
-                        // Lock animation
                         isAnimating = true;
+                        element.classList.add('is-cycling');
 
-                        // Get current toggled state
-                        const isToggled = element.getAttribute('data-toggled') === 'true';
+                        // Move to next language
+                        currentIndex = (currentIndex + 1) % languages.length;
+                        element.setAttribute('data-current-index', currentIndex.toString());
 
-                        // Start animation
-                        element.classList.add('is-animating');
-
-                        // Toggle the state
-                        element.setAttribute('data-toggled', !isToggled);
-
-                        // After animation completes
+                        // Update UI after animation
                         setTimeout(() => {
-                            element.classList.remove('is-animating');
+                            updateDisplay();
+                            element.classList.remove('is-cycling');
 
-                            // If we just toggled to true, advance to next language pair
-                            if (!isToggled) {
-                                // After diagonal flip completes, update to next language pair
-                                currentIndex = (currentIndex + 1) % languages.length;
-                                const nextIndex = (currentIndex + 1) % languages.length;
-
-                                // Update text content for next cycle
-                                langFirst.textContent = languages[currentIndex];
-                                langSecond.textContent = languages[nextIndex];
-
-                                // Reset toggle state for next click
-                                element.setAttribute('data-toggled', 'false');
-                            }
-
-                            // Unlock after extra delay
                             setTimeout(() => {
                                 isAnimating = false;
-                            }, 200);
-                        }, 500);
+                            }, 100);
+                        }, 400);
                     });
                 }
 
@@ -18110,9 +18594,9 @@ new DropdownController(document.getElementById('action-dropdown'));
             });
         </script>
 
-        <!-- Snake Stepper SVG -->
+        <!-- Load MonochromeEdge UI Components Bundle -->
         <script>
-            // Dynamically load stepper script with correct path
+            // Dynamically load UI bundle with correct path
             (function() {
                 const isLocal = window.location.hostname === 'localhost' ||
                                window.location.hostname === '127.0.0.1' ||
@@ -18120,15 +18604,31 @@ new DropdownController(document.getElementById('action-dropdown'));
 
                 let scriptPath;
                 if (isLocal) {
-                    scriptPath = '../ui/components/stepper/stepper-unified.js';
+                    scriptPath = '../dist/ui.js';
                 } else {
                     // Use CDN for GitHub Pages and production
-                    scriptPath = 'https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/ui/components/stepper/stepper-unified.js';
+                    scriptPath = 'https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@1.10.0/dist/ui.js';
                 }
 
                 const script = document.createElement('script');
                 script.src = scriptPath;
                 script.async = false;
+                script.onload = function() {
+                    console.log('MonochromeEdge UI bundle loaded successfully');
+                    // Initialize components after bundle loads
+                    if (typeof window.initSearchToolbar === 'function') {
+                        window.initSearchToolbar();
+                    }
+                    if (typeof window.initTreeView === 'function') {
+                        window.initTreeView();
+                    }
+                    if (typeof window.initGraphView === 'function') {
+                        window.initGraphView();
+                    }
+                };
+                script.onerror = function() {
+                    console.error('Failed to load MonochromeEdge UI bundle from:', scriptPath);
+                };
                 document.head.appendChild(script);
             })();
         </script>

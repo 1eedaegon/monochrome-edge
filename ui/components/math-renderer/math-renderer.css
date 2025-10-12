@@ -1,0 +1,29 @@
+/* Math Renderer Component Styles */
+.math-renderer {
+  display: inline-block;
+  font-family: 'Latin Modern Math', 'Computer Modern', serif;
+  font-size: var(--font-size-base);
+}
+
+.math-renderer--block {
+  display: block;
+  text-align: center;
+  margin: var(--spacing-md) 0;
+}
+
+.math-renderer--inline {
+  display: inline;
+  vertical-align: middle;
+}
+
+.math-renderer__content {
+  color: var(--color-text);
+}
+
+.math-renderer__error {
+  color: var(--color-error);
+  font-family: monospace;
+  padding: var(--spacing-sm);
+  background: var(--color-error-alpha);
+  border-radius: var(--border-radius);
+}

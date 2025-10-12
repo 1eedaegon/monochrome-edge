@@ -26,18 +26,29 @@ export default [
           { find: "@ui", replacement: path.resolve(__dirname, "ui") },
         ],
       }),
+      typescript({
+        declaration: false,
+        declarationMap: false,
+        tsconfig: false,
+        include: ["src/**/*", "ui/**/*"],
+        exclude: ["src/react.tsx"], // Exclude React wrapper
+        compilerOptions: {
+          target: "es2020",
+          module: "esnext",
+          moduleResolution: "node",
+          allowSyntheticDefaultImports: true,
+          esModuleInterop: true,
+          baseUrl: ".",
+          paths: {
+            "@src/*": ["src/*"],
+            "@ui/*": ["ui/*"],
+          },
+        },
+      }),
       resolve({
         browser: true,
         preferBuiltins: false,
         extensions: [".js", ".ts", ".json"],
-      }),
-      typescript({
-        declaration: false,
-        declarationMap: false,
-        compilerOptions: {
-          target: "es2020",
-          module: "esnext",
-        },
       }),
       commonjs(),
       postcss({
@@ -68,18 +79,29 @@ export default [
           { find: "@ui", replacement: path.resolve(__dirname, "ui") },
         ],
       }),
+      typescript({
+        declaration: false,
+        declarationMap: false,
+        tsconfig: false,
+        include: ["src/**/*", "ui/**/*"],
+        exclude: ["src/react.tsx"], // Exclude React wrapper
+        compilerOptions: {
+          target: "es2020",
+          module: "esnext",
+          moduleResolution: "node",
+          allowSyntheticDefaultImports: true,
+          esModuleInterop: true,
+          baseUrl: ".",
+          paths: {
+            "@src/*": ["src/*"],
+            "@ui/*": ["ui/*"],
+          },
+        },
+      }),
       resolve({
         browser: true,
         preferBuiltins: false,
         extensions: [".js", ".ts", ".json"],
-      }),
-      typescript({
-        declaration: false,
-        declarationMap: false,
-        compilerOptions: {
-          target: "es2020",
-          module: "esnext",
-        },
       }),
       commonjs(),
       postcss({
@@ -110,18 +132,29 @@ export default [
           { find: "@ui", replacement: path.resolve(__dirname, "ui") },
         ],
       }),
+      typescript({
+        declaration: false,
+        declarationMap: false,
+        tsconfig: false,
+        include: ["src/**/*", "ui/**/*"],
+        exclude: ["src/react.tsx"], // Exclude React wrapper
+        compilerOptions: {
+          target: "es2020",
+          module: "esnext",
+          moduleResolution: "node",
+          allowSyntheticDefaultImports: true,
+          esModuleInterop: true,
+          baseUrl: ".",
+          paths: {
+            "@src/*": ["src/*"],
+            "@ui/*": ["ui/*"],
+          },
+        },
+      }),
       resolve({
         browser: true,
         preferBuiltins: false,
         extensions: [".js", ".ts", ".json"],
-      }),
-      typescript({
-        declaration: false,
-        declarationMap: false,
-        compilerOptions: {
-          target: "es2020",
-          module: "esnext",
-        },
       }),
       commonjs(),
       postcss({
@@ -161,18 +194,29 @@ export default [
           { find: "@ui", replacement: path.resolve(__dirname, "ui") },
         ],
       }),
+      typescript({
+        declaration: false,
+        declarationMap: false,
+        tsconfig: false,
+        include: ["src/**/*", "ui/**/*"],
+        exclude: ["src/react.tsx"], // Exclude React wrapper
+        compilerOptions: {
+          target: "es2020",
+          module: "esnext",
+          moduleResolution: "node",
+          allowSyntheticDefaultImports: true,
+          esModuleInterop: true,
+          baseUrl: ".",
+          paths: {
+            "@src/*": ["src/*"],
+            "@ui/*": ["ui/*"],
+          },
+        },
+      }),
       resolve({
         browser: true,
         preferBuiltins: false,
         extensions: [".js", ".ts", ".json"],
-      }),
-      typescript({
-        declaration: false,
-        declarationMap: false,
-        compilerOptions: {
-          target: "es2020",
-          module: "esnext",
-        },
       }),
       commonjs(),
       postcss({

@@ -3,7 +3,7 @@
  * File explorer with tree structure for the editor
  */
 
-import { iconLoader } from "@src/iconLoader";
+import { iconLoader } from "@ui/utils/icon-loader";
 
 export class TreeFileView {
   constructor(container, options = {}) {

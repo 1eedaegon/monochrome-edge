@@ -233,10 +233,53 @@
     _calculateTextWidths(positions) {
       if (this.options.type !== "text") return positions;
 
+      // Helper function to break text by word boundaries (띄어쓰기 기준)
+      const breakTextByWords = (text, maxCharsPerLine) => {
+        const words = text.split(" ");
+        const lines = [];
+        let currentLine = "";
+
+        words.forEach((word) => {
+          const testLine = currentLine ? `${currentLine} ${word}` : word;
+          if (testLine.length <= maxCharsPerLine) {
+            currentLine = testLine;
+          } else {
+            if (currentLine) {
+              lines.push(currentLine);
+            }
+            currentLine = word;
+          }
+        });
+
+        if (currentLine) {
+          lines.push(currentLine);
+        }
+
+        return lines;
+      };
+
       positions.forEach((pos) => {
+        // Text type uses labelTitle or indicator as the displayed text
         const label = pos.labelTitle || pos.indicator;
-        const textLength = label.length;
-        const dynamicWidth = Math.max(60, textLength * 8 + 16);
+        const maxChars = 15; // Maximum characters before wrapping (15글자 기준)
+        const charWidth = 7.8; // Average character width in pixels for 13px font
+        const horizontalPadding = 20; // Total left + right padding (10px each side)
+
+        let dynamicWidth;
+
+        if (label.length > maxChars) {
+          // For long text, calculate based on longest line after word wrapping
+          const lines = breakTextByWords(label, maxChars);
+          const longestLine = lines.reduce(
+            (max, line) => Math.max(max, line.length),
+            0,
+          );
+          dynamicWidth = longestLine * charWidth + horizontalPadding;
+        } else {
+          // For short text, calculate based on total length
+          dynamicWidth = label.length * charWidth + horizontalPadding;
+        }
+
         pos.textOnlyWidth = dynamicWidth;
       });
 
@@ -481,32 +524,135 @@
         // Text type: render as text with background
         // Use pre-calculated textOnlyWidth from layout calculation
         const label = pos.labelTitle || pos.indicator;
-        const dynamicWidth = pos.textOnlyWidth || 60; // fallback to 60
-        const halfWidth = dynamicWidth / 2;
+        const maxChars = 15; // Maximum characters before wrapping (15글자 기준)
 
-        const rect = document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "rect",
-        );
-        rect.setAttribute("x", pos.x - halfWidth);
-        rect.setAttribute("y", pos.y - 12);
-        rect.setAttribute("width", dynamicWidth);
-        rect.setAttribute("height", 24);
-        rect.setAttribute("rx", 4);
-        rect.classList.add("text-node-bg");
-        g.appendChild(rect);
+        // Helper function to break text by word boundaries (띄어쓰기 기준)
+        const breakTextByWords = (text, maxCharsPerLine) => {
+          const words = text.split(" ");
+          const lines = [];
+          let currentLine = "";
 
-        const text = document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "text",
-        );
-        text.setAttribute("x", pos.x);
-        text.setAttribute("y", pos.y);
-        text.setAttribute("text-anchor", "middle");
-        text.setAttribute("dominant-baseline", "central");
-        text.setAttribute("class", "text-node-label");
-        text.textContent = label;
-        g.appendChild(text);
+          words.forEach((word) => {
+            const testLine = currentLine ? `${currentLine} ${word}` : word;
+            if (testLine.length <= maxCharsPerLine) {
+              currentLine = testLine;
+            } else {
+              if (currentLine) {
+                lines.push(currentLine);
+              }
+              currentLine = word;
+            }
+          });
+
+          if (currentLine) {
+            lines.push(currentLine);
+          }
+
+          return lines;
+        };
+
+        // Check if text needs wrapping
+        if (label.length > maxChars) {
+          // Break text by word boundaries
+          const lines = breakTextByWords(label, maxChars);
+          const longestLine = lines.reduce(
+            (max, line) => Math.max(max, line.length),
+            0,
+          );
+
+          // Calculate dimensions with proper padding (좌우 10px 공백)
+          const charWidth = 7.8; // Average character width in pixels for 13px font
+          const horizontalPadding = 20; // Total left + right padding (10px each side)
+          const maxWidth = longestLine * charWidth + horizontalPadding;
+          const lineHeight = 18; // pixels per line
+          const verticalPadding = 8; // Total top + bottom padding (4px each side)
+          const nodeHeight = Math.max(
+            24,
+            lines.length * lineHeight + verticalPadding,
+          );
+          const halfWidth = maxWidth / 2;
+          const halfHeight = nodeHeight / 2;
+
+          const rect = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "rect",
+          );
+          rect.setAttribute("x", pos.x - halfWidth);
+          rect.setAttribute("y", pos.y - halfHeight);
+          rect.setAttribute("width", maxWidth);
+          rect.setAttribute("height", nodeHeight);
+          rect.setAttribute("rx", 4);
+          rect.classList.add("text-node-bg");
+          g.appendChild(rect);
+
+          const foreignObject = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "foreignObject",
+          );
+          foreignObject.setAttribute("x", pos.x - halfWidth);
+          foreignObject.setAttribute("y", pos.y - halfHeight);
+          foreignObject.setAttribute("width", maxWidth);
+          foreignObject.setAttribute("height", nodeHeight);
+
+          const div = document.createElement("div");
+          div.style.fontSize = "13px";
+          div.style.fontWeight = "500";
+          div.style.fontFamily = "var(--font-family-sans, sans-serif)";
+          div.style.lineHeight = "1.4";
+          div.style.wordWrap = "break-word";
+          div.style.overflowWrap = "break-word";
+          div.style.textAlign = "center";
+          div.style.display = "flex";
+          div.style.alignItems = "center";
+          div.style.justifyContent = "center";
+          div.style.height = "100%";
+          div.style.padding = "4px 8px";
+          div.style.boxSizing = "border-box";
+          div.textContent = label;
+
+          // Apply color based on state
+          if (pos.state === "active" || pos.state === "completed") {
+            div.style.color = "var(--theme-bg)";
+          } else if (pos.state === "failed") {
+            div.style.color = "var(--color-error, #e53e3e)";
+          } else {
+            div.style.color = "var(--theme-text-tertiary)";
+          }
+
+          foreignObject.appendChild(div);
+          g.appendChild(foreignObject);
+        } else {
+          // Single-line rendering for short text (15글자 이하)
+          // Calculate width with 10px padding on each side
+          const charWidth = 7.8; // Average character width in pixels for 13px font
+          const horizontalPadding = 20; // Total left + right padding (10px each side)
+          const dynamicWidth = label.length * charWidth + horizontalPadding;
+          const halfWidth = dynamicWidth / 2;
+
+          const rect = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "rect",
+          );
+          rect.setAttribute("x", pos.x - halfWidth);
+          rect.setAttribute("y", pos.y - 12);
+          rect.setAttribute("width", dynamicWidth);
+          rect.setAttribute("height", 24);
+          rect.setAttribute("rx", 4);
+          rect.classList.add("text-node-bg");
+          g.appendChild(rect);
+
+          const text = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "text",
+          );
+          text.setAttribute("x", pos.x);
+          text.setAttribute("y", pos.y);
+          text.setAttribute("text-anchor", "middle");
+          text.setAttribute("dominant-baseline", "central");
+          text.setAttribute("class", "text-node-label");
+          text.textContent = label;
+          g.appendChild(text);
+        }
       } else {
         // Normal mode: render as circle
         const circle = document.createElementNS(
@@ -604,6 +750,7 @@
     /**
      * Render labels as SVG text elements instead of HTML divs
      * This fixes the vertical mode overflow bug by keeping labels within SVG coordinate system
+     * Supports word wrapping for labels exceeding 100px width
      */
     renderLabels(svg, positions) {
       const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
@@ -619,6 +766,7 @@
         if (isTextType) return;
 
         const radius = this.options.nodeSize / 2;
+        const maxWidth = 100; // Maximum width before wrapping
 
         // For vertical layout, position labels to the side to avoid connector
         let labelX, labelY, textAnchor;
@@ -635,30 +783,83 @@
           textAnchor = "middle";
         }
 
-        // Label title
-        const title = document.createElementNS(
+        // Use foreignObject for HTML-based text wrapping
+        const foreignObject = document.createElementNS(
           "http://www.w3.org/2000/svg",
-          "text",
+          "foreignObject",
         );
-        title.setAttribute("x", labelX);
-        title.setAttribute("y", labelY);
-        title.setAttribute("text-anchor", textAnchor);
-        title.setAttribute("class", "label-title");
-        title.textContent = this.truncateText(pos.labelTitle);
-        g.appendChild(title);
+
+        // Estimate height based on text length (rough calculation)
+        const estimatedLines = Math.ceil(
+          (pos.labelTitle.length * 7.5) / maxWidth,
+        );
+        const titleHeight = Math.max(20, estimatedLines * 18); // 18px per line
+
+        // Position and size the foreignObject
+        if (isVerticalLayout) {
+          foreignObject.setAttribute("x", labelX);
+          foreignObject.setAttribute("y", labelY - 10); // Adjust for vertical centering
+          foreignObject.setAttribute("width", maxWidth);
+        } else {
+          foreignObject.setAttribute("x", labelX - maxWidth / 2);
+          foreignObject.setAttribute("y", labelY);
+          foreignObject.setAttribute("width", maxWidth);
+        }
+        foreignObject.setAttribute("height", titleHeight);
+
+        // Create HTML div for text wrapping
+        const div = document.createElement("div");
+        div.style.fontSize = "13px";
+        div.style.fontWeight = "500";
+        div.style.fontFamily = "var(--font-family-sans, sans-serif)";
+        div.style.color = "var(--theme-text-secondary)";
+        div.style.lineHeight = "1.4";
+        div.style.wordWrap = "break-word";
+        div.style.overflowWrap = "break-word";
+        div.style.textAlign = isVerticalLayout ? "left" : "center";
+        div.textContent = pos.labelTitle;
+
+        foreignObject.appendChild(div);
+        g.appendChild(foreignObject);
 
         // Label description (if exists)
         if (pos.labelDesc) {
-          const desc = document.createElementNS(
+          const descForeignObject = document.createElementNS(
             "http://www.w3.org/2000/svg",
-            "text",
+            "foreignObject",
           );
-          desc.setAttribute("x", labelX);
-          desc.setAttribute("y", labelY + 14); // 14px below title
-          desc.setAttribute("text-anchor", textAnchor);
-          desc.setAttribute("class", "label-desc");
-          desc.textContent = this.truncateText(pos.labelDesc);
-          g.appendChild(desc);
+
+          // Estimate height for description
+          const descEstimatedLines = Math.ceil(
+            (pos.labelDesc.length * 7) / maxWidth,
+          );
+          const descHeight = Math.max(16, descEstimatedLines * 17); // 17px per line
+
+          if (isVerticalLayout) {
+            descForeignObject.setAttribute("x", labelX);
+            descForeignObject.setAttribute("y", labelY + titleHeight + 4); // 4px below title
+            descForeignObject.setAttribute("width", maxWidth);
+          } else {
+            descForeignObject.setAttribute("x", labelX - maxWidth / 2);
+            descForeignObject.setAttribute("y", labelY + titleHeight + 4); // 4px below title
+            descForeignObject.setAttribute("width", maxWidth);
+          }
+          descForeignObject.setAttribute("height", descHeight);
+
+          const descDiv = document.createElement("div");
+          descDiv.style.fontSize = "12px";
+          descDiv.style.fontWeight = "400";
+          descDiv.style.fontFamily = "var(--font-family-sans, sans-serif)";
+          descDiv.style.color = "var(--theme-text-tertiary)";
+          descDiv.style.lineHeight = "1.4";
+          descDiv.style.opacity = "0.8";
+          descDiv.style.wordWrap = "break-word";
+          descDiv.style.overflowWrap = "break-word";
+          descDiv.style.textAlign = isVerticalLayout ? "left" : "center";
+          descDiv.textContent = pos.labelDesc;
+
+          descForeignObject.appendChild(descDiv);
+          g.appendChild(descForeignObject);
         }
       });
 
