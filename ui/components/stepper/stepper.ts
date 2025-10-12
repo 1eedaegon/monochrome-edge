@@ -595,6 +595,13 @@ export class Stepper {
         g.appendChild(text);
       } else {
         // Default type: render as circle
+        // Wrap circle and its content in a group so CSS can target children
+        const nodeGroup = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "g",
+        );
+        nodeGroup.classList.add("node", pos.state || "pending");
+
         const circle = document.createElementNS(
           "http://www.w3.org/2000/svg",
           "circle",
@@ -602,9 +609,8 @@ export class Stepper {
         circle.setAttribute("cx", String(pos.x));
         circle.setAttribute("cy", String(pos.y));
         circle.setAttribute("r", String(this.options.nodeSize / 2));
-        circle.classList.add("node", pos.state || "pending");
 
-        g.appendChild(circle);
+        nodeGroup.appendChild(circle);
 
         // Content: checkmark, close icon, or text based on state
         if (pos.state === "completed") {
@@ -613,14 +619,14 @@ export class Stepper {
             pos.y,
             this.options.nodeSize / 2,
           );
-          g.appendChild(checkmark);
+          nodeGroup.appendChild(checkmark);
         } else if (pos.state === "failed") {
           const closeIcon = this.createCloseIcon(
             pos.x,
             pos.y,
             this.options.nodeSize / 2,
           );
-          g.appendChild(closeIcon);
+          nodeGroup.appendChild(closeIcon);
         } else {
           // Inner text for pending/active states
           const text = document.createElementNS(
@@ -633,14 +639,16 @@ export class Stepper {
           text.setAttribute("dominant-baseline", "central");
           text.classList.add("node-text");
           text.textContent = this.truncateText(pos.indicator, 3);
-          g.appendChild(text);
+          nodeGroup.appendChild(text);
         }
 
-        circle.addEventListener("click", () => this.handleNodeClick(pos, i));
-        circle.addEventListener("mouseenter", (e) =>
+        nodeGroup.addEventListener("click", () => this.handleNodeClick(pos, i));
+        nodeGroup.addEventListener("mouseenter", (e) =>
           this.showPopup(pos, i, e as MouseEvent),
         );
-        circle.addEventListener("mouseleave", () => this.hidePopup());
+        nodeGroup.addEventListener("mouseleave", () => this.hidePopup());
+
+        g.appendChild(nodeGroup);
       }
     });
 
