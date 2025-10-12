@@ -289,38 +289,37 @@ export class Stepper {
   }
 
   /**
+   * Helper function to break text by word boundaries
+   */
+  private breakTextByWords(text: string, maxCharsPerLine: number): string[] {
+    const words = text.split(" ");
+    const lines: string[] = [];
+    let currentLine = "";
+
+    words.forEach((word: string) => {
+      const testLine = currentLine ? `${currentLine} ${word}` : word;
+      if (testLine.length <= maxCharsPerLine) {
+        currentLine = testLine;
+      } else {
+        if (currentLine) {
+          lines.push(currentLine);
+        }
+        currentLine = word;
+      }
+    });
+
+    if (currentLine) {
+      lines.push(currentLine);
+    }
+
+    return lines;
+  }
+
+  /**
    * Pre-calculate text widths for text type steppers
    */
   private _calculateTextWidths(positions: Position[]): Position[] {
     if (this.options.type !== "text") return positions;
-
-    // Helper function to break text by word boundaries
-    const breakTextByWords = (
-      text: string,
-      maxCharsPerLine: number,
-    ): string[] => {
-      const words = text.split(" ");
-      const lines: string[] = [];
-      let currentLine = "";
-
-      words.forEach((word: string) => {
-        const testLine = currentLine ? `${currentLine} ${word}` : word;
-        if (testLine.length <= maxCharsPerLine) {
-          currentLine = testLine;
-        } else {
-          if (currentLine) {
-            lines.push(currentLine);
-          }
-          currentLine = word;
-        }
-      });
-
-      if (currentLine) {
-        lines.push(currentLine);
-      }
-
-      return lines;
-    };
 
     positions.forEach((pos: Position) => {
       const label = pos.labelTitle || pos.indicator;
@@ -331,7 +330,7 @@ export class Stepper {
       let dynamicWidth: number;
 
       if (label.length > maxChars) {
-        const lines = breakTextByWords(label, maxChars);
+        const lines = this.breakTextByWords(label, maxChars);
         const longestLine = lines.reduce(
           (max, line) => Math.max(max, line.length),
           0,
@@ -584,16 +583,35 @@ export class Stepper {
 
         // Always show text for text type, regardless of state
         // Background color changes based on state via CSS
+        // Support multi-line text with tspan elements
+        const label = pos.labelTitle || pos.indicator;
+        const maxChars = 15;
+        const lines = this.breakTextByWords(label, maxChars);
+
         const text = document.createElementNS(
           "http://www.w3.org/2000/svg",
           "text",
         );
         text.setAttribute("x", String(pos.x));
-        text.setAttribute("y", String(pos.y));
         text.setAttribute("text-anchor", "middle");
-        text.setAttribute("dominant-baseline", "central");
         text.classList.add("text-node-label");
-        text.textContent = pos.labelTitle || pos.indicator;
+
+        // Calculate y position to center multi-line text
+        const lineHeight = 14; // px
+        const totalHeight = lines.length * lineHeight;
+        const startY = pos.y - totalHeight / 2 + lineHeight / 2;
+
+        lines.forEach((line, lineIndex) => {
+          const tspan = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "tspan",
+          );
+          tspan.setAttribute("x", String(pos.x));
+          tspan.setAttribute("y", String(startY + lineIndex * lineHeight));
+          tspan.textContent = line;
+          text.appendChild(tspan);
+        });
+
         nodeGroup.appendChild(text);
 
         nodeGroup.addEventListener("click", () => this.handleNodeClick(pos, i));
