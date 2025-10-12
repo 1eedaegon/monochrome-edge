@@ -18644,14 +18644,8 @@ new DropdownController(document.getElementById('action-dropdown'));
             // Simple icon loader for docs page
             async function loadIcon(name, width = 16, height = 16) {
                 try {
-                    // Use different paths for local vs production
-                    let basePath;
-                    if (isLocal) {
-                        basePath = '../ui/assets/icons/';
-                    } else {
-                        // Use CDN for GitHub Pages and production
-                        basePath = 'https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/ui/assets/icons/';
-                    }
+                    // Always use CDN for icons (works everywhere)
+                    const basePath = 'https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/ui/assets/icons/';
 
                     const response = await fetch(`${basePath}${name}.svg`);
                     if (!response.ok) throw new Error('Icon not found');
