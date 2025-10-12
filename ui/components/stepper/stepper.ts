@@ -22,7 +22,7 @@ export interface Step {
   labelDesc?: string;
   title?: string;
   desc?: string;
-  state?: "pending" | "active" | "completed" | "error";
+  state?: "pending" | "active" | "completed" | "failed" | "error";
 }
 
 interface Position extends Step {
@@ -604,26 +604,43 @@ export class Stepper {
         circle.setAttribute("r", String(this.options.nodeSize / 2));
         circle.classList.add("node", pos.state || "pending");
 
-        // Inner text
-        const text = document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "text",
-        );
-        text.setAttribute("x", String(pos.x));
-        text.setAttribute("y", String(pos.y));
-        text.setAttribute("text-anchor", "middle");
-        text.setAttribute("dominant-baseline", "central");
-        text.classList.add("node-text");
-        text.textContent = this.truncateText(pos.indicator, 3);
+        g.appendChild(circle);
+
+        // Content: checkmark, close icon, or text based on state
+        if (pos.state === "completed") {
+          const checkmark = this.createCheckmark(
+            pos.x,
+            pos.y,
+            this.options.nodeSize / 2,
+          );
+          g.appendChild(checkmark);
+        } else if (pos.state === "failed") {
+          const closeIcon = this.createCloseIcon(
+            pos.x,
+            pos.y,
+            this.options.nodeSize / 2,
+          );
+          g.appendChild(closeIcon);
+        } else {
+          // Inner text for pending/active states
+          const text = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "text",
+          );
+          text.setAttribute("x", String(pos.x));
+          text.setAttribute("y", String(pos.y));
+          text.setAttribute("text-anchor", "middle");
+          text.setAttribute("dominant-baseline", "central");
+          text.classList.add("node-text");
+          text.textContent = this.truncateText(pos.indicator, 3);
+          g.appendChild(text);
+        }
 
         circle.addEventListener("click", () => this.handleNodeClick(pos, i));
         circle.addEventListener("mouseenter", (e) =>
           this.showPopup(pos, i, e as MouseEvent),
         );
         circle.addEventListener("mouseleave", () => this.hidePopup());
-
-        g.appendChild(circle);
-        g.appendChild(text);
       }
     });
 
@@ -747,6 +764,63 @@ export class Stepper {
       }
       this.render();
     }
+  }
+
+  /**
+   * Create checkmark icon for completed state
+   */
+  private createCheckmark(
+    cx: number,
+    cy: number,
+    radius: number,
+  ): SVGPathElement {
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    const size = radius * 0.7;
+    // Symmetric V shape: left arm and right arm have equal length
+    const armLength = size * 0.6;
+    const leftX = cx - armLength;
+    const rightX = cx + armLength;
+    const topY = cy - size * 0.3;
+    const bottomY = cy + size * 0.4;
+
+    const d = `M ${leftX} ${topY} L ${cx} ${bottomY} L ${rightX} ${topY}`;
+    path.setAttribute("d", d);
+    path.classList.add("checkmark");
+    return path;
+  }
+
+  /**
+   * Create close icon for failed state
+   */
+  private createCloseIcon(cx: number, cy: number, radius: number): SVGGElement {
+    const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    g.classList.add("close-icon");
+
+    const size = radius * 0.7;
+
+    // First line: top-left to bottom-right
+    const line1 = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "line",
+    );
+    line1.setAttribute("x1", String(cx - size * 0.5));
+    line1.setAttribute("y1", String(cy - size * 0.5));
+    line1.setAttribute("x2", String(cx + size * 0.5));
+    line1.setAttribute("y2", String(cy + size * 0.5));
+    g.appendChild(line1);
+
+    // Second line: top-right to bottom-left
+    const line2 = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      "line",
+    );
+    line2.setAttribute("x1", String(cx + size * 0.5));
+    line2.setAttribute("y1", String(cy - size * 0.5));
+    line2.setAttribute("x2", String(cx - size * 0.5));
+    line2.setAttribute("y2", String(cy + size * 0.5));
+    g.appendChild(line2);
+
+    return g;
   }
 
   /**
