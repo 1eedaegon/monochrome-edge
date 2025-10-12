@@ -727,49 +727,99 @@ export class Stepper {
   private createPopup(): HTMLElement {
     const popup = document.createElement("div");
     popup.classList.add("stepper-popup");
-    popup.style.cssText = `
-      position: fixed;
-      display: none;
-      background: var(--theme-bg);
-      border: 1px solid var(--theme-border);
-      border-radius: 8px;
-      padding: 12px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      z-index: 10000;
-      pointer-events: none;
-      max-width: 300px;
+    popup.innerHTML = `
+      <h4 class="stepper-popup-title"></h4>
+      <p class="stepper-popup-desc"></p>
     `;
     return popup;
   }
 
-  private showPopup(step: Step, index: number, event: MouseEvent): void {
+  private showPopup(step: Position, index: number, event: MouseEvent): void {
     if (!this.popupContainer) return;
 
-    // Only show popup if there's title or desc to display
+    // Only show if title or desc exists
     if (!step.title && !step.desc) return;
 
-    let content = `<div style="font-size: 0.75rem; color: var(--theme-text-secondary);">Step ${index + 1}</div>`;
+    const popup = this.popupContainer;
+    const title = popup.querySelector(".stepper-popup-title") as HTMLElement;
+    const desc = popup.querySelector(".stepper-popup-desc") as HTMLElement;
 
-    if (step.title) {
-      content += `<div style="font-weight: 600; margin-top: 4px;">${step.title}</div>`;
+    if (!title || !desc) return;
+
+    title.textContent = this.truncateText(step.title || "") || "";
+    desc.textContent = this.truncateText(step.desc || "") || "";
+
+    if (!step.title) title.style.display = "none";
+    else title.style.display = "block";
+
+    if (!step.desc) desc.style.display = "none";
+    else desc.style.display = "block";
+
+    // Calculate absolute position (popup is in body, not container)
+    if (!this.svg) return;
+    const svgRect = this.svg.getBoundingClientRect();
+    const containerRect = this.container.getBoundingClientRect();
+
+    // Calculate node position in viewport coordinates
+    const viewBox = [
+      this.viewBox.minX,
+      this.viewBox.minY,
+      this.viewBox.viewBoxWidth,
+      this.viewBox.viewBoxHeight,
+    ];
+    const svgWidth = svgRect.width;
+    const svgHeight = svgRect.height;
+    const viewBoxWidth = viewBox[2] || 1;
+    const viewBoxHeight = viewBox[3] || 1;
+
+    // Scale factor from viewBox to actual pixels
+    const scaleX = svgWidth / viewBoxWidth;
+    const scaleY = svgHeight / viewBoxHeight;
+
+    // Convert SVG coordinates to screen coordinates
+    const nodeScreenX =
+      svgRect.left + ((step.x || 0) - (viewBox[0] || 0)) * scaleX;
+    const nodeScreenY =
+      svgRect.top + ((step.y || 0) - (viewBox[1] || 0)) * scaleY;
+
+    // Smart positioning for vertical mode
+    const isVerticalLayout = this.options.layout === "vertical";
+
+    // Remove all position classes first
+    popup.classList.remove("popup-top", "popup-left", "popup-right");
+
+    if (isVerticalLayout) {
+      const viewportWidth = window.innerWidth;
+      const containerCenterX = containerRect.left + containerRect.width / 2;
+      const isOnLeftSide = containerCenterX < viewportWidth / 2;
+
+      if (isOnLeftSide) {
+        // Stepper on left: position popup to the right of the node
+        popup.style.left = `${nodeScreenX + this.options.nodeSize / 2 + 12}px`;
+        popup.style.top = `${nodeScreenY}px`;
+        popup.style.transform = "translateY(-50%)";
+        popup.classList.add("popup-right");
+      } else {
+        // Stepper on right: position popup to the left of the node
+        popup.style.left = `${nodeScreenX - this.options.nodeSize / 2 - 12}px`;
+        popup.style.top = `${nodeScreenY}px`;
+        popup.style.transform = "translate(-100%, -50%)";
+        popup.classList.add("popup-left");
+      }
+    } else {
+      // Horizontal modes: position popup centered above the node with 12px gap
+      popup.style.left = `${nodeScreenX}px`;
+      popup.style.top = `${nodeScreenY - this.options.nodeSize / 2 - 12}px`;
+      popup.style.transform = "translate(-50%, -100%)";
+      popup.classList.add("popup-top");
     }
 
-    if (step.desc) {
-      content += `<div style="font-size: 0.875rem; margin-top: 4px; color: var(--theme-text-secondary);">${step.desc}</div>`;
-    }
-
-    this.popupContainer.innerHTML = content;
-    this.popupContainer.style.display = "block";
-
-    // Position popup
-    const rect = this.container.getBoundingClientRect();
-    this.popupContainer.style.left = `${event.clientX + 10}px`;
-    this.popupContainer.style.top = `${event.clientY + 10}px`;
+    popup.classList.add("visible");
   }
 
   private hidePopup(): void {
     if (this.popupContainer) {
-      this.popupContainer.style.display = "none";
+      this.popupContainer.classList.remove("visible");
     }
   }
 
