@@ -18867,6 +18867,23 @@ new DropdownController(document.getElementById('action-dropdown'));
                     if (typeof window.initGraphView === 'function') {
                         window.initGraphView();
                     }
+
+                    // Initialize Stepper components
+                    if (window.MonochromeEdge && window.MonochromeEdge.Stepper) {
+                        document.querySelectorAll('.stepper').forEach((container) => {
+                            if (!container.hasAttribute('data-stepper-initialized')) {
+                                try {
+                                    new window.MonochromeEdge.Stepper(container);
+                                    container.setAttribute('data-stepper-initialized', 'true');
+                                    console.log('Stepper initialized:', container);
+                                } catch (e) {
+                                    console.error('Failed to initialize stepper:', e);
+                                }
+                            }
+                        });
+                    } else {
+                        console.warn('MonochromeEdge.Stepper not available');
+                    }
                 };
                 script.onerror = function() {
                     console.error('Failed to load MonochromeEdge UI bundle from:', scriptPath);
