@@ -5,7 +5,11 @@ All notable changes to Monochrome Edge UI Components will be documented in this 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.9.15] - 2025-10-12
+## [1.10.0] - 2025-10-12
+
+### Features
+
+- feat: fix GitHub Pages icon paths and improve CDN reliability ([b936757](../../commit/b9367576a2522a62de1caf489dfdf65f4fc30cb2))
 
 ### Bug Fixes
 
@@ -19,6 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Chore
 
+- chore: bump version to 1.12.0 ([2fab146](../../commit/2fab1468326c0a3b0569ea37909fd46ad830210c))
+- chore: bump version to 1.9.15 [skip ci] ([c198bc8](../../commit/c198bc8f5a7a6767680b0c32d0795e60276aa386))
 - chore: bump version to 1.9.14 [skip ci] ([45b8b68](../../commit/45b8b688d65480a8a98f224bfed4731caf6fd8f3))
 - chore: bump version to 1.9.13 [skip ci] ([d572032](../../commit/d5720326e011711b5ccacc1e071eac6457a10457))
 - chore: bump version to 1.9.12 [skip ci] ([2b1d08e](../../commit/2b1d08e8c9154976fa3427cf8da3e234c932eee6))
@@ -27,6 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Other
 
+- 1eedaegon ([](../../commit/))
 - 1eedaegon ([](../../commit/))
 - 1eedaegon ([](../../commit/))
 - ci: fix auto bump version on ci ([95666be](../../commit/95666be1da865b675c5aa12061d6572efbbb8669))
