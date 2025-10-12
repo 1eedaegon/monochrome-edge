@@ -5,6 +5,25 @@ All notable changes to Monochrome Edge UI Components will be documented in this 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.13.1] - 2025-10-12
+
+### Features
+
+- feat: initialize stepper components on page load ([ec7ab2f](../../commit/ec7ab2fa9e4b0e191049d4c30e3d1fc230be91c6))
+
+### Bug Fixes
+
+- fix: load built CSS file instead of source CSS in local environment ([4c304e1](../../commit/4c304e1cc5799d97d30293fb38b06b42f1781d29))
+
+### Chore
+
+- chore: update npm packages to latest versions ([9327d51](../../commit/9327d511a17e20a898e86d26255bc8debdbef4b9))
+
+### Other
+
+- 1eedaegon ([](../../commit/))
+- 1eedaegon ([](../../commit/))
+
 ## [1.13.0] - 2025-10-12
 
 ### Features
