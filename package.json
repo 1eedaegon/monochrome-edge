@@ -1,6 +1,6 @@
 {
   "name": "@monochrome-edge/ui",
-  "version": "1.9.12",
+  "version": "1.11.0",
   "description": "A modern, minimalist UI with Warm and Cold themes",
   "type": "module",
   "main": "dist/index.js",
@@ -13,34 +13,79 @@
   ],
   "exports": {
     ".": {
-      "import": "./dist/index.esm.js",
-      "require": "./dist/index.js",
-      "types": "./dist/index.d.ts",
-      "style": "./dist/monochrome.min.css"
+      "types": "./dist/ui.d.ts",
+      "import": "./dist/ui.esm.js",
+      "require": "./dist/ui.js"
+    },
+    "./ui": {
+      "types": "./dist/ui.d.ts",
+      "import": "./dist/ui.esm.js",
+      "require": "./dist/ui.js"
+    },
+    "./ui/components/search-bar": {
+      "types": "./dist/ui/components/search-bar.d.ts",
+      "default": "./dist/ui/components/search-bar.js"
+    },
+    "./ui/components/search-toolbar": {
+      "types": "./dist/ui/components/search-toolbar.d.ts",
+      "default": "./dist/ui/components/search-toolbar.js"
+    },
+    "./ui/components/tree-view": {
+      "types": "./dist/ui/components/tree-view.d.ts",
+      "default": "./dist/ui/components/tree-view.js"
+    },
+    "./ui/components/graph-view": {
+      "types": "./dist/ui/components/graph-view.d.ts",
+      "default": "./dist/ui/components/graph-view.js"
+    },
+    "./ui/components/math-renderer": {
+      "types": "./dist/ui/components/math-renderer.d.ts",
+      "default": "./dist/ui/components/math-renderer.js"
+    },
+    "./ui/components/accordion": {
+      "types": "./dist/ui/components/accordion.d.ts",
+      "default": "./dist/ui/components/accordion.js"
+    },
+    "./ui/components/modal": {
+      "types": "./dist/ui/components/modal.d.ts",
+      "default": "./dist/ui/components/modal.js"
+    },
+    "./ui/components/tabs": {
+      "types": "./dist/ui/components/tabs.d.ts",
+      "default": "./dist/ui/components/tabs.js"
+    },
+    "./ui/components/toast": {
+      "types": "./dist/ui/components/toast.d.ts",
+      "default": "./dist/ui/components/toast.js"
+    },
+    "./ui/components/dropdown": {
+      "types": "./dist/ui/components/dropdown.d.ts",
+      "default": "./dist/ui/components/dropdown.js"
     },
     "./react": {
+      "types": "./dist/react.d.ts",
       "import": "./dist/react.esm.js",
-      "require": "./dist/react.js",
-      "types": "./dist/react.d.ts"
+      "require": "./dist/react.js"
     },
     "./vue": {
+      "types": "./dist/vue.d.ts",
       "import": "./dist/vue.esm.js",
-      "require": "./dist/vue.js",
-      "types": "./dist/vue.d.ts"
+      "require": "./dist/vue.js"
     },
     "./jquery": {
+      "types": "./dist/jquery.d.ts",
       "import": "./dist/jquery.esm.js",
-      "require": "./dist/jquery.js",
-      "types": "./dist/jquery.d.ts"
+      "require": "./dist/jquery.js"
     },
     "./web-components": {
+      "types": "./dist/web-components.d.ts",
       "import": "./dist/web-components.esm.js",
-      "require": "./dist/web-components.js",
-      "types": "./dist/web-components.d.ts"
+      "require": "./dist/web-components.js"
     },
     "./css": "./dist/monochrome.min.css",
     "./warm": "./dist/warm-theme.min.css",
-    "./cold": "./dist/cold-theme.min.css"
+    "./cold": "./dist/cold-theme.min.css",
+    "./assets/*": "./dist/assets/*"
   },
   "scripts": {
     "start": "node --experimental-transform-types server.ts",
@@ -54,7 +99,7 @@
     "build:editor:bundle": "rollup -c rollup.editor.config.js",
     "build:editor:minify": "terser dist/monochrome-edge-editor.js -o dist/monochrome-edge-editor.min.js --compress --mangle",
     "minify:css": "mkdir -p dist && postcss ui/monochrome-edge.css -o dist/monochrome.min.css -b ui && postcss ui/tokens/warm-theme.css -o dist/warm-theme.min.css -b ui && postcss ui/tokens/cold-theme.css -o dist/cold-theme.min.css -b ui && postcss ui/components/editor/styles/editor.css -o dist/editor.min.css -b ui",
-    "copy:ui": "cp -r ui dist/",
+    "copy:ui": "cp -r ui dist/ && cp -r ui/assets dist/assets",
     "prepublishOnly": "npm run build",
     "test": "echo \"No tests configured yet\"",
     "serve:demo": "http-server . -p 8080 -c-1 -o demo.html",
@@ -117,10 +162,11 @@
     "puppeteer": "^24.20.0",
     "rollup": "^4.9.0",
     "rollup-plugin-copy": "^3.5.0",
+    "rollup-plugin-esbuild": "^6.2.1",
     "rollup-plugin-postcss": "^4.0.2",
     "terser": "^5.26.0",
     "tslib": "^2.8.1",
-    "typescript": "^5.9.2",
+    "typescript": "^5.9.3",
     "vue": "^3.5.21"
   }
 }

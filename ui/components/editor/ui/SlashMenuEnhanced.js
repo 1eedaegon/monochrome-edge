@@ -3,7 +3,7 @@
  * Command palette with fuzzy finding and templates
  */
 
-import { iconLoader } from "@src/iconLoader";
+import { iconLoader } from "@ui/utils/icon-loader";
 
 export class SlashMenuCore {
   constructor(editor) {

@@ -3,7 +3,7 @@
  * Advanced search with filters, sorting, and autocomplete
  */
 
-import { iconLoader } from "@src/iconLoader";
+import { iconLoader } from "@ui/utils/icon-loader";
 
 export interface SearchToolbarOptions {
   placeholder?: string;

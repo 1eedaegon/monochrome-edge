@@ -3,7 +3,7 @@
  * Provides helper functions for working with SVG icons using iconLoader
  */
 
-import { iconLoader } from "@src/iconLoader";
+import { iconLoader } from "@ui/utils/icon-loader";
 
 /**
  * Creates an icon element asynchronously

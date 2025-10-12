@@ -1,0 +1,50 @@
+/* Tree View Component Styles */
+.tree-view {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tree-view__item {
+  position: relative;
+  padding-left: var(--spacing-lg);
+}
+
+.tree-view__item--root {
+  padding-left: 0;
+}
+
+.tree-view__toggle {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: var(--spacing-xs);
+  cursor: pointer;
+  user-select: none;
+}
+
+.tree-view__content {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  cursor: pointer;
+  border-radius: var(--border-radius);
+  transition: background 0.2s;
+}
+
+.tree-view__content:hover {
+  background: var(--color-surface-hover);
+}
+
+.tree-view__content.is-selected {
+  background: var(--color-primary-alpha);
+  color: var(--color-primary);
+}
+
+.tree-view__children {
+  list-style: none;
+  padding-left: var(--spacing-md);
+  margin: var(--spacing-xs) 0;
+}
+
+.tree-view__children.is-collapsed {
+  display: none;
+}

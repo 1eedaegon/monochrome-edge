@@ -17,11 +17,11 @@
     "module": "ESNext",
     "moduleResolution": "node",
     "declaration": true,
-    "declarationMap": true,
+    "declarationMap": false,
     "outDir": "./dist",
     "rootDir": "./src",
     /* React */
-    "jsx": "react-jsx",
+    "jsx": "preserve",
     /* If your code doesn't run in the DOM: */
     "lib": ["es2022", "dom"],
     /* Path Mapping */

@@ -15,143 +15,250 @@ Check out demo : **[Monochrome Edge](https://1eedaegon.github.io/monochrome-edge
 
 ## Overview
 
-Monochrome Edge provides a comprehensive set of UI components built with pure CSS. The library features a sophisticated dual-theme system (Warm/Cold) with automatic light/dark mode support and animated landscape backgrounds.
+Monochrome Edge provides a comprehensive set of UI components with both **CSS-only** and **interactive JavaScript** components. The library features a sophisticated dual-theme system (Warm/Cold) with automatic light/dark mode support and animated landscape backgrounds.
 
-## Installation
+## Installation & Quick Start
 
-### NPM (Recommended)
+### 📦 Option 1: npm (Recommended for Production)
 
-Installing via npm eliminates network latency and prevents CSS reload issues with animations.
-
+**Install**
 ```bash
 npm install @monochrome-edge/ui
 ```
 
-### CDN (jsDelivr)
-
-```html
-<!-- CSS only -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css">
-```
-
-> ⚠️ **Note**: CDN usage may cause animation flickering on icon-buttons and other animated components due to network latency. For production use, we recommend npm installation.
-
-## Quick Start
-
-### 1. NPM Import (Recommended)
-#### Vanilla JavaScript/TypeScript Projects
-
+**CSS Only Usage**
 ```javascript
-// Import main CSS
+// Import CSS in your entry file
 import '@monochrome-edge/ui/css';
-
-// Or use package.json exports
-import '@monochrome-edge/ui/dist/monochrome.min.css';
 ```
 
-#### Library Examples
-
-**React**
-```jsx
-// In your main App.js or index.js
+**CSS + JavaScript Components (TypeScript)**
+```typescript
+// Import CSS
 import '@monochrome-edge/ui/css';
-import React from 'react';
+
+// Import components
+import { Modal, Toast, Accordion, Tabs, Dropdown } from '@monochrome-edge/ui';
+
+// Use components
+const modal = new Modal('#myModal', {
+  closeOnBackdrop: true,
+  closeOnEscape: true
+});
+
+Toast.success('Hello World!');
+
+const accordion = new Accordion('#myAccordion', {
+  allowMultiple: false
+});
+```
+
+**Framework Examples**
+
+<details>
+<summary><strong>React</strong></summary>
+
+```jsx
+// App.js
+import '@monochrome-edge/ui/css';
+import { useEffect } from 'react';
+import { Modal, Toast } from '@monochrome-edge/ui';
 
 function App() {
+  useEffect(() => {
+    const modal = new Modal('#myModal');
+    return () => modal.destroy();
+  }, []);
+
   return (
     <div>
-      <button className="btn btn-primary">Click me</button>
-      <button className="icon-btn loading">
-        <svg>...</svg>
+      <button className="btn btn-primary" onClick={() => modal.open()}>
+        Open Modal
+      </button>
+      <button className="btn btn-success" onClick={() => Toast.success('Success!')}>
+        Show Toast
       </button>
     </div>
   );
 }
 ```
+</details>
 
-**Vue**
+<details>
+<summary><strong>Vue</strong></summary>
+
 ```vue
-<script>
-// In main.js
+<script setup>
 import '@monochrome-edge/ui/css';
-import { createApp } from 'vue';
+import { onMounted, onUnmounted } from 'vue';
+import { Modal, Toast } from '@monochrome-edge/ui';
 
-createApp(App).mount('#app');
+let modal;
+
+onMounted(() => {
+  modal = new Modal('#myModal');
+});
+
+onUnmounted(() => {
+  modal?.destroy();
+});
 </script>
-```
 
-**Next.js**
-```javascript
-// In _app.js or layout.js
+<template>
+  <button class="btn btn-primary" @click="modal.open()">Open Modal</button>
+  <button class="btn btn-success" @click="Toast.success('Success!')">Show Toast</button>
+</template>
+```
+</details>
+
+<details>
+<summary><strong>Next.js</strong></summary>
+
+```jsx
+// _app.js or layout.js
 import '@monochrome-edge/ui/css';
 
 export default function App({ Component, pageProps }) {
   return <Component {...pageProps} />;
 }
+
+// components/MyModal.js
+'use client';
+import { useEffect } from 'react';
+import { Modal } from '@monochrome-edge/ui';
+
+export default function MyModal() {
+  useEffect(() => {
+    const modal = new Modal('#myModal');
+    return () => modal.destroy();
+  }, []);
+  
+  return <div id="myModal" className="modal">...</div>;
+}
 ```
+</details>
 
-**Vite**
-```javascript
-// In main.js or main.ts
-import '@monochrome-edge/ui/css';
-```
+---
 
-**Webpack**
-```javascript
-// In entry file (index.js)
-import '@monochrome-edge/ui/css';
-```
+### 🌐 Option 2: CDN (Quick Prototyping)
 
-#### Import Specific Themes
-
-```javascript
-// Warm theme only
-import '@monochrome-edge/ui/warm';
-
-// Cold theme only
-import '@monochrome-edge/ui/cold';
-
-// All themes
-import '@monochrome-edge/ui/css';
-```
-
-### 2. CDN (Quick Prototyping)
-
-```html
-<!-- CDN -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css">
-
-<!-- Or use specific version -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@1.0.6/dist/monochrome.min.css">
-```
-
-### Basic Usage
-
+**Complete Example (CSS + JS)**
 ```html
 <!DOCTYPE html>
 <html data-theme-variant="warm" data-theme="light">
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Monochrome Edge Demo</title>
+  
+  <!-- CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome.min.css">
 </head>
 <body>
-  <!-- Button -->
+  <!-- CSS Components (No JS Required) -->
   <button class="btn btn-primary">Primary Button</button>
-
-  <!-- Card -->
+  
   <div class="card">
     <div class="card-header">
       <h3 class="card-title">Card Title</h3>
     </div>
-    <div class="card-body">
-      Card content
+    <div class="card-body">Card content here</div>
+  </div>
+
+  <!-- JavaScript Components -->
+  
+  <!-- Accordion -->
+  <div class="accordion" id="myAccordion">
+    <div class="accordion-item">
+      <div class="accordion-header">Section 1</div>
+      <div class="accordion-content"><p>Content 1</p></div>
+    </div>
+    <div class="accordion-item">
+      <div class="accordion-header">Section 2</div>
+      <div class="accordion-content"><p>Content 2</p></div>
     </div>
   </div>
 
-  <!-- Landscape Background -->
-  <div class="b-landscape b-landscape-wave"></div>
+  <!-- Modal -->
+  <button onclick="modal.open()">Open Modal</button>
+  <div class="modal" id="myModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Modal Title</h3>
+        <button class="modal-close" data-modal-close>&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Modal content goes here</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="modal.close()">Cancel</button>
+        <button class="btn btn-primary" onclick="modal.close()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs" id="myTabs">
+    <div class="tabs-header">
+      <button class="tab active">Tab 1</button>
+      <button class="tab">Tab 2</button>
+      <button class="tab">Tab 3</button>
+    </div>
+    <div class="tabs-content">
+      <div class="tab-panel active"><p>Content 1</p></div>
+      <div class="tab-panel"><p>Content 2</p></div>
+      <div class="tab-panel"><p>Content 3</p></div>
+    </div>
+  </div>
+
+  <!-- Toast Buttons -->
+  <button class="btn btn-success" onclick="MonochromeEdge.Toast.success('Success!')">
+    Success Toast
+  </button>
+  <button class="btn btn-danger" onclick="MonochromeEdge.Toast.error('Error!')">
+    Error Toast
+  </button>
+
+  <!-- Dropdown -->
+  <button class="btn btn-secondary" id="dropdownBtn">Actions ▼</button>
+  <div class="dropdown-menu">
+    <a href="#" class="dropdown-item">Action 1</a>
+    <a href="#" class="dropdown-item">Action 2</a>
+    <div class="dropdown-divider"></div>
+    <a href="#" class="dropdown-item">Another Action</a>
+  </div>
+
+  <!-- JavaScript Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/ui.js"></script>
+  
+  <!-- Initialize Components -->
+  <script>
+    // All components available via MonochromeEdge namespace
+    const accordion = new MonochromeEdge.Accordion('#myAccordion', {
+      allowMultiple: false,
+      defaultOpen: [0]
+    });
+
+    const modal = new MonochromeEdge.Modal('#myModal', {
+      closeOnBackdrop: true,
+      closeOnEscape: true
+    });
+
+    const tabs = new MonochromeEdge.Tabs('#myTabs', {
+      defaultTab: 0
+    });
+
+    const dropdown = new MonochromeEdge.Dropdown('#dropdownBtn', {
+      closeOnSelect: true
+    });
+
+    console.log('All components initialized!');
+  </script>
 </body>
 </html>
 ```
+
+> ⚠️ **Note**: CDN usage may cause animation flickering on icon-buttons due to network latency. For production, we recommend npm installation.
 
 ## Theme System
 
@@ -266,6 +373,26 @@ Animated background components for visual depth:
   </div>
 </div>
 ```
+
+## Advanced Components
+
+### Available Interactive Components
+
+The library includes advanced JavaScript components for complex interactions:
+
+- **Accordion**: Collapsible content panels with single/multiple open support
+- **Modal**: Dialog windows with backdrop and keyboard navigation
+- **Tabs**: Tab navigation with programmatic switching
+- **Toast**: Notification system (success, error, info, warning)
+- **Dropdown**: Contextual menus with auto-positioning
+- **SearchBar**: Full-text search with autocomplete
+- **SearchToolbar**: Advanced search with filters and sorting
+- **TreeView**: Hierarchical tree navigation
+- **GraphView**: Canvas-based graph visualization  
+- **Stepper**: Multi-step progress indicator
+- **MathRenderer**: LaTeX math equation rendering
+
+See the [live documentation](https://1eedaegon.github.io/monochrome-edge/) for detailed API references and interactive examples.
 
 ## CSS Variables
 

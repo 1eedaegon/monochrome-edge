@@ -3,7 +3,7 @@
  * Advanced search with filters, sorting, and autocomplete
  */
 
-import { iconLoader } from "@src/iconLoader";
+import { iconLoader } from "@ui/utils/icon-loader";
 
 export interface SearchToolbarOptions {
   placeholder?: string;
@@ -78,7 +78,7 @@ export class SearchToolbar {
         filter.default || filter.values[0]?.value || "";
     });
 
-    if (this.options.sortOptions.length > 0) {
+    if (this.options.sortOptions.length > 0 && this.options.sortOptions[0]) {
       this.activeSort = this.options.sortOptions[0].value;
     }
 
@@ -376,7 +376,10 @@ export class SearchToolbar {
     });
 
     if (this.activeItemIndex >= 0) {
-      items[this.activeItemIndex].scrollIntoView({ block: "nearest" });
+      const activeItem = items[this.activeItemIndex];
+      if (activeItem && activeItem instanceof HTMLElement) {
+        activeItem.scrollIntoView({ block: "nearest" });
+      }
     }
   }
 

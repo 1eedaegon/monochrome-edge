@@ -84,3 +84,9 @@
 @import url("./components/stepper/stepper-unified.css");
 @import url("./components/command/command.css");
 @import url("./components/tree/tree.css");
+@import url("./components/dropdown/dropdown.css");
+@import url("./components/search-bar/search-bar.css");
+@import url("./components/search-toolbar/search-toolbar.css");
+@import url("./components/tree-view/tree-view.css");
+@import url("./components/graph-view/graph-view.css");
+@import url("./components/math-renderer/math-renderer.css");

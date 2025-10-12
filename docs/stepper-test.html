@@ -153,17 +153,20 @@
                 <h2>Test 1: Linear Mode</h2>
                 <p>Single horizontal row with equal spacing</p>
 
-                <h3>Horizontal Layout (Default Type)</h3>
+                <h3>
+                    Horizontal Layout (Default Type) - Testing 100px Label
+                    Wrapping
+                </h3>
                 <div style="width: 800px; margin-bottom: 2rem">
                     <div
                         class="stepper"
                         data-type="default"
                         data-layout="horizontal"
                         data-steps='[
-                         {"indicator":"1","labelTitle":"Setup","state":"completed","title":"Account Setup","desc":"Create your account and set up your profile information."},
-                         {"indicator":"2","labelTitle":"Verify","state":"completed","title":"Email Verification","desc":"Verify your email address to continue."},
-                         {"indicator":"3","labelTitle":"Configure","state":"active","title":"Configuration","desc":"Configure build tools and preferences."},
-                         {"indicator":"4","labelTitle":"Deploy","state":"pending","title":"Deployment","desc":"Deploy your application to production."}
+                         {"indicator":"1","labelTitle":"Setup and Initialize Project Configuration","state":"completed","title":"Account Setup","desc":"Create your account and set up your profile information."},
+                         {"indicator":"2","labelTitle":"Email Verification Process","state":"completed","title":"Email Verification","desc":"Verify your email address to continue."},
+                         {"indicator":"3","labelTitle":"Configure Build Tools and Dependencies","state":"active","title":"Configuration","desc":"Configure build tools and preferences."},
+                         {"indicator":"4","labelTitle":"Deploy to Production","state":"pending","title":"Deployment","desc":"Deploy your application to production."}
                      ]'
                     ></div>
                 </div>
@@ -293,17 +296,19 @@
                     Text-style nodes without circles, checkmark shows completion
                 </p>
 
-                <h3>Text-only Mode</h3>
+                <h3>
+                    Text-only Mode - Testing 15 Character Word-based Wrapping
+                </h3>
                 <div style="width: 800px; margin-bottom: 2rem">
                     <div
                         class="stepper"
                         data-type="text"
                         data-layout="horizontal"
                         data-steps='[
-                         {"indicator":"1","labelTitle":"Account","state":"completed"},
-                         {"indicator":"2","labelTitle":"Verification","state":"completed"},
-                         {"indicator":"3","labelTitle":"Preferences","state":"active"},
-                         {"indicator":"4","labelTitle":"Confirmation","state":"pending"}
+                         {"indicator":"1","labelTitle":"Account Setup Process","state":"completed"},
+                         {"indicator":"2","labelTitle":"Email Verification Step","state":"completed"},
+                         {"indicator":"3","labelTitle":"User Preferences Configuration","state":"active"},
+                         {"indicator":"4","labelTitle":"Final Confirmation","state":"pending"}
                      ]'
                     ></div>
                 </div>

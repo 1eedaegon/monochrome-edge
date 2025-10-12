@@ -1,0 +1,56 @@
+/* Graph View Component Styles */
+.graph-view {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+}
+
+.graph-view__canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.graph-view__controls {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.graph-view__control {
+  padding: var(--spacing-sm);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.graph-view__control:hover {
+  background: var(--color-surface-hover);
+}
+
+.graph-view__node {
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.graph-view__node:hover {
+  transform: scale(1.1);
+}
+
+.graph-view__edge {
+  stroke: var(--color-border);
+  stroke-width: 1px;
+  transition: stroke 0.3s;
+}
+
+.graph-view__edge:hover {
+  stroke: var(--color-primary);
+  stroke-width: 2px;
+}
