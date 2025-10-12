@@ -145,28 +145,31 @@
     "node": ">=24.0.0"
   },
   "devDependencies": {
-    "@playwright/test": "^1.55.0",
+    "@playwright/test": "1.56.0",
     "@rollup/plugin-alias": "^5.1.1",
     "@rollup/plugin-commonjs": "^28.0.6",
-    "@rollup/plugin-node-resolve": "^16.0.1",
+    "@rollup/plugin-node-resolve": "16.0.2",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^12.1.4",
     "@types/jquery": "^3.5.33",
-    "@types/react": "^19.1.12",
-    "@types/react-dom": "^19.1.9",
+    "@types/react": "19.2.2",
+    "@types/react-dom": "19.2.1",
     "cssnano": "^7.1.1",
     "http-server": "^14.1.1",
     "postcss": "^8.5.6",
     "postcss-cli": "^11.0.1",
     "postcss-import": "^16.1.1",
-    "puppeteer": "^24.20.0",
-    "rollup": "^4.9.0",
+    "puppeteer": "24.24.0",
+    "rollup": "4.52.4",
     "rollup-plugin-copy": "^3.5.0",
     "rollup-plugin-esbuild": "^6.2.1",
     "rollup-plugin-postcss": "^4.0.2",
     "terser": "^5.26.0",
     "tslib": "^2.8.1",
     "typescript": "^5.9.3",
-    "vue": "^3.5.21"
+    "vue": "3.5.22"
+  },
+  "optionalDependencies": {
+    "@esbuild/darwin-arm64": "^0.25.10"
   }
 }
