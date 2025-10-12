@@ -577,34 +577,24 @@ export class Stepper {
         rect.setAttribute("y", String(pos.y - height / 2));
         rect.setAttribute("width", String(width));
         rect.setAttribute("height", String(height));
-        rect.setAttribute("rx", "12");
+        rect.setAttribute("rx", "4");
+        rect.classList.add("text-node-bg");
 
         nodeGroup.appendChild(rect);
 
-        // Add icon or text based on state
-        if (pos.state === "completed") {
-          const checkmark = this.createCheckmark(pos.x, pos.y, height / 2);
-          nodeGroup.appendChild(checkmark);
-        } else if (pos.state === "failed") {
-          const closeIcon = this.createCloseIcon(pos.x, pos.y, height / 2);
-          nodeGroup.appendChild(closeIcon);
-        } else {
-          // Add text for pending/active states
-          const text = document.createElementNS(
-            "http://www.w3.org/2000/svg",
-            "text",
-          );
-          text.setAttribute("x", String(pos.x));
-          text.setAttribute("y", String(pos.y));
-          text.setAttribute("text-anchor", "middle");
-          text.setAttribute("dominant-baseline", "central");
-          text.classList.add("node-text-label");
-          text.textContent = this.truncateText(
-            pos.labelTitle || pos.indicator,
-            15,
-          );
-          nodeGroup.appendChild(text);
-        }
+        // Always show text for text type, regardless of state
+        // Background color changes based on state via CSS
+        const text = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "text",
+        );
+        text.setAttribute("x", String(pos.x));
+        text.setAttribute("y", String(pos.y));
+        text.setAttribute("text-anchor", "middle");
+        text.setAttribute("dominant-baseline", "central");
+        text.classList.add("text-node-label");
+        text.textContent = pos.labelTitle || pos.indicator;
+        nodeGroup.appendChild(text);
 
         nodeGroup.addEventListener("click", () => this.handleNodeClick(pos, i));
         nodeGroup.addEventListener("mouseenter", (e) =>
