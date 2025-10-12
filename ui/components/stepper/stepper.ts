@@ -559,7 +559,14 @@ export class Stepper {
 
     positions.forEach((pos, i) => {
       if (this.options.type === "text") {
-        // Text type: render as rect
+        // Text type: render as rect with text or icon
+        // Wrap in a group for proper CSS nesting
+        const nodeGroup = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "g",
+        );
+        nodeGroup.classList.add("node", "node-text", pos.state || "pending");
+
         const width = pos.textOnlyWidth || 60;
         const height = 24;
         const rect = document.createElementNS(
@@ -571,28 +578,41 @@ export class Stepper {
         rect.setAttribute("width", String(width));
         rect.setAttribute("height", String(height));
         rect.setAttribute("rx", "12");
-        rect.classList.add("node", "node-text", pos.state || "pending");
 
-        // Add text
-        const text = document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "text",
-        );
-        text.setAttribute("x", String(pos.x));
-        text.setAttribute("y", String(pos.y));
-        text.setAttribute("text-anchor", "middle");
-        text.setAttribute("dominant-baseline", "central");
-        text.classList.add("node-text-label");
-        text.textContent = pos.labelTitle || pos.indicator;
+        nodeGroup.appendChild(rect);
 
-        rect.addEventListener("click", () => this.handleNodeClick(pos, i));
-        rect.addEventListener("mouseenter", (e) =>
+        // Add icon or text based on state
+        if (pos.state === "completed") {
+          const checkmark = this.createCheckmark(pos.x, pos.y, height / 2);
+          nodeGroup.appendChild(checkmark);
+        } else if (pos.state === "failed") {
+          const closeIcon = this.createCloseIcon(pos.x, pos.y, height / 2);
+          nodeGroup.appendChild(closeIcon);
+        } else {
+          // Add text for pending/active states
+          const text = document.createElementNS(
+            "http://www.w3.org/2000/svg",
+            "text",
+          );
+          text.setAttribute("x", String(pos.x));
+          text.setAttribute("y", String(pos.y));
+          text.setAttribute("text-anchor", "middle");
+          text.setAttribute("dominant-baseline", "central");
+          text.classList.add("node-text-label");
+          text.textContent = this.truncateText(
+            pos.labelTitle || pos.indicator,
+            15,
+          );
+          nodeGroup.appendChild(text);
+        }
+
+        nodeGroup.addEventListener("click", () => this.handleNodeClick(pos, i));
+        nodeGroup.addEventListener("mouseenter", (e) =>
           this.showPopup(pos, i, e as MouseEvent),
         );
-        rect.addEventListener("mouseleave", () => this.hidePopup());
+        nodeGroup.addEventListener("mouseleave", () => this.hidePopup());
 
-        g.appendChild(rect);
-        g.appendChild(text);
+        g.appendChild(nodeGroup);
       } else {
         // Default type: render as circle
         // Wrap circle and its content in a group so CSS can target children
