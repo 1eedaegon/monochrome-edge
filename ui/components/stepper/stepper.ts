@@ -565,7 +565,7 @@ export class Stepper {
           "http://www.w3.org/2000/svg",
           "g",
         );
-        nodeGroup.classList.add("node", "node-text", pos.state || "pending");
+        nodeGroup.classList.add("node", "type-text", pos.state || "pending");
 
         const width = pos.textOnlyWidth || 60;
         const height = 24;
@@ -671,22 +671,40 @@ export class Stepper {
     const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
     g.classList.add("labels");
 
+    const isVerticalLayout = this.options.layout === "vertical";
+
     positions.forEach((pos) => {
-      const labelY = pos.y + this.options.nodeSize / 2 + 20;
+      if (!pos.labelTitle) return;
+
+      const radius = this.options.nodeSize / 2;
+
+      // For vertical layout, position labels to the right of the node
+      // For horizontal/snake, position labels below the node
+      let labelX: number, labelY: number, textAnchor: string;
+
+      if (isVerticalLayout) {
+        // Position labels to the right of the node
+        labelX = pos.x + radius + 16; // 16px to the right
+        labelY = pos.y;
+        textAnchor = "start";
+      } else {
+        // Horizontal/snake: position below the node (centered)
+        labelX = pos.x;
+        labelY = pos.y + radius + 20;
+        textAnchor = "middle";
+      }
 
       // Title
-      if (pos.labelTitle) {
-        const title = document.createElementNS(
-          "http://www.w3.org/2000/svg",
-          "text",
-        );
-        title.setAttribute("x", String(pos.x));
-        title.setAttribute("y", String(labelY));
-        title.setAttribute("text-anchor", "middle");
-        title.classList.add("label-title");
-        title.textContent = this.truncateText(pos.labelTitle);
-        g.appendChild(title);
-      }
+      const title = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "text",
+      );
+      title.setAttribute("x", String(labelX));
+      title.setAttribute("y", String(labelY));
+      title.setAttribute("text-anchor", textAnchor);
+      title.classList.add("label-title");
+      title.textContent = this.truncateText(pos.labelTitle);
+      g.appendChild(title);
 
       // Description
       if (pos.labelDesc) {
@@ -694,9 +712,9 @@ export class Stepper {
           "http://www.w3.org/2000/svg",
           "text",
         );
-        desc.setAttribute("x", String(pos.x));
-        desc.setAttribute("y", String(labelY + 14));
-        desc.setAttribute("text-anchor", "middle");
+        desc.setAttribute("x", String(labelX));
+        desc.setAttribute("y", String(labelY + 14)); // 14px below title
+        desc.setAttribute("text-anchor", textAnchor);
         desc.classList.add("label-desc");
         desc.textContent = this.truncateText(pos.labelDesc);
         g.appendChild(desc);
