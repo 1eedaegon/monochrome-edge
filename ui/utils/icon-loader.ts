@@ -18,21 +18,27 @@ class IconLoader {
     // Auto-detect base path if not provided
     if (!basePath) {
       if (typeof window !== "undefined") {
-        const isLocal =
-          window.location.hostname === "localhost" ||
-          window.location.hostname === "127.0.0.1" ||
-          window.location.hostname === "";
+        // Check if running in monochrome-edge repo itself (for development)
+        const isMonochromeEdgeDev =
+          (window.location.hostname === "localhost" ||
+            window.location.hostname === "127.0.0.1" ||
+            window.location.hostname === "") &&
+          (window.location.pathname.includes("/monochrome-edge/") ||
+            window.location.pathname === "/" ||
+            window.location.pathname.startsWith("/docs/") ||
+            window.location.pathname.startsWith("/ui/"));
 
-        if (isLocal) {
+        if (isMonochromeEdgeDev) {
           basePath = "/ui/assets/icons/";
         } else {
-          // Use CDN for GitHub Pages and production
+          // Use CDN for all other cases (GitHub Pages, production, other projects)
           basePath =
-            "https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/ui/assets/icons/";
+            "https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/assets/icons/";
         }
       } else {
-        // SSR fallback
-        basePath = "/ui/assets/icons/";
+        // SSR fallback - use CDN
+        basePath =
+          "https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/assets/icons/";
       }
     }
 
