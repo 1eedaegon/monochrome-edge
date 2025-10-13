@@ -52,10 +52,12 @@
     box-shadow: inset 0 0 0 2px var(--theme-accent-alpha);
 }
 
-/* Cell selection */
+/* Cell selection - higher specificity to override hover states */
 .editor-table td.selected,
-.editor-table th.selected {
-    background: var(--theme-accent-alpha) !important;
+.editor-table th.selected,
+.editor-table td.selected:hover,
+.editor-table th.selected:hover {
+    background: var(--theme-accent-alpha);
 }
 
 .editor-table td.selecting {
@@ -112,7 +114,7 @@
     font-size: 18px;
     line-height: 1;
     border: none;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 .editor-table-wrapper:hover .editor-table-add-col,
@@ -132,8 +134,12 @@
     transform: translateX(-50%);
 }
 
-.editor-table-add-col::before { content: '+'; }
-.editor-table-add-row::before { content: '+'; }
+.editor-table-add-col::before {
+    content: "+";
+}
+.editor-table-add-row::before {
+    content: "+";
+}
 
 /* Table toolbar */
 .editor-table-toolbar {
@@ -146,7 +152,7 @@
     background: var(--theme-surface);
     border: 1px solid var(--theme-border);
     border-radius: var(--border-radius);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     opacity: 0;
     transition: opacity 0.2s;
 }
@@ -173,7 +179,7 @@
 
 /* Markdown mode display */
 .editor-table.markdown-mode {
-    font-family: 'SF Mono', Monaco, monospace;
+    font-family: "SF Mono", Monaco, monospace;
     font-size: 0.9em;
 }
 
@@ -187,7 +193,7 @@
 .editor-table.markdown-mode th::before,
 .editor-table.markdown-mode td::after,
 .editor-table.markdown-mode th::after {
-    content: '|';
+    content: "|";
     color: var(--theme-text-muted);
     position: absolute;
 }
@@ -203,9 +209,15 @@
 }
 
 /* Alignment indicators */
-.editor-table .align-left { text-align: left; }
-.editor-table .align-center { text-align: center; }
-.editor-table .align-right { text-align: right; }
+.editor-table .align-left {
+    text-align: left;
+}
+.editor-table .align-center {
+    text-align: center;
+}
+.editor-table .align-right {
+    text-align: right;
+}
 
 /* Copy/paste overlay */
 .editor-table-paste-preview {
@@ -222,7 +234,7 @@
     background: var(--theme-surface);
     border: 1px solid var(--theme-border);
     border-radius: var(--border-radius);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     padding: 0.25rem;
     min-width: 160px;
     z-index: 1000;
@@ -257,7 +269,7 @@
     .editor-table {
         font-size: 0.875rem;
     }
-    
+
     .editor-table th,
     .editor-table td {
         padding: 0.5rem;

@@ -1,175 +1,231 @@
 /**
  * Editor Theme Integration with Monochrome Edge
- * This file ensures the editor uses ONLY Monochrome Edge theme variables
- * No hardcoded colors allowed!
+ * Uses high specificity and CSS cascade instead of !important
+ *
+ * Strategy: Chain selectors to increase specificity and override ProseMirror defaults
  */
 
-/* Force all editor components to use Monochrome Edge variables */
-.editor-wrapper,
-.editor-content-wrapper,
-.editor-content,
-.editor-toolbar-container,
-.ProseMirror {
-    /* Reset any hardcoded colors */
-    background: inherit !important;
-    color: inherit !important;
-    border-color: inherit !important;
+/* =================================================================
+   1. Editor Wrapper & Core Components
+   ================================================================= */
+
+/* Reset any hardcoded colors with higher specificity */
+.editor-wrapper .editor-content-wrapper,
+.editor-wrapper .editor-content,
+.editor-wrapper .editor-toolbar-container,
+.editor-wrapper .ProseMirror {
+    background: inherit;
+    color: inherit;
+    border-color: inherit;
 }
 
 /* Editor wrapper - use theme background */
 .editor-wrapper {
-    background: var(--theme-background) !important;
-    color: var(--theme-text-primary) !important;
+    background: var(--theme-background);
+    color: var(--theme-text-primary);
 }
 
 /* Content wrapper */
-.editor-content-wrapper {
-    background: var(--theme-background) !important;
+.editor-wrapper .editor-content-wrapper {
+    background: var(--theme-background);
 }
 
 /* Editor content area */
-.editor-content {
-    background: var(--theme-surface) !important;
-    color: var(--theme-text-primary) !important;
-    border: 1px solid var(--theme-border) !important;
+.editor-wrapper .editor-content {
+    background: var(--theme-surface);
+    color: var(--theme-text-primary);
+    border: 1px solid var(--theme-border);
 }
 
 /* ProseMirror content */
-.ProseMirror {
-    background: transparent !important;
-    color: var(--theme-text-primary) !important;
+.editor-wrapper .ProseMirror {
+    background: transparent;
+    color: var(--theme-text-primary);
 }
+
+/* =================================================================
+   2. Toolbar Components
+   ================================================================= */
 
 /* Toolbar */
-.editor-toolbar-container {
-    background: var(--theme-surface) !important;
-    border-bottom: 1px solid var(--theme-border) !important;
+.editor-wrapper .editor-toolbar-container {
+    background: var(--theme-surface);
+    border-bottom: 1px solid var(--theme-border);
 }
 
-/* Toolbar buttons */
-.toolbar-btn {
-    background: transparent !important;
-    color: var(--theme-text-secondary) !important;
-    border: 1px solid transparent !important;
+/* Toolbar buttons - higher specificity chain */
+.editor-toolbar-container .toolbar-btn {
+    background: transparent;
+    color: var(--theme-text-secondary);
+    border: 1px solid transparent;
 }
 
-.toolbar-btn:hover {
-    background: var(--theme-background) !important;
-    color: var(--theme-text-primary) !important;
-    border-color: var(--theme-border) !important;
+.editor-toolbar-container .toolbar-btn:hover {
+    background: var(--theme-background);
+    color: var(--theme-text-primary);
+    border-color: var(--theme-border);
 }
 
-.toolbar-btn.active,
-.toolbar-btn:active {
-    background: var(--theme-accent) !important;
-    color: var(--theme-accent-contrast) !important;
-    border-color: var(--theme-accent) !important;
+.editor-toolbar-container .toolbar-btn.active,
+.editor-toolbar-container .toolbar-btn:active {
+    background: var(--theme-accent);
+    color: var(--theme-accent-contrast);
+    border-color: var(--theme-accent);
 }
 
-/* Text elements */
-.editor-block,
-.block-heading1,
-.block-heading2,
-.block-heading3,
-.block-heading4,
-.block-paragraph,
-.block-bullet,
-.block-number {
-    color: var(--theme-text-primary) !important;
+/* =================================================================
+   3. Text & Content Elements
+   ================================================================= */
+
+/* Primary text elements */
+.editor-wrapper .editor-block,
+.editor-wrapper .block-heading1,
+.editor-wrapper .block-heading2,
+.editor-wrapper .block-heading3,
+.editor-wrapper .block-heading4,
+.editor-wrapper .block-paragraph,
+.editor-wrapper .block-bullet,
+.editor-wrapper .block-number {
+    color: var(--theme-text-primary);
 }
 
 /* Secondary text */
-.block-quote,
-.list-marker,
-.editor-block[data-placeholder]:empty:before {
-    color: var(--theme-text-secondary) !important;
+.editor-wrapper .block-quote,
+.editor-wrapper .list-marker,
+.editor-wrapper .editor-block[data-placeholder]:empty:before {
+    color: var(--theme-text-secondary);
 }
 
-/* Accents */
-.block-quote {
-    border-left-color: var(--theme-accent) !important;
+/* =================================================================
+   4. Accents & Links
+   ================================================================= */
+
+/* Block quote accent */
+.editor-wrapper .block-quote {
+    border-left-color: var(--theme-accent);
 }
 
-.editor-block a {
-    color: var(--theme-accent) !important;
+/* Links */
+.editor-wrapper .editor-block a,
+.editor-wrapper .ProseMirror a {
+    color: var(--theme-accent);
 }
 
-/* Floating toolbar */
-.floating-toolbar {
-    background: var(--theme-surface) !important;
-    border: 1px solid var(--theme-border) !important;
+/* =================================================================
+   5. Floating Toolbar
+   ================================================================= */
+
+/* Floating toolbar container */
+.editor-wrapper .floating-toolbar {
+    background: var(--theme-surface);
+    border: 1px solid var(--theme-border);
 }
 
-.floating-toolbar button {
-    color: var(--theme-text-secondary) !important;
+.editor-wrapper .floating-toolbar button {
+    color: var(--theme-text-secondary);
 }
 
-.floating-toolbar button:hover {
-    background: var(--theme-background) !important;
-    color: var(--theme-text-primary) !important;
+.editor-wrapper .floating-toolbar button:hover {
+    background: var(--theme-background);
+    color: var(--theme-text-primary);
 }
 
-.floating-toolbar button.active {
-    background: var(--theme-accent) !important;
-    color: var(--theme-accent-contrast) !important;
+.editor-wrapper .floating-toolbar button.active {
+    background: var(--theme-accent);
+    color: var(--theme-accent-contrast);
 }
 
-/* Slash menu */
-.slash-menu-enhanced {
-    background: var(--theme-surface) !important;
-    border: 1px solid var(--theme-border) !important;
+/* =================================================================
+   6. Slash Menu (Command Palette)
+   ================================================================= */
+
+/* Slash menu container */
+.editor-wrapper .slash-menu-enhanced {
+    background: var(--theme-surface);
+    border: 1px solid var(--theme-border);
 }
 
-.slash-menu-enhanced .menu-search {
-    background: var(--theme-background) !important;
-    border-color: var(--theme-border) !important;
-    color: var(--theme-text-primary) !important;
+/* Search input */
+.editor-wrapper .slash-menu-enhanced .menu-search {
+    background: var(--theme-background);
+    border-color: var(--theme-border);
+    color: var(--theme-text-primary);
 }
 
-.slash-menu-enhanced .menu-item {
-    color: var(--theme-text-primary) !important;
+/* Menu items */
+.editor-wrapper .slash-menu-enhanced .menu-item {
+    color: var(--theme-text-primary);
 }
 
-.slash-menu-enhanced .menu-item:hover,
-.slash-menu-enhanced .menu-item.selected {
-    background: var(--theme-background) !important;
+.editor-wrapper .slash-menu-enhanced .menu-item:hover,
+.editor-wrapper .slash-menu-enhanced .menu-item.selected {
+    background: var(--theme-background);
 }
 
-/* Code blocks */
-.block-codeblock-wrapper {
-    background: var(--theme-surface) !important;
-    border: 1px solid var(--theme-border) !important;
+/* =================================================================
+   7. Code Blocks
+   ================================================================= */
+
+/* Code block wrapper */
+.editor-wrapper .block-codeblock-wrapper {
+    background: var(--theme-surface);
+    border: 1px solid var(--theme-border);
 }
 
-.code-header {
-    background: var(--theme-background) !important;
-    border-bottom: 1px solid var(--theme-border) !important;
+/* Code header */
+.editor-wrapper .code-header {
+    background: var(--theme-background);
+    border-bottom: 1px solid var(--theme-border);
 }
 
-.code-language,
-.code-copy-btn {
-    border-color: var(--theme-border) !important;
-    color: var(--theme-text-secondary) !important;
+/* Code language selector & copy button */
+.editor-wrapper .code-language,
+.editor-wrapper .code-copy-btn {
+    border-color: var(--theme-border);
+    color: var(--theme-text-secondary);
 }
 
-/* Tables */
-.editor-table,
-.editor-table td {
-    border-color: var(--theme-border) !important;
+/* =================================================================
+   8. Tables
+   ================================================================= */
+
+/* Table borders */
+.editor-wrapper .editor-table,
+.editor-wrapper .editor-table td,
+.editor-wrapper .editor-table th {
+    border-color: var(--theme-border);
 }
 
-.table-header .table-cell-content {
-    background: var(--theme-surface) !important;
+/* Table header cells */
+.editor-wrapper .table-header .table-cell-content {
+    background: var(--theme-surface);
 }
 
-/* Status bar */
-.editor-status-bar {
-    background: var(--theme-surface) !important;
-    border-top: 1px solid var(--theme-border) !important;
-    color: var(--theme-text-secondary) !important;
+/* =================================================================
+   9. Status Bar
+   ================================================================= */
+
+/* Status bar at bottom */
+.editor-wrapper .editor-status-bar {
+    background: var(--theme-surface);
+    border-top: 1px solid var(--theme-border);
+    color: var(--theme-text-secondary);
 }
 
-/* Remove ALL transitions - let theme handle it */
-* {
-    transition: none !important;
+/* =================================================================
+   10. Smooth Theme Transitions
+   ================================================================= */
+
+/* Allow theme transitions to work smoothly */
+.editor-wrapper,
+.editor-wrapper .editor-content-wrapper,
+.editor-wrapper .editor-content,
+.editor-wrapper .editor-toolbar-container,
+.editor-wrapper .toolbar-btn,
+.editor-wrapper .floating-toolbar,
+.editor-wrapper .slash-menu-enhanced {
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
 }

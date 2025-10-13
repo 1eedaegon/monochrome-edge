@@ -145,10 +145,15 @@
     }
 }
 
-/* Responsive */
+/* Responsive - higher specificity to override size variants */
 @media (max-width: 768px) {
-    .modal {
-        width: calc(100vw - 2rem) !important;
+    .modal.modal-sm,
+    .modal.modal-md,
+    .modal.modal-lg,
+    .modal.modal-xl,
+    .modal[style*="width"] {
+        width: calc(100vw - 2rem);
+        max-width: calc(100vw - 2rem);
         max-height: calc(100vh - 2rem);
     }
 

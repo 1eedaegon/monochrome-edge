@@ -220,14 +220,20 @@
     margin-bottom: 0.5rem;
 }
 
-/* Responsive */
+/* Responsive - higher specificity to override inline styles */
 @media (max-width: 640px) {
-    .toast-container {
-        left: 0 !important;
-        right: 0 !important;
-        transform: none !important;
+    body .toast-container[style],
+    .toast-container.toast-top-center,
+    .toast-container.toast-top-right,
+    .toast-container.toast-top-left,
+    .toast-container.toast-bottom-center,
+    .toast-container.toast-bottom-right,
+    .toast-container.toast-bottom-left {
+        left: 0;
+        right: 0;
+        transform: none;
     }
-    
+
     .toast {
         max-width: calc(100vw - 2rem);
     }

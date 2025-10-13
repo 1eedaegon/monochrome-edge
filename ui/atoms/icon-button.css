@@ -123,6 +123,48 @@
     color: var(--theme-accent-contrast);
 }
 
+.icon-btn-filled {
+    background-color: color-mix(
+        in srgb,
+        var(--theme-bg) 95%,
+        var(--theme-text-primary) 5%
+    );
+    border-color: var(--theme-border);
+    color: var(--theme-text-primary);
+}
+
+.icon-btn-filled:hover {
+    background-color: color-mix(
+        in srgb,
+        var(--theme-bg) 90%,
+        var(--theme-text-primary) 10%
+    );
+    border-color: var(--theme-text-secondary);
+}
+
+.icon-btn-two-tone {
+    background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--theme-accent) 15%, transparent 85%) 0%,
+        transparent 100%
+    );
+    border-color: var(--theme-border);
+    color: var(--theme-text-primary);
+}
+
+.icon-btn-two-tone:hover {
+    background: linear-gradient(
+        135deg,
+        color-mix(in srgb, var(--theme-accent) 25%, transparent 75%) 0%,
+        color-mix(in srgb, var(--theme-accent) 5%, transparent 95%) 100%
+    );
+    border-color: color-mix(
+        in srgb,
+        var(--theme-accent) 40%,
+        var(--theme-border) 60%
+    );
+}
+
 /* Loading State */
 .icon-btn.loading {
     pointer-events: none;
