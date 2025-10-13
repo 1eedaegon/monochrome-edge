@@ -1,0 +1,19 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./ui",
+    "outDir": "./dist/ui",
+    "declaration": true,
+    "declarationMap": false,
+    "emitDeclarationOnly": false,
+    "module": "ES2015",
+    "target": "ES2015",
+    "lib": ["ES2015", "DOM"],
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "isolatedModules": true,
+    "esModuleInterop": true
+  },
+  "include": ["ui/**/*.ts"],
+  "exclude": ["ui/**/*.d.ts", "ui/**/*.js", "node_modules", "dist"]
+}
