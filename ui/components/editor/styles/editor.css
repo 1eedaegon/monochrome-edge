@@ -4,7 +4,7 @@
  */
 
 /* Import theme fix for proper theme reactivity */
-@import url('./editor-theme-fix.css');
+@import url("./editor-theme-fix.css");
 
 /* Base Editor Styles */
 .editor-wrapper {
@@ -12,7 +12,14 @@
     display: flex;
     flex-direction: column;
     background: var(--theme-bg);
-    font-family: var(--font-family-sans, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+    font-family: var(
+        --font-family-sans,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        sans-serif
+    );
     color: var(--theme-text-primary);
 }
 
@@ -53,7 +60,7 @@
 }
 
 .editor-block-wrapper:hover {
-    background: var(--theme-bg, var(--color-background, rgba(0,0,0,0.02)));
+    background: var(--theme-bg, var(--color-background, rgba(0, 0, 0, 0.02)));
     margin-left: -0.5rem;
     margin-right: -0.5rem;
     padding-left: 0.5rem;
@@ -79,10 +86,18 @@
     padding-top: 0.25rem;
 }
 
-.block-heading1-wrapper .syntax-indicator { font-size: 20px; }
-.block-heading2-wrapper .syntax-indicator { font-size: 18px; }
-.block-heading3-wrapper .syntax-indicator { font-size: 16px; }
-.block-heading4-wrapper .syntax-indicator { font-size: 14px; }
+.block-heading1-wrapper .syntax-indicator {
+    font-size: 20px;
+}
+.block-heading2-wrapper .syntax-indicator {
+    font-size: 18px;
+}
+.block-heading3-wrapper .syntax-indicator {
+    font-size: 16px;
+}
+.block-heading4-wrapper .syntax-indicator {
+    font-size: 14px;
+}
 
 /* Editor Blocks - Clean Monochrome Style */
 .editor-block {
@@ -221,7 +236,7 @@
 }
 
 .block-codeblock-wrapper:hover {
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .code-header {
@@ -271,7 +286,7 @@
 }
 
 .code-pre code {
-    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-family: "Monaco", "Menlo", "Ubuntu Mono", monospace;
     font-size: 14px;
     line-height: 1.5;
     display: block;
@@ -377,7 +392,7 @@
     max-width: 100%;
     height: auto;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .image-caption {
@@ -510,7 +525,9 @@
     background: var(--theme-surface, var(--color-surface));
     border: 1px solid var(--theme-border, var(--color-border));
     border-radius: var(--border-radius, 8px);
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.08);
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.08),
+        0 4px 16px rgba(0, 0, 0, 0.08);
     padding: 0.375rem;
     display: flex;
     gap: 0.25rem;
@@ -556,7 +573,7 @@
     background: var(--theme-surface, var(--color-surface));
     border: 1px solid var(--theme-border, var(--color-border));
     border-radius: var(--border-radius);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     padding: 0.5rem;
     min-width: 260px;
     max-width: 320px;
@@ -649,18 +666,25 @@
     color: var(--theme-text-primary);
 }
 
-/* Drag & Drop */
-.editor-content.dragover {
-    background: var(--theme-bg) !important;
-    outline: 2px dashed var(--theme-accent) !important;
+/* Drag & Drop - higher specificity for state class */
+.editor-wrapper .editor-content.dragover,
+.editor-content-wrapper .editor-content.dragover {
+    background: var(--theme-bg);
+    outline: 2px dashed var(--theme-accent);
     outline-offset: -4px;
     border-radius: var(--border-radius);
 }
 
 /* Animations */
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .slash-menu-enhanced,
