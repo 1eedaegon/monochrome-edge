@@ -81,7 +81,7 @@
 @import "./components/tabs/file-tabs.css";
 @import "./components/accordion/accordion.css";
 @import "./components/progress/progress.css";
-@import "./components/stepper/stepper-unified.css";
+@import "./components/stepper/stepper.css";
 @import "./components/command/command.css";
 @import "./components/tree/tree.css";
 @import "./components/dropdown/dropdown.css";
