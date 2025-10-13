@@ -1865,6 +1865,25 @@
                                     <path d="M2 12h2" />
                                     <path d="M20 12h2" />
                                     <path d="m6.34 17.66-1.41 1.41" />
+
+
+            /* Breadcrumb mobile responsive fix */
+            @media (max-width: 768px) {
+                .breadcrumb {
+                    flex-wrap: wrap;
+                    gap: 0.25rem;
+                }
+
+                .breadcrumb-item {
+                    white-space: normal;
+                    word-break: break-word;
+                    min-width: 0;
+                }
+
+                .breadcrumb-separator {
+                    flex-shrink: 0;
+                }
+            }
                                     <path d="m19.07 4.93-1.41 1.41" />
                                 </svg>
                             </button>
@@ -3755,8 +3774,8 @@ renderAllMath({
                                     <div class="icon-showcase-item"><span data-icon="facebook"></span><p>facebook</p></div>
                                     <div class="icon-showcase-item"><span data-icon="instagram"></span><p>instagram</p></div>
                                     <div class="icon-showcase-item"><span data-icon="youtube"></span><p>youtube</p></div>
-                                    <div class="icon-showcase-item"><span data-icon="slack"></span><p>slack</p></div>
-                                    <div class="icon-showcase-item"><span data-icon="discord"></span><p>discord</p></div>
+                                    <div class="icon-showcase-item"><img src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/ui/assets/icons/slack.svg" class="icon" alt="Slack" style="width: 24px; height: 24px;"><p>slack</p></div>
+                                    <div class="icon-showcase-item"><img src="https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/ui/assets/icons/discord.svg" class="icon" alt="Discord" style="width: 24px; height: 24px;"><p>discord</p></div>
                                 </div>
                             </div>
                             <div class="component-code">
@@ -7204,7 +7223,7 @@ $('#ghost-toggle').mceIconToggle({
                             </div>
                         </div>
                         <div class="component-content" id="social-icons">
-                            <div class="component-preview">
+                            <div class="component-preview" style="max-width: 600px;">
                                 <div class="icon-btn-group">
                                     <!-- GitHub -->
                                     <a href="https://github.com" class="icon-btn icon-btn-ghost" title="GitHub" target="_blank">
@@ -10381,1137 +10400,6 @@ $('th').on('click', function() {
                         applications.
                     </p>
 
-                    <!-- Doc Layout (Sidebar Layout) -->
-                    <div class="component-showcase">
-                        <div class="component-header">
-                            <h3 class="component-title">Doc Layout</h3>
-                        </div>
-                        <div class="component-content">
-                            <div class="component-preview">
-                                <div
-                                    class="demo-grid"
-                                    style="
-                                        width: 100%;
-                                        gap: 3rem;
-                                        align-items: flex-start;
-                                    "
-                                >
-                                    <!-- PC View -->
-                                    <div style="flex: 1; min-width: 400px">
-                                        <h4
-                                            style="
-                                                margin-bottom: 1rem;
-                                                color: var(
-                                                    --theme-text-secondary
-                                                );
-                                                font-size: 0.875rem;
-                                            "
-                                        >
-                                            PC View
-                                        </h4>
-                                        <div
-                                            style="
-                                                width: 100%;
-                                                height: 350px;
-                                                border: 1px solid
-                                                    var(--theme-border);
-                                                border-radius: var(
-                                                    --border-radius
-                                                );
-                                                overflow: hidden;
-                                                background: var(--theme-bg);
-                                            "
-                                        >
-                                            <div
-                                                style="
-                                                    display: flex;
-                                                    height: 100%;
-                                                "
-                                            >
-                                                <!-- Sidebar -->
-                                                <div
-                                                    style="
-                                                        width: 180px;
-                                                        background: var(
-                                                            --theme-surface
-                                                        );
-                                                        border-right: 1px solid
-                                                            var(--theme-border);
-                                                        padding: 1rem;
-                                                        display: flex;
-                                                        flex-direction: column;
-                                                        gap: 0.5rem;
-                                                    "
-                                                >
-                                                    <div
-                                                        style="
-                                                            font-size: 0.75rem;
-                                                            font-weight: 600;
-                                                            color: var(
-                                                                --theme-accent
-                                                            );
-                                                            margin-bottom: 0.5rem;
-                                                        "
-                                                    >
-                                                        Navigation
-                                                    </div>
-                                                    <div
-                                                        style="
-                                                            padding: 0.5rem
-                                                                0.75rem;
-                                                            background: var(
-                                                                --theme-accent-alpha
-                                                            );
-                                                            color: var(
-                                                                --theme-accent
-                                                            );
-                                                            border-radius: 4px;
-                                                            font-size: 0.75rem;
-                                                        "
-                                                    >
-                                                        Dashboard
-                                                    </div>
-                                                    <div
-                                                        style="
-                                                            padding: 0.5rem
-                                                                0.75rem;
-                                                            color: var(
-                                                                --theme-text-secondary
-                                                            );
-                                                            font-size: 0.75rem;
-                                                        "
-                                                    >
-                                                        Content
-                                                    </div>
-                                                    <div
-                                                        style="
-                                                            padding: 0.5rem
-                                                                0.75rem;
-                                                            color: var(
-                                                                --theme-text-secondary
-                                                            );
-                                                            font-size: 0.75rem;
-                                                        "
-                                                    >
-                                                        Media
-                                                    </div>
-                                                    <div
-                                                        style="
-                                                            padding: 0.5rem
-                                                                0.75rem;
-                                                            color: var(
-                                                                --theme-text-secondary
-                                                            );
-                                                            font-size: 0.75rem;
-                                                        "
-                                                    >
-                                                        Settings
-                                                    </div>
-                                                </div>
-                                                <!-- Main Content -->
-                                                <div
-                                                    style="
-                                                        flex: 1;
-                                                        display: flex;
-                                                        flex-direction: column;
-                                                    "
-                                                >
-                                                    <!-- Header -->
-                                                    <div
-                                                        style="
-                                                            padding: 1rem;
-                                                            border-bottom: 1px
-                                                                solid
-                                                                var(
-                                                                    --theme-border
-                                                                );
-                                                            display: flex;
-                                                            justify-content: space-between;
-                                                            align-items: center;
-                                                        "
-                                                    >
-                                                        <div
-                                                            style="
-                                                                font-size: 0.875rem;
-                                                                font-weight: 600;
-                                                                color: var(
-                                                                    --theme-text-primary
-                                                                );
-                                                            "
-                                                        >
-                                                            Page Title
-                                                        </div>
-                                                        <div
-                                                            style="
-                                                                padding: 0.375rem
-                                                                    0.75rem;
-                                                                background: var(
-                                                                    --theme-accent
-                                                                );
-                                                                color: white;
-                                                                border-radius: 4px;
-                                                                font-size: 0.75rem;
-                                                            "
-                                                        >
-                                                            Action
-                                                        </div>
-                                                    </div>
-                                                    <!-- Content Area -->
-                                                    <div
-                                                        style="
-                                                            flex: 1;
-                                                            padding: 1rem;
-                                                            color: var(
-                                                                --theme-text-secondary
-                                                            );
-                                                            font-size: 0.75rem;
-                                                        "
-                                                    >
-                                                        <div
-                                                            style="
-                                                                margin-bottom: 0.75rem;
-                                                                color: var(
-                                                                    --theme-text-primary
-                                                                );
-                                                            "
-                                                        >
-                                                            Content Area
-                                                        </div>
-                                                        <div
-                                                            style="
-                                                                height: 4px;
-                                                                background: var(
-                                                                    --theme-border
-                                                                );
-                                                                border-radius: 2px;
-                                                                margin-bottom: 0.5rem;
-                                                            "
-                                                        ></div>
-                                                        <div
-                                                            style="
-                                                                height: 4px;
-                                                                background: var(
-                                                                    --theme-border
-                                                                );
-                                                                border-radius: 2px;
-                                                                width: 80%;
-                                                                margin-bottom: 0.5rem;
-                                                            "
-                                                        ></div>
-                                                        <div
-                                                            style="
-                                                                height: 4px;
-                                                                background: var(
-                                                                    --theme-border
-                                                                );
-                                                                border-radius: 2px;
-                                                                width: 90%;
-                                                                margin-bottom: 1rem;
-                                                            "
-                                                        ></div>
-                                                        <div
-                                                            style="
-                                                                height: 4px;
-                                                                background: var(
-                                                                    --theme-border
-                                                                );
-                                                                border-radius: 2px;
-                                                                margin-bottom: 0.5rem;
-                                                            "
-                                                        ></div>
-                                                        <div
-                                                            style="
-                                                                height: 4px;
-                                                                background: var(
-                                                                    --theme-border
-                                                                );
-                                                                border-radius: 2px;
-                                                                width: 70%;
-                                                            "
-                                                        ></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Mobile View -->
-                                    <div style="width: 200px">
-                                        <h4
-                                            style="
-                                                margin-bottom: 1rem;
-                                                color: var(
-                                                    --theme-text-secondary
-                                                );
-                                                font-size: 0.875rem;
-                                            "
-                                        >
-                                            Mobile View
-                                        </h4>
-                                        <div
-                                            style="
-                                                width: 200px;
-                                                height: 350px;
-                                                border: 1px solid
-                                                    var(--theme-border);
-                                                border-radius: var(
-                                                    --border-radius
-                                                );
-                                                overflow: hidden;
-                                                background: var(--theme-bg);
-                                            "
-                                        >
-                                            <div
-                                                style="
-                                                    display: flex;
-                                                    flex-direction: column;
-                                                    height: 100%;
-                                                "
-                                            >
-                                                <!-- Mobile Header with Menu -->
-                                                <div
-                                                    style="
-                                                        padding: 0.75rem 1rem;
-                                                        border-bottom: 1px solid
-                                                            var(--theme-border);
-                                                        display: flex;
-                                                        align-items: center;
-                                                        justify-content: space-between;
-                                                        background: var(
-                                                            --theme-surface
-                                                        );
-                                                    "
-                                                >
-                                                    <div
-                                                        style="
-                                                            font-size: 0.875rem;
-                                                            font-weight: 600;
-                                                            color: var(
-                                                                --theme-text-primary
-                                                            );
-                                                        "
-                                                    >
-                                                        Page Title
-                                                    </div>
-                                                    <!-- Hamburger Menu -->
-                                                    <div
-                                                        style="
-                                                            display: flex;
-                                                            flex-direction: column;
-                                                            gap: 3px;
-                                                        "
-                                                    >
-                                                        <span
-                                                            style="
-                                                                width: 16px;
-                                                                height: 2px;
-                                                                background: var(
-                                                                    --theme-text-primary
-                                                                );
-                                                            "
-                                                        ></span>
-                                                        <span
-                                                            style="
-                                                                width: 16px;
-                                                                height: 2px;
-                                                                background: var(
-                                                                    --theme-text-primary
-                                                                );
-                                                            "
-                                                        ></span>
-                                                        <span
-                                                            style="
-                                                                width: 16px;
-                                                                height: 2px;
-                                                                background: var(
-                                                                    --theme-text-primary
-                                                                );
-                                                            "
-                                                        ></span>
-                                                    </div>
-                                                </div>
-                                                <!-- Mobile Content -->
-                                                <div
-                                                    style="
-                                                        flex: 1;
-                                                        padding: 1rem;
-                                                    "
-                                                >
-                                                    <div
-                                                        style="
-                                                            margin-bottom: 0.75rem;
-                                                            color: var(
-                                                                --theme-text-primary
-                                                            );
-                                                            font-size: 0.75rem;
-                                                        "
-                                                    >
-                                                        Content Area
-                                                    </div>
-                                                    <div
-                                                        style="
-                                                            height: 4px;
-                                                            background: var(
-                                                                --theme-border
-                                                            );
-                                                            border-radius: 2px;
-                                                            margin-bottom: 0.5rem;
-                                                        "
-                                                    ></div>
-                                                    <div
-                                                        style="
-                                                            height: 4px;
-                                                            background: var(
-                                                                --theme-border
-                                                            );
-                                                            border-radius: 2px;
-                                                            width: 90%;
-                                                            margin-bottom: 0.5rem;
-                                                        "
-                                                    ></div>
-                                                    <div
-                                                        style="
-                                                            height: 4px;
-                                                            background: var(
-                                                                --theme-border
-                                                            );
-                                                            border-radius: 2px;
-                                                            width: 70%;
-                                                            margin-bottom: 1rem;
-                                                        "
-                                                    ></div>
-                                                    <div
-                                                        style="
-                                                            height: 4px;
-                                                            background: var(
-                                                                --theme-border
-                                                            );
-                                                            border-radius: 2px;
-                                                            margin-bottom: 0.5rem;
-                                                        "
-                                                    ></div>
-                                                    <div
-                                                        style="
-                                                            height: 4px;
-                                                            background: var(
-                                                                --theme-border
-                                                            );
-                                                            border-radius: 2px;
-                                                            width: 85%;
-                                                            margin-bottom: 0.5rem;
-                                                        "
-                                                    ></div>
-                                                    <div
-                                                        style="
-                                                            height: 4px;
-                                                            background: var(
-                                                                --theme-border
-                                                            );
-                                                            border-radius: 2px;
-                                                            width: 60%;
-                                                        "
-                                                    ></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Blog Layout -->
-                    <div class="component-showcase">
-                        <div class="component-header">
-                            <h3 class="component-title">Blog Layout</h3>
-                        </div>
-                        <div class="component-content">
-                            <div class="component-preview">
-                                <div
-                                    class="demo-grid"
-                                    style="
-                                        width: 100%;
-                                        gap: 3rem;
-                                        align-items: flex-start;
-                                    "
-                                >
-                                    <!-- PC View -->
-                                    <div style="flex: 1; min-width: 400px">
-                                        <h4
-                                            style="
-                                                margin-bottom: 1rem;
-                                                color: var(
-                                                    --theme-text-secondary
-                                                );
-                                                font-size: 0.875rem;
-                                            "
-                                        >
-                                            PC View
-                                        </h4>
-                                        <div
-                                            style="
-                                                width: 100%;
-                                                height: 350px;
-                                                border: 1px solid
-                                                    var(--theme-border);
-                                                border-radius: var(
-                                                    --border-radius
-                                                );
-                                                overflow: hidden;
-                                                background: var(--theme-bg);
-                                            "
-                                        >
-                                            <div
-                                                style="
-                                                    display: flex;
-                                                    flex-direction: column;
-                                                    height: 100%;
-                                                "
-                                            >
-                                                <!-- Header -->
-                                                <div
-                                                    style="
-                                                        padding: 1rem 1.5rem;
-                                                        border-bottom: 1px solid
-                                                            var(--theme-border);
-                                                        display: flex;
-                                                        justify-content: space-between;
-                                                        align-items: center;
-                                                        background: var(
-                                                            --theme-surface
-                                                        );
-                                                    "
-                                                >
-                                                    <div
-                                                        style="
-                                                            font-size: 0.875rem;
-                                                            font-weight: 600;
-                                                            color: var(
-                                                                --theme-text-primary
-                                                            );
-                                                        "
-                                                    >
-                                                        My Blog
-                                                    </div>
-                                                    <div
-                                                        style="
-                                                            display: flex;
-                                                            gap: 0.75rem;
-                                                            font-size: 0.75rem;
-                                                        "
-                                                    >
-                                                        <span
-                                                            style="
-                                                                color: var(
-                                                                    --theme-accent
-                                                                );
-                                                                font-weight: 500;
-                                                            "
-                                                            >About</span
-                                                        >
-                                                        <span
-                                                            style="
-                                                                color: var(
-                                                                    --theme-text-secondary
-                                                                );
-                                                            "
-                                                            >Articles</span
-                                                        >
-                                                        <span
-                                                            style="
-                                                                color: var(
-                                                                    --theme-text-secondary
-                                                                );
-                                                            "
-                                                            >Projects</span
-                                                        >
-                                                    </div>
-                                                </div>
-                                                <!-- Hero Section -->
-                                                <div
-                                                    style="
-                                                        padding: 1.5rem;
-                                                        text-align: center;
-                                                        border-bottom: 1px solid
-                                                            var(--theme-border);
-                                                    "
-                                                >
-                                                    <div
-                                                        style="
-                                                            width: 40px;
-                                                            height: 40px;
-                                                            border-radius: 50%;
-                                                            background: var(
-                                                                --theme-accent-alpha
-                                                            );
-                                                            margin: 0 auto
-                                                                0.5rem;
-                                                        "
-                                                    ></div>
-                                                    <div
-                                                        style="
-                                                            font-size: 0.875rem;
-                                                            font-weight: 600;
-                                                            color: var(
-                                                                --theme-text-primary
-                                                            );
-                                                            margin-bottom: 0.25rem;
-                                                        "
-                                                    >
-                                                        Welcome to My Blog
-                                                    </div>
-                                                    <div
-                                                        style="
-                                                            font-size: 0.75rem;
-                                                            color: var(
-                                                                --theme-text-secondary
-                                                            );
-                                                        "
-                                                    >
-                                                        Building elegant UI
-                                                        components
-                                                    </div>
-                                                </div>
-                                                <!-- Content Section -->
-                                                <div
-                                                    style="
-                                                        flex: 1;
-                                                        padding: 1rem;
-                                                        overflow: auto;
-                                                    "
-                                                >
-                                                    <div
-                                                        style="
-                                                            font-size: 0.75rem;
-                                                            font-weight: 600;
-                                                            color: var(
-                                                                --theme-text-primary
-                                                            );
-                                                            margin-bottom: 0.75rem;
-                                                        "
-                                                    >
-                                                        Recent Articles
-                                                    </div>
-                                                    <!-- Article Cards -->
-                                                    <div
-                                                        style="
-                                                            display: flex;
-                                                            flex-direction: column;
-                                                            gap: 0.75rem;
-                                                        "
-                                                    >
-                                                        <!-- Article 1 -->
-                                                        <div
-                                                            style="
-                                                                padding: 0.75rem;
-                                                                border: 1px
-                                                                    solid
-                                                                    var(
-                                                                        --theme-border
-                                                                    );
-                                                                border-radius: 6px;
-                                                                background: var(
-                                                                    --theme-surface
-                                                                );
-                                                            "
-                                                        >
-                                                            <div
-                                                                style="
-                                                                    font-size: 0.75rem;
-                                                                    color: var(
-                                                                        --theme-text-primary
-                                                                    );
-                                                                    font-weight: 500;
-                                                                    margin-bottom: 0.25rem;
-                                                                "
-                                                            >
-                                                                Building a
-                                                                Dual-Theme
-                                                                Design System
-                                                            </div>
-                                                            <div
-                                                                style="
-                                                                    font-size: 0.625rem;
-                                                                    color: var(
-                                                                        --theme-text-secondary
-                                                                    );
-                                                                "
-                                                            >
-                                                                Oct 7, 2025 · 5
-                                                                min read
-                                                            </div>
-                                                        </div>
-                                                        <!-- Article 2 -->
-                                                        <div
-                                                            style="
-                                                                padding: 0.75rem;
-                                                                border: 1px
-                                                                    solid
-                                                                    var(
-                                                                        --theme-border
-                                                                    );
-                                                                border-radius: 6px;
-                                                            "
-                                                        >
-                                                            <div
-                                                                style="
-                                                                    font-size: 0.75rem;
-                                                                    color: var(
-                                                                        --theme-text-primary
-                                                                    );
-                                                                    font-weight: 500;
-                                                                    margin-bottom: 0.25rem;
-                                                                "
-                                                            >
-                                                                Component
-                                                                Architecture
-                                                                Patterns
-                                                            </div>
-                                                            <div
-                                                                style="
-                                                                    font-size: 0.625rem;
-                                                                    color: var(
-                                                                        --theme-text-secondary
-                                                                    );
-                                                                "
-                                                            >
-                                                                Oct 5, 2025 · 8
-                                                                min read
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Mobile View -->
-                                    <div style="width: 200px">
-                                        <h4
-                                            style="
-                                                margin-bottom: 1rem;
-                                                color: var(
-                                                    --theme-text-secondary
-                                                );
-                                                font-size: 0.875rem;
-                                            "
-                                        >
-                                            Mobile View
-                                        </h4>
-                                        <div
-                                            style="
-                                                width: 200px;
-                                                height: 350px;
-                                                border: 1px solid
-                                                    var(--theme-border);
-                                                border-radius: var(
-                                                    --border-radius
-                                                );
-                                                overflow: hidden;
-                                                background: var(--theme-bg);
-                                            "
-                                        >
-                                            <div
-                                                style="
-                                                    display: flex;
-                                                    flex-direction: column;
-                                                    height: 100%;
-                                                "
-                                            >
-                                                <!-- Mobile Header -->
-                                                <div
-                                                    style="
-                                                        padding: 0.75rem 1rem;
-                                                        border-bottom: 1px solid
-                                                            var(--theme-border);
-                                                        display: flex;
-                                                        justify-content: space-between;
-                                                        align-items: center;
-                                                        background: var(
-                                                            --theme-surface
-                                                        );
-                                                    "
-                                                >
-                                                    <div
-                                                        style="
-                                                            font-size: 0.875rem;
-                                                            font-weight: 600;
-                                                            color: var(
-                                                                --theme-text-primary
-                                                            );
-                                                        "
-                                                    >
-                                                        My Blog
-                                                    </div>
-                                                    <!-- Hamburger Menu -->
-                                                    <div
-                                                        style="
-                                                            display: flex;
-                                                            flex-direction: column;
-                                                            gap: 3px;
-                                                        "
-                                                    >
-                                                        <span
-                                                            style="
-                                                                width: 16px;
-                                                                height: 2px;
-                                                                background: var(
-                                                                    --theme-text-primary
-                                                                );
-                                                            "
-                                                        ></span>
-                                                        <span
-                                                            style="
-                                                                width: 16px;
-                                                                height: 2px;
-                                                                background: var(
-                                                                    --theme-text-primary
-                                                                );
-                                                            "
-                                                        ></span>
-                                                        <span
-                                                            style="
-                                                                width: 16px;
-                                                                height: 2px;
-                                                                background: var(
-                                                                    --theme-text-primary
-                                                                );
-                                                            "
-                                                        ></span>
-                                                    </div>
-                                                </div>
-                                                <!-- Mobile Hero -->
-                                                <div
-                                                    style="
-                                                        padding: 1.5rem 1rem;
-                                                        text-align: center;
-                                                        border-bottom: 1px solid
-                                                            var(--theme-border);
-                                                    "
-                                                >
-                                                    <div
-                                                        style="
-                                                            width: 40px;
-                                                            height: 40px;
-                                                            border-radius: 50%;
-                                                            background: var(
-                                                                --theme-accent-alpha
-                                                            );
-                                                            margin: 0 auto
-                                                                0.5rem;
-                                                        "
-                                                    ></div>
-                                                    <div
-                                                        style="
-                                                            font-size: 0.875rem;
-                                                            font-weight: 600;
-                                                            color: var(
-                                                                --theme-text-primary
-                                                            );
-                                                            margin-bottom: 0.25rem;
-                                                        "
-                                                    >
-                                                        Welcome
-                                                    </div>
-                                                    <div
-                                                        style="
-                                                            font-size: 0.625rem;
-                                                            color: var(
-                                                                --theme-text-secondary
-                                                            );
-                                                        "
-                                                    >
-                                                        Building elegant UI
-                                                    </div>
-                                                </div>
-                                                <!-- Mobile Content -->
-                                                <div
-                                                    style="
-                                                        flex: 1;
-                                                        padding: 1rem;
-                                                        overflow: auto;
-                                                    "
-                                                >
-                                                    <div
-                                                        style="
-                                                            font-size: 0.75rem;
-                                                            font-weight: 600;
-                                                            color: var(
-                                                                --theme-text-primary
-                                                            );
-                                                            margin-bottom: 0.75rem;
-                                                        "
-                                                    >
-                                                        Recent Articles
-                                                    </div>
-                                                    <!-- Mobile Article Cards -->
-                                                    <div
-                                                        style="
-                                                            display: flex;
-                                                            flex-direction: column;
-                                                            gap: 0.75rem;
-                                                        "
-                                                    >
-                                                        <div
-                                                            style="
-                                                                padding: 0.75rem;
-                                                                border: 1px
-                                                                    solid
-                                                                    var(
-                                                                        --theme-border
-                                                                    );
-                                                                border-radius: 6px;
-                                                                background: var(
-                                                                    --theme-surface
-                                                                );
-                                                            "
-                                                        >
-                                                            <div
-                                                                style="
-                                                                    font-size: 0.75rem;
-                                                                    color: var(
-                                                                        --theme-text-primary
-                                                                    );
-                                                                    font-weight: 500;
-                                                                    margin-bottom: 0.25rem;
-                                                                "
-                                                            >
-                                                                Dual-Theme
-                                                                System
-                                                            </div>
-                                                            <div
-                                                                style="
-                                                                    font-size: 0.625rem;
-                                                                    color: var(
-                                                                        --theme-text-secondary
-                                                                    );
-                                                                "
-                                                            >
-                                                                Oct 7 · 5 min
-                                                            </div>
-                                                        </div>
-                                                        <div
-                                                            style="
-                                                                padding: 0.75rem;
-                                                                border: 1px
-                                                                    solid
-                                                                    var(
-                                                                        --theme-border
-                                                                    );
-                                                                border-radius: 6px;
-                                                            "
-                                                        >
-                                                            <div
-                                                                style="
-                                                                    font-size: 0.75rem;
-                                                                    color: var(
-                                                                        --theme-text-primary
-                                                                    );
-                                                                    font-weight: 500;
-                                                                    margin-bottom: 0.25rem;
-                                                                "
-                                                            >
-                                                                Architecture
-                                                                Patterns
-                                                            </div>
-                                                            <div
-                                                                style="
-                                                                    font-size: 0.625rem;
-                                                                    color: var(
-                                                                        --theme-text-secondary
-                                                                    );
-                                                                "
-                                                            >
-                                                                Oct 5 · 8 min
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="component-code">
-                                <div style="padding: 2rem">
-                                    <p
-                                        style="
-                                            color: var(--theme-text-secondary);
-                                            margin-bottom: 1.5rem;
-                                        "
-                                    >
-                                        A complete blog layout template with
-                                        header, navigation, hero section, and
-                                        article cards. Includes Section &
-                                        Article components for structured
-                                        content.
-                                    </p>
-                                    <a
-                                        href="blog-demo.html"
-                                        class="btn btn-primary"
-                                        target="_blank"
-                                        style="
-                                            margin-bottom: 2rem;
-                                            display: inline-block;
-                                        "
-                                    >
-                                        View Full Demo →
-                                    </a>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            font-size: 0.875rem;
-                                            font-weight: 600;
-                                            color: var(--theme-text-secondary);
-                                            text-transform: uppercase;
-                                            letter-spacing: 0.05em;
-                                        "
-                                    >
-                                        HTML/CSS
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>&lt;!-- Grid Layout --&gt;
-&lt;div class="demo-grid"&gt;
-  &lt;div class="card"&gt;Card 1&lt;/div&gt;
-  &lt;div class="card"&gt;Card 2&lt;/div&gt;
-  &lt;div class="card"&gt;Card 3&lt;/div&gt;
-&lt;/div&gt;
-
-&lt;!-- Spacing Utilities --&gt;
-&lt;div style="padding: var(--spacing-4); margin-bottom: var(--spacing-6);"&gt;
-  Content with spacing
-&lt;/div&gt;</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            font-size: 0.875rem;
-                                            font-weight: 600;
-                                            color: var(--theme-text-secondary);
-                                            text-transform: uppercase;
-                                            letter-spacing: 0.05em;
-                                        "
-                                    >
-                                        React
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>import '@monochrome-edge/ui/styles.css';
-
-function MyLayout() {
-  return (
-    &lt;div className="demo-grid"&gt;
-      &lt;div className="card"&gt;Card 1&lt;/div&gt;
-      &lt;div className="card"&gt;Card 2&lt;/div&gt;
-      &lt;div className="card"&gt;Card 3&lt;/div&gt;
-    &lt;/div&gt;
-  );
-}
-
-// Using CSS variables for dynamic spacing
-function DynamicSpacing() {
-  return (
-    &lt;div style={{ padding: 'var(--spacing-4)', marginBottom: 'var(--spacing-6)' }}&gt;
-      Content with spacing
-    &lt;/div&gt;
-  );
-}</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            font-size: 0.875rem;
-                                            font-weight: 600;
-                                            color: var(--theme-text-secondary);
-                                            text-transform: uppercase;
-                                            letter-spacing: 0.05em;
-                                        "
-                                    >
-                                        Vue.js
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>&lt;template&gt;
-  &lt;div class="demo-grid"&gt;
-    &lt;div class="card"&gt;Card 1&lt;/div&gt;
-    &lt;div class="card"&gt;Card 2&lt;/div&gt;
-    &lt;div class="card"&gt;Card 3&lt;/div&gt;
-  &lt;/div&gt;
-
-  &lt;!-- Using CSS variables --&gt;
-  &lt;div :style="{ padding: 'var(--spacing-4)', marginBottom: 'var(--spacing-6)' }"&gt;
-    Content with spacing
-  &lt;/div&gt;
-&lt;/template&gt;
-
-&lt;script setup&gt;
-import '@monochrome-edge/ui/styles.css';
-&lt;/script&gt;</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            font-size: 0.875rem;
-                                            font-weight: 600;
-                                            color: var(--theme-text-secondary);
-                                            text-transform: uppercase;
-                                            letter-spacing: 0.05em;
-                                        "
-                                    >
-                                        Web Components
-                                    </h4>
-                                    <pre
-                                        style="margin-bottom: 2rem"
-                                    ><code>&lt;link rel="stylesheet" href="@monochrome-edge/ui/styles.css"&gt;
-
-&lt;my-layout&gt;
-  &lt;div class="demo-grid"&gt;
-    &lt;div class="card"&gt;Card 1&lt;/div&gt;
-    &lt;div class="card"&gt;Card 2&lt;/div&gt;
-    &lt;div class="card"&gt;Card 3&lt;/div&gt;
-  &lt;/div&gt;
-&lt;/my-layout&gt;
-
-&lt;script&gt;
-class MyLayout extends HTMLElement {
-  connectedCallback() {
-    this.style.padding = 'var(--spacing-4)';
-    this.style.marginBottom = 'var(--spacing-6)';
-  }
-}
-&lt;/script&gt;</code></pre>
-
-                                    <h4
-                                        style="
-                                            margin-bottom: 1rem;
-                                            font-size: 0.875rem;
-                                            font-weight: 600;
-                                            color: var(--theme-text-secondary);
-                                            text-transform: uppercase;
-                                            letter-spacing: 0.05em;
-                                        "
-                                    >
-                                        jQuery
-                                    </h4>
-                                    <pre><code class="language-javascript">// Create grid layout
-$('&lt;div&gt;').addClass('demo-grid').appendTo('#container');
-
-// Add cards
-for (let i = 1; i &lt;= 3; i++) {
-  $('&lt;div&gt;').addClass('card').text(`Card ${i}`).appendTo('.demo-grid');
-}
-
-// Apply spacing using CSS variables
-$('#myElement').css({
-  'padding': 'var(--spacing-4)',
-  'margin-bottom': 'var(--spacing-6)'
-});</code></pre>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
                 </section>
 
                 <!-- Timeline Section -->
@@ -15528,6 +14416,65 @@ new DropdownController(document.getElementById('action-dropdown'));
                             </div>
                         </div>
                     </div>
+
+                    <!-- Section Library Examples -->
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Library Usage</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="section-examples"
+                                >
+                                    React
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="section-examples"
+                                >
+                                    Vue
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="section-examples">
+                            <div
+                                class="component-code active"
+                                data-framework="react"
+                            >
+                                <pre><code class="language-jsx">import React from 'react';
+import { BlogSection } from '@monochrome-edge';  // TSX components from main package
+
+function BlogPage() {
+  return (
+    &lt;BlogSection
+      title="Recent Articles"
+      subtitle="Thoughts on design, development, and everything in between"
+    &gt;
+      &lt;div className="blog-content"&gt;
+        &lt;p&gt;Your blog content goes here...&lt;/p&gt;
+      &lt;/div&gt;
+    &lt;/BlogSection&gt;
+  );
+}</code></pre>
+                            </div>
+                            <div class="component-code" data-framework="vue">
+                                <pre><code class="language-vue">&lt;template&gt;
+  &lt;blog-section
+    title="Recent Articles"
+    subtitle="Thoughts on design, development, and everything in between"
+  &gt;
+    &lt;div class="blog-content"&gt;
+      &lt;p&gt;Your blog content goes here...&lt;/p&gt;
+    &lt;/div&gt;
+  &lt;/blog-section&gt;
+&lt;/template&gt;
+
+&lt;script setup lang="ts"&gt;
+import { BlogSection } from '@monochrome-edge/vue';
+&lt;/script&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
                 </section>
 
                 <!-- Article Component -->
@@ -16063,6 +15010,133 @@ new DropdownController(document.getElementById('action-dropdown'));
                             </div>
                         </div>
                     </div>
+
+                    <!-- Article Library Examples -->
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Library Usage</h3>
+                            <div class="component-toggle">
+                                <button
+                                    class="toggle-btn active"
+                                    data-target="article-examples"
+                                >
+                                    React
+                                </button>
+                                <button
+                                    class="toggle-btn"
+                                    data-target="article-examples"
+                                >
+                                    Vue
+                                </button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="article-examples">
+                            <div
+                                class="component-code active"
+                                data-framework="react"
+                            >
+                                <pre><code class="language-jsx">import React from 'react';
+import { ArticleCard, ArticleList } from '@monochrome-edge';  // TSX components from main package
+
+function BlogGrid() {
+  const articles = [
+    {
+      category: 'Design Systems',
+      title: 'Building Modern UI Components',
+      description: 'A comprehensive guide to creating reusable components...',
+      date: 'Oct 7, 2025',
+      tags: ['CSS', 'Design'],
+      image: '/path/to/image.jpg'
+    }
+  ];
+
+  return (
+    &lt;div className="article-card-grid"&gt;
+      {articles.map((article, i) =&gt; (
+        &lt;ArticleCard
+          key={i}
+          category={article.category}
+          title={article.title}
+          description={article.description}
+          date={article.date}
+          tags={article.tags}
+          image={article.image}
+          grayscale
+        /&gt;
+      ))}
+    &lt;/div&gt;
+  );
+}
+
+// Article List variant
+function RecentPosts() {
+  return (
+    &lt;ArticleList compact&gt;
+      &lt;ArticleList.Item
+        date="Oct 7, 2025"
+        title="Understanding Design Systems"
+        href="/posts/design-systems"
+      /&gt;
+      &lt;ArticleList.Item
+        date="Oct 5, 2025"
+        title="Component Architecture"
+        href="/posts/architecture"
+      /&gt;
+    &lt;/ArticleList&gt;
+  );
+}</code></pre>
+                            </div>
+                            <div class="component-code" data-framework="vue">
+                                <pre><code class="language-vue">&lt;template&gt;
+  &lt;div&gt;
+    &lt;!-- Article Card Grid --&gt;
+    &lt;div class="article-card-grid"&gt;
+      &lt;article-card
+        v-for="(article, i) in articles"
+        :key="i"
+        :category="article.category"
+        :title="article.title"
+        :description="article.description"
+        :date="article.date"
+        :tags="article.tags"
+        :image="article.image"
+        grayscale
+      /&gt;
+    &lt;/div&gt;
+
+    &lt;!-- Article List --&gt;
+    &lt;article-list compact&gt;
+      &lt;article-list-item
+        date="Oct 7, 2025"
+        title="Understanding Design Systems"
+        href="/posts/design-systems"
+      /&gt;
+      &lt;article-list-item
+        date="Oct 5, 2025"
+        title="Component Architecture"
+        href="/posts/architecture"
+      /&gt;
+    &lt;/article-list&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+
+&lt;script setup lang="ts"&gt;
+import { ArticleCard, ArticleList, ArticleListItem } from '@monochrome-edge/vue';
+
+const articles = [
+  {
+    category: 'Design Systems',
+    title: 'Building Modern UI Components',
+    description: 'A comprehensive guide to creating reusable components...',
+    date: 'Oct 7, 2025',
+    tags: ['CSS', 'Design'],
+    image: '/path/to/image.jpg'
+  }
+];
+&lt;/script&gt;</code></pre>
+                            </div>
+                        </div>
+                    </div>
                 </section>
 
                 <!-- Changelog Section -->
@@ -16247,19 +15321,6 @@ new DropdownController(document.getElementById('action-dropdown'));
                 </li>
             </ul>
         </div>
-        <div class="changelog-category">
-            <h4 class="changelog-category-title">Other</h4>
-            <ul class="changelog-list">
-                <li>
-                    <span class="changelog-commit">1eedaegon</span>
-                    <a href="#" class="changelog-hash" title=""></a>
-                </li>
-                <li>
-                    <span class="changelog-commit">1eedaegon</span>
-                    <a href="#" class="changelog-hash" title=""></a>
-                </li>
-            </ul>
-        </div>
     </div>
                         <div class="changelog-entry" data-version="1.13.4">
     <h3 class="changelog-version">v1.13.4 <span class="changelog-date">2025-10-12</span></h3>
@@ -16283,23 +15344,6 @@ new DropdownController(document.getElementById('action-dropdown'));
                 <li>
                     <span class="changelog-commit">chore: bump version to 1.13.3 [skip ci]</span>
                     <a href="#" class="changelog-hash" title="3de73ba48363d595e0f4cd6bd8fe6e0df8d1d910">3de73ba</a>
-                </li>
-            </ul>
-        </div>
-        <div class="changelog-category">
-            <h4 class="changelog-category-title">Other</h4>
-            <ul class="changelog-list">
-                <li>
-                    <span class="changelog-commit">1eedaegon</span>
-                    <a href="#" class="changelog-hash" title=""></a>
-                </li>
-                <li>
-                    <span class="changelog-commit">revert: restore @latest CDN tag as originally agreed</span>
-                    <a href="#" class="changelog-hash" title="476cd5a601d7c4ed000377f8e5f973f92502213e">476cd5a</a>
-                </li>
-                <li>
-                    <span class="changelog-commit">1eedaegon</span>
-                    <a href="#" class="changelog-hash" title=""></a>
                 </li>
             </ul>
         </div>
