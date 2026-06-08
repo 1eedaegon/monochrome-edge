@@ -10,6 +10,7 @@ import React, {
   useId,
   useRef,
   useEffect,
+  useLayoutEffect,
   ReactNode,
   CSSProperties,
 } from "react";
@@ -104,7 +105,12 @@ export function Button({
     .join(" ");
 
   return (
-    <button className={btnClass} disabled={disabled || loading} {...props}>
+    <button
+      type="button"
+      className={btnClass}
+      disabled={disabled || loading}
+      {...props}
+    >
       {children}
     </button>
   );
@@ -210,8 +216,9 @@ export function Modal({
   const titleId = useId();
 
   // Move focus into the dialog on open, restore it on close, and keep a
-  // Tab cycle trapped inside while open (WCAG 2.4.3 / 2.1.2).
-  useEffect(() => {
+  // Tab cycle trapped inside while open (WCAG 2.4.3 / 2.1.2). useLayoutEffect
+  // so the dialog node is committed before we read contentRef and focus it.
+  useLayoutEffect(() => {
     if (!isOpen) return;
     previouslyFocused.current = document.activeElement as HTMLElement | null;
     const root = contentRef.current;
@@ -222,7 +229,9 @@ export function Modal({
         ) ?? [],
       ).filter((el) => !el.hasAttribute("disabled"));
 
-    focusable()[0]?.focus();
+    // Focus the first focusable element, or the dialog itself when it has none
+    // (so focus never leaks back to the page behind the modal).
+    (focusable()[0] ?? root)?.focus();
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -261,6 +270,7 @@ export function Modal({
         role="dialog"
         aria-modal="true"
         aria-labelledby={title ? titleId : undefined}
+        tabIndex={-1}
       >
         {title && (
           <div className="modal-header">
@@ -722,9 +732,10 @@ export function TOC({
         aria-expanded={isOpen}
         onClick={() => setIsOpen((v) => !v)}
       >
-        <h4 className="toc-collapsible-title" id={headingId}>
+        {/* span, not <h4> — heading elements are not valid inside <button> */}
+        <span className="toc-collapsible-title" id={headingId}>
           {title}
-        </h4>
+        </span>
         <span className="toc-collapsible-icon" aria-hidden="true">
           ▼
         </span>

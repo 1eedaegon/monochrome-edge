@@ -70,12 +70,16 @@ export function Accordion({
   onToggle,
 }: AccordionProps) {
   const ref = useRef<Div>(null);
+  // Keep the latest callback in a ref so the vanilla class always calls the
+  // current prop, not the one captured when it was constructed.
+  const onToggleRef = useRef(onToggle);
+  onToggleRef.current = onToggle;
   useEffect(() => {
     if (!ref.current) return;
     const inst = new AccordionCore(ref.current, {
       allowMultiple,
       defaultOpen,
-      onToggle,
+      onToggle: (...args) => onToggleRef.current?.(...args),
     });
     return () => inst.destroy();
     // Re-init when structural options change.
@@ -103,9 +107,14 @@ export function Tabs({
   onChange,
 }: TabsProps) {
   const ref = useRef<Div>(null);
+  const onChangeRef = useRef(onChange);
+  onChangeRef.current = onChange;
   useEffect(() => {
     if (!ref.current) return;
-    const inst = new TabsCore(ref.current, { defaultTab, onChange });
+    const inst = new TabsCore(ref.current, {
+      defaultTab,
+      onChange: (...args) => onChangeRef.current?.(...args),
+    });
     return () => inst.destroy();
   }, [defaultTab]);
 
@@ -137,14 +146,18 @@ export function Dropdown({
   onClose,
 }: DropdownProps) {
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const onOpenRef = useRef(onOpen);
+  const onCloseRef = useRef(onClose);
+  onOpenRef.current = onOpen;
+  onCloseRef.current = onClose;
   useEffect(() => {
     if (!triggerRef.current) return;
     const inst = new DropdownCore(triggerRef.current, {
       closeOnSelect,
       placement,
       offset,
-      onOpen,
-      onClose,
+      onOpen: () => onOpenRef.current?.(),
+      onClose: () => onCloseRef.current?.(),
     });
     return () => inst.destroy();
   }, [closeOnSelect, placement, offset]);
