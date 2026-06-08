@@ -60,7 +60,22 @@ export class InputHandler {
     }
     
     register(shortcut, handler) {
-        this.shortcuts.set(this.normalizeShortcut(shortcut), handler);
+        // `mod` means "Cmd on macOS, Ctrl elsewhere". Register BOTH so a
+        // Ctrl-based press still resolves on macOS (and vice versa) — this
+        // keeps shortcuts working regardless of which modifier the user (or
+        // an automated test) actually presses.
+        if (/mod/i.test(shortcut)) {
+            this.shortcuts.set(
+                this.normalizeShortcut(shortcut.replace(/mod/gi, 'ctrl')),
+                handler,
+            );
+            this.shortcuts.set(
+                this.normalizeShortcut(shortcut.replace(/mod/gi, 'meta')),
+                handler,
+            );
+        } else {
+            this.shortcuts.set(this.normalizeShortcut(shortcut), handler);
+        }
     }
     
     normalizeShortcut(shortcut) {
@@ -98,6 +113,17 @@ export class InputHandler {
     handleKeyDown(e) {
         // Skip if composing (IME input)
         if (this.isComposing) return;
+
+        // Resolve the current block from the live DOM focus synchronously.
+        // `currentBlockElement` is otherwise updated by an async focus event,
+        // so rapid keystrokes (or shortcuts right after a transform) could
+        // read a stale/detached element.
+        const active = typeof document !== 'undefined' ? document.activeElement : null;
+        const liveBlock = active && active.closest ? active.closest('[data-block-id]') : null;
+        if (liveBlock) {
+            this.editor.currentBlockElement = liveBlock;
+            this.editor.currentBlockId = liveBlock.dataset.blockId;
+        }
 
         // Handle special keys first
         const currentBlock = this.editor.currentBlockElement;
@@ -152,8 +178,20 @@ export class InputHandler {
         if (e.altKey) keys.push('alt');
         if (e.shiftKey) keys.push('shift');
 
-        // Add the actual key
-        const key = e.key.toLowerCase();
+        // Add the actual key. For digit rows use e.code so shifted digits
+        // (e.g. Shift+1 producing "!") still resolve to the digit, keeping
+        // shortcuts like Ctrl+Shift+1 working across keyboard layouts.
+        let key = e.key.toLowerCase();
+        const digitMatch = /^Digit(\d)$/.exec(e.code || '');
+        const shiftSymbolToDigit = {
+            '!': '1', '@': '2', '#': '3', '$': '4', '%': '5',
+            '^': '6', '&': '7', '*': '8', '(': '9', ')': '0',
+        };
+        if (digitMatch) {
+            key = digitMatch[1];
+        } else if (shiftSymbolToDigit[e.key]) {
+            key = shiftSymbolToDigit[e.key];
+        }
         if (key !== 'control' && key !== 'meta' && key !== 'alt' && key !== 'shift') {
             keys.push(key);
         }
@@ -523,37 +561,72 @@ export class InputHandler {
     // Formatting Methods
     toggleFormat(format) {
         const selection = this.editor.selectionManager.getSelection();
-        const blockId = selection ? selection.blockId : this.editor.currentBlockId;
-        const block = this.editor.dataModel.getBlock(blockId);
+        // Prefer the synchronously-resolved current block (handleKeyDown keeps
+        // it in sync from the live DOM focus); fall back to the selection's.
+        const blockId = this.editor.currentBlockId
+            || (selection && selection.blockId);
+        const block = blockId && this.editor.dataModel.getBlock(blockId);
         if (!block) return;
 
-        // If no selection, apply to whole line
-        if (!selection || selection.isCollapsed) {
-            const content = block.content || '';
-            if (content.trim()) {
-                // Apply format to entire block content
-                this.editor.dataModel.applyInlineStyle(blockId, 0, content.length, format);
+        // Sync the latest DOM text into the model first, so the style maps
+        // onto the text the user actually typed — a shortcut can fire before
+        // the input-sync handler commits the contenteditable text.
+        const el = document.querySelector(`[data-block-id="${blockId}"]`);
+        if (el) {
+            const domText = el.textContent || '';
+            if (typeof block.content === 'string') {
+                block.content = domText;
+            } else if (block.content && typeof block.content === 'object') {
+                block.content.text = domText;
             }
-        } else {
-            // Apply to selection
-            const startOffset = Math.min(selection.anchorOffset, selection.focusOffset);
-            const endOffset = Math.max(selection.anchorOffset, selection.focusOffset);
-            const length = endOffset - startOffset;
-
-            this.editor.dataModel.applyInlineStyle(blockId, startOffset, length, format);
         }
 
-        // Update rendering
+        const text = typeof block.content === 'string'
+            ? block.content
+            : (block.content && block.content.text) || '';
+        if (!text) {
+            this.editor.renderer.update(blockId, block);
+            return;
+        }
+
+        // Use the selection range only when it is reliable (same block and a
+        // non-empty span); otherwise format the whole block. This keeps bold
+        // working even if the async selection state lags behind a fast
+        // select-all + shortcut sequence.
+        let start = 0;
+        let length = text.length;
+        if (selection && !selection.isCollapsed && selection.blockId === blockId) {
+            const s = Math.min(selection.anchorOffset, selection.focusOffset);
+            const e = Math.max(selection.anchorOffset, selection.focusOffset);
+            if (e > s) {
+                start = s;
+                length = e - s;
+            }
+        }
+
+        this.editor.dataModel.applyInlineStyle(blockId, start, length, format);
         this.editor.renderer.update(blockId, block);
     }
     
     transformBlock(type) {
         const selection = this.editor.selectionManager.getSelection();
-        if (!selection) return;
-        
-        const blockId = selection.blockId;
-        this.editor.dataModel.updateBlock(blockId, { type });
-        
+        // Prefer the synchronously-resolved current block; the async selection
+        // state can lag behind a fast type + shortcut sequence.
+        const blockId = this.editor.currentBlockId
+            || (selection && selection.blockId);
+        if (!blockId) return;
+        // Capture any typed-but-uncommitted text from the DOM so it survives
+        // the re-render (shortcuts can fire before the input sync runs).
+        const currentEl = document.querySelector(`[data-block-id="${blockId}"]`);
+        if (currentEl) {
+            this.editor.dataModel.updateBlock(blockId, {
+                type,
+                content: currentEl.textContent || '',
+            });
+        } else {
+            this.editor.dataModel.updateBlock(blockId, { type });
+        }
+
         // Re-render block
         const block = this.editor.dataModel.getBlock(blockId);
         const element = this.editor.renderer.render(block);
@@ -561,10 +634,15 @@ export class InputHandler {
         
         if (oldElement && element) {
             oldElement.replaceWith(element);
+            // Update the editor's current-block pointers synchronously. The
+            // `blockFocus` event fires asynchronously, so a rapid follow-up
+            // keystroke would otherwise read the detached old element.
+            this.editor.currentBlockElement = element;
+            this.editor.currentBlockId = blockId;
             this.editor.renderer.focusBlock(element);
         }
     }
-    
+
     insertLink() {
         const selection = this.editor.selectionManager.getSelection();
         if (!selection || selection.isCollapsed) return;

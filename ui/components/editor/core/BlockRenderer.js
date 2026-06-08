@@ -229,8 +229,8 @@ export class BlockRenderer {
     // Code Block
     createCodeBlock(block) {
         const wrapper = document.createElement('div');
-        wrapper.className = 'editor-block block-codeblock';
-        
+        wrapper.className = 'editor-block block-codeblock editor-code-block';
+
         const langSelector = document.createElement('select');
         langSelector.className = 'code-language';
         langSelector.innerHTML = `

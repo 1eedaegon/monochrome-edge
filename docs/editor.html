@@ -374,6 +374,22 @@
                     <div class="toolbar-group">
                         <button
                             class="toolbar-btn"
+                            onclick="window.__mceEditor && window.__mceEditor.undo()"
+                            title="Undo (Ctrl+Z)"
+                        >
+                            ↶
+                        </button>
+                        <button
+                            class="toolbar-btn"
+                            onclick="window.__mceEditor && window.__mceEditor.redo()"
+                            title="Redo (Ctrl+Y)"
+                        >
+                            ↷
+                        </button>
+                    </div>
+                    <div class="toolbar-group">
+                        <button
+                            class="toolbar-btn"
                             onclick="formatText('bold')"
                             title="Bold (Ctrl+B)"
                         >
@@ -468,57 +484,10 @@
                     </div>
                 </div>
 
-                <!-- Content -->
+                <!-- Content: the block editor mounts here -->
                 <div class="editor-content">
                     <div class="editor-wrapper">
-                        <div
-                            id="editor"
-                            contenteditable="true"
-                            data-placeholder="Start typing..."
-                        >
-                            <h1>Welcome to Monochrome Edge Editor</h1>
-                            <p>
-                                This is a modern WYSIWYG editor built with pure
-                                CSS and vanilla JavaScript. Try formatting text,
-                                creating lists, or adding links!
-                            </p>
-
-                            <h2>Features</h2>
-                            <ul>
-                                <li>
-                                    <strong>Rich text formatting</strong> -
-                                    Bold, italic, underline
-                                </li>
-                                <li><strong>Headings</strong> - H1, H2, H3</li>
-                                <li>
-                                    <strong>Lists</strong> - Bullet and numbered
-                                    lists
-                                </li>
-                                <li>
-                                    <strong>Links and quotes</strong> - Add
-                                    hyperlinks and blockquotes
-                                </li>
-                                <li>
-                                    <strong>Theme support</strong> - Warm/Cold
-                                    themes with light/dark modes
-                                </li>
-                            </ul>
-
-                            <h2>Try It Out</h2>
-                            <p>
-                                Select text and use the toolbar above to format
-                                it. You can also use keyboard shortcuts:
-                            </p>
-                            <ul>
-                                <li><strong>Ctrl+B</strong> - Bold</li>
-                                <li><strong>Ctrl+I</strong> - Italic</li>
-                                <li><strong>Ctrl+U</strong> - Underline</li>
-                            </ul>
-
-                            <blockquote>
-                                "The best writing is rewriting." - E.B. White
-                            </blockquote>
-                        </div>
+                        <div id="editor"></div>
                     </div>
                 </div>
             </main>
@@ -531,15 +500,15 @@
                     <div class="word-count">
                         <div class="count-item">
                             <span class="count-label">Words:</span>
-                            <span class="count-value" id="wordCount">0</span>
+                            <span class="count-value" id="word-count">0</span>
                         </div>
                         <div class="count-item">
                             <span class="count-label">Characters:</span>
-                            <span class="count-value" id="charCount">0</span>
+                            <span class="count-value" id="char-count">0</span>
                         </div>
                         <div class="count-item">
                             <span class="count-label">Paragraphs:</span>
-                            <span class="count-value" id="paraCount">0</span>
+                            <span class="count-value" id="para-count">0</span>
                         </div>
                     </div>
                 </div>
@@ -694,84 +663,50 @@
         </div>
 
         <script>
-            const editor = document.getElementById("editor");
+            // ----- Toolbar helpers -------------------------------------------
+            // These operate on the current selection inside the block editor's
+            // contenteditable blocks, so the page toolbar keeps working.
+            const editorEl = document.getElementById("editor");
 
-            // Format text commands
             function formatText(command) {
                 document.execCommand(command, false, null);
-                editor.focus();
             }
-
-            // Format block commands
             function formatBlock(tag) {
                 document.execCommand("formatBlock", false, tag);
-                editor.focus();
             }
-
-            // Insert link
             function insertLink() {
                 const url = prompt("Enter URL:");
-                if (url) {
-                    document.execCommand("createLink", false, url);
-                }
-                editor.focus();
+                if (url) document.execCommand("createLink", false, url);
             }
-
-            // Insert code block
             function insertCode() {
-                const code = prompt("Enter code:");
-                if (code) {
-                    const pre = document.createElement("pre");
-                    const codeEl = document.createElement("code");
-                    codeEl.textContent = code;
-                    pre.appendChild(codeEl);
-
-                    const selection = window.getSelection();
-                    if (selection.rangeCount) {
-                        const range = selection.getRangeAt(0);
-                        range.deleteContents();
-                        range.insertNode(pre);
-                    }
-                }
-                editor.focus();
+                window.__mceEditor && window.__mceEditor.insertBlock
+                    ? window.__mceEditor.insertBlock("code")
+                    : document.execCommand("formatBlock", false, "pre");
             }
-
-            // Clear editor
             function clearEditor() {
-                if (confirm("Clear all content?")) {
-                    editor.innerHTML = "<p><br></p>";
-                    updateStats();
+                if (confirm("Clear all content?") && window.__mceEditor) {
+                    window.__mceEditor.clear && window.__mceEditor.clear();
                 }
             }
-
-            // Save content
             function saveContent() {
-                const content = editor.innerHTML;
-                localStorage.setItem("editorContent", content);
-                alert("Content saved!");
+                window.__mceEditor &&
+                    window.__mceEditor.save &&
+                    window.__mceEditor.save();
             }
-
-            // Load content
-            function loadContent() {
-                const saved = localStorage.getItem("editorContent");
-                if (saved) {
-                    // Keep default content, don't override
-                }
-            }
-
-            // Update statistics
             function updateStats() {
-                const text = editor.innerText;
+                const text = editorEl.innerText || "";
                 const words = text
                     .trim()
                     .split(/\s+/)
                     .filter((w) => w.length > 0).length;
-                const chars = text.length;
-                const paras = editor.querySelectorAll("p, h1, h2, h3").length;
-
-                document.getElementById("wordCount").textContent = words;
-                document.getElementById("charCount").textContent = chars;
-                document.getElementById("paraCount").textContent = paras;
+                var w = document.getElementById("word-count");
+                var c = document.getElementById("char-count");
+                var p = document.getElementById("para-count");
+                if (w) w.textContent = words;
+                if (c) c.textContent = text.length;
+                if (p)
+                    p.textContent =
+                        editorEl.querySelectorAll(".editor-block").length;
             }
 
             // Theme controls
@@ -787,7 +722,6 @@
                     .getElementById("coldBtn")
                     .classList.toggle("active", variant === "cold");
             }
-
             function setThemeMode(mode) {
                 document.documentElement.setAttribute("data-theme", mode);
                 document
@@ -797,33 +731,55 @@
                     .getElementById("darkBtn")
                     .classList.toggle("active", mode === "dark");
             }
+        </script>
 
-            // Keyboard shortcuts
-            editor.addEventListener("keydown", (e) => {
-                if (e.ctrlKey || e.metaKey) {
-                    switch (e.key.toLowerCase()) {
-                        case "b":
-                            e.preventDefault();
-                            formatText("bold");
-                            break;
-                        case "i":
-                            e.preventDefault();
-                            formatText("italic");
-                            break;
-                        case "u":
-                            e.preventDefault();
-                            formatText("underline");
-                            break;
-                    }
-                }
-            });
+        <!-- Block editor bundle: local source in dev, jsDelivr when deployed -->
+        <script>
+            (function () {
+                var isLocal =
+                    ["localhost", "127.0.0.1", ""].indexOf(
+                        window.location.hostname,
+                    ) !== -1;
+                var src = isLocal
+                    ? "dist/monochrome-edge-editor.min.js"
+                    : "https://cdn.jsdelivr.net/npm/@monochrome-edge/ui@latest/dist/monochrome-edge-editor.min.js";
+                var s = document.createElement("script");
+                s.src = src;
+                s.onload = function () {
+                    var ns = window.MonochromeEditor || {};
+                    var Editor = ns.Editor || ns.default || ns;
+                    // `content` is seeded inside the editor's own init path
+                    // (one render, no post-hoc re-render that could race with
+                    // user input).
+                    var ed = new Editor("#editor", {
+                        // Unique id per load so the editor always starts from
+                        // the seed content instead of a previously-persisted
+                        // copy in IndexedDB (keeps the demo deterministic).
+                        documentId: "demo-" + Date.now(),
+                        autoSave: false,
+                        enableToolbar: false,
+                        content: [
+                            "# Welcome to Monochrome Edge Editor",
+                            "A modern block-based editor built with pure CSS and vanilla JavaScript.",
+                            "## Features",
+                            "- Block-based editing with drag handles",
+                            "- Slash commands — press / to insert any block",
+                            "- Markdown shortcuts (#, -, 1., >)",
+                            "- Warm and Cold themes with light/dark modes",
+                            "> The best writing is rewriting. — E.B. White",
+                        ].join("\n"),
+                    });
+                    window.__mceEditor = ed;
 
-            // Update stats on input
-            editor.addEventListener("input", updateStats);
-
-            // Initialize
-            loadContent();
-            updateStats();
+                    var el = document.getElementById("editor");
+                    el && el.addEventListener("input", updateStats);
+                    updateStats();
+                };
+                s.onerror = function () {
+                    console.error("Failed to load the editor bundle:", src);
+                };
+                document.head.appendChild(s);
+            })();
         </script>
     </body>
 </html>
