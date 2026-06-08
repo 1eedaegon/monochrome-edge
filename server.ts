@@ -39,19 +39,55 @@ const routes: { [key: string]: string } = {
   "/": "/docs/index.html",
   "/blog-demo": "/docs/blog-demo.html",
   "/editor": "/docs/editor.html",
+  // Alias the bare filename too so the editor demo (and its e2e tests,
+  // which load `/editor.html`) resolve against docs/ on the local server.
+  // On GitHub Pages docs/ is the site root, so this is a dev-server-only shim.
+  "/editor.html": "/docs/editor.html",
   "/integration": "/docs/integration-guide.html",
+};
+
+// Serving root — every resolved path must stay inside this directory.
+const ROOT: string = path.resolve(__dirname);
+
+// Security headers applied to every response.
+const SECURITY_HEADERS: Record<string, string> = {
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "DENY",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "Content-Security-Policy":
+    "default-src 'self'; img-src 'self' data: https:; " +
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+    "font-src 'self' https://fonts.gstatic.com data:; " +
+    "script-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self'",
 };
 
 const server = http.createServer(
   (req: http.IncomingMessage, res: http.ServerResponse): void => {
-    // Remove query parameters from URL
-    const urlPath = req.url?.split("?")[0] || "";
+    // Remove query parameters from URL, then decode percent-encoding so
+    // encoded traversal sequences (%2e%2e) are normalised before the
+    // containment check.
+    const rawPath = req.url?.split("?")[0] || "";
+    let urlPath: string;
+    try {
+      urlPath = decodeURIComponent(rawPath);
+    } catch {
+      res.writeHead(400, { "Content-Type": "text/plain", ...SECURITY_HEADERS });
+      res.end("Bad Request", "utf-8");
+      return;
+    }
 
-    // Use route mapping if available, otherwise use original path
-    let filePath: string = routes[urlPath] || urlPath;
+    // Use route mapping if available, otherwise use original path.
+    const requested: string = routes[urlPath] || urlPath;
 
-    // Construct full file path
-    filePath = path.join(__dirname, filePath);
+    // Resolve against the root and enforce containment. `path.resolve`
+    // collapses any `..` segments; we then verify the result is still
+    // inside ROOT so traversal cannot escape the served directory.
+    const filePath: string = path.resolve(ROOT, "." + path.sep + requested);
+    if (filePath !== ROOT && !filePath.startsWith(ROOT + path.sep)) {
+      res.writeHead(403, { "Content-Type": "text/plain", ...SECURITY_HEADERS });
+      res.end("Forbidden", "utf-8");
+      return;
+    }
 
     // Get file extension
     const extname: string = path.extname(filePath).toLowerCase();
@@ -63,18 +99,19 @@ const server = http.createServer(
       filePath,
       (err: NodeJS.ErrnoException | null, content: Buffer): void => {
         if (err) {
-          if (err.code === "ENOENT") {
+          if (err.code === "ENOENT" || err.code === "EISDIR") {
             // File not found
-            res.writeHead(404, { "Content-Type": "text/html" });
+            res.writeHead(404, { "Content-Type": "text/html", ...SECURITY_HEADERS });
             res.end("<h1>404 - File Not Found</h1>", "utf-8");
           } else {
-            // Server error
-            res.writeHead(500);
-            res.end(`Server Error: ${err.code}`, "utf-8");
+            // Server error — log details server-side, do not leak to client.
+            console.error(`[500] ${err.code} for ${filePath}`);
+            res.writeHead(500, { "Content-Type": "text/plain", ...SECURITY_HEADERS });
+            res.end("Internal Server Error", "utf-8");
           }
         } else {
           // Success
-          res.writeHead(200, { "Content-Type": contentType });
+          res.writeHead(200, { "Content-Type": contentType, ...SECURITY_HEADERS });
           res.end(content, "utf-8");
         }
       },

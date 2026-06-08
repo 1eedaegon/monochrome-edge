@@ -4,6 +4,7 @@
  */
 
 import { iconLoader } from "@ui/utils/icon-loader";
+import { escapeHtml } from "@ui/utils/security";
 
 export interface SearchToolbarOptions {
   placeholder?: string;
@@ -114,7 +115,7 @@ export class SearchToolbar {
             <input
               type="text"
               class="search-toolbar-input"
-              placeholder="${this.options.placeholder}"
+              placeholder="${escapeHtml(this.options.placeholder)}"
               aria-label="Search"
             />
             <button class="search-toolbar-clear" aria-label="Clear search" type="button">
@@ -169,15 +170,16 @@ export class SearchToolbar {
     return this.options.filters
       .map(
         (filter) => `
-      <div class="search-toolbar-filter-group" data-filter-id="${filter.id}">
+      <div class="search-toolbar-filter-group" data-filter-id="${escapeHtml(filter.id)}">
         ${filter.values
           .map(
             (value) => `
           <button
+            type="button"
             class="search-toolbar-filter-btn ${this.activeFilters[filter.id] === value.value ? "is-active" : ""}"
-            data-filter-value="${value.value}"
+            data-filter-value="${escapeHtml(value.value)}"
           >
-            ${value.label}
+            ${escapeHtml(value.label)}
           </button>
         `,
           )
@@ -197,10 +199,11 @@ export class SearchToolbar {
           .map(
             (option) => `
           <button
+            type="button"
             class="search-toolbar-filter-btn ${this.activeSort === option.value ? "is-active" : ""}"
-            data-sort-value="${option.value}"
+            data-sort-value="${escapeHtml(option.value)}"
           >
-            ${option.label}
+            ${escapeHtml(option.label)}
           </button>
         `,
           )
@@ -294,14 +297,14 @@ export class SearchToolbar {
     let html = "";
     Object.entries(groupedItems).forEach(([category, items]) => {
       if (category) {
-        html += `<div class="search-toolbar-autocomplete-category">${category}</div>`;
+        html += `<div class="search-toolbar-autocomplete-category">${escapeHtml(category)}</div>`;
       }
       items.forEach((item, index) => {
         const highlightedText = this.highlightMatch(item.text, query);
         html += `
           <div class="search-toolbar-autocomplete-item" data-index="${index}">
             <div class="search-toolbar-autocomplete-text">${highlightedText}</div>
-            ${item.meta ? `<div class="search-toolbar-autocomplete-meta">${item.meta}</div>` : ""}
+            ${item.meta ? `<div class="search-toolbar-autocomplete-meta">${escapeHtml(item.meta)}</div>` : ""}
           </div>
         `;
       });
@@ -336,13 +339,13 @@ export class SearchToolbar {
 
   private highlightMatch(text: string, query: string): string {
     const index = text.toLowerCase().indexOf(query.toLowerCase());
-    if (index === -1) return text;
+    if (index === -1) return escapeHtml(text);
 
     const before = text.slice(0, index);
     const match = text.slice(index, index + query.length);
     const after = text.slice(index + query.length);
 
-    return `${before}<span class="search-toolbar-autocomplete-highlight">${match}</span>${after}`;
+    return `${escapeHtml(before)}<span class="search-toolbar-autocomplete-highlight">${escapeHtml(match)}</span>${escapeHtml(after)}`;
   }
 
   private handleKeyDown(e: KeyboardEvent): void {
@@ -426,9 +429,9 @@ export class SearchToolbar {
         ${Array.from(this.selectedTags)
           .map(
             (tag) => `
-          <div class="search-toolbar-tag" data-tag="${tag}">
-            <span>${tag}</span>
-            <button class="search-toolbar-tag-remove" aria-label="Remove ${tag}">
+          <div class="search-toolbar-tag" data-tag="${escapeHtml(tag)}">
+            <span>${escapeHtml(tag)}</span>
+            <button type="button" class="search-toolbar-tag-remove" aria-label="Remove ${escapeHtml(tag)}">
               <svg width="10" height="10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
               </svg>

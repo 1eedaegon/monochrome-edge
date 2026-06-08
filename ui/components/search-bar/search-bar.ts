@@ -3,6 +3,8 @@
  * Fast, memory-efficient full-text search
  */
 
+import { highlightSafe } from "@ui/utils/security";
+
 // FlexSearch types (simplified, you'd normally import from 'flexsearch')
 interface FlexSearchIndex {
   add(id: number | string, doc: string): void;
@@ -112,10 +114,13 @@ export class SearchBar {
    * Highlight matches in text
    */
   private highlightText(text: string, query: string): string {
-    if (!this.options.highlightMatches || !query) return text;
-
-    const regex = new RegExp(`(${query})`, "gi");
-    return text.replace(regex, '<mark class="search-highlight">$1</mark>');
+    // `highlightSafe` always HTML-escapes `text` (so untrusted document
+    // fields cannot inject markup) and regex-escapes the query (so a
+    // crafted query cannot cause ReDoS or regex injection). When
+    // highlighting is disabled we pass an empty query, which still
+    // returns the escaped text.
+    const effectiveQuery = this.options.highlightMatches ? query : "";
+    return highlightSafe(text, effectiveQuery);
   }
 
   /**
@@ -131,16 +136,23 @@ export class SearchBar {
 
     const searchIcon = document.createElement("span");
     searchIcon.className = "search-bar-icon";
-    searchIcon.innerHTML = "🔍";
+    searchIcon.setAttribute("aria-hidden", "true");
+    searchIcon.textContent = "🔍";
 
     this.input = document.createElement("input");
     this.input.type = "text";
     this.input.className = "search-bar-input";
     this.input.placeholder = this.options.placeholder;
+    this.input.setAttribute("role", "combobox");
+    this.input.setAttribute("aria-autocomplete", "list");
+    this.input.setAttribute("aria-expanded", "false");
+    this.input.setAttribute("aria-label", this.options.placeholder || "Search");
 
     const clearButton = document.createElement("button");
     clearButton.className = "search-bar-clear";
-    clearButton.innerHTML = "×";
+    clearButton.type = "button";
+    clearButton.setAttribute("aria-label", "Clear search");
+    clearButton.textContent = "×";
     clearButton.style.display = "none";
     clearButton.addEventListener("click", () => this.clear());
 
