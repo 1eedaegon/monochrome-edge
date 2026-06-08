@@ -3,7 +3,7 @@
  * Custom Elements implementation for Monochrome Edge UI
  */
 
-import { escapeHtml, safeUrl } from "./security";
+import { escapeHtml, safeUrl } from "../ui/utils/security";
 import {
   TreeView,
   type TreeNode,
