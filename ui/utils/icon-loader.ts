@@ -193,10 +193,13 @@ class IconLoader {
 // Create singleton instance
 const iconLoader = new IconLoader();
 
-// Preload common icons
-iconLoader
-  .preload([
-    "undo",
+// Preload common icons — only in the browser. Guarded so importing this
+// module (transitively via the main barrel or web-components) does not fire a
+// network request during SSR/SSG module evaluation.
+if (typeof window !== "undefined") {
+  iconLoader
+    .preload([
+      "undo",
     "redo",
     "bold",
     "italic",
@@ -221,7 +224,8 @@ iconLoader
     "moon",
     "flame",
     "snowflake",
-  ])
-  .catch(() => {});
+    ])
+    .catch(() => {});
+}
 
 export { iconLoader, IconLoader };
