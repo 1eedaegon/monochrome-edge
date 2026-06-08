@@ -1,4 +1,3 @@
-import typescript from "@rollup/plugin-typescript";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import terser from "@rollup/plugin-terser";
@@ -10,11 +9,32 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const external = ["react", "react-dom", "vue", "jquery"];
 
+// Shared TS→JS transpile plugin. We use esbuild rather than
+// @rollup/plugin-typescript because the latter drives TypeScript's synchronous
+// ts.sys file I/O, which collides with Node 24's async libuv FD handling and
+// throws intermittent "EBADF: bad file descriptor" mid-build. esbuild has no
+// such issue. Type declarations are emitted separately by `build:types`
+// (tsconfig.types.json → dist/types), which is what the exports "types"
+// conditions point at, so dropping the plugin's per-config .d.ts is safe.
+const transpile = () =>
+  esbuild({
+    include: /\.[jt]sx?$/,
+    exclude: /node_modules/,
+    sourceMap: false,
+    minify: false,
+    target: "es2022",
+    tsconfig: false,
+    loaders: { ".ts": "ts", ".tsx": "tsx" },
+  });
+
 // Helper function to create component config
 const createComponentConfig = (name, inputPath) => ({
   input: inputPath,
   output: [
     {
+      // Browser <script> CDN entry — referenced as a .js URL, keep .js. The CJS
+      // require() entry (${name}.cjs) is produced by scripts/make-cjs.js copying
+      // this UMD output (.cjs forces CommonJS under "type":"module").
       file: `dist/ui/components/${name}.js`,
       format: "umd",
       name: "MonochromeEdge",
@@ -31,45 +51,14 @@ const createComponentConfig = (name, inputPath) => ({
     alias({
       entries: [{ find: "@ui", replacement: path.resolve(__dirname, "ui") }],
     }),
-    typescript({
-      declaration: true,
-      declarationDir: "dist/ui/components",
-      rootDir: "ui",
-      compilerOptions: {
-        outDir: "dist/ui/components",
-      },
-    }),
+    transpile(),
     resolve(),
     commonjs(),
     terser(),
   ],
 });
 
-// Shared TypeScript plugin config for the framework-adapter bundles
-// (vue / jquery / web-components / src index). Keeps one source of truth for
-// the compiler options instead of repeating the block per entry.
-const tsPlugin = () =>
-  typescript({
-    declaration: false,
-    declarationMap: false,
-    tsconfig: false,
-    include: ["src/**/*", "ui/**/*"],
-    exclude: ["src/react.tsx"],
-    compilerOptions: {
-      target: "es2022",
-      module: "esnext",
-      moduleResolution: "node",
-      allowSyntheticDefaultImports: true,
-      esModuleInterop: true,
-      baseUrl: ".",
-      paths: {
-        "@src/*": ["src/*"],
-        "@ui/*": ["ui/*"],
-      },
-    },
-  });
-
-export default [
+const configs = [
   // ========================================
   // A. UI Components - Individual Builds (UMD for CDN)
   // ========================================
@@ -99,6 +88,11 @@ export default [
     input: "ui/index.ts",
     output: [
       {
+        // Browser <script> CDN entry (window.MonochromeEdge). Referenced as a
+        // .js URL by the README/demo, so the extension must stay .js. The CJS
+        // require() entry (dist/ui.cjs) is produced by scripts/make-cjs.js
+        // copying this UMD output — under "type":"module" the .js is parsed as
+        // ESM and exposes nothing to require(); the .cjs sibling forces CJS.
         file: "dist/ui.js",
         format: "umd",
         name: "MonochromeEdge",
@@ -113,10 +107,7 @@ export default [
       alias({
         entries: [{ find: "@ui", replacement: path.resolve(__dirname, "ui") }],
       }),
-      typescript({
-        declaration: false, // Skip declaration for integrated bundle
-        rootDir: "ui",
-      }),
+      transpile(),
       resolve(),
       commonjs(),
       terser(),
@@ -131,7 +122,7 @@ export default [
     external: [...external, "react/jsx-runtime"],
     output: [
       {
-        file: "dist/react.js",
+        file: "dist/react.cjs",
         format: "cjs",
         exports: "named",
       },
@@ -177,7 +168,7 @@ export default [
     external: [...external],
     output: [
       {
-        file: "dist/vue.js",
+        file: "dist/vue.cjs",
         format: "cjs",
         exports: "named",
       },
@@ -193,7 +184,7 @@ export default [
           { find: "@ui", replacement: path.resolve(__dirname, "ui") },
         ],
       }),
-      tsPlugin(),
+      transpile(),
       resolve({
         extensions: [".js", ".ts", ".tsx"],
       }),
@@ -210,7 +201,7 @@ export default [
     external: [...external],
     output: [
       {
-        file: "dist/jquery.js",
+        file: "dist/jquery.cjs",
         format: "cjs",
         exports: "named",
       },
@@ -226,7 +217,7 @@ export default [
           { find: "@ui", replacement: path.resolve(__dirname, "ui") },
         ],
       }),
-      tsPlugin(),
+      transpile(),
       resolve({
         extensions: [".js", ".ts", ".tsx"],
       }),
@@ -242,7 +233,7 @@ export default [
     input: "src/web-components.ts",
     output: [
       {
-        file: "dist/web-components.js",
+        file: "dist/web-components.cjs",
         format: "cjs",
         exports: "named",
       },
@@ -258,7 +249,7 @@ export default [
           { find: "@ui", replacement: path.resolve(__dirname, "ui") },
         ],
       }),
-      tsPlugin(),
+      transpile(),
       resolve({
         extensions: [".js", ".ts", ".tsx"],
       }),
@@ -274,7 +265,7 @@ export default [
     input: "src/index.ts",
     output: [
       {
-        file: "dist/index.js",
+        file: "dist/index.cjs",
         format: "cjs",
         exports: "named",
       },
@@ -290,7 +281,7 @@ export default [
           { find: "@ui", replacement: path.resolve(__dirname, "ui") },
         ],
       }),
-      tsPlugin(),
+      transpile(),
       resolve({
         extensions: [".js", ".ts", ".tsx"],
       }),
@@ -299,3 +290,9 @@ export default [
     ],
   },
 ];
+
+// Serialize rollup's own output-file writes. Node 24 intermittently throws
+// "EBADF: bad file descriptor, write" from rollup's parallel write queue
+// (Queue.work) when many bundles emit at once. Capping to one file op at a time
+// trades a little speed for a reliable, non-flaky build.
+export default configs.map((c) => ({ maxParallelFileOps: 1, ...c }));
