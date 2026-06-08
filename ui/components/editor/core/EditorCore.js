@@ -161,6 +161,15 @@ export class EditorCore {
     }
     
     loadDocument() {
+        // When explicit seed content is provided, apply it synchronously so
+        // the editor is fully populated before the constructor returns. This
+        // avoids a race where the async storage path renders the seed after
+        // the caller (or a test) has already started interacting.
+        if (this.config.content) {
+            this.createInitialContent();
+            return;
+        }
+
         // Try to load from storage
         this.storage.loadDocument(this.config.documentId).then(doc => {
             if (doc) {
@@ -177,11 +186,20 @@ export class EditorCore {
     }
     
     createInitialContent() {
-        // Create initial paragraph block
-        const initialBlock = this.dataModel.createBlock('paragraph', '');
-        this.dataModel.insertBlock(initialBlock);
+        if (this.config.content) {
+            // Seed from provided markdown/plain text. parseContent always
+            // returns at least one block; append a trailing empty paragraph
+            // so the caret has an empty block to land in.
+            const blocks = this.parseContent(this.config.content);
+            blocks.push(this.dataModel.createBlock('paragraph', ''));
+            this.dataModel.document.blocks = blocks;
+        } else {
+            // Create initial paragraph block
+            const initialBlock = this.dataModel.createBlock('paragraph', '');
+            this.dataModel.insertBlock(initialBlock);
+        }
         this.render();
-        
+
         // Focus first block
         setTimeout(() => {
             const firstBlock = this.contentElement.querySelector('.editor-block');
@@ -323,26 +341,23 @@ export class EditorCore {
         input.click();
     }
     
-    insertTable() {
-        const rows = prompt('Number of rows:', '3');
-        const cols = prompt('Number of columns:', '3');
-        
-        if (!rows || !cols) return;
-        
+    insertTable(rows = 3, cols = 3) {
+        // Insert a default grid immediately. Callers that want a custom size
+        // can pass dimensions; the slash menu uses the 3x3 default so the
+        // block appears without a blocking prompt.
         const tableData = {
-            rows: parseInt(rows),
-            cols: parseInt(cols),
+            rows: parseInt(rows, 10) || 3,
+            cols: parseInt(cols, 10) || 3,
             cells: []
         };
-        
-        // Initialize empty cells
+
         for (let i = 0; i < tableData.rows; i++) {
             tableData.cells[i] = [];
             for (let j = 0; j < tableData.cols; j++) {
                 tableData.cells[i][j] = '';
             }
         }
-        
+
         this.insertBlock('table', tableData);
     }
     

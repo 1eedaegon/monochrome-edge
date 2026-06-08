@@ -267,11 +267,13 @@ export class SlashMenuCore {
     updateSelection() {
         const items = this.element.querySelectorAll('.slash-item');
         items.forEach((item, index) => {
-            if (index === this.selectedIndex) {
-                item.style.background = 'var(--theme-bg, #f5f5f5)';
-            } else {
-                item.style.background = 'transparent';
-            }
+            const isSelected = index === this.selectedIndex;
+            // Keep the `selected` class in sync (not just the inline colour)
+            // so keyboard navigation is reflected in the DOM state.
+            item.classList.toggle('selected', isSelected);
+            item.style.background = isSelected
+                ? 'var(--theme-bg, #f5f5f5)'
+                : 'transparent';
         });
     }
     
