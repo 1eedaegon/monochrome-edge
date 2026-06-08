@@ -840,14 +840,14 @@ export function IconToggle({
   onToggle,
   className = "",
 }: IconToggleProps) {
-  const getDefaultState = () => {
+  // SSR-safe default — never read `document` during render so the component
+  // can be server-rendered (Next.js, Astro, VitePress, Docusaurus).
+  const ssrSafeDefault = () => {
     switch (type) {
       case "mode":
-        return document.documentElement.getAttribute("data-theme") || "light";
+        return "light";
       case "theme":
-        return (
-          document.documentElement.getAttribute("data-theme-variant") || "warm"
-        );
+        return "warm";
       case "color":
         return "monochrome";
       case "language":
@@ -857,8 +857,23 @@ export function IconToggle({
     }
   };
 
-  const [state, setState] = useState(getDefaultState());
+  const [state, setState] = useState(ssrSafeDefault);
   const [isAnimating, setIsAnimating] = useState(false);
+
+  // Sync from the live theme attributes after mount (client only).
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+    if (type === "mode") {
+      setState(
+        document.documentElement.getAttribute("data-theme") || "light",
+      );
+    } else if (type === "theme") {
+      setState(
+        document.documentElement.getAttribute("data-theme-variant") || "warm",
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [type]);
 
   const handleToggle = () => {
     if (disabled) return;

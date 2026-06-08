@@ -943,15 +943,14 @@ export const IconToggle = defineComponent({
   },
   emits: ["toggle"],
   setup(props, { emit }) {
-    const getDefaultState = () => {
+    // SSR-safe default — never read `document` in setup so the component can
+    // be server-rendered (VitePress, Nuxt, Astro).
+    const ssrSafeDefault = () => {
       switch (props.type) {
         case "mode":
-          return document.documentElement.getAttribute("data-theme") || "light";
+          return "light";
         case "theme":
-          return (
-            document.documentElement.getAttribute("data-theme-variant") ||
-            "warm"
-          );
+          return "warm";
         case "color":
           return "monochrome";
         case "language":
@@ -961,8 +960,21 @@ export const IconToggle = defineComponent({
       }
     };
 
-    const state = ref(getDefaultState());
+    const state = ref(ssrSafeDefault());
     const isAnimating = ref(false);
+
+    // Sync from the live theme attributes after mount (client only).
+    onMounted(() => {
+      if (typeof document === "undefined") return;
+      if (props.type === "mode") {
+        state.value =
+          document.documentElement.getAttribute("data-theme") || "light";
+      } else if (props.type === "theme") {
+        state.value =
+          document.documentElement.getAttribute("data-theme-variant") ||
+          "warm";
+      }
+    });
 
     const handleToggle = () => {
       if (props.disabled) return;

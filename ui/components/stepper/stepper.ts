@@ -958,9 +958,13 @@ export function initSteppers(): void {
   });
 }
 
-// DOM ready initialization
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", initSteppers);
-} else {
-  initSteppers();
+// DOM ready initialization — guarded so importing this module is safe under
+// SSR/SSG (Next.js, Astro, VitePress, Docusaurus, Eleventy, Quartz) where
+// `document` does not exist at module-evaluation time.
+if (typeof document !== "undefined") {
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initSteppers);
+  } else {
+    initSteppers();
+  }
 }
