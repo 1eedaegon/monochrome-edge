@@ -3,8 +3,8 @@
  * Advanced search with filters, sorting, and autocomplete
  */
 
-import { iconLoader } from "@ui/utils/icon-loader";
-import { escapeHtml } from "@ui/utils/security";
+import { iconLoader } from "../../utils/icon-loader";
+import { escapeHtml } from "../../utils/security";
 
 export interface SearchToolbarOptions {
   placeholder?: string;

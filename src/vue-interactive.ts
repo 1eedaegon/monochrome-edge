@@ -19,29 +19,29 @@ import {
 
 import {
   Accordion as AccordionCore,
-} from "@ui/components/accordion/accordion";
-import { Tabs as TabsCore } from "@ui/components/tabs/tabs";
-import { Dropdown as DropdownCore } from "@ui/components/dropdown/dropdown";
+} from "../ui/components/accordion/accordion";
+import { Tabs as TabsCore } from "../ui/components/tabs/tabs";
+import { Dropdown as DropdownCore } from "../ui/components/dropdown/dropdown";
 import {
   SearchBar as SearchBarCore,
   type SearchDocument,
-} from "@ui/components/search-bar/search-bar";
+} from "../ui/components/search-bar/search-bar";
 import {
   SearchToolbar as SearchToolbarCore,
   type FilterOption,
   type SortOption,
-} from "@ui/components/search-toolbar/search-toolbar";
+} from "../ui/components/search-toolbar/search-toolbar";
 import {
   TreeView as TreeViewCore,
   type TreeNode,
-} from "@ui/components/tree-view/tree-view";
+} from "../ui/components/tree-view/tree-view";
 import {
   Stepper as StepperCore,
   type Step,
-} from "@ui/components/stepper/stepper";
-import { MathRenderer as MathRendererCore } from "@ui/components/math-renderer/math-renderer";
-import { GraphView as GraphViewCore } from "@ui/components/graph-view/graph-view";
-import type { DocumentMetadata } from "@ui/components/graph-view/graph-builder";
+} from "../ui/components/stepper/stepper";
+import { MathRenderer as MathRendererCore } from "../ui/components/math-renderer/math-renderer";
+import { GraphView as GraphViewCore } from "../ui/components/graph-view/graph-view";
+import type { DocumentMetadata } from "../ui/components/graph-view/graph-builder";
 
 export const Accordion = defineComponent({
   name: "MonoAccordion",
