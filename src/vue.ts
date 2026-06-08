@@ -15,6 +15,7 @@ import {
   iconToggleDefault,
   nextIconToggleState,
   applyIconToggleState,
+  readIconToggleState,
 } from "./icon-toggle-data";
 
 type ThemeVariant = "warm" | "cold";
@@ -954,16 +955,10 @@ export const IconToggle = defineComponent({
     const state = ref(iconToggleDefault(props.type));
     const isAnimating = ref(false);
 
-    // Sync from the live theme attributes after mount (client only).
+    // Sync from the live theme attributes after mount (client only). Uses the
+    // shared reader so any future toggle type with a document attr is covered.
     onMounted(() => {
-      if (typeof document === "undefined") return;
-      if (props.type === "mode") {
-        state.value =
-          document.documentElement.getAttribute("data-theme") || "light";
-      } else if (props.type === "theme") {
-        state.value =
-          document.documentElement.getAttribute("data-theme-variant") || "warm";
-      }
+      state.value = readIconToggleState(props.type);
     });
 
     const handleToggle = () => {
