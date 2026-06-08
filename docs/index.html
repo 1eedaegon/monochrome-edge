@@ -297,8 +297,11 @@
                 window.location.hostname === "";
 
             if (isLocal) {
+                // Source CSS so local viewing works straight from `npm start`
+                // without requiring a build first (consistent with the other
+                // demo pages).
                 document.getElementById("monochrome-css").href =
-                    "../dist/monochrome.min.css";
+                    "../ui/monochrome-edge.css";
             }
 
             window.isLocal = isLocal;
