@@ -3,7 +3,7 @@
  * Fast, memory-efficient full-text search
  */
 
-import { highlightSafe } from "@ui/utils/security";
+import { highlightSafe } from "../../utils/security";
 
 // FlexSearch types (simplified, you'd normally import from 'flexsearch')
 interface FlexSearchIndex {

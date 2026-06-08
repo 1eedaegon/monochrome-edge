@@ -13,39 +13,39 @@ import React, { useRef, useEffect, ReactNode } from "react";
 import {
   Accordion as AccordionCore,
   type AccordionOptions,
-} from "@ui/components/accordion/accordion";
-import { Tabs as TabsCore, type TabsOptions } from "@ui/components/tabs/tabs";
+} from "../ui/components/accordion/accordion";
+import { Tabs as TabsCore, type TabsOptions } from "../ui/components/tabs/tabs";
 import {
   Dropdown as DropdownCore,
   type DropdownOptions,
-} from "@ui/components/dropdown/dropdown";
+} from "../ui/components/dropdown/dropdown";
 import {
   SearchBar as SearchBarCore,
   type SearchDocument,
   type SearchBarOptions,
-} from "@ui/components/search-bar/search-bar";
+} from "../ui/components/search-bar/search-bar";
 import {
   SearchToolbar as SearchToolbarCore,
   type SearchToolbarOptions,
-} from "@ui/components/search-toolbar/search-toolbar";
+} from "../ui/components/search-toolbar/search-toolbar";
 import {
   TreeView as TreeViewCore,
   type TreeNode,
   type TreeViewOptions,
-} from "@ui/components/tree-view/tree-view";
+} from "../ui/components/tree-view/tree-view";
 import {
   Stepper as StepperCore,
   type StepperOptions,
   type Step,
-} from "@ui/components/stepper/stepper";
+} from "../ui/components/stepper/stepper";
 import {
   MathRenderer as MathRendererCore,
   type MathRendererOptions,
-} from "@ui/components/math-renderer/math-renderer";
+} from "../ui/components/math-renderer/math-renderer";
 import {
   GraphView as GraphViewCore,
   type GraphViewOptions,
-} from "@ui/components/graph-view/graph-view";
+} from "../ui/components/graph-view/graph-view";
 
 type Div = HTMLDivElement;
 
