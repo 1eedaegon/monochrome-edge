@@ -4,7 +4,7 @@
  */
 
 import $ from "jquery";
-import { safeUrl } from "./security";
+import { safeUrl } from "../ui/utils/security";
 
 // Extend jQuery interface
 declare global {
