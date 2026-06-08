@@ -751,7 +751,8 @@ export const TOC = defineComponent({
               "a",
               {
                 href: item.href,
-                "aria-current": item.id === props.activeId ? "location" : undefined,
+                "aria-current":
+                  item.id === props.activeId ? "location" : undefined,
                 class: `toc-list-link ${item.id === props.activeId ? "is-active" : ""}`,
                 onClick: () => props.onItemClick?.(item),
               },
@@ -971,8 +972,7 @@ export const IconToggle = defineComponent({
           document.documentElement.getAttribute("data-theme") || "light";
       } else if (props.type === "theme") {
         state.value =
-          document.documentElement.getAttribute("data-theme-variant") ||
-          "warm";
+          document.documentElement.getAttribute("data-theme-variant") || "warm";
       }
     });
 

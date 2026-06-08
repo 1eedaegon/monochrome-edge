@@ -72,8 +72,7 @@ export function ThemeProvider({
 }
 
 // Button Component
-export interface ButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "ghost" | "danger";
   size?: "small" | "medium" | "large";
   loading?: boolean;
@@ -148,8 +147,7 @@ export function Layout({
 }
 
 // Form Components
-export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
 }
@@ -377,44 +375,45 @@ export function NavItem({
 }
 
 // Select Component
-export interface SelectProps
-  extends React.SelectHTMLAttributes<HTMLSelectElement> {
+export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   label?: string;
   error?: string;
 }
 
-export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select(
-  { label, error, className = "", children, id, ...props },
-  ref,
-) {
-  const generatedId = useId();
-  const selectId = id ?? generatedId;
-  const errorId = `${selectId}-error`;
-  return (
-    <div className="form-group">
-      {label && (
-        <label className="label" htmlFor={selectId}>
-          {label}
-        </label>
-      )}
-      <select
-        ref={ref}
-        id={selectId}
-        className={`select ${error ? "select-error" : ""} ${className}`}
-        aria-invalid={error ? true : undefined}
-        aria-describedby={error ? errorId : undefined}
-        {...props}
-      >
-        {children}
-      </select>
-      {error && (
-        <span id={errorId} className="error-message" role="alert">
-          {error}
-        </span>
-      )}
-    </div>
-  );
-});
+export const Select = forwardRef<HTMLSelectElement, SelectProps>(
+  function Select(
+    { label, error, className = "", children, id, ...props },
+    ref,
+  ) {
+    const generatedId = useId();
+    const selectId = id ?? generatedId;
+    const errorId = `${selectId}-error`;
+    return (
+      <div className="form-group">
+        {label && (
+          <label className="label" htmlFor={selectId}>
+            {label}
+          </label>
+        )}
+        <select
+          ref={ref}
+          id={selectId}
+          className={`select ${error ? "select-error" : ""} ${className}`}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? errorId : undefined}
+          {...props}
+        >
+          {children}
+        </select>
+        {error && (
+          <span id={errorId} className="error-message" role="alert">
+            {error}
+          </span>
+        )}
+      </div>
+    );
+  },
+);
 
 // Badge Component
 export interface BadgeProps {
@@ -434,8 +433,7 @@ export function Badge({
 }
 
 // Textarea Component
-export interface TextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: string;
   error?: string;
 }
@@ -471,8 +469,7 @@ export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
 );
 
 // Checkbox Component
-export interface CheckboxProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
 }
 
@@ -489,8 +486,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 );
 
 // Radio Component
-export interface RadioProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface RadioProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label?: string;
 }
 
@@ -518,8 +514,7 @@ export function FormGroup({ children, className = "" }: FormGroupProps) {
 }
 
 // Label Component
-export interface LabelProps
-  extends React.LabelHTMLAttributes<HTMLLabelElement> {
+export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {
   required?: boolean;
 }
 
@@ -864,9 +859,7 @@ export function IconToggle({
   useEffect(() => {
     if (typeof document === "undefined") return;
     if (type === "mode") {
-      setState(
-        document.documentElement.getAttribute("data-theme") || "light",
-      );
+      setState(document.documentElement.getAttribute("data-theme") || "light");
     } else if (type === "theme") {
       setState(
         document.documentElement.getAttribute("data-theme-variant") || "warm",

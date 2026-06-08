@@ -487,7 +487,9 @@ $.fn.mceBreadcrumb = function (options?: BreadcrumbOptions) {
       }
 
       if (item.href && !item.active) {
-        const $link = $("<a></a>").attr("href", safeUrl(item.href)).text(item.label);
+        const $link = $("<a></a>")
+          .attr("href", safeUrl(item.href))
+          .text(item.label);
         $item.append($link);
       } else {
         $item.text(item.label);

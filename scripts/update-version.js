@@ -63,7 +63,9 @@ tsConstantFiles.forEach((filePath) => {
   );
   if (content !== updated) {
     fs.writeFileSync(filePath, updated, "utf8");
-    console.log(`✓ Updated VERSION to ${version} in ${path.basename(filePath)}`);
+    console.log(
+      `✓ Updated VERSION to ${version} in ${path.basename(filePath)}`,
+    );
   }
 });
 
