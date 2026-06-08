@@ -226,7 +226,9 @@
 
 /* Blog Content Blocks - Full Markdown Support */
 .blog-content {
-    max-width: 800px;
+    /* Cap the measure at ~72 characters for comfortable long-form reading
+       (800px at this body size ran ~95ch). */
+    max-width: min(72ch, 100%);
     margin: 0 auto;
 }
 
@@ -330,14 +332,19 @@
 
 /* Links */
 .blog-content a {
-    color: var(--theme-accent);
+    /* High-contrast link colour with a clear underline affordance — the
+       previous --theme-accent was a mid-gray that read as plain body text
+       and was borderline for AA in light themes. */
+    color: var(--theme-text-primary);
     text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
     transition: color var(--transition-speed);
 }
 
 .blog-content a:hover {
-    color: var(--theme-text-primary);
-    text-decoration: none;
+    color: var(--theme-highlight);
+    text-decoration-thickness: 2px;
 }
 
 /* Blockquote */
