@@ -142,7 +142,7 @@ class MonochromeModal extends MonochromeElement {
 
     this.innerHTML = `
       <div class="modal-backdrop"></div>
-      <div class="modal-content modal-${size}">
+      <div class="modal-content modal-${escapeHtml(size)}">
         ${
           title
             ? `
@@ -423,7 +423,7 @@ class MonochromeToast extends MonochromeElement {
 // Icon Toggle Component
 class MonochromeIconToggle extends MonochromeElement {
   static get observedAttributes() {
-    return ["type", "state", "disabled", "variant", "icon1", "icon2"];
+    return ["type", "state", "disabled", "variant"];
   }
 
   constructor() {
@@ -444,8 +444,6 @@ class MonochromeIconToggle extends MonochromeElement {
     const state = this.getAttribute("state") || readIconToggleState(type);
     const disabled = this.hasAttribute("disabled");
     const variant = this.getAttribute("variant") || "default"; // default, ghost
-    const icon1 = this.getAttribute("icon1");
-    const icon2 = this.getAttribute("icon2");
 
     const classList = ["icon-btn-toggle", `icon-btn-toggle-${type}`];
 
@@ -465,25 +463,15 @@ class MonochromeIconToggle extends MonochromeElement {
       this.removeAttribute("disabled");
     }
 
-    const icons = this.getIcons(type, icon1, icon2);
+    // Icons come only from the shared, static icon-toggle data — never from
+    // attributes — so there is no HTML-injection surface here.
+    const [icon1, icon2] = iconToggleIcons(type);
     this.innerHTML = `
       <span class="icon-btn-toggle-icon">
-        ${icons.icon1}
-        ${icons.icon2}
+        ${icon1}
+        ${icon2}
       </span>
     `;
-  }
-
-  getIcons(
-    type: string,
-    customIcon1?: string | null,
-    customIcon2?: string | null,
-  ): { icon1: string; icon2: string } {
-    if (customIcon1 && customIcon2) {
-      return { icon1: customIcon1, icon2: customIcon2 };
-    }
-    const [icon1, icon2] = iconToggleIcons(type);
-    return { icon1, icon2 };
   }
 
   setupEventListeners() {
@@ -804,7 +792,9 @@ class MonochromeIconButton extends MonochromeElement {
       variant,
     )}" aria-label="${escapeHtml(label)}"></button>`;
     const btn = this.querySelector("button");
-    if (btn && icon) {
+    // Only load named icons (allow-list) so the icon attribute cannot point
+    // the loader at an arbitrary/remote SVG that would be injected as HTML.
+    if (btn && icon && /^[a-z0-9-]+$/i.test(icon)) {
       try {
         btn.innerHTML = await iconLoader.load(icon, { width: 20, height: 20 });
       } catch {
@@ -814,24 +804,25 @@ class MonochromeIconButton extends MonochromeElement {
   }
 }
 
-// Register all components
+// Register all components. Every define is guarded so the function is
+// idempotent — calling it twice (e.g. two bundles on one page) is a no-op
+// rather than a "has already been defined" DOMException.
 export function registerMonochromeComponents() {
-  customElements.define("mce-button", MonochromeButton);
-  customElements.define("mce-card", MonochromeCard);
-  customElements.define("mce-modal", MonochromeModal);
-  customElements.define("mce-tabs", MonochromeTabs);
-  customElements.define("mce-accordion", MonochromeAccordion);
-  customElements.define("mce-input", MonochromeInput);
-  customElements.define("mce-checkbox", MonochromeCheckbox);
-  customElements.define("mce-badge", MonochromeBadge);
-  customElements.define("mce-toast", MonochromeToast);
-  customElements.define("mce-icon-toggle", MonochromeIconToggle);
-  customElements.define("mce-breadcrumb", MonochromeBreadcrumb);
-  customElements.define("mce-breadcrumb-item", MonochromeBreadcrumbItem);
-
   const define = (name: string, ctor: CustomElementConstructor) => {
     if (!customElements.get(name)) customElements.define(name, ctor);
   };
+  define("mce-button", MonochromeButton);
+  define("mce-card", MonochromeCard);
+  define("mce-modal", MonochromeModal);
+  define("mce-tabs", MonochromeTabs);
+  define("mce-accordion", MonochromeAccordion);
+  define("mce-input", MonochromeInput);
+  define("mce-checkbox", MonochromeCheckbox);
+  define("mce-badge", MonochromeBadge);
+  define("mce-toast", MonochromeToast);
+  define("mce-icon-toggle", MonochromeIconToggle);
+  define("mce-breadcrumb", MonochromeBreadcrumb);
+  define("mce-breadcrumb-item", MonochromeBreadcrumbItem);
   define("mce-tree-view", MonochromeTreeView);
   define("mce-graph-view", MonochromeGraphView);
   define("mce-search-toolbar", MonochromeSearchToolbar);

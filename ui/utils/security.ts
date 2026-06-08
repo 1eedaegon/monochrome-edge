@@ -23,7 +23,10 @@ const HTML_ESCAPE_MAP: Readonly<Record<string, string>> = {
  * `innerHTML`/template strings.
  */
 export function escapeHtml(value: unknown): string {
-  return String(value ?? "").replace(/[&<>"'`]/g, (char) => HTML_ESCAPE_MAP[char] ?? char);
+  return String(value ?? "").replace(
+    /[&<>"'`]/g,
+    (char) => HTML_ESCAPE_MAP[char] ?? char,
+  );
 }
 
 /**
@@ -48,11 +51,19 @@ const SAFE_URL_SCHEMES: ReadonlySet<string> = new Set([
  * returns `"#"` so dangerous schemes like `javascript:` cannot execute.
  */
 export function safeUrl(url: unknown): string {
-  const raw = String(url ?? "").trim();
+  // Strip ASCII control characters (incl. NUL, tab, newline) that browsers
+  // ignore inside scheme names — e.g. "java\tscript:" — before validating.
+  const raw = String(url ?? "")
+    // eslint-disable-next-line no-control-regex
+    .replace(/[\u0000-\u001f\u007f]/g, "")
+    .trim();
   if (raw === "") return "#";
 
   // Relative paths and same-page anchors are safe.
-  if (/^[#/?]/.test(raw) || /^[\w.+-]+(\/|$)/.test(raw) && !/^[a-z][a-z0-9.+-]*:/i.test(raw)) {
+  if (
+    /^[#/?]/.test(raw) ||
+    (/^[\w.+-]+(\/|$)/.test(raw) && !/^[a-z][a-z0-9.+-]*:/i.test(raw))
+  ) {
     return raw;
   }
 
