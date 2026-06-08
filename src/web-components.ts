@@ -3,6 +3,16 @@
  * Custom Elements implementation for Monochrome Edge UI
  */
 
+import { escapeHtml, safeUrl } from "./security";
+import {
+  TreeView,
+  type TreeNode,
+} from "@ui/components/tree-view/tree-view";
+import { GraphView } from "@ui/components/graph-view/graph-view";
+import type { DocumentMetadata } from "@ui/components/graph-view/graph-builder";
+import { SearchToolbar } from "@ui/components/search-toolbar/search-toolbar";
+import { iconLoader } from "@ui/utils/icon-loader";
+
 // Base Component Class
 class MonochromeElement extends HTMLElement {
   constructor() {
@@ -87,7 +97,7 @@ class MonochromeCard extends MonochromeElement {
 
     let html = "";
     if (title) {
-      html += `<div class="card-header">${title}</div>`;
+      html += `<div class="card-header">${escapeHtml(title)}</div>`;
     }
     html += `<div class="card-body">${content}</div>`;
 
@@ -134,8 +144,8 @@ class MonochromeModal extends MonochromeElement {
           title
             ? `
           <div class="modal-header">
-            <h3 class="modal-title">${title}</h3>
-            <button class="modal-close">&times;</button>
+            <h3 class="modal-title">${escapeHtml(title)}</h3>
+            <button class="modal-close" type="button" aria-label="Close">&times;</button>
           </div>
         `
             : ""
@@ -288,15 +298,16 @@ class MonochromeInput extends MonochromeElement {
 
     this.innerHTML = `
       <div class="form-group">
-        ${label ? `<label class="label">${label}</label>` : ""}
+        ${label ? `<label class="label">${escapeHtml(label)}</label>` : ""}
         <input
           class="input ${error ? "input-error" : ""}"
-          type="${type}"
-          value="${value}"
-          placeholder="${placeholder}"
+          type="${escapeHtml(type)}"
+          value="${escapeHtml(value)}"
+          placeholder="${escapeHtml(placeholder)}"
+          ${error ? 'aria-invalid="true"' : ""}
           ${disabled ? "disabled" : ""}
         />
-        ${error ? `<span class="error-message">${error}</span>` : ""}
+        ${error ? `<span class="error-message" role="alert">${escapeHtml(error)}</span>` : ""}
       </div>
     `;
 
@@ -336,7 +347,7 @@ class MonochromeCheckbox extends MonochromeElement {
       <label class="checkbox">
         <input type="checkbox" ${checked ? "checked" : ""} ${disabled ? "disabled" : ""} />
         <span class="checkbox-mark"></span>
-        ${label ? `<span>${label}</span>` : ""}
+        ${label ? `<span>${escapeHtml(label)}</span>` : ""}
       </label>
     `;
 
@@ -604,7 +615,7 @@ class MonochromeBreadcrumbItem extends MonochromeElement {
     this.className = `breadcrumb-item${active ? " is-active" : ""}`;
 
     if (href && !active) {
-      this.innerHTML = `<a href="${href}">${content}</a>`;
+      this.innerHTML = `<a href="${escapeHtml(safeUrl(href))}">${escapeHtml(content)}</a>`;
     } else {
       this.textContent = content;
     }
@@ -683,6 +694,190 @@ class MonochromeBreadcrumb extends MonochromeElement {
   }
 }
 
+// ---------------------------------------------------------------------------
+// Interactive elements — wrap the canonical vanilla classes
+// ---------------------------------------------------------------------------
+
+// <mce-tree-view> — set `.data = [...]`, listen for `node-click`
+class MonochromeTreeView extends MonochromeElement {
+  private _data: TreeNode[] = [];
+  private instance?: TreeView;
+
+  set data(value: TreeNode[]) {
+    this._data = value;
+    this.renderTree();
+  }
+  get data(): TreeNode[] {
+    return this._data;
+  }
+
+  connectedCallback() {
+    if (this._data.length) this.renderTree();
+  }
+
+  disconnectedCallback() {
+    this.instance?.destroy();
+  }
+
+  private renderTree() {
+    this.instance?.destroy();
+    this.instance = new TreeView({
+      container: this,
+      data: this._data,
+      onNodeClick: (node) => this.emit("node-click", node),
+      onNodeToggle: (node, isExpanded) =>
+        this.emit("node-toggle", { node, isExpanded }),
+    });
+  }
+}
+
+// <mce-graph-view> — call `.setDocuments([...])`, listen for `node-click`
+class MonochromeGraphView extends MonochromeElement {
+  private instance?: GraphView;
+
+  setDocuments(documents: DocumentMetadata[]) {
+    this.instance?.destroy();
+    this.instance = new GraphView({
+      container: this,
+      documents,
+      width: parseInt(this.getAttribute("width") || "800", 10),
+      height: parseInt(this.getAttribute("height") || "600", 10),
+      onNodeClick: (node) => this.emit("node-click", node),
+    });
+  }
+
+  disconnectedCallback() {
+    this.instance?.destroy();
+  }
+}
+
+// <mce-search-toolbar> — `.setAutocomplete(fn)`, listen for `search`
+class MonochromeSearchToolbar extends MonochromeElement {
+  private instance?: SearchToolbar;
+  private autocompleteFn?: (query: string) => Promise<string[]>;
+
+  connectedCallback() {
+    this.build();
+  }
+
+  disconnectedCallback() {
+    this.instance?.destroy();
+  }
+
+  setAutocomplete(fn: (query: string) => Promise<string[]>) {
+    this.autocompleteFn = fn;
+    this.build();
+  }
+
+  private build() {
+    this.instance?.destroy();
+    this.innerHTML = "";
+    this.instance = new SearchToolbar(this, {
+      placeholder: this.getAttribute("placeholder") || "Search...",
+      autocomplete: this.autocompleteFn ?? [],
+      onSearch: (query, filters, sort) =>
+        this.emit("search", { query, filters, sort }),
+    });
+  }
+}
+
+// <mce-toc> with <mce-toc-item id href>label</mce-toc-item> children
+class MonochromeTOCItem extends MonochromeElement {
+  // Pure data holder; the parent <mce-toc> reads its attributes/text.
+}
+
+class MonochromeTOC extends MonochromeElement {
+  connectedCallback() {
+    const items = Array.from(this.querySelectorAll("mce-toc-item")).map(
+      (el) => ({
+        id: el.getAttribute("id") || "",
+        href: el.getAttribute("href") || "#",
+        label: el.textContent?.trim() || "",
+      }),
+    );
+    const title = this.getAttribute("title") || "Table of Contents";
+    const collapsible = this.hasAttribute("collapsible");
+    const activeId = this.getAttribute("active-id") || "";
+
+    const listHtml = items
+      .map(
+        (item) =>
+          `<li class="toc-list-item"><a href="${escapeHtml(
+            safeUrl(item.href),
+          )}" data-id="${escapeHtml(item.id)}" class="toc-list-link${
+            item.id === activeId ? " is-active" : ""
+          }"${
+            item.id === activeId ? ' aria-current="location"' : ""
+          }>${escapeHtml(item.label)}</a></li>`,
+      )
+      .join("");
+
+    if (collapsible) {
+      this.className = "toc-collapsible is-open";
+      this.innerHTML = `
+        <button type="button" class="toc-collapsible-header" aria-expanded="true">
+          <h4 class="toc-collapsible-title">${escapeHtml(title)}</h4>
+          <span class="toc-collapsible-icon" aria-hidden="true">▼</span>
+        </button>
+        <div class="toc-collapsible-content"><ul class="toc-list">${listHtml}</ul></div>`;
+      const header = this.querySelector(".toc-collapsible-header");
+      const content = this.querySelector<HTMLElement>(
+        ".toc-collapsible-content",
+      );
+      header?.addEventListener("click", () => {
+        const open = this.classList.toggle("is-open");
+        header.setAttribute("aria-expanded", String(open));
+        if (content) content.hidden = !open;
+      });
+    } else {
+      this.className = "toc";
+      this.innerHTML = `<h4 class="toc-title">${escapeHtml(
+        title,
+      )}</h4><ul class="toc-list">${listHtml}</ul>`;
+    }
+
+    this.querySelectorAll<HTMLAnchorElement>(".toc-list-link").forEach(
+      (link) => {
+        link.addEventListener("click", () => {
+          const id = link.getAttribute("data-id") || "";
+          this.emit("item-click", { id, href: link.getAttribute("href") });
+        });
+      },
+    );
+  }
+}
+
+// <mce-icon-button icon="sun" variant="default">
+class MonochromeIconButton extends MonochromeElement {
+  static get observedAttributes() {
+    return ["icon", "variant"];
+  }
+
+  connectedCallback() {
+    this.renderButton();
+  }
+  attributeChangedCallback() {
+    this.renderButton();
+  }
+
+  private async renderButton() {
+    const icon = this.getAttribute("icon") || "";
+    const variant = this.getAttribute("variant") || "default";
+    const label = this.getAttribute("aria-label") || icon || "icon button";
+    this.innerHTML = `<button type="button" class="icon-btn icon-btn-${escapeHtml(
+      variant,
+    )}" aria-label="${escapeHtml(label)}"></button>`;
+    const btn = this.querySelector("button");
+    if (btn && icon) {
+      try {
+        btn.innerHTML = await iconLoader.load(icon, { width: 20, height: 20 });
+      } catch {
+        /* icon not found — leave the button empty but functional */
+      }
+    }
+  }
+}
+
 // Register all components
 export function registerMonochromeComponents() {
   customElements.define("mce-button", MonochromeButton);
@@ -697,6 +892,16 @@ export function registerMonochromeComponents() {
   customElements.define("mce-icon-toggle", MonochromeIconToggle);
   customElements.define("mce-breadcrumb", MonochromeBreadcrumb);
   customElements.define("mce-breadcrumb-item", MonochromeBreadcrumbItem);
+
+  const define = (name: string, ctor: CustomElementConstructor) => {
+    if (!customElements.get(name)) customElements.define(name, ctor);
+  };
+  define("mce-tree-view", MonochromeTreeView);
+  define("mce-graph-view", MonochromeGraphView);
+  define("mce-search-toolbar", MonochromeSearchToolbar);
+  define("mce-toc", MonochromeTOC);
+  define("mce-toc-item", MonochromeTOCItem);
+  define("mce-icon-button", MonochromeIconButton);
 }
 
 // Auto-register if not in module context
@@ -761,6 +966,12 @@ export {
   MonochromeIconToggle,
   MonochromeBreadcrumb,
   MonochromeBreadcrumbItem,
+  MonochromeTreeView,
+  MonochromeGraphView,
+  MonochromeSearchToolbar,
+  MonochromeTOC,
+  MonochromeTOCItem,
+  MonochromeIconButton,
 };
 
 export default {

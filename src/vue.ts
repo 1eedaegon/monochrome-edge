@@ -723,6 +723,81 @@ export const TocCollapsible = defineComponent({
   },
 });
 
+// Unified TOC Component — convenience API over the TOC primitives.
+interface TOCEntry {
+  id: string;
+  label: string;
+  href: string;
+}
+
+export const TOC = defineComponent({
+  name: "MonoTOC",
+  props: {
+    items: { type: Array as PropType<TOCEntry[]>, required: true },
+    activeId: String,
+    collapsible: { type: Boolean, default: false },
+    title: { type: String, default: "Table of Contents" },
+    onItemClick: Function as PropType<(item: TOCEntry) => void>,
+  },
+  setup(props) {
+    const isOpen = ref(true);
+    const renderList = () =>
+      h(
+        "ul",
+        { class: "toc-list" },
+        props.items.map((item: TOCEntry) =>
+          h("li", { class: "toc-list-item" }, [
+            h(
+              "a",
+              {
+                href: item.href,
+                "aria-current": item.id === props.activeId ? "location" : undefined,
+                class: `toc-list-link ${item.id === props.activeId ? "is-active" : ""}`,
+                onClick: () => props.onItemClick?.(item),
+              },
+              item.label,
+            ),
+          ]),
+        ),
+      );
+
+    return () =>
+      props.collapsible
+        ? h(
+            "nav",
+            { class: `toc-collapsible ${isOpen.value ? "is-open" : ""}` },
+            [
+              h(
+                "button",
+                {
+                  type: "button",
+                  class: "toc-collapsible-header",
+                  "aria-expanded": String(isOpen.value),
+                  onClick: () => (isOpen.value = !isOpen.value),
+                },
+                [
+                  h("h4", { class: "toc-collapsible-title" }, props.title),
+                  h(
+                    "span",
+                    { class: "toc-collapsible-icon", "aria-hidden": "true" },
+                    "▼",
+                  ),
+                ],
+              ),
+              h(
+                "div",
+                { class: "toc-collapsible-content", hidden: !isOpen.value },
+                [renderList()],
+              ),
+            ],
+          )
+        : h("nav", { class: "toc" }, [
+            h("h4", { class: "toc-title" }, props.title),
+            renderList(),
+          ]);
+  },
+});
+
 // Changelog Component
 interface ChangelogEntry {
   version: string;
@@ -1208,7 +1283,13 @@ export const Breadcrumb = defineComponent({
 import { ThemeManager } from "./index";
 export { ThemeManager };
 
+// Interactive components that wrap the canonical vanilla classes. Re-exported
+// so `@monochrome-edge/ui/vue` exposes the full library surface.
+export * from "./vue-interactive";
+import * as InteractiveComponents from "./vue-interactive";
+
 export default {
+  ...InteractiveComponents,
   ThemeProvider,
   Button,
   Card,
@@ -1232,6 +1313,7 @@ export default {
   Label,
   TocHoverCard,
   TocCollapsible,
+  TOC,
   Changelog,
   IconToggle,
   Breadcrumb,

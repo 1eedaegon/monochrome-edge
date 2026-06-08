@@ -6,9 +6,19 @@ import React, {
   useState,
   useContext,
   createContext,
+  forwardRef,
+  useId,
+  useRef,
+  useEffect,
   ReactNode,
   CSSProperties,
 } from "react";
+
+// Re-export the interactive component wrappers (Accordion, Tabs, Dropdown,
+// SearchBar, SearchToolbar, TreeView, Stepper, Math, GraphView) that wrap the
+// canonical vanilla classes, so `@monochrome-edge/ui/react` exposes the full
+// library surface from one entry point.
+export * from "./react-interactive";
 
 // Theme Context
 interface ThemeContextType {
@@ -144,18 +154,36 @@ export interface InputProps
   error?: string;
 }
 
-export function Input({ label, error, className = "", ...props }: InputProps) {
+export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
+  { label, error, className = "", id, ...props },
+  ref,
+) {
+  const generatedId = useId();
+  const inputId = id ?? generatedId;
+  const errorId = `${inputId}-error`;
   return (
     <div className="form-group">
-      {label && <label className="label">{label}</label>}
+      {label && (
+        <label className="label" htmlFor={inputId}>
+          {label}
+        </label>
+      )}
       <input
+        ref={ref}
+        id={inputId}
         className={`input ${error ? "input-error" : ""} ${className}`}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? errorId : undefined}
         {...props}
       />
-      {error && <span className="error-message">{error}</span>}
+      {error && (
+        <span id={errorId} className="error-message" role="alert">
+          {error}
+        </span>
+      )}
     </div>
   );
-}
+});
 
 // Modal Component
 export interface ModalProps {
@@ -173,16 +201,74 @@ export function Modal({
   children,
   size = "medium",
 }: ModalProps) {
+  const contentRef = useRef<HTMLDivElement>(null);
+  const previouslyFocused = useRef<HTMLElement | null>(null);
+  const titleId = useId();
+
+  // Move focus into the dialog on open, restore it on close, and keep a
+  // Tab cycle trapped inside while open (WCAG 2.4.3 / 2.1.2).
+  useEffect(() => {
+    if (!isOpen) return;
+    previouslyFocused.current = document.activeElement as HTMLElement | null;
+    const root = contentRef.current;
+    const focusable = () =>
+      Array.from(
+        root?.querySelectorAll<HTMLElement>(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      ).filter((el) => !el.hasAttribute("disabled"));
+
+    focusable()[0]?.focus();
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const items = focusable();
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (!first || !last) return;
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      previouslyFocused.current?.focus();
+    };
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
     <div className="modal is-open">
       <div className="modal-backdrop" onClick={onClose} />
-      <div className={`modal-content modal-${size}`}>
+      <div
+        ref={contentRef}
+        className={`modal-content modal-${size}`}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={title ? titleId : undefined}
+      >
         {title && (
           <div className="modal-header">
-            <h3 className="modal-title">{title}</h3>
-            <button className="modal-close" onClick={onClose}>
+            <h3 className="modal-title" id={titleId}>
+              {title}
+            </h3>
+            <button
+              type="button"
+              className="modal-close"
+              aria-label="Close"
+              onClick={onClose}
+            >
               ×
             </button>
           </div>
@@ -297,26 +383,38 @@ export interface SelectProps
   error?: string;
 }
 
-export function Select({
-  label,
-  error,
-  className = "",
-  children,
-  ...props
-}: SelectProps) {
+export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select(
+  { label, error, className = "", children, id, ...props },
+  ref,
+) {
+  const generatedId = useId();
+  const selectId = id ?? generatedId;
+  const errorId = `${selectId}-error`;
   return (
     <div className="form-group">
-      {label && <label className="label">{label}</label>}
+      {label && (
+        <label className="label" htmlFor={selectId}>
+          {label}
+        </label>
+      )}
       <select
+        ref={ref}
+        id={selectId}
         className={`select ${error ? "select-error" : ""} ${className}`}
+        aria-invalid={error ? true : undefined}
+        aria-describedby={error ? errorId : undefined}
         {...props}
       >
         {children}
       </select>
-      {error && <span className="error-message">{error}</span>}
+      {error && (
+        <span id={errorId} className="error-message" role="alert">
+          {error}
+        </span>
+      )}
     </div>
   );
-}
+});
 
 // Badge Component
 export interface BadgeProps {
@@ -342,23 +440,35 @@ export interface TextareaProps
   error?: string;
 }
 
-export function Textarea({
-  label,
-  error,
-  className = "",
-  ...props
-}: TextareaProps) {
-  return (
-    <div className="form-group">
-      {label && <label className="label">{label}</label>}
-      <textarea
-        className={`textarea ${error ? "textarea-error" : ""} ${className}`}
-        {...props}
-      />
-      {error && <span className="error-message">{error}</span>}
-    </div>
-  );
-}
+export const Textarea = forwardRef<HTMLTextAreaElement, TextareaProps>(
+  function Textarea({ label, error, className = "", id, ...props }, ref) {
+    const generatedId = useId();
+    const textareaId = id ?? generatedId;
+    const errorId = `${textareaId}-error`;
+    return (
+      <div className="form-group">
+        {label && (
+          <label className="label" htmlFor={textareaId}>
+            {label}
+          </label>
+        )}
+        <textarea
+          ref={ref}
+          id={textareaId}
+          className={`textarea ${error ? "textarea-error" : ""} ${className}`}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? errorId : undefined}
+          {...props}
+        />
+        {error && (
+          <span id={errorId} className="error-message" role="alert">
+            {error}
+          </span>
+        )}
+      </div>
+    );
+  },
+);
 
 // Checkbox Component
 export interface CheckboxProps
@@ -366,15 +476,17 @@ export interface CheckboxProps
   label?: string;
 }
 
-export function Checkbox({ label, className = "", ...props }: CheckboxProps) {
-  return (
-    <label className={`checkbox ${className}`}>
-      <input type="checkbox" {...props} />
-      <span className="checkbox-mark"></span>
-      {label && <span>{label}</span>}
-    </label>
-  );
-}
+export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
+  function Checkbox({ label, className = "", ...props }, ref) {
+    return (
+      <label className={`checkbox ${className}`}>
+        <input ref={ref} type="checkbox" {...props} />
+        <span className="checkbox-mark"></span>
+        {label && <span>{label}</span>}
+      </label>
+    );
+  },
+);
 
 // Radio Component
 export interface RadioProps
@@ -382,15 +494,18 @@ export interface RadioProps
   label?: string;
 }
 
-export function Radio({ label, className = "", ...props }: RadioProps) {
+export const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio(
+  { label, className = "", ...props },
+  ref,
+) {
   return (
     <label className={`radio ${className}`}>
-      <input type="radio" {...props} />
+      <input ref={ref} type="radio" {...props} />
       <span className="radio-mark"></span>
       {label && <span>{label}</span>}
     </label>
   );
-}
+});
 
 // FormGroup Component
 export interface FormGroupProps {
@@ -432,10 +547,15 @@ export function useToast() {
     toast.className = `toast toast-${type}`;
     toast.textContent = message;
 
+    toast.setAttribute("role", type === "error" ? "alert" : "status");
+
     let container = document.querySelector(".toast-container");
     if (!container) {
       container = document.createElement("div");
       container.className = "toast-container";
+      container.setAttribute("role", "status");
+      container.setAttribute("aria-live", "polite");
+      container.setAttribute("aria-atomic", "true");
       document.body.appendChild(container);
     }
 
@@ -532,6 +652,86 @@ export function TocCollapsible({
         </ul>
       </div>
     </div>
+  );
+}
+
+// Unified TOC Component — convenience API over the TOC primitives.
+export interface TOCEntry {
+  id: string;
+  label: string;
+  href: string;
+}
+
+export interface TOCProps {
+  items: TOCEntry[];
+  activeId?: string;
+  collapsible?: boolean;
+  title?: string;
+  className?: string;
+  onItemClick?: (item: TOCEntry) => void;
+}
+
+export function TOC({
+  items,
+  activeId,
+  collapsible = false,
+  title = "Table of Contents",
+  className = "",
+  onItemClick,
+}: TOCProps) {
+  const [isOpen, setIsOpen] = useState(true);
+  const headingId = useId();
+
+  const list = (
+    <ul className="toc-list">
+      {items.map((item) => (
+        <li key={item.id} className="toc-list-item">
+          <a
+            href={item.href}
+            aria-current={item.id === activeId ? "location" : undefined}
+            className={`toc-list-link ${item.id === activeId ? "is-active" : ""}`}
+            onClick={() => onItemClick?.(item)}
+          >
+            {item.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  );
+
+  if (!collapsible) {
+    return (
+      <nav className={`toc ${className}`.trim()} aria-labelledby={headingId}>
+        <h4 className="toc-title" id={headingId}>
+          {title}
+        </h4>
+        {list}
+      </nav>
+    );
+  }
+
+  return (
+    <nav
+      className={`toc-collapsible ${isOpen ? "is-open" : ""} ${className}`.trim()}
+      aria-labelledby={headingId}
+    >
+      <button
+        type="button"
+        className="toc-collapsible-header"
+        aria-expanded={isOpen}
+        onClick={() => setIsOpen((v) => !v)}
+      >
+        <h4 className="toc-collapsible-title" id={headingId}>
+          {title}
+        </h4>
+        <span className="toc-collapsible-icon" aria-hidden="true">
+          ▼
+        </span>
+      </button>
+      <div className="toc-collapsible-content" hidden={!isOpen}>
+        {list}
+      </div>
+    </nav>
   );
 }
 

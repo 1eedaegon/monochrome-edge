@@ -4,6 +4,7 @@
  */
 
 import $ from "jquery";
+import { safeUrl } from "./security";
 
 // Extend jQuery interface
 declare global {
@@ -486,7 +487,7 @@ $.fn.mceBreadcrumb = function (options?: BreadcrumbOptions) {
       }
 
       if (item.href && !item.active) {
-        const $link = $(`<a href="${item.href}"></a>`).text(item.label);
+        const $link = $("<a></a>").attr("href", safeUrl(item.href)).text(item.label);
         $item.append($link);
       } else {
         $item.text(item.label);
