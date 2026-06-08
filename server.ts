@@ -55,12 +55,12 @@ const SECURITY_HEADERS: Record<string, string> = {
   "X-Frame-Options": "DENY",
   "Referrer-Policy": "strict-origin-when-cross-origin",
   // Allow the third-party CDNs the demo pages legitimately load
-  // (Pretendard, KaTeX, Prism via jsDelivr/cdnjs, jQuery, Google Fonts).
+  // (Pretendard, KaTeX, Prism via jsDelivr/cdnjs, jQuery).
   "Content-Security-Policy": [
     "default-src 'self'",
     "img-src 'self' data: https:",
-    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com",
-    "font-src 'self' data: https://fonts.gstatic.com https://cdn.jsdelivr.net https://cdnjs.cloudflare.com",
+    "style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com",
+    "font-src 'self' data: https://cdn.jsdelivr.net https://cdnjs.cloudflare.com",
     "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com https://code.jquery.com",
     "connect-src 'self' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com",
     "object-src 'none'",
