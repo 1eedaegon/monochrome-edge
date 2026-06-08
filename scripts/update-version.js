@@ -46,4 +46,25 @@ filesToUpdate.forEach((filePath) => {
   }
 });
 
+// Keep the exported VERSION constants in sync with package.json so the
+// runtime value never drifts (previously ui/index.ts and src/index.ts
+// diverged from package.json).
+const tsConstantFiles = [
+  path.join(__dirname, "..", "ui", "index.ts"),
+  path.join(__dirname, "..", "src", "index.ts"),
+];
+const versionConstPattern = /export const VERSION = "[\d.]+";/;
+tsConstantFiles.forEach((filePath) => {
+  if (!fs.existsSync(filePath)) return;
+  const content = fs.readFileSync(filePath, "utf8");
+  const updated = content.replace(
+    versionConstPattern,
+    `export const VERSION = "${version}";`,
+  );
+  if (content !== updated) {
+    fs.writeFileSync(filePath, updated, "utf8");
+    console.log(`✓ Updated VERSION to ${version} in ${path.basename(filePath)}`);
+  }
+});
+
 console.log(`\n✨ Version update complete: v${version}`);

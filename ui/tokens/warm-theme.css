@@ -20,6 +20,30 @@
     --border-radius: 8px;
     --transition-speed: 0.2s ease-in-out;
 
+    /* === Derived / compatibility tokens ===
+       Aliases consumed across components (editor, math, callouts, blog) that
+       previously resolved to `initial` and silently broke styling. */
+    --border-radius-sm: calc(var(--border-radius) * 0.5);
+    --border-radius-lg: calc(var(--border-radius) * 1.5);
+    --font-size-base: var(--font-size-body);
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --color-text: var(--theme-text-primary);
+    --theme-text-muted: var(--theme-text-tertiary);
+    --theme-success: var(--color-success);
+    --theme-info: var(--color-info);
+    --theme-warning: var(--color-warning);
+    --theme-error: var(--color-error);
+    --theme-accent-alpha: color-mix(in srgb, var(--theme-accent) 12%, transparent);
+    --theme-info-alpha: color-mix(in srgb, var(--color-info) 14%, transparent);
+    --theme-success-alpha: color-mix(in srgb, var(--color-success) 14%, transparent);
+    --theme-warning-alpha: color-mix(in srgb, var(--color-warning) 14%, transparent);
+    --theme-error-alpha: color-mix(in srgb, var(--color-error) 14%, transparent);
+    --color-error-alpha: var(--theme-error-alpha);
+
     /* === Warm gray Color Scale === */
     --warm-100: #f8f7f6;
     --warm-200: #edebe9;
