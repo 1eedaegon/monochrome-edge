@@ -55,7 +55,7 @@ export const Accordion = defineComponent({
       inst = new AccordionCore(el.value!, {
         allowMultiple: props.allowMultiple,
         defaultOpen: props.defaultOpen,
-        onToggle: props.onToggle,
+        onToggle: (...args) => props.onToggle?.(...args),
       });
     });
     onBeforeUnmount(() => inst?.destroy());
@@ -75,7 +75,7 @@ export const Tabs = defineComponent({
     onMounted(() => {
       inst = new TabsCore(el.value!, {
         defaultTab: props.defaultTab,
-        onChange: props.onChange,
+        onChange: (...args) => props.onChange?.(...args),
       });
     });
     onBeforeUnmount(() => inst?.destroy());
@@ -103,8 +103,8 @@ export const Dropdown = defineComponent({
         closeOnSelect: props.closeOnSelect,
         placement: props.placement,
         offset: props.offset,
-        onOpen: props.onOpen,
-        onClose: props.onClose,
+        onOpen: (...args) => props.onOpen?.(...args),
+        onClose: (...args) => props.onClose?.(...args),
       });
     });
     onBeforeUnmount(() => inst?.destroy());
@@ -144,7 +144,7 @@ export const SearchBar = defineComponent({
         maxResults: props.maxResults,
         highlightMatches: props.highlightMatches,
         showCategories: props.showCategories,
-        onSelect: props.onSelect,
+        onSelect: (...args) => props.onSelect?.(...args),
       });
     });
     watch(
@@ -177,7 +177,7 @@ export const SearchToolbar = defineComponent({
         filters: props.filters,
         sortOptions: props.sortOptions,
         debounceMs: props.debounceMs,
-        onSearch: props.onSearch,
+        onSearch: (...args) => props.onSearch?.(...args),
       });
     });
     onBeforeUnmount(() => inst?.destroy());
@@ -203,8 +203,8 @@ export const TreeView = defineComponent({
         container: el.value!,
         data: props.data,
         expandedByDefault: props.expandedByDefault,
-        onNodeClick: props.onNodeClick,
-        onNodeToggle: props.onNodeToggle,
+        onNodeClick: (...args) => props.onNodeClick?.(...args),
+        onNodeToggle: (...args) => props.onNodeToggle?.(...args),
       });
     });
     onBeforeUnmount(() => inst?.destroy());
@@ -230,14 +230,27 @@ export const Stepper = defineComponent({
   setup(props) {
     const el = ref<HTMLDivElement>();
     let inst: StepperCore | undefined;
-    onMounted(() => {
+    const build = () => {
+      inst?.destroy();
       inst = new StepperCore(el.value!, {
         type: props.type,
         layout: props.layout,
         showProgress: props.showProgress,
-        onStepClick: props.onStepClick,
+        onStepClick: (...args) => props.onStepClick?.(...args),
       });
-    });
+    };
+    onMounted(build);
+    // StepperCore reads steps from the data-steps attribute on init, so a
+    // changed steps prop requires a rebuild.
+    watch(
+      () => props.steps,
+      () => {
+        if (inst) build();
+      },
+      // flush: "post" so the data-steps attribute is updated in the DOM
+      // before StepperCore re-reads it.
+      { deep: true, flush: "post" },
+    );
     onBeforeUnmount(() => inst?.destroy());
     return () =>
       h("div", {
@@ -299,7 +312,7 @@ export const GraphView = defineComponent({
         width: props.width,
         height: props.height,
         showLabels: props.showLabels,
-        onNodeClick: props.onNodeClick,
+        onNodeClick: (...args) => props.onNodeClick?.(...args),
       });
     });
     onBeforeUnmount(() => inst?.destroy());
