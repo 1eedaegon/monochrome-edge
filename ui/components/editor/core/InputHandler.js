@@ -120,7 +120,10 @@ export class InputHandler {
         // read a stale/detached element.
         const active = typeof document !== 'undefined' ? document.activeElement : null;
         const liveBlock = active && active.closest ? active.closest('[data-block-id]') : null;
-        if (liveBlock) {
+        // Don't resync the current block while the slash menu is open, or its
+        // keyboard navigation (Arrow/Enter/Escape) would retarget the block.
+        const slashOpen = this.editor.slashMenu && this.editor.slashMenu.visible;
+        if (liveBlock && !slashOpen) {
             this.editor.currentBlockElement = liveBlock;
             this.editor.currentBlockId = liveBlock.dataset.blockId;
         }
