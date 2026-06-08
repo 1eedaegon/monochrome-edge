@@ -24,7 +24,7 @@ Monochrome Edge provides a comprehensive set of UI components with both **CSS-on
 
 ## Installation & Quick Start
 
-### 📦 Option 1: npm (Recommended for Production)
+### Option 1: npm (Recommended for Production)
 
 **Install**
 ```bash
@@ -222,7 +222,7 @@ not defined" crash.
 
 ---
 
-### 🌐 Option 2: CDN (Quick Prototyping)
+### Option 2: CDN (Quick Prototyping)
 
 **Complete Example (CSS + JS)**
 ```html
