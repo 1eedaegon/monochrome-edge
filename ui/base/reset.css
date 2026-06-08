@@ -50,6 +50,42 @@ a:hover {
   box-sizing: border-box;
 }
 
+/* Visually-hidden content that remains available to screen readers. */
+.sr-only {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Global focus-visible fallback: every interactive element gets a
+   discernible keyboard focus indicator unless a component overrides it.
+   Pointer interaction does not trigger :focus-visible, so mouse users
+   are unaffected. */
+:focus-visible {
+  outline: 2px solid var(--theme-text-primary);
+  outline-offset: 2px;
+}
+
+/* Respect the user's reduced-motion preference. Components that rely on
+   transitions/animations for presentation collapse them to near-instant
+   so users with vestibular sensitivities are not affected (WCAG 2.3.3). */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 /* Apply theme colors to common elements */
 input, textarea, select {
   background-color: var(--theme-surface);
