@@ -29,43 +29,53 @@
     },
     "./ui/components/search-bar": {
       "types": "./dist/types/ui/components/search-bar/search-bar.d.ts",
-      "default": "./dist/ui/components/search-bar.js"
+      "import": "./dist/ui/components/search-bar.esm.js",
+      "require": "./dist/ui/components/search-bar.js"
     },
     "./ui/components/search-toolbar": {
       "types": "./dist/types/ui/components/search-toolbar/search-toolbar.d.ts",
-      "default": "./dist/ui/components/search-toolbar.js"
+      "import": "./dist/ui/components/search-toolbar.esm.js",
+      "require": "./dist/ui/components/search-toolbar.js"
     },
     "./ui/components/tree-view": {
       "types": "./dist/types/ui/components/tree-view/tree-view.d.ts",
-      "default": "./dist/ui/components/tree-view.js"
+      "import": "./dist/ui/components/tree-view.esm.js",
+      "require": "./dist/ui/components/tree-view.js"
     },
     "./ui/components/graph-view": {
       "types": "./dist/types/ui/components/graph-view/graph-view.d.ts",
-      "default": "./dist/ui/components/graph-view.js"
+      "import": "./dist/ui/components/graph-view.esm.js",
+      "require": "./dist/ui/components/graph-view.js"
     },
     "./ui/components/math-renderer": {
       "types": "./dist/types/ui/components/math-renderer/math-renderer.d.ts",
-      "default": "./dist/ui/components/math-renderer.js"
+      "import": "./dist/ui/components/math-renderer.esm.js",
+      "require": "./dist/ui/components/math-renderer.js"
     },
     "./ui/components/accordion": {
       "types": "./dist/types/ui/components/accordion/accordion.d.ts",
-      "default": "./dist/ui/components/accordion.js"
+      "import": "./dist/ui/components/accordion.esm.js",
+      "require": "./dist/ui/components/accordion.js"
     },
     "./ui/components/modal": {
       "types": "./dist/types/ui/components/modal/modal.d.ts",
-      "default": "./dist/ui/components/modal.js"
+      "import": "./dist/ui/components/modal.esm.js",
+      "require": "./dist/ui/components/modal.js"
     },
     "./ui/components/tabs": {
       "types": "./dist/types/ui/components/tabs/tabs.d.ts",
-      "default": "./dist/ui/components/tabs.js"
+      "import": "./dist/ui/components/tabs.esm.js",
+      "require": "./dist/ui/components/tabs.js"
     },
     "./ui/components/toast": {
       "types": "./dist/types/ui/components/toast/toast.d.ts",
-      "default": "./dist/ui/components/toast.js"
+      "import": "./dist/ui/components/toast.esm.js",
+      "require": "./dist/ui/components/toast.js"
     },
     "./ui/components/dropdown": {
       "types": "./dist/types/ui/components/dropdown/dropdown.d.ts",
-      "default": "./dist/ui/components/dropdown.js"
+      "import": "./dist/ui/components/dropdown.esm.js",
+      "require": "./dist/ui/components/dropdown.js"
     },
     "./react": {
       "types": "./dist/types/src/react.d.ts",

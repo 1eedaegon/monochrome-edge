@@ -13,12 +13,20 @@ const external = ["react", "react-dom", "vue", "jquery"];
 // Helper function to create component config
 const createComponentConfig = (name, inputPath) => ({
   input: inputPath,
-  output: {
-    file: `dist/ui/components/${name}.js`,
-    format: "umd",
-    name: "MonochromeEdge",
-    exports: "named",
-  },
+  output: [
+    {
+      file: `dist/ui/components/${name}.js`,
+      format: "umd",
+      name: "MonochromeEdge",
+      exports: "named",
+    },
+    {
+      // ESM build so bundler-based consumers (Vite/webpack/Rollup) can
+      // tree-shake the per-component subpaths instead of pulling the UMD.
+      file: `dist/ui/components/${name}.esm.js`,
+      format: "es",
+    },
+  ],
   plugins: [
     alias({
       entries: [{ find: "@ui", replacement: path.resolve(__dirname, "ui") }],
@@ -36,6 +44,30 @@ const createComponentConfig = (name, inputPath) => ({
     terser(),
   ],
 });
+
+// Shared TypeScript plugin config for the framework-adapter bundles
+// (vue / jquery / web-components / src index). Keeps one source of truth for
+// the compiler options instead of repeating the block per entry.
+const tsPlugin = () =>
+  typescript({
+    declaration: false,
+    declarationMap: false,
+    tsconfig: false,
+    include: ["src/**/*", "ui/**/*"],
+    exclude: ["src/react.tsx"],
+    compilerOptions: {
+      target: "es2022",
+      module: "esnext",
+      moduleResolution: "node",
+      allowSyntheticDefaultImports: true,
+      esModuleInterop: true,
+      baseUrl: ".",
+      paths: {
+        "@src/*": ["src/*"],
+        "@ui/*": ["ui/*"],
+      },
+    },
+  });
 
 export default [
   // ========================================
@@ -161,24 +193,7 @@ export default [
           { find: "@ui", replacement: path.resolve(__dirname, "ui") },
         ],
       }),
-      typescript({
-        declaration: false, // Skip declaration - imports from ui/ which has its own
-        tsconfig: false, // Don't use tsconfig for cross-directory imports
-        include: ["src/**/*", "ui/**/*"],
-        exclude: ["src/react.tsx"], // Exclude React wrapper (built separately with esbuild)
-        compilerOptions: {
-          target: "es2022",
-          module: "esnext",
-          moduleResolution: "node",
-          allowSyntheticDefaultImports: true,
-          esModuleInterop: true,
-          baseUrl: ".",
-          paths: {
-            "@src/*": ["src/*"],
-            "@ui/*": ["ui/*"],
-          },
-        },
-      }),
+      tsPlugin(),
       resolve({
         extensions: [".js", ".ts", ".tsx"],
       }),
@@ -211,25 +226,7 @@ export default [
           { find: "@ui", replacement: path.resolve(__dirname, "ui") },
         ],
       }),
-      typescript({
-        declaration: false, // Skip declaration - imports from ui/ which has its own
-        declarationMap: false,
-        tsconfig: false,
-        include: ["src/**/*", "ui/**/*"],
-        exclude: ["src/react.tsx"], // Exclude React wrapper
-        compilerOptions: {
-          target: "es2022",
-          module: "esnext",
-          moduleResolution: "node",
-          allowSyntheticDefaultImports: true,
-          esModuleInterop: true,
-          baseUrl: ".",
-          paths: {
-            "@src/*": ["src/*"],
-            "@ui/*": ["ui/*"],
-          },
-        },
-      }),
+      tsPlugin(),
       resolve({
         extensions: [".js", ".ts", ".tsx"],
       }),
@@ -261,25 +258,7 @@ export default [
           { find: "@ui", replacement: path.resolve(__dirname, "ui") },
         ],
       }),
-      typescript({
-        declaration: false, // Skip declaration - imports from ui/ which has its own
-        declarationMap: false,
-        tsconfig: false,
-        include: ["src/**/*", "ui/**/*"],
-        exclude: ["src/react.tsx"], // Exclude React wrapper
-        compilerOptions: {
-          target: "es2022",
-          module: "esnext",
-          moduleResolution: "node",
-          allowSyntheticDefaultImports: true,
-          esModuleInterop: true,
-          baseUrl: ".",
-          paths: {
-            "@src/*": ["src/*"],
-            "@ui/*": ["ui/*"],
-          },
-        },
-      }),
+      tsPlugin(),
       resolve({
         extensions: [".js", ".ts", ".tsx"],
       }),
@@ -311,25 +290,7 @@ export default [
           { find: "@ui", replacement: path.resolve(__dirname, "ui") },
         ],
       }),
-      typescript({
-        declaration: false,
-        declarationMap: false,
-        tsconfig: false,
-        include: ["src/**/*", "ui/**/*"],
-        exclude: ["src/react.tsx"], // Exclude React wrapper (built separately with esbuild)
-        compilerOptions: {
-          target: "es2022",
-          module: "esnext",
-          moduleResolution: "node",
-          allowSyntheticDefaultImports: true,
-          esModuleInterop: true,
-          baseUrl: ".",
-          paths: {
-            "@src/*": ["src/*"],
-            "@ui/*": ["ui/*"],
-          },
-        },
-      }),
+      tsPlugin(),
       resolve({
         extensions: [".js", ".ts", ".tsx"],
       }),
