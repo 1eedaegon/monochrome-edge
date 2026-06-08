@@ -3,10 +3,10 @@
   "version": "1.13.17",
   "description": "A modern, minimalist UI with Warm and Cold themes",
   "type": "module",
-  "main": "dist/index.js",
-  "module": "dist/index.esm.js",
+  "main": "dist/ui.js",
+  "module": "dist/ui.esm.js",
   "style": "dist/monochrome.min.css",
-  "types": "dist/types/src/index.d.ts",
+  "types": "dist/types/ui/index.d.ts",
   "sideEffects": [
     "**/*.css",
     "**/web-components*.js",
@@ -20,12 +20,14 @@
     ".": {
       "types": "./dist/types/ui/index.d.ts",
       "import": "./dist/ui.esm.js",
-      "require": "./dist/ui.js"
+      "require": "./dist/ui.js",
+      "default": "./dist/ui.esm.js"
     },
     "./ui": {
       "types": "./dist/types/ui/index.d.ts",
       "import": "./dist/ui.esm.js",
-      "require": "./dist/ui.js"
+      "require": "./dist/ui.js",
+      "default": "./dist/ui.esm.js"
     },
     "./ui/components/search-bar": {
       "types": "./dist/types/ui/components/search-bar/search-bar.d.ts",
