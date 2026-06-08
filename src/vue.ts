@@ -9,8 +9,13 @@ import {
   InjectionKey,
   PropType,
   h,
-  VNode,
 } from "vue";
+import {
+  iconToggleIcons,
+  iconToggleDefault,
+  nextIconToggleState,
+  applyIconToggleState,
+} from "./icon-toggle-data";
 
 type ThemeVariant = "warm" | "cold";
 type ThemeMode = "light" | "dark";
@@ -946,22 +951,7 @@ export const IconToggle = defineComponent({
   setup(props, { emit }) {
     // SSR-safe default — never read `document` in setup so the component can
     // be server-rendered (VitePress, Nuxt, Astro).
-    const ssrSafeDefault = () => {
-      switch (props.type) {
-        case "mode":
-          return "light";
-        case "theme":
-          return "warm";
-        case "color":
-          return "monochrome";
-        case "language":
-          return "ko";
-        default:
-          return "default";
-      }
-    };
-
-    const state = ref(ssrSafeDefault());
+    const state = ref(iconToggleDefault(props.type));
     const isAnimating = ref(false);
 
     // Sync from the live theme attributes after mount (client only).
@@ -981,209 +971,15 @@ export const IconToggle = defineComponent({
 
       isAnimating.value = true;
 
-      const stateMap: Record<string, Record<string, string>> = {
-        mode: { light: "dark", dark: "light" },
-        theme: { warm: "cold", cold: "warm" },
-        color: { monochrome: "colored", colored: "monochrome" },
-        language: { ko: "en", en: "ko" },
-      };
-
-      const newState = stateMap[props.type]?.[state.value] || state.value;
+      const newState = nextIconToggleState(props.type, state.value);
       state.value = newState;
-
-      // Apply to document
-      switch (props.type) {
-        case "mode":
-          document.documentElement.setAttribute("data-theme", newState);
-          break;
-        case "theme":
-          document.documentElement.setAttribute("data-theme-variant", newState);
-          break;
-      }
+      applyIconToggleState(props.type, newState);
 
       emit("toggle", newState);
 
       setTimeout(() => {
         isAnimating.value = false;
       }, 500);
-    };
-
-    const getIcons = () => {
-      const iconSets: Record<string, { icon1: VNode; icon2: VNode }> = {
-        mode: {
-          icon1: h(
-            "svg",
-            {
-              xmlns: "http://www.w3.org/2000/svg",
-              viewBox: "0 0 24 24",
-              fill: "none",
-              stroke: "currentColor",
-              "stroke-width": "2",
-              "stroke-linecap": "round",
-              "stroke-linejoin": "round",
-            },
-            [
-              h("circle", { cx: "12", cy: "12", r: "5" }),
-              h("line", { x1: "12", y1: "1", x2: "12", y2: "3" }),
-              h("line", { x1: "12", y1: "21", x2: "12", y2: "23" }),
-              h("line", { x1: "4.22", y1: "4.22", x2: "5.64", y2: "5.64" }),
-              h("line", {
-                x1: "18.36",
-                y1: "18.36",
-                x2: "19.78",
-                y2: "19.78",
-              }),
-              h("line", { x1: "1", y1: "12", x2: "3", y2: "12" }),
-              h("line", { x1: "21", y1: "12", x2: "23", y2: "12" }),
-              h("line", {
-                x1: "4.22",
-                y1: "19.78",
-                x2: "5.64",
-                y2: "18.36",
-              }),
-              h("line", { x1: "18.36", y1: "5.64", x2: "19.78", y2: "4.22" }),
-            ],
-          ),
-          icon2: h(
-            "svg",
-            {
-              xmlns: "http://www.w3.org/2000/svg",
-              viewBox: "0 0 24 24",
-              fill: "none",
-              stroke: "currentColor",
-              "stroke-width": "2",
-              "stroke-linecap": "round",
-              "stroke-linejoin": "round",
-            },
-            [
-              h("path", {
-                d: "M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z",
-              }),
-            ],
-          ),
-        },
-        theme: {
-          icon1: h(
-            "svg",
-            {
-              xmlns: "http://www.w3.org/2000/svg",
-              viewBox: "0 0 24 24",
-              fill: "none",
-              stroke: "currentColor",
-              "stroke-width": "2",
-              "stroke-linecap": "round",
-              "stroke-linejoin": "round",
-            },
-            [
-              h("path", {
-                d: "M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z",
-              }),
-            ],
-          ),
-          icon2: h(
-            "svg",
-            {
-              xmlns: "http://www.w3.org/2000/svg",
-              viewBox: "0 0 24 24",
-              fill: "none",
-              stroke: "currentColor",
-              "stroke-width": "2",
-              "stroke-linecap": "round",
-              "stroke-linejoin": "round",
-            },
-            [
-              h("line", { x1: "12", y1: "2", x2: "12", y2: "6" }),
-              h("line", { x1: "12", y1: "18", x2: "12", y2: "22" }),
-              h("line", { x1: "4.93", y1: "4.93", x2: "7.76", y2: "7.76" }),
-              h("line", {
-                x1: "16.24",
-                y1: "16.24",
-                x2: "19.07",
-                y2: "19.07",
-              }),
-              h("line", { x1: "2", y1: "12", x2: "6", y2: "12" }),
-              h("line", { x1: "18", y1: "12", x2: "22", y2: "12" }),
-              h("line", { x1: "4.93", y1: "19.07", x2: "7.76", y2: "16.24" }),
-              h("line", { x1: "16.24", y1: "7.76", x2: "19.07", y2: "4.93" }),
-            ],
-          ),
-        },
-        color: {
-          icon1: h(
-            "svg",
-            {
-              xmlns: "http://www.w3.org/2000/svg",
-              viewBox: "0 0 24 24",
-              fill: "none",
-              stroke: "currentColor",
-              "stroke-width": "2",
-              "stroke-linecap": "round",
-              "stroke-linejoin": "round",
-            },
-            [
-              h("circle", { cx: "12", cy: "12", r: "10" }),
-              h("path", { d: "M8 12h8" }),
-            ],
-          ),
-          icon2: h(
-            "svg",
-            {
-              xmlns: "http://www.w3.org/2000/svg",
-              viewBox: "0 0 24 24",
-              fill: "none",
-              stroke: "currentColor",
-              "stroke-width": "2",
-              "stroke-linecap": "round",
-              "stroke-linejoin": "round",
-            },
-            [
-              h("circle", { cx: "12", cy: "12", r: "10" }),
-              h("circle", { cx: "12", cy: "12", r: "6" }),
-              h("circle", { cx: "12", cy: "12", r: "2" }),
-            ],
-          ),
-        },
-        language: {
-          icon1: h(
-            "svg",
-            {
-              xmlns: "http://www.w3.org/2000/svg",
-              viewBox: "0 0 24 24",
-              fill: "none",
-              stroke: "currentColor",
-              "stroke-width": "2",
-              "stroke-linecap": "round",
-              "stroke-linejoin": "round",
-            },
-            [
-              h("circle", { cx: "12", cy: "12", r: "10" }),
-              h("line", { x1: "2", y1: "12", x2: "22", y2: "12" }),
-              h("path", {
-                d: "M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z",
-              }),
-            ],
-          ),
-          icon2: h(
-            "svg",
-            {
-              xmlns: "http://www.w3.org/2000/svg",
-              viewBox: "0 0 24 24",
-              fill: "none",
-              stroke: "currentColor",
-              "stroke-width": "2",
-              "stroke-linecap": "round",
-              "stroke-linejoin": "round",
-            },
-            [
-              h("rect", { x: "3", y: "3", width: "18", height: "18", rx: "2" }),
-              h("path", { d: "M3 9h18" }),
-              h("path", { d: "M9 21V9" }),
-            ],
-          ),
-        },
-      };
-
-      return iconSets[props.type] || iconSets.mode;
     };
 
     const classes = computed(() => {
@@ -1201,7 +997,7 @@ export const IconToggle = defineComponent({
     });
 
     return () => {
-      const icons = getIcons();
+      const [icon1, icon2] = iconToggleIcons(props.type);
       return h(
         "button",
         {
@@ -1211,10 +1007,11 @@ export const IconToggle = defineComponent({
           onClick: handleToggle,
         },
         [
-          h("span", { class: "icon-btn-toggle-icon" }, [
-            icons?.icon1,
-            icons?.icon2,
-          ]),
+          // Static, trusted SVG markup from the shared icon-toggle data.
+          h("span", {
+            class: "icon-btn-toggle-icon",
+            innerHTML: icon1 + icon2,
+          }),
         ],
       );
     };
