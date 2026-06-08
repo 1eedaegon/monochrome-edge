@@ -33,7 +33,7 @@ test.describe("SearchBar XSS / ReDoS", () => {
             // Query matches at index 0 so the result scores and renders;
             // the injected markup follows and must be escaped.
             title: 'pwn <img src=x onerror="window.__xss=true">',
-            content: 'pwn <script>window.__xss=true</script> injected body',
+            content: "pwn <script>window.__xss=true</script> injected body",
           },
         ],
       });

@@ -4,10 +4,7 @@
  */
 
 import { escapeHtml, safeUrl } from "../ui/utils/security";
-import {
-  TreeView,
-  type TreeNode,
-} from "../ui/components/tree-view/tree-view";
+import { TreeView, type TreeNode } from "../ui/components/tree-view/tree-view";
 import { GraphView } from "../ui/components/graph-view/graph-view";
 import type { DocumentMetadata } from "../ui/components/graph-view/graph-builder";
 import { SearchToolbar } from "../ui/components/search-toolbar/search-toolbar";

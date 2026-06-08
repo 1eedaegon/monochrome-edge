@@ -163,8 +163,7 @@ export function Dropdown({
 // SearchBar — data-driven
 // ---------------------------------------------------------------------------
 export interface SearchBarProps
-  extends BaseProps,
-    Omit<SearchBarOptions, "container"> {}
+  extends BaseProps, Omit<SearchBarOptions, "container"> {}
 
 export function SearchBar({
   className = "",
@@ -218,8 +217,7 @@ export function SearchToolbar({
 // TreeView — data-driven (options.container is required by the class)
 // ---------------------------------------------------------------------------
 export interface TreeViewProps
-  extends BaseProps,
-    Omit<TreeViewOptions, "container"> {}
+  extends BaseProps, Omit<TreeViewOptions, "container"> {}
 
 export function TreeView({
   className = "",
@@ -275,8 +273,7 @@ export function Stepper({
 // MathRenderer — renders a LaTeX string
 // ---------------------------------------------------------------------------
 export interface MathProps
-  extends BaseProps,
-    Omit<MathRendererOptions, "container"> {
+  extends BaseProps, Omit<MathRendererOptions, "container"> {
   latex: string;
 }
 
@@ -302,8 +299,7 @@ export function Math({ className = "", style, latex, ...options }: MathProps) {
 // GraphView — data-driven document graph
 // ---------------------------------------------------------------------------
 export interface GraphViewProps
-  extends BaseProps,
-    Omit<GraphViewOptions, "container"> {}
+  extends BaseProps, Omit<GraphViewOptions, "container"> {}
 
 export function GraphView({
   className = "",
@@ -326,8 +322,4 @@ export function GraphView({
   return <div ref={ref} className={className} style={style} />;
 }
 
-export type {
-  SearchDocument,
-  TreeNode,
-  Step,
-};
+export type { SearchDocument, TreeNode, Step };

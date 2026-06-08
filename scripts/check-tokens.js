@@ -48,7 +48,8 @@ for (const file of cssFiles) {
   }
   // var(--x) with no comma => no fallback
   for (const m of css.matchAll(/var\(\s*(--[a-z0-9-]+)\s*\)/gi)) {
-    if (!referenced.has(m[1])) referenced.set(m[1], path.relative(UI_DIR, file));
+    if (!referenced.has(m[1]))
+      referenced.set(m[1], path.relative(UI_DIR, file));
   }
 }
 
@@ -85,8 +86,10 @@ if (undefinedRefs.length) {
 if (onlyWarm.length || onlyCold.length) {
   failed = true;
   console.error("\n✘ warm/cold --theme-* token sets differ:");
-  if (onlyWarm.length) console.error(`    only in warm: ${onlyWarm.join(", ")}`);
-  if (onlyCold.length) console.error(`    only in cold: ${onlyCold.join(", ")}`);
+  if (onlyWarm.length)
+    console.error(`    only in warm: ${onlyWarm.join(", ")}`);
+  if (onlyCold.length)
+    console.error(`    only in cold: ${onlyCold.join(", ")}`);
 }
 
 if (failed) {

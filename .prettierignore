@@ -1,0 +1,7 @@
+dist
+node_modules
+docs/dist
+package-lock.json
+ui/components/editor
+*.min.css
+*.min.js

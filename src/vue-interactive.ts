@@ -17,9 +17,7 @@ import {
   PropType,
 } from "vue";
 
-import {
-  Accordion as AccordionCore,
-} from "../ui/components/accordion/accordion";
+import { Accordion as AccordionCore } from "../ui/components/accordion/accordion";
 import { Tabs as TabsCore } from "../ui/components/tabs/tabs";
 import { Dropdown as DropdownCore } from "../ui/components/dropdown/dropdown";
 import {

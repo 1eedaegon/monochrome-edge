@@ -101,17 +101,26 @@ const server = http.createServer(
         if (err) {
           if (err.code === "ENOENT" || err.code === "EISDIR") {
             // File not found
-            res.writeHead(404, { "Content-Type": "text/html", ...SECURITY_HEADERS });
+            res.writeHead(404, {
+              "Content-Type": "text/html",
+              ...SECURITY_HEADERS,
+            });
             res.end("<h1>404 - File Not Found</h1>", "utf-8");
           } else {
             // Server error — log details server-side, do not leak to client.
             console.error(`[500] ${err.code} for ${filePath}`);
-            res.writeHead(500, { "Content-Type": "text/plain", ...SECURITY_HEADERS });
+            res.writeHead(500, {
+              "Content-Type": "text/plain",
+              ...SECURITY_HEADERS,
+            });
             res.end("Internal Server Error", "utf-8");
           }
         } else {
           // Success
-          res.writeHead(200, { "Content-Type": contentType, ...SECURITY_HEADERS });
+          res.writeHead(200, {
+            "Content-Type": contentType,
+            ...SECURITY_HEADERS,
+          });
           res.end(content, "utf-8");
         }
       },
