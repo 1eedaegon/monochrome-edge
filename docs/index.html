@@ -7602,14 +7602,16 @@ $('#email-input').after('&lt;span class="helper-text"&gt;We\'ll never share your
                                     </h4>
                                     <pre
                                         style="margin-bottom: 2rem"
-                                    ><code>import { Dropdown } from '@monochrome-edge/ui/react';
+                                    ><code>import { Select } from '@monochrome-edge/ui/react';
 
-&lt;Dropdown
-    options={['Option 1', 'Option 2', 'Option 3']}
+&lt;Select
     value={selected}
-    onChange={(value) => setSelected(value)}
-    placeholder="Select Option"
-/&gt;</code></pre>
+    onChange={(e) => setSelected(e.target.value)}
+&gt;
+    &lt;option value="1"&gt;Option 1&lt;/option&gt;
+    &lt;option value="2"&gt;Option 2&lt;/option&gt;
+    &lt;option value="3"&gt;Option 3&lt;/option&gt;
+&lt;/Select&gt;</code></pre>
 
                                     <h4
                                         style="
@@ -7621,11 +7623,11 @@ $('#email-input').after('&lt;span class="helper-text"&gt;We\'ll never share your
                                     </h4>
                                     <pre
                                         style="margin-bottom: 2rem"
-                                    ><code>&lt;Dropdown
-    :options="['Option 1', 'Option 2', 'Option 3']"
-    v-model="selected"
-    placeholder="Select Option"
-/&gt;</code></pre>
+                                    ><code>&lt;Select v-model="selected"&gt;
+    &lt;option value="1"&gt;Option 1&lt;/option&gt;
+    &lt;option value="2"&gt;Option 2&lt;/option&gt;
+    &lt;option value="3"&gt;Option 3&lt;/option&gt;
+&lt;/Select&gt;</code></pre>
 
                                     <h4
                                         style="
@@ -7637,15 +7639,16 @@ $('#email-input').after('&lt;span class="helper-text"&gt;We\'ll never share your
                                     </h4>
                                     <pre
                                         style="margin-bottom: 2rem"
-                                    ><code>&lt;mce-dropdown
-    placeholder="Select Option"
-    options='["Option 1", "Option 2", "Option 3"]'
-&gt;&lt;/mce-dropdown&gt;
+                                    ><code>&lt;!-- Use the .select class directly --&gt;
+&lt;select class="select" id="opt"&gt;
+    &lt;option value="1"&gt;Option 1&lt;/option&gt;
+    &lt;option value="2"&gt;Option 2&lt;/option&gt;
+    &lt;option value="3"&gt;Option 3&lt;/option&gt;
+&lt;/select&gt;
 
 &lt;script&gt;
-const dropdown = document.querySelector('mce-dropdown');
-dropdown.addEventListener('change', (e) => {
-    console.log('Selected:', e.detail.value);
+document.querySelector('#opt').addEventListener('change', (e) => {
+    console.log('Selected:', e.target.value);
 });
 &lt;/script&gt;</code></pre>
 
@@ -9824,6 +9827,103 @@ const items = ref([
 
                     <div class="component-showcase">
                         <div class="component-header">
+                            <h3 class="component-title">Toast Notifications</h3>
+                        </div>
+                        <div class="component-content" id="toast-example">
+                            <div
+                                class="component-preview"
+                                style="display: flex; gap: 0.5rem; flex-wrap: wrap"
+                            >
+                                <button
+                                    class="btn btn-primary"
+                                    onclick="mceDemoToast('success')"
+                                >
+                                    Success
+                                </button>
+                                <button
+                                    class="btn btn-secondary"
+                                    onclick="mceDemoToast('info')"
+                                >
+                                    Info
+                                </button>
+                                <button
+                                    class="btn btn-ghost"
+                                    onclick="mceDemoToast('error')"
+                                >
+                                    Error
+                                </button>
+                            </div>
+                            <div class="component-code">
+                                <div style="padding: 2rem">
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary)">
+                                        JavaScript
+                                    </h4>
+                                    <pre style="margin-bottom: 2rem"><code>import { Toast } from '@monochrome-edge/ui';
+
+Toast.success('Saved successfully!');
+Toast.info('Heads up.');
+Toast.error('Something went wrong.');</code></pre>
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary)">
+                                        React
+                                    </h4>
+                                    <pre style="margin-bottom: 2rem"><code>import { useToast } from '@monochrome-edge/ui/react';
+
+const toast = useToast();
+&lt;button onClick={() =&gt; toast.success('Saved!')}&gt;Save&lt;/button&gt;</code></pre>
+                                    <h4 style="margin-bottom: 1rem; color: var(--theme-text-primary)">
+                                        Web Components
+                                    </h4>
+                                    <pre style="margin-bottom: 2rem"><code>&lt;script type="module"&gt;
+  import '@monochrome-edge/ui/web-components';
+  import { showToast } from '@monochrome-edge/ui/web-components';
+  showToast('Saved!', 'success');
+&lt;/script&gt;</code></pre>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script>
+                        function mceDemoToast(type) {
+                            var msg = {
+                                success: "Saved successfully!",
+                                info: "Heads up — here is some info.",
+                                error: "Something went wrong.",
+                            }[type];
+                            var T =
+                                window.MonochromeEdge && window.MonochromeEdge.Toast;
+                            if (T && T[type]) {
+                                T[type](msg);
+                                return;
+                            }
+                            // Lightweight fallback if the bundle global is unavailable.
+                            var c = document.querySelector(".toast-container");
+                            if (!c) {
+                                c = document.createElement("div");
+                                c.className = "toast-container";
+                                c.setAttribute("role", "status");
+                                c.setAttribute("aria-live", "polite");
+                                document.body.appendChild(c);
+                            }
+                            var t = document.createElement("div");
+                            t.className = "toast toast-" + type;
+                            t.setAttribute(
+                                "role",
+                                type === "error" ? "alert" : "status",
+                            );
+                            t.textContent = msg;
+                            c.appendChild(t);
+                            requestAnimationFrame(function () {
+                                t.classList.add("toast-show");
+                            });
+                            setTimeout(function () {
+                                t.remove();
+                            }, 3000);
+                        }
+                    </script>
+
+                    <div class="component-showcase">
+                        <div class="component-header">
                             <h3 class="component-title">Modal Example</h3>
                             <div class="component-toggle">
                                 <button
@@ -10223,28 +10323,26 @@ $('th').on('click', function() {
                                     >
                                         Web Components
                                     </h4>
-                                    <pre><code class="language-html">&lt;mce-table&gt;
-    &lt;mce-table-header&gt;
-        &lt;mce-table-row&gt;
-            &lt;mce-table-header-cell&gt;Name&lt;/mce-table-header-cell&gt;
-            &lt;mce-table-header-cell&gt;Status&lt;/mce-table-header-cell&gt;
-            &lt;mce-table-header-cell&gt;Role&lt;/mce-table-header-cell&gt;
-            &lt;mce-table-header-cell&gt;Actions&lt;/mce-table-header-cell&gt;
-        &lt;/mce-table-row&gt;
-    &lt;/mce-table-header&gt;
-    &lt;mce-table-body&gt;
-        &lt;mce-table-row&gt;
-            &lt;mce-table-cell&gt;John Doe&lt;/mce-table-cell&gt;
-            &lt;mce-table-cell&gt;
-                &lt;mce-badge variant="success"&gt;Active&lt;/mce-badge&gt;
-            &lt;/mce-table-cell&gt;
-            &lt;mce-table-cell&gt;Admin&lt;/mce-table-cell&gt;
-            &lt;mce-table-cell&gt;
-                &lt;mce-button variant="ghost" size="small"&gt;Edit&lt;/mce-button&gt;
-            &lt;/mce-table-cell&gt;
-        &lt;/mce-table-row&gt;
-    &lt;/mce-table-body&gt;
-&lt;/mce-table&gt;
+                                    <pre><code class="language-html">&lt;!-- Tables use semantic markup + the .table class.
+     Compose other custom elements inside cells. --&gt;
+&lt;table class="table"&gt;
+    &lt;thead&gt;
+        &lt;tr&gt;
+            &lt;th&gt;Name&lt;/th&gt;
+            &lt;th&gt;Status&lt;/th&gt;
+            &lt;th&gt;Role&lt;/th&gt;
+            &lt;th&gt;Actions&lt;/th&gt;
+        &lt;/tr&gt;
+    &lt;/thead&gt;
+    &lt;tbody&gt;
+        &lt;tr&gt;
+            &lt;td&gt;John Doe&lt;/td&gt;
+            &lt;td&gt;&lt;mce-badge variant="success"&gt;Active&lt;/mce-badge&gt;&lt;/td&gt;
+            &lt;td&gt;Admin&lt;/td&gt;
+            &lt;td&gt;&lt;mce-button variant="ghost" size="small"&gt;Edit&lt;/mce-button&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+    &lt;/tbody&gt;
+&lt;/table&gt;
 
 &lt;script type="module"&gt;
   import '@monochrome-edge/web-components';
@@ -13380,35 +13478,35 @@ function DataTable() {
                             </div>
                             <div class="component-code" data-framework="vue">
                                 <pre><code class="language-vue">&lt;template&gt;
-  &lt;mce-table&gt;
-    &lt;mce-table-header&gt;
-      &lt;mce-table-row&gt;
-        &lt;mce-table-cell header&gt;Name&lt;/mce-table-cell&gt;
-        &lt;mce-table-cell header&gt;Email&lt;/mce-table-cell&gt;
-        &lt;mce-table-cell header&gt;Status&lt;/mce-table-cell&gt;
-        &lt;mce-table-cell header&gt;Actions&lt;/mce-table-cell&gt;
-      &lt;/mce-table-row&gt;
-    &lt;/mce-table-header&gt;
-    &lt;mce-table-body&gt;
-      &lt;mce-table-row v-for="row in data" :key="row.id"&gt;
-        &lt;mce-table-cell&gt;{{ row.name }}&lt;/mce-table-cell&gt;
-        &lt;mce-table-cell&gt;{{ row.email }}&lt;/mce-table-cell&gt;
-        &lt;mce-table-cell&gt;
+  &lt;Table&gt;
+    &lt;TableHeader&gt;
+      &lt;TableRow&gt;
+        &lt;TableCell&gt;Name&lt;/TableCell&gt;
+        &lt;TableCell&gt;Email&lt;/TableCell&gt;
+        &lt;TableCell&gt;Status&lt;/TableCell&gt;
+        &lt;TableCell&gt;Actions&lt;/TableCell&gt;
+      &lt;/TableRow&gt;
+    &lt;/TableHeader&gt;
+    &lt;TableBody&gt;
+      &lt;TableRow v-for="row in data" :key="row.id"&gt;
+        &lt;TableCell&gt;{{ row.name }}&lt;/TableCell&gt;
+        &lt;TableCell&gt;{{ row.email }}&lt;/TableCell&gt;
+        &lt;TableCell&gt;
           &lt;span :class="`badge badge-${row.status}`"&gt;
             {{ row.status }}
           &lt;/span&gt;
-        &lt;/mce-table-cell&gt;
-        &lt;mce-table-cell&gt;
+        &lt;/TableCell&gt;
+        &lt;TableCell&gt;
           &lt;button class="btn btn-sm btn-ghost" @click="editRow(row)"&gt;
             Edit
           &lt;/button&gt;
           &lt;button class="btn btn-sm btn-danger" @click="deleteRow(row)"&gt;
             Delete
           &lt;/button&gt;
-        &lt;/mce-table-cell&gt;
-      &lt;/mce-table-row&gt;
-    &lt;/mce-table-body&gt;
-  &lt;/mce-table&gt;
+        &lt;/TableCell&gt;
+      &lt;/TableRow&gt;
+    &lt;/TableBody&gt;
+  &lt;/Table&gt;
 &lt;/template&gt;
 
 &lt;script setup&gt;

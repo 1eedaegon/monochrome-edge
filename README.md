@@ -58,55 +58,68 @@ const accordion = new Accordion('#myAccordion', {
 <details>
 <summary><strong>React</strong></summary>
 
+Use the dedicated React adapter — idiomatic components, no imperative `new`:
+
 ```jsx
-// App.js
+// App.jsx
 import '@monochrome-edge/ui/css';
-import { useEffect } from 'react';
-import { Modal, Toast } from '@monochrome-edge/ui';
+import { useState } from 'react';
+import { ThemeProvider, Modal, Button, useToast } from '@monochrome-edge/ui/react';
 
 function App() {
-  useEffect(() => {
-    const modal = new Modal('#myModal');
-    return () => modal.destroy();
-  }, []);
+  const [open, setOpen] = useState(false);
+  const toast = useToast();
 
   return (
-    <div>
-      <button className="btn btn-primary" onClick={() => modal.open()}>
-        Open Modal
-      </button>
-      <button className="btn btn-success" onClick={() => Toast.success('Success!')}>
+    <ThemeProvider defaultTheme="warm" defaultMode="light">
+      <Button variant="primary" onClick={() => setOpen(true)}>Open Modal</Button>
+      <Button variant="secondary" onClick={() => toast.success('Success!')}>
         Show Toast
-      </button>
-    </div>
+      </Button>
+
+      <Modal isOpen={open} onClose={() => setOpen(false)} title="Hello">
+        Modal content goes here.
+      </Modal>
+    </ThemeProvider>
   );
 }
+```
+
+Interactive components (`Accordion`, `Tabs`, `Dropdown`, `SearchBar`, `SearchToolbar`,
+`TreeView`, `Stepper`, `Math`, `GraphView`, `TOC`) are exported from the same entry and
+wrap the canonical vanilla classes:
+
+```jsx
+import { TreeView, SearchBar } from '@monochrome-edge/ui/react';
+
+<TreeView data={treeData} onNodeClick={(node) => console.log(node.label)} />
+<SearchBar documents={docs} onSelect={(doc) => open(doc.url)} />
 ```
 </details>
 
 <details>
 <summary><strong>Vue</strong></summary>
 
+Use the dedicated Vue adapter:
+
 ```vue
 <script setup>
 import '@monochrome-edge/ui/css';
-import { onMounted, onUnmounted } from 'vue';
-import { Modal, Toast } from '@monochrome-edge/ui';
+import { ref } from 'vue';
+import { ThemeProvider, Modal, Button, TreeView } from '@monochrome-edge/ui/vue';
 
-let modal;
-
-onMounted(() => {
-  modal = new Modal('#myModal');
-});
-
-onUnmounted(() => {
-  modal?.destroy();
-});
+const open = ref(false);
+const treeData = ref([{ id: 'src', label: 'src', children: [] }]);
 </script>
 
 <template>
-  <button class="btn btn-primary" @click="modal.open()">Open Modal</button>
-  <button class="btn btn-success" @click="Toast.success('Success!')">Show Toast</button>
+  <ThemeProvider default-theme="warm" default-mode="light">
+    <Button variant="primary" @click="open = true">Open Modal</Button>
+    <Modal :is-open="open" :title="'Hello'" @close="open = false">
+      Modal content goes here.
+    </Modal>
+    <TreeView :data="treeData" @node-click="(n) => console.log(n.label)" />
+  </ThemeProvider>
 </template>
 ```
 </details>
@@ -114,28 +127,35 @@ onUnmounted(() => {
 <details>
 <summary><strong>Next.js</strong></summary>
 
+Import the CSS once in the root layout, then use the React adapter in Client Components:
+
 ```jsx
-// _app.js or layout.js
+// app/layout.jsx
 import '@monochrome-edge/ui/css';
 
-export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+export default function RootLayout({ children }) {
+  return <html><body>{children}</body></html>;
 }
 
-// components/MyModal.js
+// components/MyModal.jsx
 'use client';
-import { useEffect } from 'react';
-import { Modal } from '@monochrome-edge/ui';
+import { useState } from 'react';
+import { Modal, Button } from '@monochrome-edge/ui/react';
 
 export default function MyModal() {
-  useEffect(() => {
-    const modal = new Modal('#myModal');
-    return () => modal.destroy();
-  }, []);
-  
-  return <div id="myModal" className="modal">...</div>;
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <Button variant="primary" onClick={() => setOpen(true)}>Open</Button>
+      <Modal isOpen={open} onClose={() => setOpen(false)} title="Modal">
+        Content
+      </Modal>
+    </>
+  );
 }
 ```
+
+> The interactive wrappers touch the DOM, so keep them in Client Components (`'use client'`).
 </details>
 
 ---
