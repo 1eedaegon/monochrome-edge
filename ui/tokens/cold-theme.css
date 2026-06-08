@@ -42,6 +42,18 @@
     --theme-error-alpha: color-mix(in srgb, var(--color-error) 14%, transparent);
     --color-error-alpha: var(--theme-error-alpha);
 
+    /* Generic --color-* vocabulary mapped onto the canonical palette. */
+    --color-surface: var(--theme-surface);
+    --color-surface-hover: color-mix(in srgb, var(--theme-surface) 92%, var(--theme-text-primary));
+    --color-background: var(--theme-background);
+    --color-border: var(--theme-border);
+    --color-primary: var(--theme-accent);
+    --color-primary-contrast: var(--theme-accent-contrast);
+    --color-primary-alpha: var(--theme-accent-alpha);
+    --color-text-secondary: var(--theme-text-secondary);
+    --theme-accent-light: color-mix(in srgb, var(--theme-accent) 45%, var(--theme-surface));
+    --theme-accent-rgb: 107, 114, 128;
+
     /* === Cool Gray Color Scale === */
     --cool-100: #f7f8f9;
     --cool-200: #e5e7eb;
@@ -99,6 +111,7 @@
     --theme-text-tertiary: #8b929c;
     --theme-text-emphasis: var(--cool-400);
     --theme-accent: #9ca3af;
+    --theme-accent-rgb: 156, 163, 175;
     --theme-accent-contrast: #18181b;
     --theme-secondary: #6b7280;
     --theme-secondary-contrast: #ffffff;

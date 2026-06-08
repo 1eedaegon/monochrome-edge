@@ -44,6 +44,19 @@
     --theme-error-alpha: color-mix(in srgb, var(--color-error) 14%, transparent);
     --color-error-alpha: var(--theme-error-alpha);
 
+    /* Map the generic --color-* vocabulary used by some component/editor
+       stylesheets onto the canonical theme palette (no new colours). */
+    --color-surface: var(--theme-surface);
+    --color-surface-hover: color-mix(in srgb, var(--theme-surface) 92%, var(--theme-text-primary));
+    --color-background: var(--theme-background);
+    --color-border: var(--theme-border);
+    --color-primary: var(--theme-accent);
+    --color-primary-contrast: var(--theme-accent-contrast);
+    --color-primary-alpha: var(--theme-accent-alpha);
+    --color-text-secondary: var(--theme-text-secondary);
+    --theme-accent-light: color-mix(in srgb, var(--theme-accent) 45%, var(--theme-surface));
+    --theme-accent-rgb: 138, 135, 132;
+
     /* === Warm gray Color Scale === */
     --warm-100: #f8f7f6;
     --warm-200: #edebe9;
@@ -104,6 +117,7 @@
     --theme-text-tertiary: #8a8682;
     --theme-text-emphasis: var(--warm-400);
     --theme-accent: #4a4846;
+    --theme-accent-rgb: 74, 72, 70;
     --theme-accent-contrast: rgba(255, 255, 255, 0.92);
     --theme-secondary: #5c5956;
     --theme-secondary-contrast: rgba(255, 255, 255, 0.92);
