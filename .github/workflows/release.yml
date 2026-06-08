@@ -80,10 +80,67 @@ jobs:
           echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
           echo "bump_type=$BUMP" >> $GITHUB_OUTPUT
 
+      - name: Resolve release version (catch-up aware)
+        id: update_version
+        run: |
+          # git-first model: the version lives in package.json. npm is a publish
+          # target that must CATCH UP to that version, never skip past it.
+          #
+          #   - If package.json's version is NOT yet on npm, release THAT exact
+          #     version (no bump). A previous failed publish is retried with the
+          #     same number on the next run, so npm converges to git instead of
+          #     orphaning versions (the bug that left npm on 1.13.16 while git
+          #     raced to 1.13.20).
+          #   - Only when the current version is already on npm do we bump to the
+          #     next version computed from the commits since the last tag.
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          NEW_VERSION=${{ steps.version.outputs.new_version }}
+          echo "package.json version: $PKG_VERSION"
+          echo "Calculated next version: $NEW_VERSION"
+
+          if npm view "@monochrome-edge/ui@${PKG_VERSION}" version >/dev/null 2>&1; then
+            PKG_PUBLISHED=true
+          else
+            PKG_PUBLISHED=false
+          fi
+          echo "package.json version already on npm: $PKG_PUBLISHED"
+
+          if [ "$PKG_PUBLISHED" = "false" ]; then
+            # Catch-up: ship the existing, not-yet-published version as-is.
+            echo "Catch-up release of $PKG_VERSION (npm is behind git)"
+            echo "version=$PKG_VERSION" >> $GITHUB_OUTPUT
+            echo "skip_release=false" >> $GITHUB_OUTPUT
+          else
+            # Current version is live on npm. Release a new one only if commits warrant it.
+            LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
+            if [ "$LATEST_TAG" != "v0.0.0" ]; then
+              NEW_COMMITS=$(git rev-list ${LATEST_TAG}..HEAD --count)
+            else
+              NEW_COMMITS=$(git rev-list HEAD --count)
+            fi
+
+            if [ "$NEW_COMMITS" -eq 0 ]; then
+              echo "No new commits since last tag - skipping release"
+              echo "skip_release=true" >> $GITHUB_OUTPUT
+            else
+              echo "Bumping to $NEW_VERSION"
+              npm version $NEW_VERSION --no-git-tag-version
+              git config user.name "github-actions[bot]"
+              git config user.email "github-actions[bot]@users.noreply.github.com"
+              git add package.json package-lock.json
+              git commit -m "chore: bump version to $NEW_VERSION [skip ci]"
+              git push origin main
+              echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
+              echo "skip_release=false" >> $GITHUB_OUTPUT
+            fi
+          fi
+
       - name: Generate changelog
         id: changelog
+        if: steps.update_version.outputs.skip_release != 'true'
         run: |
-          NEW_VERSION=${{ steps.version.outputs.new_version }}
+          # Use the version actually being released (catch-up or bumped).
+          NEW_VERSION=${{ steps.update_version.outputs.version || steps.version.outputs.new_version }}
           LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "")
 
           echo "# Changelog for v${NEW_VERSION}" > CHANGELOG_TEMP.md
@@ -99,25 +156,25 @@ jobs:
           echo "## Changes" > CHANGELOG.md
           echo "" >> CHANGELOG.md
 
-          if grep -q "^feat" CHANGELOG_TEMP.md; then
+          if grep -q "^- feat" CHANGELOG_TEMP.md; then
             echo "### ✨ Features" >> CHANGELOG.md
             grep "^- feat" CHANGELOG_TEMP.md | sed 's/^- feat:/- /' >> CHANGELOG.md
             echo "" >> CHANGELOG.md
           fi
 
-          if grep -q "^fix" CHANGELOG_TEMP.md; then
+          if grep -q "^- fix" CHANGELOG_TEMP.md; then
             echo "### 🐛 Bug Fixes" >> CHANGELOG.md
             grep "^- fix" CHANGELOG_TEMP.md | sed 's/^- fix:/- /' >> CHANGELOG.md
             echo "" >> CHANGELOG.md
           fi
 
-          if grep -q "^docs" CHANGELOG_TEMP.md; then
+          if grep -q "^- docs" CHANGELOG_TEMP.md; then
             echo "### 📚 Documentation" >> CHANGELOG.md
             grep "^- docs" CHANGELOG_TEMP.md | sed 's/^- docs:/- /' >> CHANGELOG.md
             echo "" >> CHANGELOG.md
           fi
 
-          if grep -q "^chore" CHANGELOG_TEMP.md; then
+          if grep -q "^- chore" CHANGELOG_TEMP.md; then
             echo "### 🔧 Chores" >> CHANGELOG.md
             grep "^- chore" CHANGELOG_TEMP.md | sed 's/^- chore:/- /' >> CHANGELOG.md
             echo "" >> CHANGELOG.md
@@ -130,97 +187,9 @@ jobs:
             echo 'EOF'
           } >> $GITHUB_OUTPUT
 
-      - name: Update package.json version
-        id: update_version
-        run: |
-          CURRENT_PKG_VERSION=$(node -p "require('./package.json').version")
-          NEW_VERSION=${{ steps.version.outputs.new_version }}
-          LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
-          LATEST_TAG_VERSION=${LATEST_TAG#v}
-
-          echo "Current package.json version: $CURRENT_PKG_VERSION"
-          echo "Latest git tag version: $LATEST_TAG_VERSION"
-          echo "Calculated new version: $NEW_VERSION"
-
-          # Check if there are any new commits since the last tag
-          if [ "$LATEST_TAG" != "v0.0.0" ]; then
-            NEW_COMMITS=$(git rev-list ${LATEST_TAG}..HEAD --count)
-          else
-            NEW_COMMITS=$(git rev-list HEAD --count)
-          fi
-
-          echo "New commits since last tag: $NEW_COMMITS"
-
-          # Skip release only if no new commits AND versions match
-          if [ "$NEW_COMMITS" -eq 0 ]; then
-            echo "No new commits since last tag - skipping release"
-            echo "skip_release=true" >> $GITHUB_OUTPUT
-          # If package.json version is higher than tag, create release with package.json version
-          elif [[ "$CURRENT_PKG_VERSION" > "$LATEST_TAG_VERSION" ]]; then
-            echo "package.json version ($CURRENT_PKG_VERSION) is higher than tag - creating release"
-            FINAL_VERSION="$CURRENT_PKG_VERSION"
-            echo "skip_release=false" >> $GITHUB_OUTPUT
-            echo "version=$FINAL_VERSION" >> $GITHUB_OUTPUT
-          # If calculated version is higher, update package.json
-          elif [[ "$NEW_VERSION" > "$CURRENT_PKG_VERSION" ]]; then
-            echo "Updating package.json to $NEW_VERSION"
-            npm version $NEW_VERSION --no-git-tag-version
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add package.json package-lock.json
-            git commit -m "chore: bump version to $NEW_VERSION [skip ci]"
-            git push origin main
-            echo "skip_release=false" >> $GITHUB_OUTPUT
-            echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
-          # If versions match but there are new commits, use the calculated version
-          else
-            echo "Versions match but new commits exist - using calculated version $NEW_VERSION"
-            npm version $NEW_VERSION --no-git-tag-version
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add package.json package-lock.json
-            git commit -m "chore: bump version to $NEW_VERSION [skip ci]"
-            git push origin main
-            echo "skip_release=false" >> $GITHUB_OUTPUT
-            echo "version=$NEW_VERSION" >> $GITHUB_OUTPUT
-          fi
-
       - name: Build
         if: steps.update_version.outputs.skip_release != 'true'
         run: npm run build
-
-      - name: Create and push tag
-        if: steps.update_version.outputs.skip_release != 'true'
-        run: |
-          VERSION=${{ steps.update_version.outputs.version || steps.version.outputs.new_version }}
-
-          # Check if tag already exists
-          if git rev-parse "v${VERSION}" >/dev/null 2>&1; then
-            echo "Tag v${VERSION} already exists locally, deleting..."
-            git tag -d "v${VERSION}"
-          fi
-
-          # Check if tag exists on remote
-          if git ls-remote --tags origin | grep -q "refs/tags/v${VERSION}"; then
-            echo "Tag v${VERSION} exists on remote, deleting..."
-            git push origin ":refs/tags/v${VERSION}"
-          fi
-
-          # Create new tag
-          git tag "v${VERSION}"
-          git push origin main --tags
-
-      - name: Create GitHub Release
-        if: steps.update_version.outputs.skip_release != 'true'
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ steps.update_version.outputs.version || steps.version.outputs.new_version }}
-          release_name: Release v${{ steps.update_version.outputs.version || steps.version.outputs.new_version }}
-          body: ${{ steps.changelog.outputs.changelog }}
-          draft: false
-          prerelease: false
 
       - name: Check if version exists on npm
         if: steps.update_version.outputs.skip_release != 'true'
@@ -236,12 +205,14 @@ jobs:
           fi
         continue-on-error: true
 
+      # No continue-on-error: a failed npm publish MUST turn the run red. Silently
+      # masking it is what let npm stall on 1.13.16 for months while git advanced.
+      # NPM_TOKEN must be an automation / granular token with "bypass 2FA" enabled.
       - name: Publish to npm
         if: steps.update_version.outputs.skip_release != 'true' && steps.check_npm.outputs.exists != 'true'
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        continue-on-error: true
 
       - name: Setup Node for GitHub Packages
         if: steps.update_version.outputs.skip_release != 'true'
@@ -281,6 +252,37 @@ jobs:
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         continue-on-error: true
+
+      # Tag + GitHub Release run ONLY after npm publish succeeded (publish has no
+      # continue-on-error, so a failure aborts the job before here). This keeps
+      # git tags/releases in lockstep with what actually shipped to npm — no
+      # orphan tags pointing at versions that never published.
+      - name: Create and push tag
+        if: steps.update_version.outputs.skip_release != 'true'
+        run: |
+          VERSION=${{ steps.update_version.outputs.version || steps.version.outputs.new_version }}
+
+          # Idempotent: recreate the tag if a prior attempt left one behind.
+          if git rev-parse "v${VERSION}" >/dev/null 2>&1; then
+            git tag -d "v${VERSION}"
+          fi
+          if git ls-remote --tags origin | grep -q "refs/tags/v${VERSION}"; then
+            git push origin ":refs/tags/v${VERSION}"
+          fi
+          git tag "v${VERSION}"
+          git push origin main --tags
+
+      - name: Create GitHub Release
+        if: steps.update_version.outputs.skip_release != 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.update_version.outputs.version || steps.version.outputs.new_version }}
+          name: Release v${{ steps.update_version.outputs.version || steps.version.outputs.new_version }}
+          body: ${{ steps.changelog.outputs.changelog }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Purge jsDelivr cache
         if: steps.update_version.outputs.skip_release != 'true' && success()
