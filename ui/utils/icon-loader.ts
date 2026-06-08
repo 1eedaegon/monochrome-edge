@@ -1,7 +1,12 @@
 /**
  * SVG Icon Loader Utility
- * Loads SVG icons from files and caches them for performance
+ * Loads SVG icons from files and caches them for performance.
+ *
+ * Hot-path icons (editor toolbar, UI chrome, theme toggle) are inlined via
+ * INLINE_ICONS and used to seed the cache at construction, so first paint needs
+ * zero network fetches. Long-tail icons still load lazily from the CDN/dev path.
  */
+import { INLINE_ICONS } from "./icon-data";
 
 interface IconOptions {
   width?: number;
@@ -45,6 +50,13 @@ class IconLoader {
     this.basePath = basePath;
     this.cache = new Map();
     this.loading = new Map();
+
+    // Seed the cache with inlined hot-path icons so load()/loadSync() return
+    // synchronously with no network round trip. Long-tail icons fall through to
+    // fetchSvg() on demand.
+    for (const [name, svg] of Object.entries(INLINE_ICONS)) {
+      this.cache.set(name, svg);
+    }
   }
 
   /**
@@ -190,42 +202,9 @@ class IconLoader {
   }
 }
 
-// Create singleton instance
+// Create singleton instance. The hot-path icons are seeded into the cache from
+// INLINE_ICONS in the constructor, so there is no startup preload fetch — first
+// paint renders them with zero network round trips.
 const iconLoader = new IconLoader();
-
-// Preload common icons — only in the browser. Guarded so importing this
-// module (transitively via the main barrel or web-components) does not fire a
-// network request during SSR/SSG module evaluation.
-if (typeof window !== "undefined") {
-  iconLoader
-    .preload([
-      "undo",
-    "redo",
-    "bold",
-    "italic",
-    "strikethrough",
-    "code",
-    "list-ul",
-    "list-ol",
-    "checkbox",
-    "quote",
-    "code-block",
-    "divider",
-    "link",
-    "image",
-    "table",
-    "math",
-    "export",
-    "fullscreen",
-    "plus",
-    "close",
-    "menu",
-    "sun",
-    "moon",
-    "flame",
-    "snowflake",
-    ])
-    .catch(() => {});
-}
 
 export { iconLoader, IconLoader };
