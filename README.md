@@ -11,7 +11,12 @@ A modern, minimalist UI component library with dual-theme system for web applica
 
 ## Demo
 
-Check out demo : **[Monochrome Edge](https://1eedaegon.github.io/monochrome-edge/)**
+Live demos on GitHub Pages:
+
+- **[Components](https://1eedaegon.github.io/monochrome-edge/)** — full component gallery, both themes
+- **[Integration Guide](https://1eedaegon.github.io/monochrome-edge/integration-guide.html)** — CDN / npm / per-framework setup
+- **[Blog Demo](https://1eedaegon.github.io/monochrome-edge/blog-demo.html)** — editorial layout in context
+- **[Block Editor](https://1eedaegon.github.io/monochrome-edge/editor.html)** — WYSIWYG editor _(WIP)_
 
 ## Overview
 
@@ -158,6 +163,63 @@ export default function MyModal() {
 > The interactive wrappers touch the DOM, so keep them in Client Components (`'use client'`).
 </details>
 
+<details>
+<summary><strong>jQuery</strong></summary>
+
+Importing the jQuery entry registers chainable `$.fn.mce*` plugins:
+
+```js
+import '@monochrome-edge/ui/css';
+import $ from 'jquery';
+import '@monochrome-edge/ui/jquery'; // registers $.fn.mce* plugins
+
+$('#myModal').mceModal({ closeOnBackdrop: true });
+$('#save').mceButton({ variant: 'primary' });
+$('#tabs').mceTabs({ defaultTab: 0 });
+```
+
+Plugins: `mceButton`, `mceCard`, `mceModal`, `mceTabs`, `mceAccordion`,
+`mceToast`, `mceTheme`, `mceIconToggle`, `mceBreadcrumb`.
+</details>
+
+<details>
+<summary><strong>Web Components (framework-agnostic)</strong></summary>
+
+Importing the entry auto-registers `<mce-*>` custom elements — drop them into
+plain HTML or any framework's template:
+
+```js
+import '@monochrome-edge/ui/css';
+import '@monochrome-edge/ui/web-components'; // registers <mce-*> elements
+```
+
+```html
+<mce-button variant="primary">Save</mce-button>
+<mce-modal id="m" title="Hello">Content</mce-modal>
+<mce-tree-view></mce-tree-view>
+```
+
+Registered: `mce-button`, `mce-card`, `mce-modal`, `mce-tabs`, `mce-accordion`,
+`mce-input`, `mce-checkbox`, `mce-badge`, `mce-toast`, `mce-icon-toggle`,
+`mce-breadcrumb`, `mce-tree-view`, `mce-graph-view`, `mce-search-toolbar`, `mce-toc`.
+</details>
+
+**Which entry fits my stack?**
+
+| Stack | Import | What you get |
+| --- | --- | --- |
+| Vanilla TS/JS (bundler) | `@monochrome-edge/ui` | Canonical classes — `new Modal(...)`, `Toast.success(...)` |
+| React / Next.js | `@monochrome-edge/ui/react` | Idiomatic components + `useToast`; keep DOM wrappers in Client Components |
+| Vue 3 | `@monochrome-edge/ui/vue` | `defineComponent` wrappers with props/events |
+| jQuery | `@monochrome-edge/ui/jquery` | Chainable `$.fn.mce*` plugins |
+| Any / no framework | `@monochrome-edge/ui/web-components` | `<mce-*>` custom elements |
+| CDN `<script>` | `dist/ui.js` (UMD) | Global `MonochromeEdge.*` namespace |
+
+Every entry ships both **ESM (`import`) and CommonJS (`require`)** conditions plus
+TypeScript declarations, and is **SSR/SSG-safe** (guards `document`/`window`) — so it
+works under Next.js, Nuxt, Astro, VitePress, Remix and friends without a "window is
+not defined" crash.
+
 ---
 
 ### 🌐 Option 2: CDN (Quick Prototyping)
@@ -278,7 +340,9 @@ export default function MyModal() {
 </html>
 ```
 
-> ⚠️ **Note**: CDN usage may cause animation flickering on icon-buttons due to network latency. For production, we recommend npm installation.
+> **Note**: Hot-path icons (toolbar, theme toggle, common UI) are inlined into the
+> bundle, so there's no first-paint icon flicker. Less-common icons still lazy-load
+> from the CDN on demand. For fully self-hosted/offline control, prefer npm install.
 
 ## Theme System
 
