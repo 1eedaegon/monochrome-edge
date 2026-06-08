@@ -31,6 +31,10 @@ export class Toast {
         container = document.createElement("div");
         container.className = "toast-container";
         container.dataset.position = position;
+        // Announce dynamically-added toasts to assistive technology.
+        container.setAttribute("role", "status");
+        container.setAttribute("aria-live", "polite");
+        container.setAttribute("aria-atomic", "true");
         document.body.appendChild(container);
       }
 
@@ -52,6 +56,14 @@ export class Toast {
 
     const toast = document.createElement("div");
     toast.className = `toast toast-${type}`;
+    // Errors are announced assertively; everything else politely.
+    toast.setAttribute("role", type === "error" ? "alert" : "status");
+
+    // Non-color cue for the toast type (WCAG 1.4.1 Use of Color).
+    const typeLabel = document.createElement("span");
+    typeLabel.className = "sr-only";
+    typeLabel.textContent = `${type}: `;
+    toast.appendChild(typeLabel);
 
     const content = document.createElement("span");
     content.className = "toast-content";
@@ -61,7 +73,9 @@ export class Toast {
     if (closable) {
       const closeBtn = document.createElement("button");
       closeBtn.className = "toast-close";
-      closeBtn.innerHTML = "&times;";
+      closeBtn.type = "button";
+      closeBtn.setAttribute("aria-label", "Dismiss notification");
+      closeBtn.textContent = "×";
       closeBtn.addEventListener("click", () => {
         Toast.dismiss(toast);
       });
