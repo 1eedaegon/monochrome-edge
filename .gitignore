@@ -141,3 +141,8 @@ vite.config.ts.timestamp-*
 # Playwright test artifacts
 test-results/
 playwright-report/
+temp-screenshots/
+editor-loaded.png
+
+# npm pack output
+*.tgz
