@@ -9,6 +9,7 @@ permissions:
   contents: write
   packages: write
   pull-requests: write
+  id-token: write # OIDC token for npm Trusted Publishing (token-free publish)
 
 jobs:
   release:
@@ -29,6 +30,10 @@ jobs:
 
       - name: Install dependencies
         run: npm ci
+
+      # npm Trusted Publishing (OIDC) needs npm >= 11.5.1; Node 20 ships npm 10.x.
+      - name: Upgrade npm for OIDC trusted publishing
+        run: npm install -g npm@latest
 
       - name: Analyze commits and determine version
         id: version
@@ -205,14 +210,15 @@ jobs:
           fi
         continue-on-error: true
 
-      # No continue-on-error: a failed npm publish MUST turn the run red. Silently
-      # masking it is what let npm stall on 1.13.16 for months while git advanced.
-      # NPM_TOKEN must be an automation / granular token with "bypass 2FA" enabled.
-      - name: Publish to npm
+      # Publishes via npm Trusted Publishing (OIDC) — no NPM_TOKEN. Requires a
+      # Trusted Publisher registered on npmjs.com for this package pointing at
+      # owner=1eedaegon, repo=monochrome-edge, workflow=release.yml. npm auto-
+      # detects the OIDC credential (id-token: write + npm >= 11.5.1) and also
+      # attaches build provenance. No continue-on-error: a failed publish MUST
+      # turn the run red rather than silently stall npm behind git.
+      - name: Publish to npm (Trusted Publishing / OIDC)
         if: steps.update_version.outputs.skip_release != 'true' && steps.check_npm.outputs.exists != 'true'
         run: npm publish --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Setup Node for GitHub Packages
         if: steps.update_version.outputs.skip_release != 'true'
