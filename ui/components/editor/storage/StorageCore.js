@@ -9,8 +9,12 @@ export class StorageCore {
         this.dbVersion = config.dbVersion || 1;
         this.db = null;
         this.useIndexedDB = true;
-        
-        this.init();
+
+        // Keep the init promise so callers can await readiness. Previously init()
+        // was fire-and-forget: on first load this.db was still null, so loadDocument
+        // fell back to (empty) LocalStorage and the 2s autosave then overwrote the
+        // real IndexedDB document with an empty one — silent data loss across reloads.
+        this.ready = this.init();
     }
     
     async init() {
@@ -67,30 +71,34 @@ export class StorageCore {
     
     // Document Operations
     async saveDocument(id, document) {
+        await this.ready;
         if (this.useIndexedDB && this.db) {
             return this.saveToIndexedDB('documents', { ...document, id });
         } else {
             return this.saveToLocalStorage(`doc_${id}`, document);
         }
     }
-    
+
     async loadDocument(id) {
+        await this.ready;
         if (this.useIndexedDB && this.db) {
             return this.loadFromIndexedDB('documents', id);
         } else {
             return this.loadFromLocalStorage(`doc_${id}`);
         }
     }
-    
+
     async deleteDocument(id) {
+        await this.ready;
         if (this.useIndexedDB && this.db) {
             return this.deleteFromIndexedDB('documents', id);
         } else {
             return this.deleteFromLocalStorage(`doc_${id}`);
         }
     }
-    
+
     async listDocuments() {
+        await this.ready;
         if (this.useIndexedDB && this.db) {
             return this.getAllFromIndexedDB('documents');
         } else {

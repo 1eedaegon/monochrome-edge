@@ -31,6 +31,10 @@ export class Toast {
         container = document.createElement("div");
         container.className = "toast-container";
         container.dataset.position = position;
+        // The stylesheet positions the container via a class selector
+        // (.toast-container.top-right, …), so add the position as a class too —
+        // data-position alone matched no CSS and toasts stacked at the origin.
+        container.classList.add(position);
         // Announce dynamically-added toasts to assistive technology.
         container.setAttribute("role", "status");
         container.setAttribute("aria-live", "polite");
@@ -83,11 +87,8 @@ export class Toast {
     }
 
     container.appendChild(toast);
-
-    // Trigger animation
-    requestAnimationFrame(() => {
-      toast.classList.add("toast-show");
-    });
+    // Entrance is handled purely in CSS (.toast { animation: toastSlideIn }).
+    // The former "toast-show" class was styled nowhere and is intentionally gone.
 
     // Auto dismiss
     if (duration > 0) {
@@ -98,7 +99,8 @@ export class Toast {
   }
 
   public static dismiss(toast: HTMLElement): void {
-    toast.classList.remove("toast-show");
+    // .closing drives the exit animation (toastSlideOut); remove after it plays.
+    toast.classList.add("closing");
     setTimeout(() => {
       toast.remove();
     }, 300);

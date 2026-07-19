@@ -10,17 +10,14 @@
   --color-blond-wood: #D3C8AB;
   --color-oat-milk: #F5E6D3;
   --color-silver: #C0C0C0;
-  
-  /* Secondary Colors */
-  --color-wine: #3d0604;
-  --color-olive: #9ca77e;
-  
-  /* Semantic Colors */
-  --color-success: #7B9F60;  /* Olive green */
-  --color-warning: #D4A574;  /* Warm amber */
-  --color-error: #8B3A3A;    /* Wine red */
-  --color-info: #6B7280;     /* Cool gray */
-  
+
+  /* NOTE: --color-wine / --color-olive and the semantic status colors
+     (--color-success/-warning/-error/-info) are intentionally NOT defined here.
+     They are owned by the theme token files (ui/tokens/warm-theme.css,
+     cold-theme.css) under [data-theme-variant] scopes with WCAG-tuned, theme- and
+     mode-specific values. Redefining them on :root shadowed those values in light
+     mode (equal specificity, imported later), so they stay theme-scoped only. */
+
   /* Alpha Values */
   --alpha-hover: 0.05;
   --alpha-active: 0.1;
