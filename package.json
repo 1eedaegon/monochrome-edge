@@ -11,6 +11,8 @@
     "**/*.css",
     "**/web-components*.js",
     "**/web-components*.cjs",
+    "**/jquery*.js",
+    "**/jquery*.cjs",
     "**/monochrome-edge-editor*.js"
   ],
   "files": [
@@ -80,6 +82,18 @@
       "import": "./dist/ui/components/dropdown.esm.js",
       "require": "./dist/ui/components/dropdown.cjs"
     },
+    "./ui/components/stepper": {
+      "types": "./dist/types/ui/components/stepper/stepper.d.ts",
+      "import": "./dist/ui/components/stepper.esm.js",
+      "require": "./dist/ui/components/stepper.cjs"
+    },
+    "./editor": {
+      "import": "./dist/monochrome-edge-editor.esm.js",
+      "require": "./dist/monochrome-edge-editor.js",
+      "default": "./dist/monochrome-edge-editor.esm.js"
+    },
+    "./editor/css": "./dist/editor.min.css",
+    "./package.json": "./package.json",
     "./react": {
       "types": "./dist/types/src/react.d.ts",
       "import": "./dist/react.esm.js",
@@ -109,7 +123,9 @@
     "start": "node --experimental-transform-types server.ts",
     "dev": "node --watch --experimental-transform-types server.ts",
     "demo": "node --experimental-transform-types server.ts",
-    "build": "npm run clean && npm run gen:icons && npm run build:css && npm run check:tokens && npm run build:js && npm run build:editor && npm run build:ui-sources && npm run copy:ui-assets && npm run copy:assets && npm run build:types && npm run make:cjs",
+    "build": "npm run clean && npm run version:update && npm run gen:icons && npm run build:css && npm run check:tokens && npm run check:audit && npm run build:js && npm run build:editor && npm run build:ui-sources && npm run copy:ui-assets && npm run copy:assets && npm run build:types && npm run make:cjs",
+    "check": "npm run format:check && npm run lint && npm run check:audit",
+    "check:audit": "npm audit --audit-level=high",
     "clean": "rm -rf dist",
     "gen:icons": "node scripts/gen-icon-data.js",
     "make:cjs": "node scripts/make-cjs.js",
@@ -159,6 +175,12 @@
   "publishConfig": {
     "access": "public"
   },
+  "peerDependencies": {
+    "react": ">=18",
+    "react-dom": ">=18",
+    "vue": "^3.3",
+    "jquery": "^3"
+  },
   "peerDependenciesMeta": {
     "react": {
       "optional": true
@@ -174,7 +196,7 @@
     }
   },
   "engines": {
-    "node": ">=24.0.0"
+    "node": ">=18"
   },
   "devDependencies": {
     "@playwright/test": "1.56.0",
@@ -202,8 +224,5 @@
     "tslib": "^2.8.1",
     "typescript": "^5.9.3",
     "vue": "3.5.22"
-  },
-  "optionalDependencies": {
-    "@esbuild/darwin-arm64": "^0.25.10"
   }
 }
