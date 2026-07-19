@@ -44,7 +44,9 @@ jobs:
       - name: Check commit messages
         run: |
           # Get all commits in this PR
-          COMMITS=$(git log origin/${{ github.base_ref }}..HEAD --format=%s)
+          # --no-merges: skip the ephemeral GitHub merge commit ("Merge X into Y"),
+          # which is never a Conventional Commit and would fail every PR.
+          COMMITS=$(git log --no-merges origin/${{ github.base_ref }}..HEAD --format=%s)
 
           # Conventional commit regex
           PATTERN="^(feat|fix|docs|style|refactor|perf|test|chore|build|ci|revert)(\(.+\))?: .+"
