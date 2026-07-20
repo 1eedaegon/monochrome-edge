@@ -5,6 +5,111 @@ All notable changes to Monochrome Edge UI Components will be documented in this 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.0] - 2026-07-20
+
+### Features
+
+- feat(stepper): width-aware label truncation + full-text hover reveal ([32c1b8b](../../commit/32c1b8b7c7621a71c5f35c8e09c4dbf8d42c32b5))
+- feat(pkg): add stepper/editor exports, peerDependencies, engines, build audit gate ([538c1e3](../../commit/538c1e3d0d985c6060f4b49de390648987c064c9))
+
+### Bug Fixes
+
+- fix: audit findings — editor XSS/storage race, toast, colors, nav, SSR ([8b04d0f](../../commit/8b04d0f295a32ac27dbcf3cc04f443c4f892bd47))
+- fix(ci): git-first catch-up release; stop hiding npm publish failures ([55f94a8](../../commit/55f94a8bac2708a3cc53aa89fe86b8be88a1e93e))
+- fix(pkg): make CommonJS require() work; harden build against EBADF flake ([23a1a2c](../../commit/23a1a2c9d636ec43820e07416dfea5d029f4fde9))
+- fix(server): allow demo CDN assets through CSP ([8c8d421](../../commit/8c8d42186158c8e2f3a860e49ffd51376e021c47))
+- fix: align main/types with "." export; guard editor live-block resync ([4417908](../../commit/4417908956c2baa148879ae5fdef09996c110b31))
+- fix(vue): review findings — stale callbacks, Stepper reactivity ([d5286fa](../../commit/d5286fa7ba7a7be6f6d7a523c15c589cc17c0570))
+- fix(react): review findings — stale callbacks, Modal focus, a11y ([ca81c0b](../../commit/ca81c0bb5352b25147251dfe2152c6b06b629c9b))
+- fix(security): harden web-components + safeUrl (review findings) ([a547bbd](../../commit/a547bbd211f1b1d9553f65d27587ca3bba1eee59))
+- fix: update icons like slack/discord ([e37ab49](../../commit/e37ab490017ac24ae3dd50096946edfacfb9fed2))
+- fix: update icons and remove unused content ([1b124bf](../../commit/1b124bf07016b3d4843c79b03ba8c33a8cb9bde6))
+
+### Performance
+
+- perf(icons): inline hot-path SVGs, drop per-icon startup fetches ([073bfb8](../../commit/073bfb88fa8c65b93c7fa89ad5327930898a27e6))
+- perf(demo): self-thin fonts — Pretendard dynamic-subset, drop Noto/Inter ([1fda14e](../../commit/1fda14eb367ac4b82c603871318274638b6aff92))
+
+### Documentation
+
+- docs: architecture/components/integration guides + tracker; demo fixes ([d480d56](../../commit/d480d566ff4c5f6075452c2fdd4c0d424fa71190))
+- docs(readme): add jQuery/Web Components + framework suitability matrix ([11a1bfb](../../commit/11a1bfbb53daea1f4536260ff93cf1c436732dc4))
+- docs: remove confused emojis ([95ce4ed](../../commit/95ce4edea487a78eb9a73d27cb1f89a00a01c052))
+
+### Refactor
+
+- refactor: single-source IconToggle data across adapters ([a4efca0](../../commit/a4efca03c7dc90b7a54e29a783e3d72d8f3ea3c0))
+- refactor+feat: dedupe rollup TS config; ship per-component ESM ([97bf12e](../../commit/97bf12e3e363ea2915b055188d7d617212970f03))
+
+### Chore
+
+- chore: bump version to 1.0.0 [skip ci] ([d811cee](../../commit/d811cee0faa7f75e21da4efd3417a41f3bad3a6b))
+- chore(deps-dev): bump the minor-and-patch group with 10 updates ([8b7ab6c](../../commit/8b7ab6c90875ff7754aba7ba2968b31fb4b71055))
+- chore(deps-dev): bump js-yaml from 4.1.1 to 4.3.0 ([f70d8cd](../../commit/f70d8cdd35156350dfd4de27dd74c2fd0715d42e))
+- chore(deps): npm audit fix — resolve all 14 advisories (0 vulnerabilities) ([aff1c7a](../../commit/aff1c7a15d64e5dc1f9903a5e63d35869890835a))
+- chore: ignore e2e screenshot artifacts and npm pack tarballs ([c6adbb7](../../commit/c6adbb79384609ce804c104239d74087eb943b0f))
+- chore: remove dead legacy editor implementation (dual core) ([4377811](../../commit/43778111077cc0c753f63e1593a946f9007a5395))
+- chore: bump version to 1.13.20 [skip ci] ([6f59465](../../commit/6f5946551a3da86d5b7643518cd31f660d4ab69a))
+- chore: bump version to 1.13.19 [skip ci] ([2635511](../../commit/2635511567196beb6b5e42d4447f35c265cf8116))
+- chore: bump version to 1.13.18 [skip ci] ([b719dc7](../../commit/b719dc75e8dcba9a3640d0db70e72179a07a9870))
+- chore: bump version to 1.13.17 [skip ci] ([9160ca0](../../commit/9160ca03c106a6b6759d8df3e842757157fb0d7c))
+- chore: bump version to 1.13.16 [skip ci] ([f497e1c](../../commit/f497e1c934f764ba4d5737deb5ce2a790863b7e7))
+- chore: bump version to 1.13.15 [skip ci] ([33aad4b](../../commit/33aad4b439acf83d4d72fc665ea314022c508ee5))
+
+### Other
+
+- ci(release): run on Node 24 — npm@latest for OIDC publishing requires Node >=22 ([b42649c](../../commit/b42649c21f7c7cdd0d1657fe288c0156543cf288))
+- Gon ⌬ ([](../../commit/))
+- Merge pull request #19 from 1eedaegon/dependabot/npm_and_yarn/minor-and-patch-e11538cf90 ([8a976de](../../commit/8a976de3fc3965df788f9ad848fff685be811dcc))
+- dependabot[bot] ([Signed-](../../commit/Signed-off-by: dependabot[bot] <support@github.com>))
+- Merge pull request #18 from 1eedaegon/dependabot/npm_and_yarn/js-yaml-4.3.0 ([dd5a195](../../commit/dd5a195c9f361a948330e82b0bce6a4afe9cb260))
+- dependabot[bot] ([Signed-](../../commit/Signed-off-by: dependabot[bot] <support@github.com>))
+- Merge pull request #17 from 1eedaegon/feat/audit-v1.14-fixes ([d275998](../../commit/d27599803d675918e276b605cddbb5e2065581fd))
+- ci: skip merge commit in conventional-commits check (--no-merges) ([c1b28f5](../../commit/c1b28f551cb12e057566f1ad6925c9e270a2f701))
+- Gon ⌬ ([](../../commit/))
+- Gon ⌬ ([](../../commit/))
+- ci: dependabot + daily auto-merge; enforce lint/format/audit/build in PR check ([7fdbda0](../../commit/7fdbda073672d504157e41437145cfffd0dcbce0))
+- Gon ⌬ ([](../../commit/))
+- Gon ⌬ ([](../../commit/))
+- Gon ⌬ ([](../../commit/))
+- ci(release): publish via npm Trusted Publishing (OIDC), drop NPM_TOKEN ([9cb258d](../../commit/9cb258d5124b441deebebc2b908015eb05f379ea))
+- Gon ⌬ ([](../../commit/))
+- Merge remote-tracking branch 'origin/main' into feat/security-a11y-adapters-editor ([bb99137](../../commit/bb9913785eee414976ca9f2bcf99e3bfb6c902bd))
+- Gon ⌬ ([](../../commit/))
+- Gon ⌬ ([](../../commit/))
+- Gon ⌬ ([](../../commit/))
+- Gon ⌬ ([](../../commit/))
+- Gon ⌬ ([](../../commit/))
+- Gon ⌬ ([](../../commit/))
+- Gon ⌬ ([](../../commit/))
+- Gon ⌬ ([](../../commit/))
+- Gon ⌬ ([](../../commit/))
+- Gon ⌬ ([](../../commit/))
+- Gon ⌬ ([](../../commit/))
+- Gon ⌬ ([](../../commit/))
+- Gon ⌬ ([](../../commit/))
+- Gon ⌬ ([](../../commit/))
+- Gon ⌬ ([](../../commit/))
+- Merge pull request #8 from 1eedaegon/dependabot/npm_and_yarn/multi-79da445d4d ([7da7ed4](../../commit/7da7ed461b94dab52fe76ffc5eaf5f8dad512185))
+- build(deps): bump serialize-javascript and @rollup/plugin-terser ([0575a31](../../commit/0575a311c3e95e9795dd2fe828bfad04db457d2e))
+- dependabot[bot] ([Signed-](../../commit/Signed-off-by: dependabot[bot] <support@github.com>))
+- Merge pull request #5 from 1eedaegon/dependabot/npm_and_yarn/basic-ftp-5.2.0 ([2904eaa](../../commit/2904eaa5e09f88f00a46a3a50c0308943a0ba3e5))
+- Merge pull request #6 from 1eedaegon/dependabot/npm_and_yarn/rollup-4.59.0 ([e2392fc](../../commit/e2392fc329e43cffba128ad28b5deca8a9203881))
+- Merge pull request #7 from 1eedaegon/dependabot/npm_and_yarn/multi-f581b94821 ([00b29c3](../../commit/00b29c318b4c28b3194902bc4656c4c72bc6b06f))
+- build(deps): bump svgo ([d2fddb4](../../commit/d2fddb40f0662416c6b88566b89b8e5485442661))
+- dependabot[bot] ([Signed-](../../commit/Signed-off-by: dependabot[bot] <support@github.com>))
+- build(deps-dev): bump rollup from 4.52.4 to 4.59.0 ([4b88a72](../../commit/4b88a72b57283b18572ed09f125183f8a887fe76))
+- dependabot[bot] ([Signed-](../../commit/Signed-off-by: dependabot[bot] <support@github.com>))
+- build(deps-dev): bump basic-ftp from 5.0.5 to 5.2.0 ([325b065](../../commit/325b0656e47a486958587c59895c24240783e0a2))
+- dependabot[bot] ([Signed-](../../commit/Signed-off-by: dependabot[bot] <support@github.com>))
+- audit: fix npm audit for prevent redos ([5d8eb3c](../../commit/5d8eb3cf8b8ca9b845b0d0578895806c4fba5012))
+- Merge pull request #4 from 1eedaegon/dependabot/npm_and_yarn/qs-6.14.2 ([8d7fc09](../../commit/8d7fc09ee1665942bf6404a33150bdf7c240b360))
+- Merge pull request #2 from 1eedaegon/dependabot/npm_and_yarn/js-yaml-4.1.1 ([bfbfa35](../../commit/bfbfa35b41c4f95049d05d6120fe2391cfd9314b))
+- build(deps-dev): bump qs from 6.14.0 to 6.14.2 ([294b13f](../../commit/294b13f5371738ff168d493cd018c1486fd2f40c))
+- dependabot[bot] ([Signed-](../../commit/Signed-off-by: dependabot[bot] <support@github.com>))
+- build(deps-dev): bump js-yaml from 4.1.0 to 4.1.1 ([a0511cc](../../commit/a0511cc91148cc07212ad2fd47e630cc2e32304e))
+- dependabot[bot] ([Signed-](../../commit/Signed-off-by: dependabot[bot] <support@github.com>))
+
 ## [1.0.0] - 2026-07-20
 
 ### Features

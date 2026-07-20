@@ -4,7 +4,7 @@
  * For vanilla JS/TS components, use the main UI package
  */
 
-export const VERSION = "1.13.20";
+export const VERSION = "1.1.0";
 
 // Re-export ThemeManager for framework wrappers
 export { ThemeManager } from "../ui/utils/theme-manager";
