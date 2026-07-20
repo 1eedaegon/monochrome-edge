@@ -142,7 +142,18 @@ export class Stepper {
   private truncateText(text: string, maxLength: number = 30): string {
     if (!text) return text;
     if (text.length <= maxLength) return text;
-    return text.substring(0, maxLength - 3) + "...";
+    return text.substring(0, Math.max(1, maxLength - 3)) + "...";
+  }
+
+  /**
+   * Attach a native SVG <title> so hovering an element reveals its full,
+   * untruncated text — used on labels that are visually clipped to fit.
+   */
+  private appendFullTextTooltip(el: SVGElement, fullText?: string): void {
+    if (!fullText) return;
+    const t = document.createElementNS("http://www.w3.org/2000/svg", "title");
+    t.textContent = fullText;
+    el.appendChild(t);
   }
 
   private parseSteps(): void {
@@ -694,6 +705,41 @@ export class Stepper {
 
     const isVerticalLayout = this.options.layout === "vertical";
 
+    // Width-aware truncation so labels don't overflow their column. The full
+    // text stays reachable via the hover tooltip/popup (appendFullTextTooltip).
+    const CHAR_WIDTH = 6.5; // ~13px label glyph
+    const containerW = this.container.clientWidth || 0;
+    // The snake layout falls back to a vertical stack under 240px WITHOUT
+    // changing options.layout, so detect a real vertical stack by geometry.
+    const refX = positions[0]?.x ?? 0;
+    const isVerticalStack =
+      positions.length > 1 &&
+      positions.every((p) => Math.abs(p.x - refX) < 1);
+    let maxLabelChars = 30;
+    if (isVerticalLayout && containerW > 0) {
+      // True vertical: label sits to the right of the centered node.
+      const labelStart = containerW / 2 + this.options.nodeSize / 2 + 16;
+      const avail = containerW - labelStart - 8;
+      if (avail > 0) maxLabelChars = Math.max(4, Math.floor(avail / CHAR_WIDTH));
+    } else if (isVerticalStack && containerW > 0) {
+      // Snake-fallback stack: labels are centered below → bound by container.
+      maxLabelChars = Math.max(4, Math.floor((containerW - 16) / CHAR_WIDTH));
+    } else if (positions.length > 1) {
+      // Below-node labels → the inter-node gap bounds the width.
+      const xs = positions.map((p) => p.x).sort((a, b) => a - b);
+      let minGap = Infinity;
+      for (let i = 1; i < xs.length; i++) {
+        const curr = xs[i];
+        const prev = xs[i - 1];
+        if (curr === undefined || prev === undefined) continue;
+        const d = curr - prev;
+        if (d > 0) minGap = Math.min(minGap, d);
+      }
+      if (Number.isFinite(minGap)) {
+        maxLabelChars = Math.max(4, Math.floor(minGap / CHAR_WIDTH));
+      }
+    }
+
     positions.forEach((pos) => {
       if (!pos.labelTitle) return;
 
@@ -724,7 +770,10 @@ export class Stepper {
       title.setAttribute("y", String(labelY));
       title.setAttribute("text-anchor", textAnchor);
       title.classList.add("label-title");
-      title.textContent = this.truncateText(pos.labelTitle);
+      title.textContent = this.truncateText(pos.labelTitle, maxLabelChars);
+      // Full text on hover (and a pointer cue that there is more to see).
+      title.style.cursor = "help";
+      this.appendFullTextTooltip(title, pos.labelTitle);
       g.appendChild(title);
 
       // Description
@@ -737,7 +786,9 @@ export class Stepper {
         desc.setAttribute("y", String(labelY + 14)); // 14px below title
         desc.setAttribute("text-anchor", textAnchor);
         desc.classList.add("label-desc");
-        desc.textContent = this.truncateText(pos.labelDesc);
+        desc.textContent = this.truncateText(pos.labelDesc, maxLabelChars);
+        desc.style.cursor = "help";
+        this.appendFullTextTooltip(desc, pos.labelDesc);
         g.appendChild(desc);
       }
     });
@@ -758,8 +809,12 @@ export class Stepper {
   private showPopup(step: Position, index: number, event: MouseEvent): void {
     if (!this.popupContainer) return;
 
-    // Only show if title or desc exists
-    if (!step.title && !step.desc) return;
+    // Prefer an explicit popup title/desc; otherwise fall back to the label,
+    // which may be visually truncated in the SVG. Either way the hover popup
+    // shows the FULL, untruncated content.
+    const fullTitle = step.title || step.labelTitle || "";
+    const fullDesc = step.desc || step.labelDesc || "";
+    if (!fullTitle && !fullDesc) return;
 
     const popup = this.popupContainer;
     const title = popup.querySelector(".stepper-popup-title") as HTMLElement;
@@ -767,14 +822,11 @@ export class Stepper {
 
     if (!title || !desc) return;
 
-    title.textContent = this.truncateText(step.title || "") || "";
-    desc.textContent = this.truncateText(step.desc || "") || "";
+    title.textContent = fullTitle;
+    desc.textContent = fullDesc;
 
-    if (!step.title) title.style.display = "none";
-    else title.style.display = "block";
-
-    if (!step.desc) desc.style.display = "none";
-    else desc.style.display = "block";
+    title.style.display = fullTitle ? "block" : "none";
+    desc.style.display = fullDesc ? "block" : "none";
 
     // Calculate absolute position (popup is in body, not container)
     if (!this.svg) return;

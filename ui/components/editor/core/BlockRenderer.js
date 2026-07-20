@@ -505,42 +505,71 @@ export class BlockRenderer {
         }
     }
     
-    // Inline Styles Rendering
+    // Allowlist URL schemes to keep javascript:/data: out of link hrefs.
+    safeUrl(url) {
+        const u = String(url == null ? '' : url).trim();
+        if (!u) return '#';
+        // Absolute URLs: only http/https/mailto/tel are allowed.
+        if (/^(https?:|mailto:|tel:)/i.test(u)) return this.escapeHtml(u);
+        // Any other scheme (javascript:, data:, vbscript:, …) is blocked.
+        if (/^[a-z][a-z0-9+.-]*:/i.test(u)) return '#';
+        // Scheme-less values are relative paths / anchors — safe.
+        return this.escapeHtml(u);
+    }
+
+    // Inline Styles Rendering — boundary sweep so every text run and href is
+    // escaped/validated. The previous version interpolated raw block text and an
+    // unvalidated href into innerHTML, giving stored XSS from pasted/imported docs.
     renderInlineStyles(content) {
-        if (!content.styles || content.styles.length === 0) {
-            return this.escapeHtml(content.text);
+        const text = content && typeof content.text === 'string' ? content.text : '';
+        const styles = content && Array.isArray(content.styles) ? content.styles : [];
+        if (styles.length === 0) {
+            return this.escapeHtml(text);
         }
-        
-        let html = content.text;
-        const styles = [...content.styles].sort((a, b) => b.offset - a.offset);
-        
-        styles.forEach(style => {
-            const before = html.substring(0, style.offset);
-            const styled = html.substring(style.offset, style.offset + style.length);
-            const after = html.substring(style.offset + style.length);
-            
-            let wrapped = styled;
-            switch (style.style) {
-                case 'bold':
-                    wrapped = `<strong>${styled}</strong>`;
-                    break;
-                case 'italic':
-                    wrapped = `<em>${styled}</em>`;
-                    break;
-                case 'strikethrough':
-                    wrapped = `<del>${styled}</del>`;
-                    break;
-                case 'code':
-                    wrapped = `<code>${styled}</code>`;
-                    break;
-                case 'link':
-                    wrapped = `<a href="${style.href || '#'}">${styled}</a>`;
-                    break;
+
+        // Collect segment boundaries from every style's start/end.
+        const bounds = new Set([0, text.length]);
+        for (const s of styles) {
+            const start = Math.max(0, Math.min(text.length, s.offset | 0));
+            const end = Math.max(0, Math.min(text.length, (s.offset | 0) + (s.length | 0)));
+            bounds.add(start);
+            bounds.add(end);
+        }
+        const points = [...bounds].sort((a, b) => a - b);
+
+        let html = '';
+        for (let i = 0; i < points.length - 1; i++) {
+            const start = points[i];
+            const end = points[i + 1];
+            if (end <= start) continue;
+
+            let seg = this.escapeHtml(text.substring(start, end));
+            // Styles fully covering this segment, applied innermost-first.
+            const active = styles.filter(
+                (s) => (s.offset | 0) <= start && (s.offset | 0) + (s.length | 0) >= end,
+            );
+            for (const style of active) {
+                switch (style.style) {
+                    case 'bold':
+                        seg = `<strong>${seg}</strong>`;
+                        break;
+                    case 'italic':
+                        seg = `<em>${seg}</em>`;
+                        break;
+                    case 'strikethrough':
+                        seg = `<del>${seg}</del>`;
+                        break;
+                    case 'code':
+                        seg = `<code>${seg}</code>`;
+                        break;
+                    case 'link':
+                        seg = `<a href="${this.safeUrl(style.href)}">${seg}</a>`;
+                        break;
+                }
             }
-            
-            html = before + wrapped + after;
-        });
-        
+            html += seg;
+        }
+
         return html;
     }
     

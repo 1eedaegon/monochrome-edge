@@ -16,8 +16,18 @@ import type { DocumentMetadata } from "../ui/components/graph-view/graph-builder
 import { SearchToolbar } from "../ui/components/search-toolbar/search-toolbar";
 import { iconLoader } from "../ui/utils/icon-loader";
 
+// SSR/Node safety: `HTMLElement` does not exist when this module is imported in a
+// non-DOM environment (Next.js/Nuxt server, Node test runners). Extending a missing
+// global throws at module-evaluation time, before registration is ever gated. Fall
+// back to a stub base so importing is side-effect-free; registration below is still
+// guarded on `typeof window`.
+const HTMLElementBase: typeof HTMLElement =
+  typeof HTMLElement !== "undefined"
+    ? HTMLElement
+    : (class {} as unknown as typeof HTMLElement);
+
 // Base Component Class
-class MonochromeElement extends HTMLElement {
+class MonochromeElement extends HTMLElementBase {
   constructor() {
     super();
   }

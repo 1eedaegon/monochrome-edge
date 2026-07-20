@@ -1,0 +1,64 @@
+name: Dependabot Auto-merge
+
+# Enables auto-merge for Dependabot patch/minor PRs as soon as required checks pass,
+# and runs a daily sweep to merge any that are green but still open. Major updates are
+# never auto-merged — they wait for manual review.
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  schedule:
+    # Daily sweep at 09:30 KST (00:30 UTC) — after Dependabot's 09:00 KST run
+    - cron: "30 0 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: dependabot-automerge-${{ github.event.pull_request.number || 'sweep' }}
+  cancel-in-progress: false
+
+jobs:
+  # Event-driven: enable auto-merge on the opened/updated Dependabot PR.
+  enable-auto-merge:
+    if: github.event_name == 'pull_request' && github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Dependabot metadata
+        id: meta
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+      - name: Enable auto-merge for patch/minor
+        if: steps.meta.outputs.update-type != 'version-update:semver-major'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  # Scheduled daily sweep: merge any green, non-major Dependabot PRs still open.
+  daily-sweep:
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Merge mergeable Dependabot PRs
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO: ${{ github.repository }}
+        run: |
+          # Open Dependabot PRs that are mergeable and passing checks (mergeStateStatus CLEAN),
+          # excluding any labeled as a major bump.
+          gh pr list --repo "$REPO" --author "app/dependabot" --state open \
+            --json number,mergeStateStatus,labels \
+            --jq '.[] | select(.mergeStateStatus == "CLEAN")
+                       | select([.labels[].name] | index("major") | not)
+                       | .number' \
+          | while read -r pr; do
+              [ -z "$pr" ] && continue
+              echo "Auto-merging Dependabot PR #$pr"
+              gh pr merge --squash --admin "$pr" --repo "$REPO" || \
+                echo "Skip #$pr (not mergeable or protection blocked)"
+            done

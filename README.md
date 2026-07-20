@@ -555,6 +555,14 @@ npm run build
 - `data-landscape-mode="colored"` - Enable colored theme-aware mode
 - Default: monochrome (grayscale)
 
+## Documentation
+
+- **[ARCHITECTURE.md](ARCHITECTURE.md)** — system design: token/theme layers, the vanilla-TS behavior pattern, adapter architecture, build pipeline, and release model.
+- **[COMPONENTS.md](COMPONENTS.md)** — full component API reference: markup, options, methods, events, and the per-framework availability matrix for every component.
+- **[INTEGRATION.md](INTEGRATION.md)** — usage guide: zero-install CDN, shadcn-style vendoring, npm exports, runtime theming, and React/Vue/jQuery/Web-Components/SSR recipes.
+- **[ui/components/editor/ARCHITECTURE.md](ui/components/editor/ARCHITECTURE.md)** — the block editor subsystem.
+- **[DEVELOPMENT.md](DEVELOPMENT.md)** · **[CONTRIBUTING.md](CONTRIBUTING.md)** — local development and contribution guidelines.
+
 ## License
 
 [MIT](LICENSE)
@@ -565,7 +573,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for development guidelines.
 
 ## Links
 
-- [Documentation](DEVELOPMENT.md)
+- [Architecture](ARCHITECTURE.md) · [Components](COMPONENTS.md) · [Integration](INTEGRATION.md) · [Development](DEVELOPMENT.md)
 - [GitHub](https://github.com/1eedaegon/monochrome-edge)
 - [npm](https://www.npmjs.com/package/@monochrome-edge/ui)
 - [jsDelivr CDN](https://www.jsdelivr.com/package/npm/@monochrome-edge/ui)

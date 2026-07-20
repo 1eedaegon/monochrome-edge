@@ -694,6 +694,16 @@
 
             .logo-text {
                 fill: var(--theme-text-primary);
+                /* Unify the brand wordmark with the site typeface. The inline SVG
+                   hardcodes font-family="system-ui, …"; a CSS font-family on the
+                   <text> element overrides that presentation attribute so the logo
+                   renders in Pretendard like the rest of the UI. */
+                font-family: var(
+                    --font-family-sans,
+                    system-ui,
+                    -apple-system,
+                    sans-serif
+                );
                 transition: fill 0.6s cubic-bezier(0.4, 0, 0.2, 1);
             }
 
@@ -1491,6 +1501,9 @@
                     max-height: 800px;
                     overflow-y: auto;
                     overflow-x: hidden;
+                    /* Breathing room so code does not sit flush against the
+                       preview column's divider. */
+                    padding: 0.5rem 0.5rem 0.5rem 1.25rem;
                 }
 
                 /* Ensure graph/tree views work in split mode */
@@ -11139,6 +11152,84 @@ function advanceStep() {
                             </div>
                         </div>
                     </div>
+
+                    <!-- Stepper (Responsive — interactive) -->
+                    <div class="component-showcase">
+                        <div class="component-header">
+                            <h3 class="component-title">Stepper (Responsive — drag or pick a width)</h3>
+                            <div class="component-toggle">
+                                <button class="toggle-btn active" data-target="stepper-responsive">Preview</button>
+                                <button class="toggle-btn" data-target="stepper-responsive">Code</button>
+                            </div>
+                        </div>
+                        <div class="component-content" id="stepper-responsive">
+                            <div class="component-preview">
+                                <div style="display:flex; gap:0.5rem; align-items:center; flex-wrap:wrap; margin-bottom:1rem;">
+                                    <button type="button" class="rs-preset" data-w="100%" style="padding:0.35rem 0.75rem; font-size:0.8125rem; border:1px solid var(--theme-border); border-radius:var(--border-radius-sm, 6px); background:var(--theme-surface); color:var(--theme-text-primary); cursor:pointer;">Desktop (100%)</button>
+                                    <button type="button" class="rs-preset" data-w="480px" style="padding:0.35rem 0.75rem; font-size:0.8125rem; border:1px solid var(--theme-border); border-radius:var(--border-radius-sm, 6px); background:var(--theme-surface); color:var(--theme-text-primary); cursor:pointer;">Tablet (480)</button>
+                                    <button type="button" class="rs-preset" data-w="320px" style="padding:0.35rem 0.75rem; font-size:0.8125rem; border:1px solid var(--theme-border); border-radius:var(--border-radius-sm, 6px); background:var(--theme-surface); color:var(--theme-text-primary); cursor:pointer;">Mobile (320)</button>
+                                    <button type="button" class="rs-preset" data-w="220px" style="padding:0.35rem 0.75rem; font-size:0.8125rem; border:1px solid var(--theme-border); border-radius:var(--border-radius-sm, 6px); background:var(--theme-surface); color:var(--theme-text-primary); cursor:pointer;">Narrow (220)</button>
+                                    <span id="rs-width-readout" style="font-size:0.8125rem; color:var(--theme-text-secondary); font-family:var(--font-family-mono, monospace);">width: —</span>
+                                </div>
+                                <div id="rs-frame" style="resize:horizontal; overflow:auto; width:100%; min-width:200px; max-width:100%; border:1px dashed var(--theme-border); border-radius:var(--border-radius, 8px); padding:0.75rem; background:var(--theme-bg);">
+                                    <div class="stepper" id="rs-stepper"
+                                         data-type="default"
+                                         data-layout="snake"
+                                         data-steps='[
+                                             {"indicator":"1","labelTitle":"Account setup","state":"completed"},
+                                             {"indicator":"2","labelTitle":"Verify email confirmation","state":"completed"},
+                                             {"indicator":"3","labelTitle":"Payment","state":"active"},
+                                             {"indicator":"4","labelTitle":"Shipping address details","state":"pending"},
+                                             {"indicator":"5","labelTitle":"Review","state":"pending"},
+                                             {"indicator":"6","labelTitle":"Confirm","state":"failed"},
+                                             {"indicator":"7","labelTitle":"Track","state":"pending"},
+                                             {"indicator":"8","labelTitle":"Done","state":"pending"}
+                                         ]'>
+                                    </div>
+                                </div>
+                                <p style="margin-top:0.75rem; font-size:0.8125rem; color:var(--theme-text-secondary); line-height:1.5;">
+                                    Drag the box's bottom-right handle, or pick a width above. The <code>snake</code> layout keeps one row while it fits, folds into a right-to-left zigzag of more rows as it narrows, then switches to a vertical stack at container width ≤ 240px — all driven by a <code>ResizeObserver</code>, no page reload.
+                                </p>
+                            </div>
+                            <div class="component-code">
+                                <pre><code class="language-markup">&lt;!-- Any width-constrained container works; the stepper re-renders on resize --&gt;
+&lt;div style="resize: horizontal; overflow: auto; width: 100%; min-width: 200px;"&gt;
+  &lt;div class="stepper" data-type="default" data-layout="snake"
+       data-steps='[ /* ...steps... */ ]'&gt;&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+                                <pre style="margin-top:1rem"><code class="language-javascript">// The snake layout is width-aware: it reflows automatically as the
+// container resizes. To drive it from buttons, just set the container width —
+// the stepper's internal ResizeObserver handles the re-render.
+const frame = document.querySelector('#rs-frame');
+document.querySelectorAll('.rs-preset').forEach((btn) =&gt; {
+  btn.addEventListener('click', () =&gt; { frame.style.width = btn.dataset.w; });
+});</code></pre>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                        (function () {
+                            var frame = document.getElementById('rs-frame');
+                            var stepperEl = document.getElementById('rs-stepper');
+                            var readout = document.getElementById('rs-width-readout');
+                            if (!frame || !stepperEl) return;
+                            document.querySelectorAll('.rs-preset').forEach(function (btn) {
+                                btn.addEventListener('click', function () {
+                                    frame.style.width = btn.getAttribute('data-w');
+                                });
+                            });
+                            function updateReadout() {
+                                if (!readout) return;
+                                var w = Math.round(stepperEl.clientWidth);
+                                var mode = w <= 240 ? 'vertical' : 'snake';
+                                readout.textContent = 'width: ' + w + 'px · ' + mode;
+                            }
+                            if (typeof ResizeObserver !== 'undefined') {
+                                new ResizeObserver(updateReadout).observe(stepperEl);
+                            }
+                            updateReadout();
+                        })();
+                    </script>
 
                     <!-- Text Stepper (Horizontal) -->
                     <div class="component-showcase">
