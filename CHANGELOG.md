@@ -5,6 +5,16 @@ All notable changes to Monochrome Edge UI Components will be documented in this 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.14.1] - 2026-07-20
+
+### Chore
+
+- chore(deps): bump dev deps + CI actions; release 1.14.0 (#33) ([11f3773](../../commit/11f3773cc0c66f0ce621ea971a6a279b2a3dd380))
+
+### Other
+
+- Gon ⌬ ([Verifie](../../commit/Verified: build + lint + format green, 0 vulnerabilities.))
+
 ## [1.14.0] - 2026-07-20
 
 ### Features
