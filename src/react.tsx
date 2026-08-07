@@ -15,6 +15,9 @@ import React, {
   CSSProperties,
 } from "react";
 
+import { Toast, type ToastOptions } from "../ui/components/toast/toast";
+import { safeUrl } from "../ui/utils/security";
+
 // Re-export the interactive component wrappers (Accordion, Tabs, Dropdown,
 // SearchBar, SearchToolbar, TreeView, Stepper, Math, GraphView) that wrap the
 // canonical vanilla classes, so `@monochrome-edge/ui/react` exposes the full
@@ -215,6 +218,13 @@ export function Modal({
   const previouslyFocused = useRef<HTMLElement | null>(null);
   const titleId = useId();
 
+  // Read onClose through a ref so an unmemoized parent callback doesn't sit in
+  // the effect deps — otherwise every parent re-render tears down and
+  // re-attaches the trap (re-capturing previouslyFocused and re-firing focus
+  // restoration mid-open).
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
+
   // Move focus into the dialog on open, restore it on close, and keep a
   // Tab cycle trapped inside while open (WCAG 2.4.3 / 2.1.2). useLayoutEffect
   // so the dialog node is committed before we read contentRef and focus it.
@@ -235,7 +245,7 @@ export function Modal({
 
     const onKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        onClose();
+        onCloseRef.current();
         return;
       }
       if (e.key !== "Tab") return;
@@ -257,7 +267,7 @@ export function Modal({
       document.removeEventListener("keydown", onKeyDown);
       previouslyFocused.current?.focus();
     };
-  }, [isOpen, onClose]);
+  }, [isOpen]);
 
   if (!isOpen) return null;
 
@@ -548,40 +558,23 @@ export function Label({
   );
 }
 
-// Toast Hook
+// Toast Hook — delegates to the canonical vanilla Toast so React consumers get
+// the same positioned container (.toast-container.top-right etc.), dismiss
+// button, exit animation, and ARIA semantics. The previous local
+// implementation re-created a bare, unpositioned container (the pre-fix
+// vanilla bug) and supported neither position nor closable.
 export function useToast() {
-  const show = (
-    message: string,
-    type: "success" | "error" | "info" = "info",
-  ) => {
-    const toast = document.createElement("div");
-    toast.className = `toast toast-${type}`;
-    toast.textContent = message;
-
-    toast.setAttribute("role", type === "error" ? "alert" : "status");
-
-    let container = document.querySelector(".toast-container");
-    if (!container) {
-      container = document.createElement("div");
-      container.className = "toast-container";
-      container.setAttribute("role", "status");
-      container.setAttribute("aria-live", "polite");
-      container.setAttribute("aria-atomic", "true");
-      document.body.appendChild(container);
-    }
-
-    container.appendChild(toast);
-
-    setTimeout(() => {
-      toast.style.opacity = "0";
-      setTimeout(() => toast.remove(), 300);
-    }, 3000);
-  };
-
   return {
-    success: (message: string) => show(message, "success"),
-    error: (message: string) => show(message, "error"),
-    info: (message: string) => show(message, "info"),
+    show: (message: string, options?: ToastOptions) =>
+      Toast.show(message, options),
+    success: (message: string, options?: Omit<ToastOptions, "type">) =>
+      Toast.success(message, options),
+    error: (message: string, options?: Omit<ToastOptions, "type">) =>
+      Toast.error(message, options),
+    info: (message: string, options?: Omit<ToastOptions, "type">) =>
+      Toast.info(message, options),
+    warning: (message: string, options?: Omit<ToastOptions, "type">) =>
+      Toast.warning(message, options),
   };
 }
 
@@ -611,7 +604,7 @@ export function TocHoverCard({
           {items.map((item, index) => (
             <li key={index} className="toc-card-item">
               <a
-                href={item.href}
+                href={safeUrl(item.href)}
                 className={`toc-card-link ${item.isActive ? "is-active" : ""}`}
               >
                 {item.text}
@@ -643,7 +636,18 @@ export function TocCollapsible({
     <div className={`toc-collapsible ${isOpen ? "is-open" : ""} ${className}`}>
       <div
         className="toc-collapsible-header"
+        role="button"
+        tabIndex={0}
+        aria-expanded={isOpen}
         onClick={() => setIsOpen(!isOpen)}
+        onKeyDown={(e) => {
+          // Keyboard activation parity with a native button (the div keeps the
+          // existing CSS contract; a real <button> would need style resets).
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setIsOpen(!isOpen);
+          }
+        }}
       >
         <h4 className="toc-collapsible-title">{title}</h4>
         <span className="toc-collapsible-icon">▼</span>
@@ -653,7 +657,7 @@ export function TocCollapsible({
           {items.map((item, index) => (
             <li key={index} className="toc-list-item">
               <a
-                href={item.href}
+                href={safeUrl(item.href)}
                 className={`toc-list-link ${item.isActive ? "is-active" : ""}`}
               >
                 {item.text}
@@ -698,7 +702,7 @@ export function TOC({
       {items.map((item) => (
         <li key={item.id} className="toc-list-item">
           <a
-            href={item.href}
+            href={safeUrl(item.href)}
             aria-current={item.id === activeId ? "location" : undefined}
             className={`toc-list-link ${item.id === activeId ? "is-active" : ""}`}
             onClick={() => onItemClick?.(item)}
@@ -979,7 +983,7 @@ export function Breadcrumb({
         <React.Fragment key={index}>
           <span className={`breadcrumb-item${item.active ? " is-active" : ""}`}>
             {item.href && !item.active ? (
-              <a href={item.href}>{item.label}</a>
+              <a href={safeUrl(item.href)}>{item.label}</a>
             ) : (
               item.label
             )}
