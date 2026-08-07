@@ -571,7 +571,13 @@ export class EditorCore {
         this.renderer?.destroy();
         this.selectionManager?.destroy();
         this.inputHandler?.destroy();
-        
+        this.floatingToolbar?.destroy?.();
+        this.slashMenu?.destroy?.();
+        this.toolbar?.destroy?.();
+
+        // Close storage
+        this.storage?.close?.();
+
         // Clear listeners
         this.listeners.clear();
         

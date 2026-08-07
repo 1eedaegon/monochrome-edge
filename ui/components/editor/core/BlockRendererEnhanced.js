@@ -477,11 +477,11 @@ export class BlockRenderer {
                     displayMode: true
                 });
             } catch (e) {
-                display.innerHTML = `<span style="color: var(--theme-error)">Error: ${e.message}</span>`;
+                display.innerHTML = `<span style="color: var(--theme-error)">Error: ${this.escapeHtml(e.message)}</span>`;
             }
         } else {
             // Fallback if KaTeX not loaded
-            display.innerHTML = `<code>${latex}</code>`;
+            display.innerHTML = `<code>${this.escapeHtml(latex)}</code>`;
         }
     }
 
@@ -836,6 +836,13 @@ export class BlockRenderer {
 
     // Inline styles rendering and parsing
     renderInlineStyles(text, styles) {
+        // EditorDataModel stores rich content as { text, styles } on
+        // block.content — unwrap it so formatting survives reload instead of
+        // reading the non-existent block.styles.
+        if (text && typeof text === 'object') {
+            styles = Array.isArray(text.styles) ? text.styles : styles;
+            text = text.text || '';
+        }
         if (!text && !styles) return '';
         if (!styles || styles.length === 0) return this.escapeHtml(text || '');
 
@@ -868,7 +875,7 @@ export class BlockRenderer {
                     html += `<code>${styledText}</code>`;
                     break;
                 case 'link':
-                    html += `<a href="${style.href}" target="_blank" rel="noopener">${styledText}</a>`;
+                    html += `<a href="${this.safeUrl(style.href)}" target="_blank" rel="noopener">${styledText}</a>`;
                     break;
                 default:
                     html += styledText;
@@ -886,9 +893,10 @@ export class BlockRenderer {
     }
 
     parseInlineStyles(html) {
-        // Parse HTML back to text and styles
-        const div = document.createElement('div');
-        div.innerHTML = html;
+        // Parse HTML back to text and styles. DOMParser yields an inert
+        // document — unlike div.innerHTML it never loads resources or fires
+        // handlers (e.g. <img onerror>) while parsing user HTML.
+        const doc = new DOMParser().parseFromString(html, 'text/html');
 
         let text = '';
         const styles = [];
@@ -933,9 +941,21 @@ export class BlockRenderer {
             }
         };
 
-        Array.from(div.childNodes).forEach(processNode);
+        Array.from(doc.body.childNodes).forEach(processNode);
 
         return { text, styles };
+    }
+
+    // Allowlist URL schemes to keep javascript:/data: out of link hrefs.
+    safeUrl(url) {
+        const u = String(url == null ? '' : url).trim();
+        if (!u) return '#';
+        // Absolute URLs: only http/https/mailto/tel are allowed.
+        if (/^(https?:|mailto:|tel:)/i.test(u)) return this.escapeHtml(u);
+        // Any other scheme (javascript:, data:, vbscript:, …) is blocked.
+        if (/^[a-z][a-z0-9+.-]*:/i.test(u)) return '#';
+        // Scheme-less values are relative paths / anchors — safe.
+        return this.escapeHtml(u);
     }
 
     escapeHtml(text) {

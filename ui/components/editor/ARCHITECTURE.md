@@ -26,9 +26,7 @@ ui/components/editor/
 │
 ├── core/                   # Core WYSIWYG engine
 │   ├── Editor.js          # Main Editor class
-│   ├── ContentEditable.js # ContentEditable wrapper
-│   ├── Selection.js       # Selection/Range management
-│   └── History.js         # Undo/Redo system
+│   └── ContentEditable.js # ContentEditable wrapper
 │
 ├── blocks/                 # Block components
 │   ├── Block.js           # Base block class

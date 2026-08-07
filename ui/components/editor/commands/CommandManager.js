@@ -193,33 +193,46 @@ export class CommandManager {
     
     insertCodeBlock() {
         const currentBlock = this.editor.selection.getSelectedBlock();
-        const newBlock = {
-            id: this.editor.generateId(),
-            type: 'codeblock',
-            content: '',
-            metadata: { language: 'javascript' }
-        };
-        
+        const newBlock = this.editor.dataModel.createBlock('codeblock', '', {
+            language: 'javascript'
+        });
+
         if (currentBlock) {
-            const index = this.editor.document.blocks.findIndex(
-                b => b.id === currentBlock.dataset.blockId
-            );
-            this.editor.document.blocks.splice(index + 1, 0, newBlock);
+            const index = this.editor.dataModel.findBlockIndex(currentBlock.dataset.blockId);
+            this.editor.dataModel.insertBlock(newBlock, index + 1);
         } else {
-            this.editor.document.blocks.push(newBlock);
+            this.editor.dataModel.insertBlock(newBlock);
         }
-        
-        this.editor.renderDocument();
+
+        this.editor.render();
     }
-    
+
     insertLink() {
         const text = this.editor.selection.getSelectedText() || 'Link text';
         const url = prompt('Enter URL:', 'https://');
-        
+
         if (url) {
-            document.execCommand('insertHTML', false, 
-                `<a href="${url}" target="_blank">${text}</a>`);
+            document.execCommand('insertHTML', false,
+                `<a href="${this.safeUrl(url)}" target="_blank">${this.escapeHtml(text)}</a>`);
         }
+    }
+
+    // Allowlist URL schemes to keep javascript:/data: out of link hrefs.
+    safeUrl(url) {
+        const u = String(url == null ? '' : url).trim();
+        if (!u) return '#';
+        // Absolute URLs: only http/https/mailto/tel are allowed.
+        if (/^(https?:|mailto:|tel:)/i.test(u)) return this.escapeHtml(u);
+        // Any other scheme (javascript:, data:, vbscript:, …) is blocked.
+        if (/^[a-z][a-z0-9+.-]*:/i.test(u)) return '#';
+        // Scheme-less values are relative paths / anchors — safe.
+        return this.escapeHtml(u);
+    }
+
+    escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
     }
     
     insertImage() {
@@ -249,24 +262,19 @@ export class CommandManager {
                 tableData.push(row);
             }
             
-            const newBlock = {
-                id: this.editor.generateId(),
-                type: 'table',
-                content: '',
-                metadata: { rows: tableData }
-            };
-            
+            const newBlock = this.editor.dataModel.createBlock('table', '', {
+                rows: tableData
+            });
+
             const currentBlock = this.editor.selection.getSelectedBlock();
             if (currentBlock) {
-                const index = this.editor.document.blocks.findIndex(
-                    b => b.id === currentBlock.dataset.blockId
-                );
-                this.editor.document.blocks.splice(index + 1, 0, newBlock);
+                const index = this.editor.dataModel.findBlockIndex(currentBlock.dataset.blockId);
+                this.editor.dataModel.insertBlock(newBlock, index + 1);
             } else {
-                this.editor.document.blocks.push(newBlock);
+                this.editor.dataModel.insertBlock(newBlock);
             }
-            
-            this.editor.renderDocument();
+
+            this.editor.render();
         }
     }
 }
