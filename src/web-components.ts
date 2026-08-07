@@ -128,15 +128,26 @@ class MonochromeModal extends MonochromeElement {
     super();
   }
 
+  // Stored bound ref so disconnectedCallback can actually remove it.
+  private onDocumentKeydown = (e: KeyboardEvent) => {
+    if (e.key === "Escape" && this.hasAttribute("open")) this.close();
+  };
+
   connectedCallback() {
     this.render();
-    this.setupEventListeners();
+    document.addEventListener("keydown", this.onDocumentKeydown);
+  }
+
+  disconnectedCallback() {
+    document.removeEventListener("keydown", this.onDocumentKeydown);
   }
 
   attributeChangedCallback(name: string) {
     if (name === "open") {
       this.toggleOpen();
     } else {
+      // render() replaces innerHTML, which discards the nodes the backdrop and
+      // close-button listeners were attached to — re-attach after every render.
       this.render();
     }
   }
@@ -166,6 +177,11 @@ class MonochromeModal extends MonochromeElement {
         <div class="modal-body">${content}</div>
       </div>
     `;
+
+    // Listeners live on child nodes that innerHTML just replaced — attach to
+    // the fresh nodes on every render so backdrop/× keep working after any
+    // attribute change.
+    this.setupEventListeners();
   }
 
   setupEventListeners() {
@@ -208,9 +224,12 @@ class MonochromeTabs extends MonochromeElement {
     this.setupTabs();
   }
 
+  // Canonical markup contract is the vanilla one (tabs.ts / tabs.css):
+  // buttons are `.tab`, panels `.tab-panel`, active state is the `active`
+  // class. `.tab-button` is accepted for back-compat with older mce-tabs
+  // markup, but no library CSS ever styled it.
   setupTabs() {
-    const buttons = this.querySelectorAll(".tab-button");
-    const panels = this.querySelectorAll(".tab-panel");
+    const buttons = this.querySelectorAll(".tab, .tab-button");
 
     buttons.forEach((button, index) => {
       button.addEventListener("click", () => {
@@ -222,14 +241,14 @@ class MonochromeTabs extends MonochromeElement {
   }
 
   setActiveTab(index: number) {
-    const buttons = this.querySelectorAll(".tab-button");
+    const buttons = this.querySelectorAll(".tab, .tab-button");
     const panels = this.querySelectorAll(".tab-panel");
 
-    buttons.forEach((btn) => btn.classList.remove("is-active"));
-    panels.forEach((panel) => panel.classList.remove("is-active"));
+    buttons.forEach((btn) => btn.classList.remove("active"));
+    panels.forEach((panel) => panel.classList.remove("active"));
 
-    buttons[index]?.classList.add("is-active");
-    panels[index]?.classList.add("is-active");
+    buttons[index]?.classList.add("active");
+    panels[index]?.classList.add("active");
 
     this.activeIndex = index;
     this.emit("tab-change", { index });
@@ -285,6 +304,12 @@ class MonochromeAccordion extends MonochromeElement {
 
 // Input Component
 class MonochromeInput extends MonochromeElement {
+  // Guards the internal `input` → setAttribute("value") reflection so it does
+  // NOT re-render: `value` is observed, and re-rendering on every keystroke
+  // replaced the <input> mid-typing (focus + caret lost, one extra listener
+  // accumulated per key).
+  private reflectingValue = false;
+
   static get observedAttributes() {
     return ["label", "error", "value", "placeholder", "type", "disabled"];
   }
@@ -295,9 +320,33 @@ class MonochromeInput extends MonochromeElement {
 
   connectedCallback() {
     this.render();
+    // Delegated once on the host — survives every innerHTML replacement.
+    this.addEventListener("input", this.onInput);
   }
 
-  attributeChangedCallback() {
+  disconnectedCallback() {
+    this.removeEventListener("input", this.onInput);
+  }
+
+  private onInput = (e: Event) => {
+    const target = e.target as HTMLInputElement | null;
+    if (!target || target.tagName !== "INPUT") return;
+    this.reflectingValue = true;
+    this.setAttribute("value", target.value);
+    this.reflectingValue = false;
+    this.emit("input-change", { value: target.value });
+  };
+
+  attributeChangedCallback(name: string, _old: string, newValue: string) {
+    if (name === "value") {
+      if (this.reflectingValue) return; // internal reflection — DOM already current
+      // External value set: update the live input in place, keep focus/caret.
+      const input = this.querySelector("input");
+      if (input) {
+        input.value = newValue ?? "";
+        return;
+      }
+    }
     this.render();
   }
 
@@ -323,18 +372,15 @@ class MonochromeInput extends MonochromeElement {
         ${error ? `<span class="error-message" role="alert">${escapeHtml(error)}</span>` : ""}
       </div>
     `;
-
-    const input = this.querySelector("input");
-    input?.addEventListener("input", (e) => {
-      const target = e.target as HTMLInputElement;
-      this.setAttribute("value", target.value);
-      this.emit("input-change", { value: target.value });
-    });
   }
 }
 
 // Checkbox Component
 class MonochromeCheckbox extends MonochromeElement {
+  // Same re-render-loop guard as MonochromeInput: `checked` is observed and
+  // the change handler reflects it back as an attribute.
+  private reflectingChecked = false;
+
   static get observedAttributes() {
     return ["label", "checked", "disabled"];
   }
@@ -345,9 +391,36 @@ class MonochromeCheckbox extends MonochromeElement {
 
   connectedCallback() {
     this.render();
+    // Delegated once on the host — survives innerHTML replacement.
+    this.addEventListener("change", this.onChange);
   }
 
-  attributeChangedCallback() {
+  disconnectedCallback() {
+    this.removeEventListener("change", this.onChange);
+  }
+
+  private onChange = (e: Event) => {
+    const target = e.target as HTMLInputElement | null;
+    if (!target || target.type !== "checkbox") return;
+    this.reflectingChecked = true;
+    if (target.checked) {
+      this.setAttribute("checked", "");
+    } else {
+      this.removeAttribute("checked");
+    }
+    this.reflectingChecked = false;
+    this.emit("checkbox-change", { checked: target.checked });
+  };
+
+  attributeChangedCallback(name: string) {
+    if (name === "checked") {
+      if (this.reflectingChecked) return; // internal reflection — DOM current
+      const input = this.querySelector("input");
+      if (input) {
+        input.checked = this.hasAttribute("checked");
+        return;
+      }
+    }
     this.render();
   }
 
@@ -363,17 +436,6 @@ class MonochromeCheckbox extends MonochromeElement {
         ${label ? `<span>${escapeHtml(label)}</span>` : ""}
       </label>
     `;
-
-    const input = this.querySelector("input");
-    input?.addEventListener("change", (e) => {
-      const target = e.target as HTMLInputElement;
-      if (target.checked) {
-        this.setAttribute("checked", "");
-      } else {
-        this.removeAttribute("checked");
-      }
-      this.emit("checkbox-change", { checked: target.checked });
-    });
   }
 }
 

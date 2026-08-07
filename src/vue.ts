@@ -17,6 +17,8 @@ import {
   applyIconToggleState,
   readIconToggleState,
 } from "./icon-toggle-data";
+import { Toast, type ToastOptions } from "../ui/components/toast/toast";
+import { safeUrl } from "../ui/utils/security";
 
 type ThemeVariant = "warm" | "cold";
 type ThemeMode = "light" | "dark";
@@ -49,11 +51,15 @@ export const ThemeProvider = defineComponent({
 
     const setTheme = (newTheme: ThemeVariant) => {
       theme.value = newTheme;
+      // SSR guard: consumers can call this outside onMounted (Nuxt/VitePress
+      // server render) where document does not exist.
+      if (typeof document === "undefined") return;
       document.documentElement.setAttribute("data-theme-variant", newTheme);
     };
 
     const setMode = (newMode: ThemeMode) => {
       mode.value = newMode;
+      if (typeof document === "undefined") return;
       document.documentElement.setAttribute("data-theme", newMode);
     };
 
@@ -588,35 +594,23 @@ export const Label = defineComponent({
   },
 });
 
+// Delegates to the canonical vanilla Toast so Vue consumers get the same
+// positioned container (.toast-container.top-right etc.), dismiss button,
+// exit animation, and ARIA live-region semantics. The previous local
+// implementation re-created a bare, unpositioned container with no ARIA —
+// the pre-fix vanilla bug.
 export function useToast() {
-  const show = (
-    message: string,
-    type: "success" | "error" | "info" = "info",
-  ) => {
-    const toast = document.createElement("div");
-    toast.className = `toast toast-${type}`;
-    toast.textContent = message;
-
-    let container = document.querySelector(".toast-container");
-    if (!container) {
-      container = document.createElement("div");
-      container.className = "toast-container";
-      document.body.appendChild(container);
-    }
-
-    container.appendChild(toast);
-
-    setTimeout(() => {
-      toast.style.opacity = "0";
-      setTimeout(() => toast.remove(), 300);
-    }, 3000);
-  };
-
   return {
-    success: (message: string) => show(message, "success"),
-    error: (message: string) => show(message, "error"),
-    info: (message: string) => show(message, "info"),
-    show,
+    show: (message: string, options?: ToastOptions) =>
+      Toast.show(message, options),
+    success: (message: string, options?: Omit<ToastOptions, "type">) =>
+      Toast.success(message, options),
+    error: (message: string, options?: Omit<ToastOptions, "type">) =>
+      Toast.error(message, options),
+    info: (message: string, options?: Omit<ToastOptions, "type">) =>
+      Toast.info(message, options),
+    warning: (message: string, options?: Omit<ToastOptions, "type">) =>
+      Toast.warning(message, options),
   };
 }
 
@@ -652,7 +646,7 @@ export const TocHoverCard = defineComponent({
                 h(
                   "a",
                   {
-                    href: item.href,
+                    href: safeUrl(item.href),
                     class: `toc-card-link ${item.isActive ? "is-active" : ""}`,
                   },
                   item.text,
@@ -715,7 +709,7 @@ export const TocCollapsible = defineComponent({
                   h(
                     "a",
                     {
-                      href: item.href,
+                      href: safeUrl(item.href),
                       class: `toc-list-link ${item.isActive ? "is-active" : ""}`,
                     },
                     item.text,
@@ -756,7 +750,7 @@ export const TOC = defineComponent({
             h(
               "a",
               {
-                href: item.href,
+                href: safeUrl(item.href),
                 "aria-current":
                   item.id === props.activeId ? "location" : undefined,
                 class: `toc-list-link ${item.id === props.activeId ? "is-active" : ""}`,

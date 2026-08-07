@@ -69,6 +69,15 @@ export class StorageCore {
         });
     }
     
+    // Release the IndexedDB connection so the database can be deleted or
+    // re-opened with a newer version without being blocked.
+    close() {
+        if (this.db) {
+            this.db.close();
+            this.db = null;
+        }
+    }
+
     // Document Operations
     async saveDocument(id, document) {
         await this.ready;

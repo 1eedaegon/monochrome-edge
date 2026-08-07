@@ -47,6 +47,9 @@ $.fn.mceButton = function (options?: ButtonOptions) {
 
   return this.each(function () {
     const $btn = $(this);
+    // Re-init guard: a second call would stack duplicate click handlers.
+    if ($btn.data("mceButton")) return;
+    $btn.data("mceButton", true);
     $btn
       .addClass("btn")
       .addClass(`btn-${settings.variant}`)
@@ -107,6 +110,9 @@ $.fn.mceModal = function (options?: ModalOptions) {
 
   return this.each(function () {
     const $modal = $(this);
+    // Re-init guard: a second call would append a second backdrop/content
+    // and stack duplicate close handlers.
+    if ($modal.data("mceModal")) return;
     $modal.addClass("modal");
 
     // Create backdrop
@@ -175,19 +181,26 @@ $.fn.mceTabs = function (options?: TabsOptions) {
 
   return this.each(function () {
     const $tabs = $(this);
+    // Re-init guard: a second call would stack duplicate click handlers and
+    // fire onChange twice per click.
+    if ($tabs.data("mceTabs")) return;
+    $tabs.data("mceTabs", true);
     $tabs.addClass("tabs");
 
-    const $tabButtons = $tabs.find(".tab-button");
+    // Canonical markup contract (tabs.ts / tabs.css): buttons are `.tab` and
+    // the active state is the `active` class — `.tab-button`/`is-active` were
+    // styled nowhere. `.tab-button` stays accepted for older markup.
+    const $tabButtons = $tabs.find(".tab, .tab-button");
     const $tabPanels = $tabs.find(".tab-panel");
 
     $tabButtons.on("click", function () {
       const index = $tabButtons.index(this);
 
-      $tabButtons.removeClass("is-active");
-      $(this).addClass("is-active");
+      $tabButtons.removeClass("active");
+      $(this).addClass("active");
 
-      $tabPanels.removeClass("is-active");
-      $tabPanels.eq(index).addClass("is-active");
+      $tabPanels.removeClass("active");
+      $tabPanels.eq(index).addClass("active");
 
       if (settings.onChange) {
         settings.onChange(index);
@@ -195,8 +208,8 @@ $.fn.mceTabs = function (options?: TabsOptions) {
     });
 
     // Set initial active tab
-    $tabButtons.eq(settings.activeIndex).addClass("is-active");
-    $tabPanels.eq(settings.activeIndex).addClass("is-active");
+    $tabButtons.eq(settings.activeIndex).addClass("active");
+    $tabPanels.eq(settings.activeIndex).addClass("active");
   });
 };
 
@@ -217,6 +230,9 @@ $.fn.mceAccordion = function (options?: AccordionOptions) {
 
   return this.each(function () {
     const $accordion = $(this);
+    // Re-init guard: a second call would stack duplicate header click handlers.
+    if ($accordion.data("mceAccordion")) return;
+    $accordion.data("mceAccordion", true);
     $accordion.addClass("accordion");
 
     const $items = $accordion.find(".accordion-item");
@@ -352,6 +368,9 @@ $.fn.mceIconToggle = function (options?: IconToggleOptions) {
 
     const icons = getIcons();
     if (!icons) return;
+    // $.html() is innerHTML: `icons` values MUST stay static, trusted SVG
+    // markup from icon-toggle-data.ts — never interpolate caller-supplied
+    // strings here (same contract as the React/Vue/WC adapters).
     $btn.html(
       `<span class="icon-btn-toggle-icon">${icons.icon1}${icons.icon2}</span>`,
     );

@@ -14,15 +14,23 @@ export class SelectionManager {
     }
     
     init() {
+        // Store bound handlers once so destroy() can remove the same refs;
+        // inline .bind(this) creates a new function removeEventListener
+        // never matches.
+        this._onSelectionChange = this.handleSelectionChange.bind(this);
+        this._onMouseDown = this.handleMouseDown.bind(this);
+        this._onMouseUp = this.handleMouseUp.bind(this);
+        this._onKeyDown = this.handleKeyDown.bind(this);
+
         // Listen for selection changes
-        document.addEventListener('selectionchange', this.handleSelectionChange.bind(this));
-        
+        document.addEventListener('selectionchange', this._onSelectionChange);
+
         // Mouse events for selection
-        this.editor.container.addEventListener('mousedown', this.handleMouseDown.bind(this));
-        this.editor.container.addEventListener('mouseup', this.handleMouseUp.bind(this));
-        
+        this.editor.container.addEventListener('mousedown', this._onMouseDown);
+        this.editor.container.addEventListener('mouseup', this._onMouseUp);
+
         // Keyboard navigation
-        this.editor.container.addEventListener('keydown', this.handleKeyDown.bind(this));
+        this.editor.container.addEventListener('keydown', this._onKeyDown);
     }
     
     handleSelectionChange() {
@@ -481,6 +489,9 @@ export class SelectionManager {
     }
     
     destroy() {
-        document.removeEventListener('selectionchange', this.handleSelectionChange);
+        document.removeEventListener('selectionchange', this._onSelectionChange);
+        this.editor.container.removeEventListener('mousedown', this._onMouseDown);
+        this.editor.container.removeEventListener('mouseup', this._onMouseUp);
+        this.editor.container.removeEventListener('keydown', this._onKeyDown);
     }
 }

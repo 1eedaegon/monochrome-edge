@@ -601,7 +601,11 @@ export class BlockRenderer {
         this.editor.dataModel.updateBlock(block.id, {
             content: content
         });
-        
+
+        // Notify listeners so typing triggers autosave/onChange, not just
+        // structural operations.
+        this.editor.emit('change');
+
         // Check for slash command
         if (typeof content === 'string' && content.endsWith('/') && this.editor.slashMenu) {
             this.editor.slashMenu.show(element);
@@ -657,10 +661,14 @@ export class BlockRenderer {
         const blockIndex = this.editor.dataModel.findBlockIndex(block.id);
         this.editor.dataModel.insertBlock(newBlock, blockIndex + 1);
         
-        // Render and focus new block
+        // Render and insert the new block synchronously so the DOM matches the
+        // data model immediately; deferring this let a 'change' listener that
+        // calls editor.render() duplicate the block in between.
+        const newElement = this.render(newBlock);
+        element.parentNode.insertBefore(newElement, element.nextSibling);
+
+        // Focus stays deferred for reliable caret placement.
         setTimeout(() => {
-            const newElement = this.render(newBlock);
-            element.parentNode.insertBefore(newElement, element.nextSibling);
             this.focusBlock(newElement);
         }, 0);
     }
