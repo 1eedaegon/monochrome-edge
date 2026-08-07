@@ -60,6 +60,30 @@
 - [ ] ◇ **에디터 chrome ARIA 0 + 전역 단축키 탈취**: toolbar/slash menu/tab bar/file tree 전부 role 없음, TreeFileView 키보드 0; `TabComponent.js`가 `Ctrl/Cmd+T·W`를 전역 가로챔 + destroy()가 document/window 리스너를 안 뗌.
 - [ ] ◇ **에디터 죽은 CSS 3종 + fix 파일**: 실제 사용은 `styles/editor.css`뿐(빌드·docs/editor.html). 루트 `editor.css`/`editor-blocks.css`/`editor-table.css`는 미참조·값 충돌; `editor-theme-fix.css`는 JS가 주입하는 `style.cssText`를 덮으려는 증상 패치(존재하지 않는 `.ProseMirror` 셀렉터 포함).
 
+## 2026-08-07 심층 탐색 — 어댑터·에디터 코어 (이전 감사 미완 영역)
+
+> 원 감사에서 분석 에이전트가 중단됐던 두 영역을 완주. ✅ = 코드 직접 재검증, ◇ = 단일 리뷰 근거.
+
+### 어댑터 (src/)
+
+- [ ] ✅ **`<mce-input>` 타이핑 불능 — 키 입력마다 재렌더**: `web-components.ts:288` observedAttributes에 `value` 포함 + `attributeChangedCallback()`이 무조건 `render()` 호출인데, input 리스너(L328~)가 `this.setAttribute("value", …)`를 함 → **키 하나마다 innerHTML 전체 재생성 → 포커스·캐럿 소실 + 리스너 1개씩 누적**. `MonochromeCheckbox`(L354~)도 동일 패턴. → 리스너를 `connectedCallback`에서 호스트에 1회 위임 부착, `value` 변경 시 `input.value`만 갱신(재렌더 금지). (S)
+- [ ] ✅ **WC/jQuery Tabs가 잘못된 클래스를 조회 — out of the box 불능**: vanilla `tabs.ts:34`는 `.tab`을 쓰는데 `web-components.ts:212,225`와 `jquery.ts:180`은 `.tab-button` 조회(CSS에 존재하지 않음) → 버튼 0개 매칭. 기존 "WC 이중 계약" 항목의 확장(jQuery도 동일). → `.tab`으로 통일. (S)
+- [ ] ✅ **React/Vue useToast가 옛 Toast 버그를 복제**: `react.tsx:563-569`·`vue.ts:600-605`가 position 클래스 없는 bare `.toast-container`를 자체 생성 — vanilla `toast.ts`는 고쳐졌지만(`classList.add(position)`) 어댑터는 미수정 상태로 잔존. position/closable/warning 타입도 미지원(패리티 갭). Vue는 role/aria-live도 누락. → 자체 구현 삭제, `Toast.show()`로 위임. (S)
+- [ ] ✅ **`<mce-modal>` 속성 변경 시 닫기 불능**: `connectedCallback`은 `render()+setupEventListeners()`인데 `attributeChangedCallback`은 `render()`만 → innerHTML 교체로 백드롭·× 리스너가 옛 노드와 함께 소멸. Escape 처리도 없음(vanilla와 달리). → `render()` 끝에서 리스너 재부착 or 호스트 위임. (S)
+- [ ] ◇ **jQuery 플러그인 재초기화 가드·destroy 전무**: `jquery.ts:38-248` — `.mceButton()/.mceTabs()` 재호출 시 click 핸들러 중복(콜백 2회 발화). → `$.data` 인스턴스 가드 + destroy 액션. (S)
+- [ ] ◇ **React Modal stale closure**: `react.tsx:221-260` — `onClose`가 dep 배열에 있어 부모가 미메모이즈 시 렌더마다 keydown 리스너 재부착·포커스 복원 재실행. `react-interactive.tsx`의 ref 패턴으로 통일. (S)
+- [ ] ◇ **TOC href 새니타이즈 비대칭**: WC TOC/Breadcrumb은 `safeUrl` 경유(`web-components.ts:739,552`)인데 React `TocHoverCard`(react.tsx:655)·Vue(vue.ts:656)는 `item.href`를 raw로 `href`에 전달. → React/Vue에도 safeUrl 적용. (S)
+- [ ] ◇ **Vue setTheme/setMode SSR 가드 부재**(vue.ts:50-68, onMounted 밖 직접 호출 시 크래시) + Modal body-overflow 잠금·`closeOnEscape` 등 vanilla 옵션 패리티 갭(React/Vue/WC/jQuery 공통). (S-M)
+
+### 에디터 코어 (2차 리뷰 신규)
+
+- [ ] ◇ **자동저장이 일반 타이핑에서 전혀 안 됨**: `BlockRenderer.handleBlockInput`(L598-612)이 dataModel은 갱신하지만 **`emit('change')`를 안 함** — autosave 타이머·onChange 콜백이 change 이벤트 기반이라 텍스트 편집은 저장 트리거 0회(블록 구조 변경만 저장됨). Enhanced 쪽(L737)은 emit함. → emit 1줄 추가. **StorageCore race 픽스와 별개의 데이터 유실 경로**. (S — 최우선)
+- [ ] ◇ **SelectionManager.destroy()가 아무 리스너도 못 뗌**: `SelectionManager.js:18,484` — `init()`은 `.bind(this)` 익명 참조로 4개 부착(문서 selectionchange 포함), `destroy()`는 unbound 메서드를 전달 → 매칭 실패, 전부 영구 잔존. SPA 재마운트마다 누적. → bound 참조를 필드로 보관 후 제거. (S)
+- [ ] ◇ **History.js·CommandManager가 존재하지 않는 API 참조**: `History.js:20,66,69`와 `CommandManager.js:204-212`가 `editor.document`/`editor.renderDocument()`를 참조하나 실제는 `dataModel.document`/`render()` → 인스턴스화 즉시 TypeError, CommandManager의 직접 splice는 undo 로그 우회. 미완 마이그레이션의 잔재. → History.js 삭제(dataModel op log가 대체) + CommandManager를 dataModel API로 이관. (M)
+- [ ] ◇ **BlockRendererEnhanced 확정 XSS 라인**: L871 `href="${style.href}"` 무검증(javascript: 통과), L890 `div.innerHTML = html`(contenteditable 원문 — `<img onerror>` 즉시 실행), 스타일 저장 위치도 dataModel과 불일치(`block.styles` vs `block.content.styles` → 리로드 시 서식 전부 소실). index.js가 같은 이름 `BlockRenderer`로 export해 소비자가 바꿔치기 가능. → safeUrl 이식 + DOMParser 파싱 + 저장 규약 통일(or Enhanced 삭제). (M)
+- [ ] ◇ **Enter 시 블록 중복 렌더 경합**: `BlockRenderer.js:658-665` — insertBlock 후 `setTimeout`으로 지연 DOM 삽입 → 그 사이 change 리스너가 `render()`를 부르면 새 블록이 2번 삽입. → 동기 삽입 or 지연 콜백에서 전체 render. (S)
+- [ ] ◇ **EditorCore.destroy() 불완전**: L566-580 — floatingToolbar/slashMenu/toolbar(문서·윈도 리스너 보유)·storage(IndexedDB 핸들) 미정리. `Selection.js`는 라이브 경로에서 미사용 죽은 코드(동명 클래스로 혼동 유발 — 삭제). 파일 크기: Enhanced 951줄·BlockRenderer 821줄·InputHandler 809줄(800 상한 초과). (M)
+
 ## High — 패키징/배포 품질
 
 - [ ] **VERSION 상수 drift**: 배포된 1.13.20 번들이 런타임에 '1.13.17'을 보고. 하드코딩 제거하고 빌드 시 rollup replace로 package.json version 주입 + prepublishOnly에 일치 assert. (S)
