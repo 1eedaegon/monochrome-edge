@@ -3,7 +3,7 @@
  * Main entry point for UI components
  */
 
-export const VERSION = "1.14.0";
+export const VERSION = "1.14.1";
 
 // Export SearchBar
 export { SearchBar } from "./components/search-bar/search-bar";
