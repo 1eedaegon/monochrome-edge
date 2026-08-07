@@ -3,6 +3,14 @@ on:
   pull_request:
     types: [opened, edited, synchronize]
 
+# The repo's default workflow token is read-only; the version-label step writes
+# labels + comments, so grant those explicitly (dependabot runs stay read-only
+# regardless — the step-level skip covers them).
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
 jobs:
   quality-gate:
     name: Lint, Format, Audit, Build
