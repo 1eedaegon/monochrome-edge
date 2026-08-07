@@ -5,6 +5,41 @@ All notable changes to Monochrome Edge UI Components will be documented in this 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.14.2] - 2026-08-07
+
+### Bug Fixes
+
+- fix: resolve 2026-08-07 deep-scan findings (adapters + editor core) + CI action bumps (#46) ([a1c12a6](../../commit/a1c12a6c0098f47658c45731b3d72731041a7472))
+
+### Documentation
+
+- docs: deep-scan findings for adapters + editor core (2026-08-07) [skip ci] ([180e76c](../../commit/180e76cba898a817d3c3468bf20da19c0fed4fd7))
+
+### Chore
+
+- chore(deps-dev): bump rollup in the minor-and-patch group (#45) ([f93a966](../../commit/f93a966ed8d4e4d4c1a1b5fc781d7d59e047cc2b))
+- chore(deps-dev): bump the minor-and-patch group with 3 updates (#44) ([a06e7b4](../../commit/a06e7b427e0bab89f133cb7dea711a0089a4973a))
+- chore(deps-dev): bump postcss in the minor-and-patch group (#43) ([1c60272](../../commit/1c6027228c94754775a7f701c89c853e37fecc90))
+- chore(deps-dev): bump postcss in the minor-and-patch group (#42) ([d4e6cdd](../../commit/d4e6cddac260eca496de8c5acede82ba9109adf8))
+- chore(deps-dev): bump puppeteer in the minor-and-patch group (#41) ([b3d6dbe](../../commit/b3d6dbef248dddc95c8b2f58b65672a9eb031352))
+- chore(deps-dev): bump the minor-and-patch group with 3 updates (#40) ([7a2168f](../../commit/7a2168f4114ccda2889c3868b4b2ec0485317dc6))
+- chore(deps-dev): bump postcss in the minor-and-patch group (#39) ([f4091bd](../../commit/f4091bd47f4573a47da618fa314d830efcb8b044))
+- chore(deps): bump svgo from 2.8.2 to 2.8.3 (#38) ([63a61a3](../../commit/63a61a39f92e955df0c2088fb03aca4f6658ada0))
+- chore(deps-dev): bump the minor-and-patch group with 2 updates (#37) ([6431f24](../../commit/6431f24c38d04d981117260ba126b51274bea243))
+
+### Other
+
+- Gon ⌬ ([* ci: g](../../commit/* ci: grant issues/pull-requests write to pr-check (read-only default token broke version-label)))
+- dependabot[bot] ([Co-auth](../../commit/Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>))
+- dependabot[bot] ([Co-auth](../../commit/Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>))
+- dependabot[bot] ([Co-auth](../../commit/Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>))
+- dependabot[bot] ([Co-auth](../../commit/Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>))
+- dependabot[bot] ([Co-auth](../../commit/Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>))
+- dependabot[bot] ([Co-auth](../../commit/Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>))
+- dependabot[bot] ([Co-auth](../../commit/Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>))
+- dependabot[bot] ([Co-auth](../../commit/Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>))
+- dependabot[bot] ([Co-auth](../../commit/Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>))
+
 ## [1.14.1] - 2026-07-20
 
 ### Chore
